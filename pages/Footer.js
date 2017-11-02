@@ -7,7 +7,7 @@ define(function (require) {
         render() {
             return (
                 <div id="footer-hm">
-                    This is the footer
+                    <h1>This is the footer</h1>
                 </div>
             );
         }

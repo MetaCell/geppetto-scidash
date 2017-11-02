@@ -17,7 +17,7 @@ define(function (require) {
         }
 
         ExampleWS() {
-            $.get('http://127.0.0.1:5000/api/people')
+            $.get('/api/people')
                 .then(( results ) => this.setState({ people: results }));
         }
 
@@ -25,7 +25,7 @@ define(function (require) {
             if (typeof this.state.people !== 'undefined') {
                 const persons = this.state.people.map((person, i) => (
                     <div>
-                        <h1>{person.name}</h1>
+                        <h3>{person.name}</h3>
                         <span>{person.surname}, {person.occupation}</span>
                     </div>
                 ));

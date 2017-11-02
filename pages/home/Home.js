@@ -10,7 +10,7 @@ define(function (require) {
                 <div>
                     <Example />
                     <div>
-                        HOME PAGE
+                        <h2>HOME PAGE</h2>
                     </div>
                     <div>
                         <Link to='/other'>Other</Link>

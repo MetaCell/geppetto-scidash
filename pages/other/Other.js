@@ -7,7 +7,7 @@ define(function (require) {
             return (
                 <div>
                     <div>
-                        OTHER PAGE
+                        <h2>OTHER PAGE</h2>
                     </div>
                     <div>
                         <Link to='/'>Home</Link>

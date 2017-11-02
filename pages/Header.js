@@ -8,7 +8,7 @@ define(function (require) {
             return (
 
                 <div id="header">
-                    This is the header
+                    <h1>This is the header</h1>
                 </div>
 
                 
