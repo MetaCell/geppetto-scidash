@@ -13,20 +13,11 @@ The extension needs to be cloned to org.geppetto.frontend/src/main/webapp/ and e
     "noTest": false,
     "extensions": {
         "geppetto-default/ComponentsInitialization": false,
-        "geppetto-osb/ComponentsInitialization": false,
-        "geppetto-vfb/ComponentsInitialization": false,
-        "geppetto-neuron/ComponentsInitialization": false,
-        "geppetto-hm/ComponentsInitialization": false,
-        "geppetto-scidash/ComponentsInitialization": true,
-        "geppetto-extension-template/ComponentsInitialization": false
+        "geppetto-scidash/ComponentsInitialization": true
     },
     "themes": {
         "geppetto-default/colors": false,
-        "geppetto-hm/pages/styles/colors": false,
-        "geppetto-vfb/css/colors": false,
-        "geppetto-neuron/css/colors": false,
-        "geppetto-scidash/styles/colors": true,
-        "geppetto-extension-template/styles/colors": false
+        "geppetto-scidash/styles/colors": true
     }
 }
 
