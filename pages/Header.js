@@ -3,16 +3,16 @@ define(function (require) {
     var React = require('react');
 
     var header = React.createClass({
-    	
-    	render() {
+
+        render() {
             return (
 
-                <div id="header">
+                    <div id="header">
                     <h1>This is the header</h1>
-                </div>
+                    </div>
 
-                
-            );
+
+                   );
         }
     });
 

@@ -5,7 +5,7 @@ define(function (require) {
 
     var Home = require('./home/Home');
     var Other = require('./other/Other');
-    
+
     var Header = require('./Header');
     var Footer = require('./Footer');
 
@@ -20,11 +20,11 @@ define(function (require) {
                             <Route path={'/'} component={Home} exact/>
                             <Route path={'/other'} component={Other} />
                         </div>
-                        
+
                     </div>
 
                     <Footer/>
-                    
+
                 </div>
             );
         }

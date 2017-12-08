@@ -17,16 +17,16 @@ define(function (require) {
         }
 
         ExampleWS() {
-            $.get('/api/people')
-                .then(( results ) => this.setState({ people: results }));
+            $.get('/api/scores')
+                .then(( results ) => this.setState({ scores: results }));
         }
 
         render() {
             if (typeof this.state.people !== 'undefined') {
-                const persons = this.state.people.map((person, i) => (
+                const scores = this.state.scores.map((score, i) => (
                     <div>
-                        <h3>{person.name}</h3>
-                        <span>{person.surname}, {person.occupation}</span>
+                        <h3>{score.score}</h3>
+                        <span>{person.model_instance.model_class.class_name}</span>
                     </div>
                 ));
 
@@ -35,7 +35,7 @@ define(function (require) {
                 return (
                     <div>
                         Example items:
-                    {persons}
+                    {scores}
                     </div>
                 )
             }
