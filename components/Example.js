@@ -1,6 +1,7 @@
 define(function (require) {
 
     var React = require('react');
+    var BackendService = require('../common/BackendService');
 
 
     return class Example extends React.Component {
@@ -17,16 +18,18 @@ define(function (require) {
         }
 
         ExampleWS() {
-            $.get('/api/scores')
+
+            console.log(BackendService);
+            BackendService.score.getAll({})
                 .then(( results ) => this.setState({ scores: results }));
         }
 
         render() {
-            if (typeof this.state.people !== 'undefined') {
+            if (typeof this.state.scores !== 'undefined') {
                 const scores = this.state.scores.map((score, i) => (
                     <div>
                         <h3>{score.score}</h3>
-                        <span>{person.model_instance.model_class.class_name}</span>
+                        <span>{score.model_instance.model_class.class_name}</span>
                     </div>
                 ));
 
