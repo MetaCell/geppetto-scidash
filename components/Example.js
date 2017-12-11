@@ -13,15 +13,16 @@ define(function (require) {
             };
         }
 
-        componentDidMount() {
+        componentWillMount() {
             this.ExampleWS();
         }
 
         ExampleWS() {
 
-            console.log(BackendService);
             BackendService.score.getAll({})
-                .then(( results ) => this.setState({ scores: results }));
+                .then(( results ) => {
+                    this.setState({ scores: results.scores })
+                });
         }
 
         render() {
