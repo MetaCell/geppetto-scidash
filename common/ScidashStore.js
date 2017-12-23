@@ -1,7 +1,11 @@
 define(function(require){
-    var Store = require('react-at-rest').Store
+    var Store = require('react-at-rest').Store;
+
+    Store.API_PATH_PREFIX = '/api';
+    Store.API_ENVELOPE = false;
 
     return class ScidashStore extends Store {
+
         path (action, id, {parentResourcesKey, parentResourceId, query} = {}) {
             var path;
             path = '';
@@ -14,11 +18,11 @@ define(function(require){
                             path += `/${parentResourceId}`;
                         }
                     }
-                    path += `/${_.snakeCase(this.resourcesKey) // shallow: show, update, destroy
+                    path += `/${this.resourcesKey // shallow: show, update, destroy
                     }`;
                     break;
                 default:
-                    path += `/${_.snakeCase(this.resourcesKey)}`;
+                    path += `/${this.resourcesKey}`;
                     if (id != null) {
                         path += `/${id}`;
                     }

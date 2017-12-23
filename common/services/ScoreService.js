@@ -1,9 +1,6 @@
 define(function(require){
 
-    var Store = require('react-at-rest').Store;
-
-    Store.API_PATH_PREFIX = '/api';
-    Store.API_ENVELOPE = false;
+    var Store = require('../ScidashStore');
 
     return class ScoreService {
         constructor(){

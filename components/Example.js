@@ -18,6 +18,7 @@ define(function (require) {
         }
 
         ExampleWS() {
+            console.log(BackendService.score);
             BackendService.score.getAll()
                 .then(( results ) => {
                     this.setState({ scores: results.scores })

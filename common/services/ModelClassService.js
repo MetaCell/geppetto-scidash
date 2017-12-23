@@ -1,9 +1,6 @@
 define(function(require){
 
-    var Store = require('../ScidashStore').ScidashStore;
-
-    Store.API_PATH_PREFIX = '/api';
-    Store.API_ENVELOPE = false;
+    var Store = require('../ScidashStore');
 
     return class ModelClassService {
         constructor(){
@@ -17,5 +14,3 @@ define(function(require){
         }
     }
 })
-
-
