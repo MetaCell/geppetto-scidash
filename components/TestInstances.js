@@ -1,46 +1,33 @@
-define(function (require) {
-
-    var React = require('react');
-    var BackendService = require('../common/BackendService');
-    var ReactDataGrid = require('react-data-grid');
+import React, { Component } from 'react';
 
 
-    return class TestInstances extends React.Component {
+export default class TestInstances extends React.Component {
 
-        constructor(props) {
-            super(props);
-            this.state = {
-                testInstances: []
-            };
+    constructor(props) {
+        super(props);
+        this.rows = [];
+        this._columns = [
+            {key: 'id', name: 'ID'},
+            {key: 'hostname', name: 'Hostname'}
+        ];
+    }
 
-            this.columns = [
-                {key: 'id', name: 'ID'},
-                {key: 'hostname', name: 'Hostname'}
-            ];
-        }
-
-        rowGetter(index) {
-            return this.state.testInstances[index];
-        }
-
-        componentDidMount() {
-            this.Init();
-        }
-
-        Init() {
-            BackendService.testInstance.getAll()
-                .then(( results ) => {
-                    this.setState({ testInstances: results['test-instances'] })
-                });
-        }
-
-        render() {
-            return  (
-                <ReactDataGrid
-                columns={this.columns}
-                rowGetter={this.rowGetter}
-                rowsCount={this.state.testInstances.length}
-                minHeight={500} />);
-        }
+    rowGetter (i) {
+        return this.rows[i];
     };
-});
+
+    componentDidMount() {
+        this.Init();
+    }
+
+    Init() {
+    }
+
+    render() {
+        return (
+            <div>
+            Hello
+            </div>
+        )
+    }
+};
