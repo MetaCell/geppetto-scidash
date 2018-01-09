@@ -1,18 +1,14 @@
-define(function (require) {
+import React, { Component } from 'react';
+import TestInstances from '../../components/TestInstances.js';
 
-    var React = require('react');
-    var TestInstances = require('../../components/TestInstances')
-    var Link = require('react-router-dom').Link;
-    var home = React.createClass({
+export class Home extends React.Component {
 
-        render() {
-            return (
-                <div>
-                    <TestInstances/>
-                </div>
-            );
-        }
-    });
+    render() {
+        return (
+            <div>
+                <TestInstances/>
+            </div>
+        );
+    }
+}
 
-    return home;
-});

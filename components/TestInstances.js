@@ -1,33 +1,66 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Griddle, {RowDefinition, ColumnDefinition} from 'griddle-react';
 
+import BackendService from '../common/BackendService';
+import ScidashHeadingCell from './ScidashHeadingCell';
 
 export default class TestInstances extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.rows = [];
-        this._columns = [
-            {key: 'id', name: 'ID'},
-            {key: 'hostname', name: 'Hostname'}
-        ];
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            data: []
+        };
     }
 
-    rowGetter (i) {
-        return this.rows[i];
+    componentDidMount(){
+        this.init()
+    }
+
+    init(filters) {
+        if (typeof filters == "undefined"){
+            filters = {}
+        }
+        BackendService.testInstance.getAll(filters)
+            .then((results) => {
+                this.setState({
+                    data: results['test-instances']
+                })
+            });
     };
 
-    componentDidMount() {
-        this.Init();
-    }
+    onFilter(value, columnId){
+        let filters = {};
+        filters[columnId] = value;
 
-    Init() {
+        this.init(filters);
     }
 
     render() {
-        return (
-            <div>
-            Hello
-            </div>
-        )
+        //if (this.state.data.length > 0){
+            return (
+                <Griddle
+                    data={this.state.data}
+                    components={{
+                        Filter: () => <span />,
+                        SettingsToggle: () => <span />,
+                        }}
+                >
+                    <RowDefinition>
+                        <ColumnDefinition id="id" title="ID" order={1} width={400} />
+                        <ColumnDefinition
+                            id="hostname"
+                            title="Hostname"
+                            customHeadingComponent={(props) => <ScidashHeadingCell
+                                                                    parent={this}
+                                                                    {...props} />
+                                                    }
+                        />
+                    </RowDefinition>
+
+                </Griddle>
+            )
+        //} else {
+            //return (<span>No data!</span>)
+        //}
     }
-};
+}
