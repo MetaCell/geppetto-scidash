@@ -7,12 +7,17 @@ define(function (require) {
         render() {
             return (
 
-                    <div id="header">
-                    <h1>This is the header</h1>
+                <nav className="navbar navbar-default navbar-static-top">
+                    <div className="container-fluid">
+                        <div className="navbar-header">
+                            <a className="navbar-brand" href="#">
+                                SciDash
+                            </a>
+                        </div>
                     </div>
+                </nav>
 
-
-                   );
+            );
         }
     });
 

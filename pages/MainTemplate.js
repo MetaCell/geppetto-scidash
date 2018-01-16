@@ -12,19 +12,17 @@ define(function (require) {
     return class MainTemplate extends React.Component {
         render() {
             return (
-                <div id="scidashContainer">
-                <div id="innerContainer">
-                <Header/>
+                <div>
+                    <Header/>
 
-                <div id="midContainer">
-                <Route path={'/'} component={Home} exact/>
-                <Route path={'/other'} component={Other} />
-                </div>
-
-                </div>
-
-                <Footer/>
-
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-12">
+                                    <Route path={'/'} component={Home} exact/>
+                                    <Route path={'/other'} component={Other} />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             );
         }
