@@ -53,7 +53,7 @@ export default class TestInstances extends React.Component {
                     scoreData.push({
                         name: score.test_instance.test_class.class_name,
                         score: score.score,
-                        score_type: score._class,
+                        score_type: score.score_type,
                         suite: testSuite,
                         test_class: score.test_instance.test_class.class_name,
                         model: score.model_instance.model_class.class_name,
@@ -96,21 +96,18 @@ export default class TestInstances extends React.Component {
                             filterName="test_instance__test_class__class_name"
                             {...props} />
                     } order={1} />
-
                     <ColumnDefinition
                         id="score"
                         title="Score"
                     order={2} />
-
                     <ColumnDefinition
                         id="score_type"
                         title="Score Type"
                         customHeadingComponent={(props) => <ScidashHeadingCell
-                            filterName="_class"
+                            filterName="score_type"
                             parent={this}
                             {...props} />
                     } order={3} />
-
                     <ColumnDefinition
                         id="suite"
                         title="Suite"
