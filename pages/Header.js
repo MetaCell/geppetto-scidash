@@ -1,21 +1,23 @@
 define(function (require) {
 
     var React = require('react');
+    var Link = require('react-router-dom').Link;
 
     var header = React.createClass({
-
         render() {
             return (
 
-                <nav className="navbar navbar-default navbar-static-top">
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                            <a className="navbar-brand" href="#">
-                                SciDash
-                            </a>
-                        </div>
+                <div id="header">
+                    <div id="scidash-logo">
                     </div>
-                </nav>
+                    <div id="headerLinks">
+                    </div>
+                    <div id="headerSocialLinks">
+                        <a target="_blank" href="https://github.com/MetaCell/scidash/tree/development">
+                            <i className="fa fa-github fa-2x" aria-hidden="true" />
+                        </a>
+                    </div>
+                </div>
 
             );
         }

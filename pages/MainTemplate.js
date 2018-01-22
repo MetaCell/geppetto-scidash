@@ -12,10 +12,10 @@ define(function (require) {
     return class MainTemplate extends React.Component {
         render() {
             return (
-                <div>
+                <div className="mainContainer">
                     <Header/>
 
-                    <div className="container">
+                    <div className="midContainer">
                         <div className="row">
                             <div className="col-md-12">
                                     <Route path={'/'} component={Home} exact/>
@@ -23,6 +23,8 @@ define(function (require) {
                             </div>
                         </div>
                     </div>
+
+                    <Footer/>
                 </div>
             );
         }
