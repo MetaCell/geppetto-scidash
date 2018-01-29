@@ -27,7 +27,8 @@ export default class TestInstances extends React.Component {
         }
         this.styleConfig = {
             classNames: {
-                Table: 'table',
+                Table: 'table scidash-table',
+                TableHeadingCell: 'scidash-table-heading-cell'
             }
         }
     }
@@ -50,6 +51,18 @@ export default class TestInstances extends React.Component {
                     if (score.test_instance.test_suites.length > 0){
                         testSuite = score.test_instance.test_suites[0].name;
                     }
+                    let options = {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        second: 'numeric',
+                        timeZone: 'UTC',
+                        timeZoneName: 'short'
+                    };
+                    let formattedDate = new Date(score.timestamp).toLocaleString('en-US', options);
+
                     scoreData.push({
                         name: score.test_instance.test_class.class_name,
                         score: score.score,
@@ -58,8 +71,9 @@ export default class TestInstances extends React.Component {
                         test_class: score.test_instance.test_class.class_name,
                         model: score.model_instance.model_class.class_name,
                         hostname: score.test_instance.hostname,
+                        owner: score.owner.username,
                         build_info: score.test_instance.build_info,
-                        timestamp:score.timestamp
+                        timestamp: formattedDate
                     })
                 }
                 if (scoreData.length > 0){
@@ -93,7 +107,7 @@ export default class TestInstances extends React.Component {
                         title="Name"
                         customHeadingComponent={(props) => <ScidashHeadingCell
                             parent={this}
-                            filterName="test_instance__test_class__class_name"
+                            filterName="score_name"
                             {...props} />
                     } order={1} />
                     <ColumnDefinition
@@ -117,7 +131,7 @@ export default class TestInstances extends React.Component {
                         title="T.Class"
                         customHeadingComponent={(props) => <ScidashHeadingCell
                             parent={this}
-                            filterName="test_instance__test_class__class_name"
+                            filterName="test_class"
                             {...props} />
                     } order={5} />
                     <ColumnDefinition
@@ -125,7 +139,7 @@ export default class TestInstances extends React.Component {
                         title="Model"
                         customHeadingComponent={(props) => <ScidashHeadingCell
                             parent={this}
-                            filterName="model_instance__model_class__class_name"
+                            filterName="model_class"
                             {...props} />
                     } order={6} />
                     <ColumnDefinition
@@ -133,21 +147,25 @@ export default class TestInstances extends React.Component {
                         title="Hostname"
                         customHeadingComponent={(props) => <ScidashHeadingCell
                             parent={this}
-                            filterName="test_instance__hostname"
+                            filterName="hostname"
                             {...props} />
                     } order={7} />
+                    <ColumnDefinition
+                        id="owner"
+                        title="Owner"
+                        order={8} />
                     <ColumnDefinition
                         id="build_info"
                         title="Build Info"
                         customHeadingComponent={(props) => <ScidashHeadingCell
                             parent={this}
-                            filterName="test_instance__build_info"
+                            filterName="build_info"
                             {...props} />
-                    } order={8} />
+                    } order={9} />
                     <ColumnDefinition
                         id="timestamp"
                         title="Timestamp"
-                    order={9} />
+                    order={10} />
                 </RowDefinition>
             </Griddle>
         )
