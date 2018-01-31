@@ -3,6 +3,9 @@ import Griddle, {ColumnDefinition, RowDefinition} from 'griddle-react';
 
 import BackendService from '../common/BackendService';
 import ScidashHeadingCell from './common/griddle/ScidashHeadingCell';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 
 export default class TestInstances extends React.Component {
     constructor(props, context) {
@@ -31,6 +34,7 @@ export default class TestInstances extends React.Component {
                 TableHeadingCell: 'scidash-table-heading-cell'
             }
         }
+        this.filters = {}
     }
 
     componentDidMount(){
@@ -89,10 +93,13 @@ export default class TestInstances extends React.Component {
     };
 
     onFilter(value, columnId){
-        let filters = {};
-        filters[columnId] = value;
+        if (value == ''){
+            delete this.filters[columnId];
+        } else {
+            this.filters[columnId] = value;
+        }
 
-        this.load(filters);
+        this.load(this.filters);
     }
 
     render() {
@@ -102,71 +109,77 @@ export default class TestInstances extends React.Component {
             components={this.griddleComponents}
             styleConfig={this.styleConfig} >
             <RowDefinition>
-                    <ColumnDefinition
-                        id="name"
-                        title="Name"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            parent={this}
-                            filterName="score_name"
-                            {...props} />
-                    } order={1} />
-                    <ColumnDefinition
-                        id="score"
-                        title="Score"
-                    order={2} />
-                    <ColumnDefinition
-                        id="score_type"
-                        title="Score Type"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            filterName="score_type"
-                            parent={this}
-                            {...props} />
-                    } order={3} />
-                    <ColumnDefinition
-                        id="suite"
-                        title="Suite"
-                        order={4} />
-                    <ColumnDefinition
-                        id="test_class"
-                        title="T.Class"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            parent={this}
-                            filterName="test_class"
-                            {...props} />
-                    } order={5} />
-                    <ColumnDefinition
-                        id="model"
-                        title="Model"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            parent={this}
-                            filterName="model_class"
-                            {...props} />
-                    } order={6} />
-                    <ColumnDefinition
-                        id="hostname"
-                        title="Hostname"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            parent={this}
-                            filterName="hostname"
-                            {...props} />
-                    } order={7} />
-                    <ColumnDefinition
-                        id="owner"
-                        title="Owner"
-                        order={8} />
-                    <ColumnDefinition
-                        id="build_info"
-                        title="Build Info"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            parent={this}
-                            filterName="build_info"
-                            {...props} />
-                    } order={9} />
-                    <ColumnDefinition
-                        id="timestamp"
-                        title="Timestamp"
-                    order={10} />
-                </RowDefinition>
+            <ColumnDefinition
+            id="name"
+            title="Name"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                filterName="score_name"
+                {...props} />
+            } order={1} />
+            <ColumnDefinition
+            id="score"
+            title="Score"
+            order={2} />
+            <ColumnDefinition
+            id="score_type"
+            title="Score Type"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                filterName="score_type"
+                parent={this}
+                {...props} />
+            } order={3} />
+            <ColumnDefinition
+            id="suite"
+            title="Suite"
+            order={4} />
+            <ColumnDefinition
+            id="test_class"
+            title="T.Class"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                filterName="test_class"
+                {...props} />
+            } order={5} />
+            <ColumnDefinition
+            id="model"
+            title="Model"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                filterName="model_class"
+                {...props} />
+            } order={6} />
+            <ColumnDefinition
+            id="hostname"
+            title="Hostname"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                filterName="hostname"
+                {...props} />
+            } order={7} />
+            <ColumnDefinition
+            id="owner"
+            title="Owner"
+            order={8} />
+            <ColumnDefinition
+            id="build_info"
+            title="Build Info"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                filterName="build_info"
+                {...props} />
+            } order={9} />
+            <ColumnDefinition
+            id="timestamp"
+            title="Timestamp"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                range={true}
+                filterNameFrom="timestamp_before"
+                filterNameTo="timestamp_after"
+                {...props} />
+            } order={10} />
+            </RowDefinition>
             </Griddle>
         )
     }
