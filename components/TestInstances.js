@@ -3,6 +3,9 @@ import Griddle, {ColumnDefinition, RowDefinition} from 'griddle-react';
 
 import BackendService from '../common/BackendService';
 import ScidashHeadingCell from './common/griddle/ScidashHeadingCell';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 
 export default class TestInstances extends React.Component {
     constructor(props, context) {
@@ -18,8 +21,21 @@ export default class TestInstances extends React.Component {
             build_info: null,
             timestamp: null
         }
+        this.autoCompleteDataTemplate = {
+            name: [],
+            score: [],
+            score_type: [],
+            suite: [],
+            test_class: [],
+            model: [],
+            hostname: [],
+            owner: [],
+            build_info: [],
+            timestamp: []
+        }
         this.state = {
-            data: [this.dataTemplate]
+            data: [this.dataTemplate],
+            autoCompleteData: this.autoCompleteDataTemplate
         };
         this.griddleComponents = {
             Filter: () => null,
@@ -27,9 +43,11 @@ export default class TestInstances extends React.Component {
         }
         this.styleConfig = {
             classNames: {
-                Table: 'table',
+                Table: 'table scidash-table',
+                TableHeadingCell: 'scidash-table-heading-cell'
             }
         }
+        this.filters = {}
     }
 
     componentDidMount(){
@@ -38,9 +56,10 @@ export default class TestInstances extends React.Component {
 
     load(filters) {
         if (typeof filters == "undefined"){
-            filters = {}
+            filters = {};
         }
-        let scoreData = []
+        let scoreData = [];
+        let autoCompleteData = {};
 
 
         BackendService.score.getAll(filters)
@@ -50,35 +69,65 @@ export default class TestInstances extends React.Component {
                     if (score.test_instance.test_suites.length > 0){
                         testSuite = score.test_instance.test_suites[0].name;
                     }
+                    let options = {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        second: 'numeric',
+                        timeZone: 'UTC',
+                        timeZoneName: 'short'
+                    };
+                    let formattedDate = new Date(score.timestamp).toLocaleString('en-US', options);
+
                     scoreData.push({
                         name: score.test_instance.test_class.class_name,
                         score: score.score,
-                        score_type: score._class,
+                        score_type: score.score_type,
                         suite: testSuite,
                         test_class: score.test_instance.test_class.class_name,
                         model: score.model_instance.model_class.class_name,
                         hostname: score.test_instance.hostname,
+                        owner: score.owner.username,
                         build_info: score.test_instance.build_info,
-                        timestamp:score.timestamp
+                        timestamp: formattedDate
                     })
                 }
+
                 if (scoreData.length > 0){
+                    for (let key of Object.keys(scoreData[0])){
+                        autoCompleteData[key] = [];
+
+                        for (let item of scoreData){
+
+                            if(!autoCompleteData[key].includes(item[key]))
+                                autoCompleteData[key].push(item[key]);
+
+                        }
+                    }
+
                     this.setState({
-                        data: scoreData
+                        data: scoreData,
+                        autoCompleteData: autoCompleteData
                     })
                 } else {
                     this.setState({
-                        data: [this.dataTemplate]
+                        data: [this.dataTemplate],
+                        autoCompleteData: this.autoCompleteDataTemplate
                     })
                 }
             });
     };
 
     onFilter(value, columnId){
-        let filters = {};
-        filters[columnId] = value;
+        if (value == ''){
+            delete this.filters[columnId];
+        } else {
+            this.filters[columnId] = value;
+        }
 
-        this.load(filters);
+        this.load(this.filters);
     }
 
     render() {
@@ -88,70 +137,82 @@ export default class TestInstances extends React.Component {
             components={this.griddleComponents}
             styleConfig={this.styleConfig} >
             <RowDefinition>
-                    <ColumnDefinition
-                        id="name"
-                        title="Name"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            parent={this}
-                            filterName="test_instance__test_class__class_name"
-                            {...props} />
-                    } order={1} />
-
-                    <ColumnDefinition
-                        id="score"
-                        title="Score"
-                    order={2} />
-
-                    <ColumnDefinition
-                        id="score_type"
-                        title="Score Type"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            filterName="_class"
-                            parent={this}
-                            {...props} />
-                    } order={3} />
-
-                    <ColumnDefinition
-                        id="suite"
-                        title="Suite"
-                        order={4} />
-                    <ColumnDefinition
-                        id="test_class"
-                        title="T.Class"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            parent={this}
-                            filterName="test_instance__test_class__class_name"
-                            {...props} />
-                    } order={5} />
-                    <ColumnDefinition
-                        id="model"
-                        title="Model"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            parent={this}
-                            filterName="model_instance__model_class__class_name"
-                            {...props} />
-                    } order={6} />
-                    <ColumnDefinition
-                        id="hostname"
-                        title="Hostname"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            parent={this}
-                            filterName="test_instance__hostname"
-                            {...props} />
-                    } order={7} />
-                    <ColumnDefinition
-                        id="build_info"
-                        title="Build Info"
-                        customHeadingComponent={(props) => <ScidashHeadingCell
-                            parent={this}
-                            filterName="test_instance__build_info"
-                            {...props} />
-                    } order={8} />
-                    <ColumnDefinition
-                        id="timestamp"
-                        title="Timestamp"
-                    order={9} />
-                </RowDefinition>
+            <ColumnDefinition
+            id="name"
+            title="Name"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                filterName="score_name"
+                {...props} />
+            } order={1} />
+            <ColumnDefinition
+            id="score"
+            title="Score"
+            order={2} />
+            <ColumnDefinition
+            id="score_type"
+            title="Score Type"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                filterName="score_type"
+                parent={this}
+                autoCompleteDataSource={[]}
+                {...props} />
+            } order={3} />
+            <ColumnDefinition
+            id="suite"
+            title="Suite"
+            order={4} />
+            <ColumnDefinition
+            id="test_class"
+            title="T.Class"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                filterName="test_class"
+                autoCompleteDataSource={[]}
+                {...props} />
+            } order={5} />
+            <ColumnDefinition
+            id="model"
+            title="Model"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                filterName="model_class"
+                autoCompleteDataSource={[]}
+                {...props} />
+            } order={6} />
+            <ColumnDefinition
+            id="hostname"
+            title="Hostname"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                filterName="hostname"
+                autoCompleteDataSource={[]}
+                {...props} />
+            } order={7} />
+            <ColumnDefinition
+            id="owner"
+            title="Owner"
+            order={8} />
+            <ColumnDefinition
+            id="build_info"
+            title="Build Info"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                filterName="build_info"
+                autoCompleteDataSource={[]}
+                {...props} />
+            } order={9} />
+            <ColumnDefinition
+            id="timestamp"
+            title="Timestamp"
+            customHeadingComponent={(props) => <ScidashHeadingCell
+                parent={this}
+                range={true}
+                filterNameFrom="timestamp_before"
+                filterNameTo="timestamp_after"
+                {...props} />
+            } order={10} />
+            </RowDefinition>
             </Griddle>
         )
     }
