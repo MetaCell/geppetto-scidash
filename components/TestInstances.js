@@ -21,8 +21,21 @@ export default class TestInstances extends React.Component {
             build_info: null,
             timestamp: null
         }
+        this.autoCompleteDataTemplate = {
+            name: [],
+            score: [],
+            score_type: [],
+            suite: [],
+            test_class: [],
+            model: [],
+            hostname: [],
+            owner: [],
+            build_info: [],
+            timestamp: []
+        }
         this.state = {
-            data: [this.dataTemplate]
+            data: [this.dataTemplate],
+            autoCompleteData: this.autoCompleteDataTemplate
         };
         this.griddleComponents = {
             Filter: () => null,
@@ -43,9 +56,10 @@ export default class TestInstances extends React.Component {
 
     load(filters) {
         if (typeof filters == "undefined"){
-            filters = {}
+            filters = {};
         }
-        let scoreData = []
+        let scoreData = [];
+        let autoCompleteData = {};
 
 
         BackendService.score.getAll(filters)
@@ -80,13 +94,27 @@ export default class TestInstances extends React.Component {
                         timestamp: formattedDate
                     })
                 }
+
                 if (scoreData.length > 0){
+                    for (let key of Object.keys(scoreData[0])){
+                        autoCompleteData[key] = [];
+
+                        for (let item of scoreData){
+
+                            if(!autoCompleteData[key].includes(item[key]))
+                                autoCompleteData[key].push(item[key]);
+
+                        }
+                    }
+
                     this.setState({
-                        data: scoreData
+                        data: scoreData,
+                        autoCompleteData: autoCompleteData
                     })
                 } else {
                     this.setState({
-                        data: [this.dataTemplate]
+                        data: [this.dataTemplate],
+                        autoCompleteData: this.autoCompleteDataTemplate
                     })
                 }
             });
@@ -127,6 +155,7 @@ export default class TestInstances extends React.Component {
             customHeadingComponent={(props) => <ScidashHeadingCell
                 filterName="score_type"
                 parent={this}
+                autoCompleteDataSource={[]}
                 {...props} />
             } order={3} />
             <ColumnDefinition
@@ -139,6 +168,7 @@ export default class TestInstances extends React.Component {
             customHeadingComponent={(props) => <ScidashHeadingCell
                 parent={this}
                 filterName="test_class"
+                autoCompleteDataSource={[]}
                 {...props} />
             } order={5} />
             <ColumnDefinition
@@ -147,6 +177,7 @@ export default class TestInstances extends React.Component {
             customHeadingComponent={(props) => <ScidashHeadingCell
                 parent={this}
                 filterName="model_class"
+                autoCompleteDataSource={[]}
                 {...props} />
             } order={6} />
             <ColumnDefinition
@@ -155,6 +186,7 @@ export default class TestInstances extends React.Component {
             customHeadingComponent={(props) => <ScidashHeadingCell
                 parent={this}
                 filterName="hostname"
+                autoCompleteDataSource={[]}
                 {...props} />
             } order={7} />
             <ColumnDefinition
@@ -167,6 +199,7 @@ export default class TestInstances extends React.Component {
             customHeadingComponent={(props) => <ScidashHeadingCell
                 parent={this}
                 filterName="build_info"
+                autoCompleteDataSource={[]}
                 {...props} />
             } order={9} />
             <ColumnDefinition

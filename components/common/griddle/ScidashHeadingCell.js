@@ -6,6 +6,7 @@ export default class ScidashHeadingCell extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.parent = props.parent;
+        this.columnId = props.columnId;
         this.state = {
             value: '',
             valueFrom: '',
@@ -20,18 +21,21 @@ export default class ScidashHeadingCell extends React.Component {
         }
 
         this.styleDefault = {
-            width: "100px"
+            width: "100px",
+            height: "28px"
+        }
+
+        this.styleInputDefault = {
+            width: "100px",
+            height: "28px",
+            border: "1px solid #ccc"
         }
 
         this.styleRange = {
-            width: "40px"
+            width: "40px",
+            borderRadius: "0px"
         }
 
-        this.autoCompleteDataSource = [
-            'heh',
-            'lol',
-            'kek'
-        ]
     }
 
     render(){
@@ -41,26 +45,18 @@ export default class ScidashHeadingCell extends React.Component {
                 <p>{this.props.title}</p>
 
                  <AutoComplete
+                  className="scidash-autocomplete"
                   searchText={this.state.value}
                   hintText={"Filter " + this.props.title}
                   style={this.styleDefault}
-                  textFieldStyle={this.styleDefault}
+                  textFieldStyle={this.styleInputDefault}
                   onUpdateInput={(searchText) => {
                     this.parent.onFilter(searchText, this.filterName);
                     this.setState({value: searchText})
                 }}
-                  dataSource={this.autoCompleteDataSource}
+                  dataSource={this.parent.state.autoCompleteData[this.columnId]}
                 />
 
-                <input type="text"
-                style={this.styleDefault}
-                value={this.state.value}
-                onChange={(event) => {
-                    const value = event.target.value;
-                    this.parent.onFilter(value, this.filterName);
-                    this.setState({value: value})
-                }}
-                />
                 </span>
             )
         } else {
