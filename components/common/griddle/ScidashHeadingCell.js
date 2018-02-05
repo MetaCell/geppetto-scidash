@@ -21,8 +21,9 @@ export default class ScidashHeadingCell extends React.Component {
         }
 
         this.styleDefault = {
-            width: "100px",
-            height: "28px"
+            width: "80px",
+            height: "28px",
+            marginRight: "5px"
         }
 
         this.styleInputDefault = {
