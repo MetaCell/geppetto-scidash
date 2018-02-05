@@ -21,7 +21,7 @@ export default class ScidashHeadingCell extends React.Component {
         }
 
         this.styleDefault = {
-            width: "80px",
+            width: "100px",
             height: "28px",
             marginRight: "5px"
         }
@@ -32,9 +32,13 @@ export default class ScidashHeadingCell extends React.Component {
             border: "1px solid #ccc"
         }
 
+        this.menuStyle = {
+        }
+
         this.styleRange = {
             width: "40px",
-            borderRadius: "0px"
+            borderRadius: "0px",
+            backgroundColor: "rgba(0, 0, 0, 0)"
         }
 
     }
@@ -51,6 +55,7 @@ export default class ScidashHeadingCell extends React.Component {
                   hintText={"Filter " + this.props.title}
                   style={this.styleDefault}
                   textFieldStyle={this.styleInputDefault}
+                  menuStyle={this.menuStyle}
                   onUpdateInput={(searchText) => {
                     this.parent.onFilter(searchText, this.filterName);
                     this.setState({value: searchText})
