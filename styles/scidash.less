@@ -19,6 +19,14 @@
 
 #header {
     color: @primary_color;
+
+    a {
+        color: @primary_color !important;
+    }
+
+    a:hover {
+        color: @secondary_color !important;
+    }
 }
 
 #headerSocialLinks {
@@ -84,6 +92,10 @@
         a {
             color: @primary_color;
             margin: 0px 10px;
+        }
+
+        a:hover {
+            color: @secondary_color;
         }
     }
     #footerDate {
