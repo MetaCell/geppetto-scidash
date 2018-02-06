@@ -2,7 +2,9 @@ import React from 'react';
 import Griddle, {ColumnDefinition, RowDefinition} from 'griddle-react';
 
 import BackendService from '../common/BackendService';
-import ScidashHeadingCell from './common/griddle/ScidashHeadingCell';
+import ScidashFilterCell from './common/griddle/ScidashFilterCell';
+import ScidashDateRangeCell from './common/griddle/ScidashDateRangeCell';
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
@@ -140,7 +142,7 @@ export default class TestInstances extends React.Component {
             <ColumnDefinition
             id="name"
             title="Name"
-            customHeadingComponent={(props) => <ScidashHeadingCell
+            customHeadingComponent={(props) => <ScidashFilterCell
                 parent={this}
                 filterName="score_name"
                 {...props} />
@@ -152,7 +154,7 @@ export default class TestInstances extends React.Component {
             <ColumnDefinition
             id="score_type"
             title="Score Type"
-            customHeadingComponent={(props) => <ScidashHeadingCell
+            customHeadingComponent={(props) => <ScidashFilterCell
                 filterName="score_type"
                 parent={this}
                 autoCompleteDataSource={[]}
@@ -165,7 +167,7 @@ export default class TestInstances extends React.Component {
             <ColumnDefinition
             id="test_class"
             title="T.Class"
-            customHeadingComponent={(props) => <ScidashHeadingCell
+            customHeadingComponent={(props) => <ScidashFilterCell
                 parent={this}
                 filterName="test_class"
                 autoCompleteDataSource={[]}
@@ -174,7 +176,7 @@ export default class TestInstances extends React.Component {
             <ColumnDefinition
             id="model"
             title="Model"
-            customHeadingComponent={(props) => <ScidashHeadingCell
+            customHeadingComponent={(props) => <ScidashFilterCell
                 parent={this}
                 filterName="model_class"
                 autoCompleteDataSource={[]}
@@ -183,7 +185,7 @@ export default class TestInstances extends React.Component {
             <ColumnDefinition
             id="hostname"
             title="Hostname"
-            customHeadingComponent={(props) => <ScidashHeadingCell
+            customHeadingComponent={(props) => <ScidashFilterCell
                 parent={this}
                 filterName="hostname"
                 autoCompleteDataSource={[]}
@@ -196,7 +198,7 @@ export default class TestInstances extends React.Component {
             <ColumnDefinition
             id="build_info"
             title="Build Info"
-            customHeadingComponent={(props) => <ScidashHeadingCell
+            customHeadingComponent={(props) => <ScidashFilterCell
                 parent={this}
                 filterName="build_info"
                 autoCompleteDataSource={[]}
@@ -205,9 +207,8 @@ export default class TestInstances extends React.Component {
             <ColumnDefinition
             id="timestamp"
             title="Timestamp"
-            customHeadingComponent={(props) => <ScidashHeadingCell
+            customHeadingComponent={(props) => <ScidashDateRangeCell
                 parent={this}
-                range={true}
                 filterNameFrom="timestamp_before"
                 filterNameTo="timestamp_after"
                 {...props} />
