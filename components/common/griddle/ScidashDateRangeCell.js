@@ -28,7 +28,8 @@ export default class ScidashDateRangeCell extends React.Component {
             width: "40px",
             borderRadius: "0px",
             height: "28px",
-            border: "1px solid #ccc"
+            border: "1px solid #ccc",
+            backgroundColor: "rgba(0, 0, 0, 0)"
         }
 
     }

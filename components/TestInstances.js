@@ -85,7 +85,7 @@ export default class TestInstances extends React.Component {
 
                     scoreData.push({
                         name: score.test_instance.test_class.class_name,
-                        score: score.score,
+                        score: score.score.toFixed(4),
                         score_type: score.score_type,
                         suite: testSuite,
                         test_class: score.test_instance.test_class.class_name,

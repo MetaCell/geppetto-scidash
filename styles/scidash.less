@@ -1,24 +1,40 @@
 @import "colors";
 
+body {
+    background: #8e9eab;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 .mainContainer{
     margin: 0 auto;
     height: 100%;
     min-height: 100%;
+    font-size: 16px;
 }
 
 .midContainer {
     width: 100%;
-    padding: 1%;
+    padding: 2%;
     position: fixed;
     top: 70px;
     left: 0;
     right: 0;
     bottom: 60px;
     z-index: 100 !important;
+    overflow-y: scroll;
 }
 
 #header {
-    color: @primary_color;
+    color: @secondary_color;
+
+    a {
+        color: @secondary_color !important;
+    }
+
+    a:hover {
+        color: @primary_color !important;
+    }
 }
 
 #headerSocialLinks {
@@ -64,7 +80,7 @@
 }
 
 #footer-scidash {
-    color: @primary_color;
+    color: @secondary_color;
     font-weight: 500;
     clear: both;
     position: absolute;
@@ -82,8 +98,12 @@
         text-align: center;
 
         a {
-            color: @primary_color;
+            color: @secondary_color;
             margin: 0px 10px;
+        }
+
+        a:hover {
+            color: @primary_color;
         }
     }
     #footerDate {
@@ -93,13 +113,18 @@
 }
 
 .scidash-table {
+    color: @secondary_color;
     .scidash-table-heading-cell{
         vertical-align:top;
+        text-align: center;
     }
     .filter-label {
         padding: 0px 10px;
         font-weight: normal;
         float:left;
+    }
+    tbody {
+        font-size: 13px;
     }
 }
 

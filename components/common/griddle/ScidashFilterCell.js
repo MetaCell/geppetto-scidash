@@ -14,7 +14,12 @@ export default class ScidashFilterCell extends React.Component {
 
         this.styleDefault = {
             width: "100px",
-            height: "28px"
+            height: "28px",
+            marginRight: "5px"
+        }
+
+        this.menuStyle = {
+
         }
 
         this.styleInputDefault = {
@@ -36,6 +41,7 @@ export default class ScidashFilterCell extends React.Component {
                   hintText={"Filter " + this.props.title}
                   style={this.styleDefault}
                   textFieldStyle={this.styleInputDefault}
+                  menuStyle={this.menuStyle}
                   onUpdateInput={(searchText) => {
                     this.parent.onFilter(searchText, this.filterName);
                     this.setState({value: searchText})
