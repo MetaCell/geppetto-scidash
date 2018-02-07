@@ -194,7 +194,12 @@ export default class TestInstances extends React.Component {
             <ColumnDefinition
             id="owner"
             title="Owner"
-            order={8} />
+            customHeadingComponent={(props) => <ScidashFilterCell
+                parent={this}
+                filterName="owner"
+                autoCompleteDataSource={[]}
+                {...props} />
+            } order={8} />
             <ColumnDefinition
             id="build_info"
             title="Build Info"
