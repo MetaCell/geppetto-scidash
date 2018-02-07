@@ -1,9 +1,12 @@
 import React from 'react';
-import Griddle, {ColumnDefinition, RowDefinition} from 'griddle-react';
+import Griddle, {ColumnDefinition, RowDefinition, plugins} from 'griddle-react';
 
 import BackendService from '../common/BackendService';
 import ScidashFilterCell from './common/griddle/ScidashFilterCell';
 import ScidashDateRangeCell from './common/griddle/ScidashDateRangeCell';
+
+import ScidashModelDetailLinkColumn from './common/griddle/ScidashModelDetailLinkColumn';
+import ScidashScoreDetailLinkColumn from './common/griddle/ScidashScoreDetailLinkColumn';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -16,7 +19,6 @@ export default class TestInstances extends React.Component {
             name: null,
             score: null,
             score_type: null,
-            suite: null,
             test_class: null,
             model: null,
             hostname: null,
@@ -27,7 +29,6 @@ export default class TestInstances extends React.Component {
             name: [],
             score: [],
             score_type: [],
-            suite: [],
             test_class: [],
             model: [],
             hostname: [],
@@ -85,11 +86,10 @@ export default class TestInstances extends React.Component {
 
                     scoreData.push({
                         name: score.test_instance.test_class.class_name,
-                        score: score.score.toFixed(4),
+                        score: score,
                         score_type: score.score_type,
-                        suite: testSuite,
                         test_class: score.test_instance.test_class.class_name,
-                        model: score.model_instance.model_class.class_name,
+                        model: score.model_instance.model_class,
                         hostname: score.test_instance.hostname,
                         owner: score.owner.username,
                         build_info: score.test_instance.build_info,
@@ -137,6 +137,7 @@ export default class TestInstances extends React.Component {
             <Griddle
             data={this.state.data}
             components={this.griddleComponents}
+            plugins={[plugins.LocalPlugin]}
             styleConfig={this.styleConfig} >
             <RowDefinition>
             <ColumnDefinition
@@ -150,6 +151,7 @@ export default class TestInstances extends React.Component {
             <ColumnDefinition
             id="score"
             title="Score"
+            customComponent={ScidashScoreDetailLinkColumn}
             order={2} />
             <ColumnDefinition
             id="score_type"
@@ -161,21 +163,9 @@ export default class TestInstances extends React.Component {
                 {...props} />
             } order={3} />
             <ColumnDefinition
-            id="suite"
-            title="Suite"
-            order={4} />
-            <ColumnDefinition
-            id="test_class"
-            title="T.Class"
-            customHeadingComponent={(props) => <ScidashFilterCell
-                parent={this}
-                filterName="test_class"
-                autoCompleteDataSource={[]}
-                {...props} />
-            } order={5} />
-            <ColumnDefinition
             id="model"
             title="Model"
+            customComponent={ScidashModelDetailLinkColumn}
             customHeadingComponent={(props) => <ScidashFilterCell
                 parent={this}
                 filterName="model_class"
