@@ -11,7 +11,6 @@ import ScidashScoreDetailLinkColumn from './common/griddle/ScidashScoreDetailLin
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-
 export default class TestInstances extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -50,11 +49,11 @@ export default class TestInstances extends React.Component {
                 TableHeadingCell: 'scidash-table-heading-cell'
             }
         }
-        this.filters = {}
+        this.filters = {};
     }
 
     componentDidMount(){
-        this.load()
+        this.load();
     }
 
     load(filters) {
@@ -63,7 +62,6 @@ export default class TestInstances extends React.Component {
         }
         let scoreData = [];
         let autoCompleteData = {};
-
 
         BackendService.score.getAll(filters)
             .then((results) => {
@@ -94,7 +92,7 @@ export default class TestInstances extends React.Component {
                         owner: score.owner.username,
                         build_info: score.test_instance.build_info,
                         timestamp: formattedDate
-                    })
+                    });
                 }
 
                 if (scoreData.length > 0){
@@ -112,12 +110,12 @@ export default class TestInstances extends React.Component {
                     this.setState({
                         data: scoreData,
                         autoCompleteData: autoCompleteData
-                    })
+                    });
                 } else {
                     this.setState({
                         data: [this.dataTemplate],
                         autoCompleteData: this.autoCompleteDataTemplate
-                    })
+                    });
                 }
             });
     };
