@@ -18,6 +18,7 @@ export default class TestInstances extends React.Component {
             name: null,
             score: null,
             score_type: null,
+            _sort_key: null,
             test_class: null,
             model: null,
             hostname: null,
@@ -29,6 +30,7 @@ export default class TestInstances extends React.Component {
             name: [],
             score: [],
             score_type: [],
+            _sort_key: [],
             test_class: [],
             model: [],
             hostname: [],
@@ -88,6 +90,7 @@ export default class TestInstances extends React.Component {
                         name: score.test_instance.test_class.class_name,
                         score: score,
                         score_type: score.score_type,
+                        _sort_key: score.sort_key,
                         test_class: score.test_instance.test_class.class_name,
                         model: score.model_instance.model_class,
                         hostname: score.test_instance.hostname,
@@ -150,6 +153,23 @@ export default class TestInstances extends React.Component {
             });
     }
 
+    sortScore(data, column, sortAscending = true) {
+        return data.sort(
+            (original, newRecord) => {
+                original = (!!original.get('_sort_key') && original.get('_sort_key')) || "";
+                newRecord = (!!newRecord.get('_sort_key') && newRecord.get('_sort_key')) || "";
+
+                if(original === newRecord) {
+                    return 0;
+                } else if (original > newRecord) {
+                    return sortAscending ? 1 : -1;
+                }
+                else {
+                    return sortAscending ? -1 : 1;
+                }
+            });
+    }
+
     render() {
         return (
             <Griddle
@@ -166,6 +186,26 @@ export default class TestInstances extends React.Component {
                 filterName="score_name"
                 {...props} />
             } order={1} />
+            <ColumnDefinition
+            id="score"
+            title="Score"
+            sortMethod={this.sortScore}
+            customComponent={ScidashScoreDetailLinkColumn}
+            order={2} />
+            <ColumnDefinition
+            id="_sort_key"
+            title="_sort_key"
+            isMetadata="true"
+            />
+            <ColumnDefinition
+            id="score_type"
+            title="Score Type"
+            customHeadingComponent={(props) => <ScidashFilterCell
+                filterName="score_type"
+                parent={this}
+                autoCompleteDataSource={[]}
+                {...props} />
+            } order={3} />
             <ColumnDefinition
             id="score"
             title="Score"

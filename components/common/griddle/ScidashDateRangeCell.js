@@ -37,7 +37,10 @@ export default class ScidashDateRangeCell extends React.Component {
     render(){
         return (
             <span>
-                <p>{this.props.title}</p>
+            <p>
+                {this.props.title}
+                {this.props.icon}
+            </p>
 
                 <div className="datepicker-wrapper">
                     <span className="filter-label">From: </span>
