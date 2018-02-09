@@ -33,8 +33,10 @@ export default class ScidashFilterCell extends React.Component {
     render(){
             return (
                 <span>
-                <p>{this.props.title}</p>
-
+                <p>
+                    {this.props.title}
+                    {this.props.icon}
+                </p>
                  <AutoComplete
                   className="scidash-materialui-field"
                   searchText={this.state.value}
