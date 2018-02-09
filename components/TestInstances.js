@@ -23,7 +23,8 @@ export default class TestInstances extends React.Component {
             model: null,
             hostname: null,
             build_info: null,
-            timestamp: null
+            timestamp: null,
+            _timestamp: null
         }
         this.autoCompleteDataTemplate = {
             name: [],
@@ -34,7 +35,8 @@ export default class TestInstances extends React.Component {
             hostname: [],
             owner: [],
             build_info: [],
-            timestamp: []
+            timestamp: [],
+            _timestamp: []
         }
         this.state = {
             data: [this.dataTemplate],
@@ -93,7 +95,8 @@ export default class TestInstances extends React.Component {
                         hostname: score.test_instance.hostname,
                         owner: score.owner.username,
                         build_info: score.test_instance.build_info,
-                        timestamp: formattedDate
+                        timestamp: formattedDate,
+                        _timestamp: score.timestamp
                     })
                 }
 
@@ -130,6 +133,23 @@ export default class TestInstances extends React.Component {
         }
 
         this.load(this.filters);
+    }
+
+    sortTimestamp(data, column, sortAscending = true) {
+        return data.sort(
+            (original, newRecord) => {
+                original = (!!original.get('_timestamp') && original.get('_timestamp')) || "";
+                newRecord = (!!newRecord.get('_timestamp') && newRecord.get('_timestamp')) || "";
+
+                if(original === newRecord) {
+                    return 0;
+                } else if (original > newRecord) {
+                    return sortAscending ? 1 : -1;
+                }
+                else {
+                    return sortAscending ? -1 : 1;
+                }
+            });
     }
 
     render() {
@@ -201,6 +221,7 @@ export default class TestInstances extends React.Component {
             } order={9} />
             <ColumnDefinition
             id="timestamp"
+            sortMethod={this.sortTimestamp}
             title="Timestamp"
             customHeadingComponent={(props) => <ScidashDateRangeCell
                 parent={this}
@@ -208,6 +229,11 @@ export default class TestInstances extends React.Component {
                 filterNameTo="timestamp_after"
                 {...props} />
             } order={10} />
+            <ColumnDefinition
+            isMetadata="true"
+            id="_timestamp"
+            title="_timestamp"
+            />
             </RowDefinition>
             </Griddle>
         )
