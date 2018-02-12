@@ -11,20 +11,21 @@ import ScidashScoreDetailLinkColumn from './common/griddle/ScidashScoreDetailLin
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
+
 export default class TestInstances extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.dataTemplate = {
-            name: null,
-            score: null,
-            score_type: null,
-            _sort_key: null,
-            test_class: null,
-            model: null,
-            hostname: null,
-            build_info: null,
-            timestamp: null,
-            _timestamp: null
+            name: "",
+            score: {},
+            score_type: "",
+            _sort_key: 0,
+            test_class: "",
+            model: {},
+            hostname: "",
+            build_info: "",
+            timestamp: "",
+            _timestamp: ""
         }
         this.autoCompleteDataTemplate = {
             name: [],

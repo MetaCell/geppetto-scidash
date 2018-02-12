@@ -43,14 +43,20 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
             />,
         ];
 
+        let score = "";
+
+        if (typeof this.scoreObject.get('score') != "undefined"){
+            score = this.scoreObject.get('score').toFixed(4)
+        }
+
         return (
-            <div>
+            <div style={{textAlign: "right", position:"relative", right: "20px"}}>
                 <a
                     onClick={this.openScoreDetail}
                     style={{
                         cursor: "pointer"
                     }}
-                >{this.scoreObject.get('score').toFixed(4)}</a>
+                >{score}</a>
                 <Dialog
                     title={this.scoreObject.get('score_type') + " details"}
                     actions={actions}

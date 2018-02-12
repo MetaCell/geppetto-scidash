@@ -11,8 +11,7 @@ export default class ScidashDateRangeCell extends React.Component {
         let valueFrom = new Date();
         let valueTo = new Date();
 
-        valueFrom.setFullYear(valueFrom.getFullYear() - 1);
-        valueTo.setFullYear(valueTo.getFullYear() + 1);
+        valueFrom.setMonth(valueFrom.getMonth() - 1);
         valueFrom.setHours(0, 0, 0, 0);
         valueTo.setHours(0, 0, 0, 0);
 
@@ -24,12 +23,19 @@ export default class ScidashDateRangeCell extends React.Component {
             valueTo: valueTo,
         };
 
-        this.styleRange = {
-            width: "40px",
+        this.styleTextField = {
+            width: "90px",
             borderRadius: "0px",
             height: "28px",
             border: "1px solid #ccc",
-            backgroundColor: "rgba(0, 0, 0, 0)"
+            backgroundColor: "rgba(0, 0, 0, 0)",
+            fontSize:"14px",
+            fontWeight:"normal",
+            padding: "0px 0px 0px 3px"
+        }
+
+        this.styleWrapper = {
+            margin: "0px 10px 0px 0px"
         }
 
     }
@@ -43,11 +49,12 @@ export default class ScidashDateRangeCell extends React.Component {
             </p>
 
                 <div className="datepicker-wrapper">
-                    <span className="filter-label">From: </span>
                     <DatePicker
                         hintText="From"
+                        title="From"
                         className="scidash-materialui-field"
-                        textFieldStyle={this.styleRange}
+                        style={this.styleWrapper}
+                        textFieldStyle={this.styleTextField}
                         value={this.state.valueFrom}
                         onChange={(event, date) => {
                             this.parent.onFilter(date.toISOString(), this.filterNameTo);
@@ -57,11 +64,12 @@ export default class ScidashDateRangeCell extends React.Component {
                 </div>
 
                 <div className="datepicker-wrapper">
-                    <span className="filter-label">To: </span>
                     <DatePicker
                         hintText="To"
+                        title="To"
                         className="scidash-materialui-field"
-                        textFieldStyle={this.styleRange}
+                        style={this.styleWrapper}
+                        textFieldStyle={this.styleTextField}
                         value={this.state.valueTo}
                         onChange={(event, date) => {
                             this.parent.onFilter(date.toISOString(), this.filterNameFrom);
