@@ -174,6 +174,7 @@ export default class TestInstances extends React.Component {
             <Griddle
             data={this.state.data}
             components={this.griddleComponents}
+            plugins={[plugins.LocalPlugin]}
             styleConfig={this.styleConfig} >
             <RowDefinition>
             <ColumnDefinition
