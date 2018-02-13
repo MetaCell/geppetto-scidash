@@ -11,12 +11,25 @@ const customContentStyle = {
 export default class ScidashScoreDetailLinkColumn extends React.Component {
     constructor(props, context){
         super(props, context)
-        this.scoreObject = props.value;
+        this.props = props;
         this.openScoreDetail = this.openScoreDetail.bind(this);
         this.closeScoreDetail = this.closeScoreDetail.bind(this);
         this.state = {
             open: false,
+            scoreObject: null
         };
+    }
+
+    componentDidMount(){
+        this.setState({
+            scoreObject: this.props.value
+        })
+    }
+
+    componentWillReceiveProps(nextProps, nextState){
+        this.setState({
+            scoreObject: nextProps.value
+        });
     }
 
     openScoreDetail(e){
@@ -34,7 +47,6 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
     }
 
     render(){
-
         const actions = [
             <FlatButton
             label="Close"
@@ -44,29 +56,33 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
         ];
 
         let score = "";
+        let score_type = "";
 
-        if (typeof this.scoreObject.get('score') != "undefined"){
-            score = this.scoreObject.get('score').toFixed(4)
-        }
+        if (this.state.scoreObject !== null){
+            score = this.state.scoreObject.get('score').toFixed(4);
+            score_type = this.state.scoreObject.get('score_type');
 
-        return (
-            <div style={{textAlign: "right", position:"relative", right: "20px"}}>
+            return (
+                <div style={{textAlign: "right", position:"relative", right: "20px"}}>
                 <a
-                    onClick={this.openScoreDetail}
-                    style={{
-                        cursor: "pointer"
-                    }}
+                onClick={this.openScoreDetail}
+                style={{
+                    cursor: "pointer"
+                }}
                 >{score}</a>
                 <Dialog
-                    title={this.scoreObject.get('score_type') + " details"}
-                    actions={actions}
-                    modal={true}
-                    contentStyle={customContentStyle}
-                    open={this.state.open}
+                title={score_type + " details"}
+                actions={actions}
+                modal={true}
+                contentStyle={customContentStyle}
+                open={this.state.open}
                 >
-                    This is the details of model {this.scoreObject.get('score_type')}
+                This is the details of model {score_type}
                 </Dialog>
-            </div>
-        );
+                </div>
+            );
+        } else {
+            return (<span></span>);
+        }
     }
 }
