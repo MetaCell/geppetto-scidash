@@ -15,34 +15,9 @@ injectTapEventPlugin();
 export default class TestInstances extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.dataTemplate = {
-            name: "",
-            score: {},
-            score_type: "",
-            _sort_key: 0,
-            test_class: "",
-            model: {},
-            hostname: "",
-            build_info: "",
-            timestamp: "",
-            _timestamp: ""
-        }
-        this.autoCompleteDataTemplate = {
-            name: [],
-            score: [],
-            score_type: [],
-            _sort_key: [],
-            test_class: [],
-            model: [],
-            hostname: [],
-            owner: [],
-            build_info: [],
-            timestamp: [],
-            _timestamp: []
-        }
         this.state = {
-            data: [this.dataTemplate],
-            autoCompleteData: this.autoCompleteDataTemplate
+            data: [],
+            autoCompleteData: {}
         };
         this.griddleComponents = {
             Filter: () => null,
@@ -120,8 +95,31 @@ export default class TestInstances extends React.Component {
                     });
                 } else {
                     this.setState({
-                        data: [this.dataTemplate],
-                        autoCompleteData: this.autoCompleteDataTemplate
+                        data: [{
+                            name: "",
+                            score_type: "",
+                            _sort_key: 0,
+                            score: null,
+                            test_class: "",
+                            model: null,
+                            hostname: "",
+                            build_info: "",
+                            timestamp: "",
+                            _timestamp: ""
+                        }],
+                        autoCompleteData: {
+                            name: [],
+                            score: [],
+                            score_type: [],
+                            _sort_key: [],
+                            test_class: [],
+                            model: [],
+                            hostname: [],
+                            owner: [],
+                            build_info: [],
+                            timestamp: [],
+                            _timestamp: []
+                        }
                     });
                 }
             });
@@ -176,7 +174,6 @@ export default class TestInstances extends React.Component {
             <Griddle
             data={this.state.data}
             components={this.griddleComponents}
-            plugins={[plugins.LocalPlugin]}
             styleConfig={this.styleConfig} >
             <RowDefinition>
             <ColumnDefinition
