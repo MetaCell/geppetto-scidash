@@ -92,9 +92,6 @@ export default class TestInstances extends React.Component {
                     this.setState({
                         data: scoreData,
                         autoCompleteData: autoCompleteData
-                    }, () => {
-                        console.log("STATE UPDATED");
-                        console.log(this.state);
                     });
                 } else {
                     this.setState({
