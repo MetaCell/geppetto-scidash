@@ -16,7 +16,7 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
         this.closeModelDetail = this.closeModelDetail.bind(this);
         this.state = {
             open: false,
-            modelObject: null
+            modelObject: new Map()
         };
     }
 
@@ -58,8 +58,9 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
 
         let class_name = "";
 
-        if (this.state.modelObject !== null){
-            class_name = this.state.modelObject.get('class_name');
+        if (typeof this.state.modelObject.get("class_name") != "undefined"){
+            class_name = this.state.modelObject.get("class_name");
+        }
 
             return (
                 <div>
@@ -80,9 +81,5 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
                 </Dialog>
                 </div>
             );
-        } else {
-            console.log("NULL DATA");
-            return (<span></span>);
-        }
     }
 }

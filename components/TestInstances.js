@@ -15,10 +15,35 @@ injectTapEventPlugin();
 export default class TestInstances extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.dataTemplate = {
+            name: " ",
+            score_type: " ",
+            _sort_key: 0,
+            score: {},
+            test_class: " ",
+            model: {},
+            hostname: " ",
+            build_info: " ",
+            timestamp: " ",
+            _timestamp: " "
+        }
+        this.autoCompleteDataTemplate = {
+                name: [],
+                score: [],
+                score_type: [],
+                _sort_key: [],
+                test_class: [],
+                model: [],
+                hostname: [],
+                owner: [],
+                build_info: [],
+                timestamp: [],
+                _timestamp: []
+            }
         this.state = {
-            data: [],
-            autoCompleteData: {}
-        };
+            data: [this.dataTemplate],
+            autoCompleteData: this.autoCompleteDataTemplate
+        }
         this.griddleComponents = {
             Filter: () => null,
             SettingsToggle: () => null
@@ -32,7 +57,7 @@ export default class TestInstances extends React.Component {
         this.filters = {};
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.load();
     }
 
@@ -95,31 +120,8 @@ export default class TestInstances extends React.Component {
                     });
                 } else {
                     this.setState({
-                        data: [{
-                            name: "",
-                            score_type: "",
-                            _sort_key: 0,
-                            score: null,
-                            test_class: "",
-                            model: null,
-                            hostname: "",
-                            build_info: "",
-                            timestamp: "",
-                            _timestamp: ""
-                        }],
-                        autoCompleteData: {
-                            name: [],
-                            score: [],
-                            score_type: [],
-                            _sort_key: [],
-                            test_class: [],
-                            model: [],
-                            hostname: [],
-                            owner: [],
-                            build_info: [],
-                            timestamp: [],
-                            _timestamp: []
-                        }
+                        data: [this.dataTemplate],
+                        autoCompleteData: this.autoCompleteDataTemplate
                     });
                 }
             });
@@ -161,6 +163,23 @@ export default class TestInstances extends React.Component {
                 if(original === newRecord) {
                     return 0;
                 } else if (original > newRecord) {
+                    return sortAscending ? 1 : -1;
+                }
+                else {
+                    return sortAscending ? -1 : 1;
+                }
+            });
+    }
+
+    sortModel(data, column, sortAscending = true) {
+        return data.sort(
+            (original, newRecord) => {
+                original = (!!original.get('model').get("class_name") && original.get("model").get("class_name")) || "";
+                newRecord = (!!newRecord.get("model").get("class_name") && newRecord.get("model").get("class_name")) || "";
+
+                if(original.localeCompare(newRecord) === 0) {
+                    return 0;
+                } else if (original.localeCompare(newRecord) === 1) {
                     return sortAscending ? 1 : -1;
                 }
                 else {
@@ -222,6 +241,7 @@ export default class TestInstances extends React.Component {
             <ColumnDefinition
             id="model"
             title="Model"
+            sortMethod={this.sortModel}
             customComponent={ScidashModelDetailLinkColumn}
             customHeadingComponent={(props) => <ScidashFilterCell
                 parent={this}

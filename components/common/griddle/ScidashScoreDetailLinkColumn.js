@@ -16,7 +16,7 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
         this.closeScoreDetail = this.closeScoreDetail.bind(this);
         this.state = {
             open: false,
-            scoreObject: null
+            scoreObject: new Map()
         };
     }
 
@@ -58,9 +58,10 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
         let score = "";
         let score_type = "";
 
-        if (this.state.scoreObject !== null){
-            score = this.state.scoreObject.get('score').toFixed(4);
-            score_type = this.state.scoreObject.get('score_type');
+        if (typeof this.state.scoreObject.get("score") != "undefined"){
+            score = this.state.scoreObject.get("score").toFixed(4);
+            score_type = this.state.scoreObject.get("score_type");
+        }
 
             return (
                 <div style={{textAlign: "right", position:"relative", right: "20px"}}>
@@ -81,8 +82,5 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
                 </Dialog>
                 </div>
             );
-        } else {
-            return (<span></span>);
-        }
     }
 }
