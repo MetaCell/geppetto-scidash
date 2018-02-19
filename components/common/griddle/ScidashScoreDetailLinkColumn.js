@@ -25,19 +25,25 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
         let sortKey = this.state.scoreObject.get("sort_key")
         let sortKeyRounded = null;
         let percents = 0;
-        let badValue = 255;
-        let goodValue = 255;
+        let decreasingValue = 255;
+        let growingValue = 255;
 
         if (typeof sortKey != "undefined"){
             sortKeyRounded = sortKey.toFixed(2);
             percents = sortKeyRounded * 100;
-            badValue = Math.floor(255 - (255 / 100 * percents));
-            goodValue = Math.floor(255 / 100 * percents);
+            decreasingValue = Math.floor(255 - (255 / 100 * percents));
+            growingValue = Math.floor(255 / 100 * percents);
 
             if (!this.state.colorBlind){
-                return "rgba("+ badValue +", "+ goodValue +", 0, 1)"
+                if (growingValue > 40)
+                    growingValue = growingValue - 20;
+
+                return "rgba("+ decreasingValue +", "+ growingValue +", 0, 1)"
             } else {
-                return "rgba("+ badValue +", "+ badValue +", "+ goodValue +", 1)"
+                if (decreasingValue > 40)
+                    decreasingValue = decreasingValue - 20;
+
+                return "rgba("+ decreasingValue +", "+ decreasingValue +", "+ growingValue +", 1)"
             }
         }
 
