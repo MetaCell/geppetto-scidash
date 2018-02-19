@@ -57,14 +57,12 @@ export default class ScidashDateRangeCell extends React.Component {
     render(){
 
 
-        let clearButton = this.state.changed ? <sup style={{cursor:"pointer"}} onClick={this.clear}>Clear</sup> : "";
+        let clearButton = this.state.changed ? <button onClick={this.clear}> Reset</button> : "";
 
         return (
             <span>
                 <p>
-                {this.props.title}
-                {clearButton}
-                {this.props.icon}
+                {this.props.title} {clearButton} {this.props.icon}
                 </p>
 
                 <div className="datepicker-wrapper">
