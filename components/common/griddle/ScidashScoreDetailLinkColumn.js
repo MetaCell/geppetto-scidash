@@ -90,7 +90,7 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
         let score_type = "";
 
         if (typeof this.state.scoreObject.get("score") != "undefined"){
-            score = this.state.scoreObject.get("score").toFixed(4);
+            score = this.state.scoreObject.get("score").toFixed(3);
             score_type = this.state.scoreObject.get("score_type");
         }
 
