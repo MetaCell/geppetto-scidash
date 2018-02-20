@@ -10,7 +10,7 @@ const customTheme = {
       primary1Color: grey500,
       primary2Color: blueGrey900,
       primary3Color: grey400,
-      pickerHeaderColor: grey400,
+      pickerHeaderColor: '#b0ac9a',
     }
 };
   
