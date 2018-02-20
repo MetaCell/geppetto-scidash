@@ -3,6 +3,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import ModelDetails from '../../ModelDetails';
+
 const customContentStyle = {
     width: '900px',
     height: '900px'
@@ -16,19 +18,19 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
         this.closeModelDetail = this.closeModelDetail.bind(this);
         this.state = {
             open: false,
-            modelObject: new Map()
+            modelInstanceObject: new Map()
         };
     }
 
     componentDidMount(){
         this.setState({
-            modelObject: this.props.value
+            modelInstanceObject: this.props.value
         })
     }
 
     componentWillReceiveProps(nextProps, nextState){
         this.setState({
-            modelObject: nextProps.value
+            modelInstanceObject: nextProps.value
         });
     }
 
@@ -47,7 +49,6 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
     }
 
     render(){
-
         const actions = [
             <FlatButton
             label="Close"
@@ -57,12 +58,14 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
         ];
 
         let class_name = "";
+        let modelObject = {};
 
-        if (typeof this.state.modelObject.get("class_name") != "undefined"){
-            class_name = this.state.modelObject.get("class_name");
+        if (typeof this.state.modelInstanceObject.get("model_class") != "undefined"){
+            modelObject = this.state.modelInstanceObject.get("model_class");
+            class_name = modelObject.get("class_name");
         }
 
-            return (
+        return (
                 <div>
                 <a
                 onClick={this.openModelDetail}
@@ -77,7 +80,7 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
                 contentStyle={customContentStyle}
                 open={this.state.open}
                 >
-                This is the details of model {class_name}
+                    <ModelDetails modelInstance={this.state.modelInstanceObject} />
                 </Dialog>
                 </div>
             );

@@ -96,7 +96,7 @@ export default class TestInstances extends React.Component {
                         score_type: score.score_type,
                         _sort_key: score.sort_key,
                         test_class: score.test_instance.test_class.class_name,
-                        model: score.model_instance.model_class,
+                        model: score.model_instance,
                         hostname: score.test_instance.hostname,
                         owner: score.owner.username,
                         build_info: score.test_instance.build_info,
