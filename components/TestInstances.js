@@ -1,5 +1,6 @@
 import React from 'react';
 import Griddle, {ColumnDefinition, RowDefinition, plugins} from 'griddle-react';
+import Toggle from 'material-ui/Toggle';
 
 import BackendService from '../common/BackendService';
 import ScidashFilterCell from './common/griddle/ScidashFilterCell';
@@ -202,11 +203,12 @@ export default class TestInstances extends React.Component {
             <div>
             <p>
                 <label>
-                    <span>Color blind </span>
-                    <input
-                        type="checkbox"
-                        id="color-blind-toggle"
-                        onClick={this.togglColorBlind}
+                    <Toggle
+                      label="Color blind"
+                      defaultToggled={false}
+                      onToggle={this.togglColorBlind}
+                      labelPosition="right"
+                      style={{margin: 20}}
                     />
                 </label>
             </p>
