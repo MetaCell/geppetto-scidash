@@ -201,17 +201,21 @@ export default class TestInstances extends React.Component {
     render() {
         return (
             <div>
-            <p>
+            <div id='controlsContainer'>
                 <label>
                     <Toggle
-                      label="Color blind"
+                      label="Color map"
                       defaultToggled={false}
                       onToggle={this.togglColorBlind}
                       labelPosition="right"
-                      style={{margin: 20}}
+                      style={{margin: 2.5}}
                     />
+                    <div 
+                        id='colorMapGradientLabel' 
+                        className={this.state.colorBlind?'colorBlindGradient':'defaultGradient'}>
+                    </div>
                 </label>
-            </p>
+            </div>
             <Griddle
                 data={this.state.data}
                 components={this.griddleComponents}
