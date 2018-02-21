@@ -112,9 +112,13 @@ export default class TestInstances extends React.Component {
 
                         for (let item of scoreData){
 
-                            if(!autoCompleteData[key].includes(item[key]))
-                                autoCompleteData[key].push(item[key]);
-
+                                if (key == "model"){
+                                    if (!autoCompleteData[key].includes(item[key]["model_class"]["class_name"]))
+                                        autoCompleteData[key].push(item[key]["model_class"]["class_name"])
+                                } else {
+                                    if (!autoCompleteData[key].includes(item[key]))
+                                        autoCompleteData[key].push(item[key]);
+                                }
                         }
                     }
 
