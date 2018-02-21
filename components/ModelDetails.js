@@ -1,10 +1,13 @@
 import React from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
+import Helper from '../common/Helper';
 
 export default class ModelDetails extends React.Component {
 
     constructor(props, context){
         super(props, context);
+
+        this.helper = new Helper();
 
         this.state = {
             modelInstance: props.modelInstance
@@ -34,10 +37,18 @@ export default class ModelDetails extends React.Component {
             <Card>
                 <CardText>
                     <p><strong>Class name: </strong>
-                        {this.state.modelInstance.get("model_class").get("class_name")}
+                        {this.helper.isEmptyString(this.state.modelInstance.get("model_class").get("class_name")) ? (
+                            "None"
+                        ): (
+                            this.state.modelInstance.get("model_class").get("class_name")
+                        )}
                     </p>
                     <p><strong>Class source: </strong>
-                        {this.state.modelInstance.get("model_class").get("url")}
+                        {this.helper.isEmptyString(this.state.modelInstance.get("model_class").get("url")) ? (
+                            "None"
+                        ): (
+                            this.state.modelInstance.get("model_class").get("url")
+                        )}
                     </p>
                     <p>
                         <strong>
@@ -45,19 +56,27 @@ export default class ModelDetails extends React.Component {
                         </strong>
                     </p>
                     <ul>
-                        {capabilities}
+                        {capabilities.size == 0 ? "None": capabilities}
                     </ul>
                     <p><strong>Instance name: </strong>
-                        {this.state.modelInstance.get("name")}
+                        {this.helper.isEmptyString(this.state.modelInstance.get("name")) ? (
+                            "None"
+                        ): (
+                            this.state.modelInstance.get("name")
+                        )}
                     </p>
                     <p><strong>Instance source: </strong>
-                        {this.state.modelInstance.get("url")}
+                        {this.helper.isEmptyString(this.state.modelInstance.get("url")) ? (
+                            "None"
+                        ): (
+                            this.state.modelInstance.get("url")
+                        )}
                     </p>
                     <p><strong>Instance - Run parameters: </strong>
                     </p>
                     <table className="table">
                         <tbody>
-                            {params}
+                            {params.length == 0 ? "None" : params}
                         </tbody>
                     </table>
                 </CardText>

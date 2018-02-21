@@ -205,8 +205,7 @@ export default class TestInstances extends React.Component {
     render() {
         return (
             <div>
-            <p>
-                <label>
+                <div>
                     <Toggle
                       label="Color blind"
                       defaultToggled={false}
@@ -214,8 +213,7 @@ export default class TestInstances extends React.Component {
                       labelPosition="right"
                       style={{margin: 20}}
                     />
-                </label>
-            </p>
+                </div>
             <Griddle
                 data={this.state.data}
                 components={this.griddleComponents}
