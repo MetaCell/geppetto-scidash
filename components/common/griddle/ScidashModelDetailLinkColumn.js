@@ -67,21 +67,21 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
 
         return (
                 <div>
-                <a
-                onClick={this.openModelDetail}
-                style={{
-                    cursor: "pointer"
-                }}
-                >{class_name}</a>
-                <Dialog
-                title={class_name + " details"}
-                actions={actions}
-                modal={true}
-                contentStyle={customContentStyle}
-                open={this.state.open}
-                >
-                    <ModelDetails modelInstance={this.state.modelInstanceObject} />
-                </Dialog>
+                    <a
+                        onClick={this.openModelDetail}
+                        style={{
+                            cursor: "pointer"
+                        }}
+                    >{class_name}</a>
+                    <Dialog
+                        title={class_name + " details"}
+                        actions={actions}
+                        modal={true}
+                        contentStyle={customContentStyle}
+                        open={this.state.open}
+                    >
+                        <ModelDetails modelInstance={this.state.modelInstanceObject} />
+                    </Dialog>
                 </div>
             );
     }
