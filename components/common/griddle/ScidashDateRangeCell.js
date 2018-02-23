@@ -25,12 +25,12 @@ export default class ScidashDateRangeCell extends React.Component {
         };
 
         this.styleTextField = {
-            width: "90px",
+            width: "80px",
             borderRadius: "0px",
             height: "28px",
             border: "1px solid #ccc",
             backgroundColor: "rgba(0, 0, 0, 0)",
-            fontSize:"14px",
+            fontSize:"13px",
             fontWeight:"normal",
             padding: "0px 0px 0px 3px"
         }
