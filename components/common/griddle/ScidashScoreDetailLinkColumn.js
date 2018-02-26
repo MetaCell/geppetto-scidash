@@ -2,6 +2,7 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import ScoreDetails from '../../ScoreDetails';
 
 const customContentStyle = {
     width: '900px',
@@ -118,13 +119,15 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
                         }}
                     >{score}</a>
                     <Dialog
-                        title={score_type + " details"}
                         actions={actions}
                         modal={true}
-                        contentStyle={customContentStyle}
+                        contentStyle={{
+                            width: "830px",
+                            maxWidth: "none"
+                        }}
                         open={this.state.open}
                     >
-                    This is the details of model {score_type}
+                    <ScoreDetails scoreInstance={this.state.scoreObject} />
                     </Dialog>
                 </div>
         </div>
