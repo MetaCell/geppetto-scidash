@@ -145,7 +145,7 @@ export default class TestInstances extends React.Component {
         this.load(this.filters);
     }
 
-    sortTimestamp(data, column, sortAscending = true) {
+    sortTimestamp(data, column, sortAscending = false) {
         return data.sort(
             (original, newRecord) => {
                 original = (!!original.get('_timestamp') && original.get('_timestamp')) || "";
