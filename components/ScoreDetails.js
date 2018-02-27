@@ -18,71 +18,81 @@ export default class ScoreDetails extends React.Component {
     }
 
     render(){
-        console.log(this.state);
-
         let modelInstance = this.state.scoreInstance.get("model_instance");
 
         return (
             <Card>
                 <CardText>
                     <div style={{ float:"left", width: "360px" }}>
-                        <h4>{this.state.scoreInstance.get("score_type") + " details"}</h4>
+                        <h4>{this.state.scoreInstance.get("test_instance").get("test_class").get("class_name") + " details"}</h4>
                         <Card>
                             <CardText>
-                                <p><strong>Test name: </strong>
-                                    {this.helper.isEmptyString(this.state.scoreInstance.get("score_type")) ? (
-                                        "None"
-                                    ): (
-                                        this.state.scoreInstance.get("score_type")
-                                    )}
-                                </p>
-                                <p><strong>Score: </strong>
-                                    {this.helper.isEmptyString(this.state.scoreInstance.get("score")) ? (
-                                        "None"
-                                    ): (
-                                        this.state.scoreInstance.get("score").toFixed(3) + " / " + this.state.scoreInstance.get("sort_key").toFixed(2)
-                                    )}
-                                </p>
-                                <p><strong>Test class: </strong>
+                                <div><strong>Test name: </strong>
                                     {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("test_class").get("class_name")) ? (
                                         "None"
                                     ): (
                                         this.state.scoreInstance.get("test_instance").get("test_class").get("class_name")
                                     )}
-                                </p>
-                                <p><strong>Score type: </strong>
+                                </div>
+                                <div><strong>Score: </strong>
+                                    {this.helper.isEmptyString(this.state.scoreInstance.get("score")) ? (
+                                        "None"
+                                    ): (
+                                        <span style={{
+                                            background: this.helper.getBackground(this.state.scoreInstance.get("sort_key"), false),
+                                            color: "white"
+                                        }}>{this.state.scoreInstance.get("score").toFixed(3) + " / " + this.state.scoreInstance.get("sort_key").toFixed(2)}</span>
+                                    )}
+                                </div>
+                                <div><strong>Test class: </strong>
+                                    {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("test_class").get("class_name")) ? (
+                                        "None"
+                                    ): (
+                                        this.state.scoreInstance.get("test_instance").get("test_class").get("class_name")
+                                    )}
+                                </div>
+                                <div><strong>Score type: </strong>
                                     {this.helper.isEmptyString(this.state.scoreInstance.get("score_type")) ? (
                                         "None"
                                     ): (
                                         this.state.scoreInstance.get("score_type")
                                     )}
-                                </p>
-                                <p><strong>Test suite: </strong>
+                                </div>
+                                <div><strong>Test suite: </strong>
                                     N/A
-                                </p>
-                                <p><strong>Build info: </strong>
+                                </div>
+                                <div><strong>Build info: </strong>
                                 {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance")) ? (
                                     "None"
                                 ): (
                                     this.state.scoreInstance.get("test_instance").get("build_info")
                                 )}
-                                </p>
-                                <p><strong>Hostname: </strong>
+                                </div>
+                                <div><strong>Hostname: </strong>
                                 {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance")) ? (
                                     "None"
                                 ): (
                                     this.state.scoreInstance.get("test_instance").get("build_info")
                                 )}
-                                </p>
-                                <p><strong>Timestamp: </strong>
+                                </div>
+                                <div><strong>Timestamp: </strong>
                                 {this.helper.isEmptyString(this.state.scoreInstance.get("timestamp")) ? (
                                     "None"
                                 ): (
-                                    this.state.scoreInstance.get("timestamp")
+                                    new Date(this.state.scoreInstance.get("timestamp")).toLocaleString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        second: 'numeric',
+                                        timeZone: 'UTC',
+                                        timeZoneName: 'short'
+                                })
                                 )}
-                                </p>
+                                </div>
                                 <hr />
-                                <p><strong>Observation: </strong>
+                                <div><strong>Observation: </strong>
                                 {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance")) ? (
                                     "None"
                                 ): (
@@ -96,7 +106,7 @@ export default class ScoreDetails extends React.Component {
                                     </span>
                                     )
                                 )}
-                                </p>
+                                </div>
                             </CardText>
                         </Card>
                     </div>
