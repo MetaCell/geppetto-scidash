@@ -76,7 +76,11 @@ export default class ModelDetails extends React.Component {
                     </p>
                     <table className="table">
                         <tbody>
-                            {params.length == 0 ? "None" : params}
+                            {params.length == 0 ? (
+                                <tr>
+                                    <td>None</td>
+                                </tr>
+                            ) : (params)}
                         </tbody>
                     </table>
                 </CardText>
