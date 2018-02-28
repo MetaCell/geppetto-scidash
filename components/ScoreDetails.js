@@ -14,7 +14,7 @@ export default class ScoreDetails extends React.Component {
 
         this.state = {
             scoreInstance: props.scoreInstance
-        }
+        };
     }
 
     render(){
@@ -62,17 +62,17 @@ export default class ScoreDetails extends React.Component {
                                     N/A
                                 </div>
                                 <div><strong>Build info: </strong>
-                                {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance")) ? (
+                                {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("build_info")) ? (
                                     "None"
                                 ): (
                                     this.state.scoreInstance.get("test_instance").get("build_info")
                                 )}
                                 </div>
                                 <div><strong>Hostname: </strong>
-                                {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance")) ? (
+                                {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("hostname")) ? (
                                     "None"
                                 ): (
-                                    this.state.scoreInstance.get("test_instance").get("build_info")
+                                    this.state.scoreInstance.get("test_instance").get("hostname")
                                 )}
                                 </div>
                                 <div><strong>Timestamp: </strong>
