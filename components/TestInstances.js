@@ -9,9 +9,6 @@ import ScidashDateRangeCell from './common/griddle/ScidashDateRangeCell';
 import ScidashModelDetailLinkColumn from './common/griddle/ScidashModelDetailLinkColumn';
 import ScidashScoreDetailLinkColumn from './common/griddle/ScidashScoreDetailLinkColumn';
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
-
 
 export default class TestInstances extends React.Component {
     constructor(props, context) {
@@ -214,8 +211,8 @@ export default class TestInstances extends React.Component {
                       labelPosition="right"
                       style={{margin: 2.5}}
                     />
-                    <div 
-                        id='colorMapGradientLabel' 
+                    <div
+                        id='colorMapGradientLabel'
                         className={this.state.colorBlind?'colorBlindGradient':'defaultGradient'}>
                     </div>
                 </label>
