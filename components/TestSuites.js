@@ -181,11 +181,11 @@ export default class TestSuites extends React.Component {
                 } order={1} />
                 <ColumnDefinition
                 id="aggrScore"
-                title="Aggr. Score"
+                title="Avg. Score"
                 order={2} />
                 <ColumnDefinition
                 id="testsCount"
-                title="Tests Count"
+                title="# Tests"
                 order={3} />
                 <ColumnDefinition
                 id="model"
