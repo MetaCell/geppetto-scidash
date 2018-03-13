@@ -62,12 +62,12 @@ export class Home extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-2 col-md-offset-5">
+                    <div className="col-md-3 col-md-offset-5">
                         <button onClick={this.openTestsPage}>
-                            Tests
+                            Tests View
                         </button>
                         <button onClick={this.openSuitesPage}>
-                            Suites
+                            Suites View
                         </button>
                     </div>
                 </div>

@@ -221,7 +221,7 @@ export default class TestSuites extends React.Component {
                 order={2} />
                 <ColumnDefinition
                 id="testsCount"
-                title="Tests Count"
+                title="# Tests"
                 width="80px"
                 order={3} />
                 <ColumnDefinition
