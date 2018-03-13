@@ -1,9 +1,13 @@
 import React from 'react';
 import Griddle, {ColumnDefinition, RowDefinition, plugins} from 'griddle-react';
+import Toggle from 'material-ui/Toggle';
 
 import BackendService from '../common/BackendService';
 import ScidashFilterCell from './common/griddle/ScidashFilterCell';
 import ScidashDateRangeCell from './common/griddle/ScidashDateRangeCell';
+
+import ScidashAvgScoreDetailLinkColumn from '../components/common/griddle/ScidashAvgScoreDetailLinkColumn';
+import ScidashModelDetailLinkColumn from './common/griddle/ScidashModelDetailLinkColumn';
 
 
 export default class TestSuites extends React.Component {
@@ -11,7 +15,7 @@ export default class TestSuites extends React.Component {
         super(props, context);
         this.dataTemplate = {
             suite: " ",
-            aggrScore: "",
+            avgScore: [],
             testsCount: "",
             model: {},
             timestamp: " ",
@@ -19,7 +23,7 @@ export default class TestSuites extends React.Component {
         }
         this.autoCompleteDataTemplate = {
             suite: [],
-            aggrScore: [],
+            avgScore: [],
             testsCount: [],
             model: [],
             timestamp: [],
@@ -27,7 +31,8 @@ export default class TestSuites extends React.Component {
             }
         this.state = {
             data: [this.dataTemplate],
-            autoCompleteData: this.autoCompleteDataTemplate
+            autoCompleteData: this.autoCompleteDataTemplate,
+            colorBlind: false
         }
         this.griddleComponents = {
             Filter: () => null,
@@ -35,7 +40,7 @@ export default class TestSuites extends React.Component {
         }
         this.styleConfig = {
             classNames: {
-                Table: 'table scidash-table',
+                Table: 'table scidash-table suites-table',
                 TableHeadingCell: 'scidash-table-heading-cell'
             }
         }
@@ -43,19 +48,22 @@ export default class TestSuites extends React.Component {
             with_suites: true
         };
 
-    }
+        this.togglColorBlind = this.togglColorBlind.bind(this);
 
-    componentDidMount() {
-        this.load();
     }
 
     countAggregateScore(scores){
         let sum = 0;
+
         for (let score of scores){
-            sum += score.score;
+            sum += score.sort_key;
         }
 
-        return sum / scores.length
+        return sum / scores.length;
+    }
+
+    componentDidMount() {
+        this.load();
     }
 
     groupScores(scores){
@@ -82,19 +90,26 @@ export default class TestSuites extends React.Component {
                 result[modelSuiteKey] = {};
 
             result[modelSuiteKey]['suite'] = suiteName;
-            result[modelSuiteKey]['model'] = modelName;
+            result[modelSuiteKey]['model'] = score.model_instance;
 
-            if (!('scores' in result[modelSuiteKey]))
-                result[modelSuiteKey]['scores'] = [];
+            if (!('avgScore' in result[modelSuiteKey]))
+                result[modelSuiteKey]['avgScore'] = {
+                    value: null,
+                    scoreList: []
+                }
 
-            result[modelSuiteKey]['scores'].push(score);
-            result[modelSuiteKey]['aggrScore'] = this.countAggregateScore(result[modelSuiteKey]['scores']);
-            result[modelSuiteKey]['testsCount'] = result[modelSuiteKey]['scores'].length;
+            result[modelSuiteKey]['avgScore']['scoreList'].push(score)
+            result[modelSuiteKey]['testsCount'] = result[modelSuiteKey]['avgScore']['scoreList'].length;
             result[modelSuiteKey]['timestamp'] = new Date(suiteTimestamp).toLocaleString('en-US', options);
             result[modelSuiteKey]['_timestamp'] = suiteTimestamp;
         }
 
-        return Object.values(result);
+        let list = Object.values(result)
+
+        for (let item of list){
+            item['avgScore']['value'] = this.countAggregateScore(item['avgScore']['scoreList']);
+        }
+        return list;
     }
 
     load(filters) {
@@ -120,8 +135,6 @@ export default class TestSuites extends React.Component {
                                 autoCompleteData[key].push(item[key]);
                         }
                     }
-
-                    console.log(autoCompleteData);
                     this.setState({
                         data: suiteData,
                         autoCompleteData: autoCompleteData
@@ -150,7 +163,6 @@ export default class TestSuites extends React.Component {
             (original, newRecord) => {
                 original = (!!original.get('_timestamp') && original.get('_timestamp')) || "";
                 newRecord = (!!newRecord.get('_timestamp') && newRecord.get('_timestamp')) || "";
-
                 if(original === newRecord) {
                     return 0;
                 } else if (original > newRecord) {
@@ -162,9 +174,31 @@ export default class TestSuites extends React.Component {
             });
     }
 
+    togglColorBlind(event){
+        this.setState({
+            colorBlind: !this.state.colorBlind
+        });
+    }
+
+
     render() {
         return (
             <div>
+            <div id='controlsContainer'>
+                <label>
+                    <Toggle
+                      label="Color map"
+                      defaultToggled={false}
+                      onToggle={this.togglColorBlind}
+                      labelPosition="right"
+                      style={{margin: 2.5}}
+                    />
+                    <div
+                        id='colorMapGradientLabel'
+                        className={this.state.colorBlind?'colorBlindGradient':'defaultGradient'}>
+                    </div>
+                </label>
+            </div>
             <Griddle
                 data={this.state.data}
                 components={this.griddleComponents}
@@ -180,16 +214,20 @@ export default class TestSuites extends React.Component {
                     {...props} />
                 } order={1} />
                 <ColumnDefinition
-                id="aggrScore"
+                id="avgScore"
+                customComponent={(props) => <ScidashAvgScoreDetailLinkColumn parent={this} {...props} />}
                 title="Avg. Score"
+                width="80px"
                 order={2} />
                 <ColumnDefinition
                 id="testsCount"
-                title="# Tests"
+                title="Tests Count"
+                width="80px"
                 order={3} />
                 <ColumnDefinition
                 id="model"
                 title="Model Name"
+                customComponent={ScidashModelDetailLinkColumn}
                 customHeadingComponent={(props) => <ScidashFilterCell
                     parent={this}
                     filterName="model_class"
@@ -198,6 +236,7 @@ export default class TestSuites extends React.Component {
                 order={4} />
                 <ColumnDefinition
                 id="timestamp"
+                width="250px"
                 sortMethod={this.sortTimestamp}
                 title="Timestamp"
                 customHeadingComponent={(props) => <ScidashDateRangeCell
