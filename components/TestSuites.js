@@ -216,13 +216,13 @@ export default class TestSuites extends React.Component {
                 <ColumnDefinition
                 id="avgScore"
                 customComponent={(props) => <ScidashAvgScoreDetailLinkColumn parent={this} {...props} />}
-                title="Avg. Score"
-                width="80px"
+                title="Avg Score"
+                width="100px"
                 order={2} />
                 <ColumnDefinition
                 id="testsCount"
-                title="Tests Count"
-                width="80px"
+                title="# Tests"
+                width="100px"
                 order={3} />
                 <ColumnDefinition
                 id="model"
