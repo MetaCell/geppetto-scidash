@@ -54,11 +54,11 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
 
     render(){
         const actions = [
-            <FlatButton
+        <FlatButton
             label="Close"
             primary={true}
             onClick={this.closeScoreDetail}
-            />,
+        />,
         ];
 
         let score = "";
@@ -92,18 +92,18 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
                             color: "white"
                         }}
                     >{score}</a>
-                    <Dialog
-                        actions={actions}
-                        modal={true}
-                        contentStyle={{
-                            width: "830px",
-                            maxWidth: "none"
-                        }}
-                        open={this.state.open}
-                    >
+                <Dialog
+                    actions={actions}
+                    modal={true}
+                    contentStyle={{
+                        width: "830px",
+                        maxWidth: "none"
+                    }}
+                    open={this.state.open}
+                >
                     <ScoreDetails scoreInstance={this.state.scoreObject} />
-                    </Dialog>
-                </div>
+                </Dialog>
+            </div>
         </div>
         );
     }
