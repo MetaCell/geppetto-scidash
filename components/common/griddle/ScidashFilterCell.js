@@ -35,31 +35,31 @@ export default class ScidashFilterCell extends React.Component {
     }
 
     render(){
-            return (
-                <span>
+        return (
+            <span>
                 <p>
                     {this.props.title}
                     {this.props.icon}
                 </p>
-                 <AutoComplete
-                  className="scidash-materialui-field"
-                  searchText={this.state.value}
-                  onClick={(event) => {
-                      event.stopPropagation();
-                  }}
-                  hintText={"Filter " + this.props.title}
-                  style={this.styleDefault}
-                  textFieldStyle={this.styleInputDefault}
-                  menuStyle={this.menuStyle}
-                  listStyle={this.listStyle}
-                  onUpdateInput={(searchText) => {
-                    this.parent.onFilter(searchText, this.filterName);
-                    this.setState({value: searchText})
-                }}
-                  dataSource={this.parent.state.autoCompleteData[this.columnId]}
+                <AutoComplete
+                    className="scidash-materialui-field"
+                    searchText={this.state.value}
+                    onClick={(event) => {
+                        event.stopPropagation();
+                    }}
+                    hintText={"Filter " + this.props.title}
+                    style={this.styleDefault}
+                    textFieldStyle={this.styleInputDefault}
+                    menuStyle={this.menuStyle}
+                    listStyle={this.listStyle}
+                    onUpdateInput={(searchText) => {
+                        this.parent.onFilter(searchText, this.filterName);
+                        this.setState({value: searchText})
+                    }}
+                    dataSource={this.parent.state.autoCompleteData[this.columnId]}
                 />
 
-                </span>
-            )
+        </span>
+        )
     }
 }

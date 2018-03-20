@@ -28,7 +28,7 @@ export default class TestSuites extends React.Component {
             model: [],
             timestamp: [],
             _timestamp: []
-            }
+        }
         this.state = {
             data: [this.dataTemplate],
             autoCompleteData: this.autoCompleteDataTemplate,
@@ -184,74 +184,74 @@ export default class TestSuites extends React.Component {
     render() {
         return (
             <div>
-            <div id='controlsContainer'>
-                <label>
-                    <Toggle
-                      label="Color map"
-                      defaultToggled={false}
-                      onToggle={this.togglColorBlind}
-                      labelPosition="right"
-                      style={{margin: 2.5}}
-                    />
-                    <div
-                        id='colorMapGradientLabel'
-                        className={this.state.colorBlind?'colorBlindGradient':'defaultGradient'}>
-                    </div>
-                </label>
-            </div>
-            <Griddle
-                data={this.state.data}
-                components={this.griddleComponents}
-                plugins={[plugins.LocalPlugin]}
-                styleConfig={this.styleConfig} >
-                <RowDefinition>
-                <ColumnDefinition
-                id="suite"
-                title="Name"
-                customHeadingComponent={(props) => <ScidashFilterCell
-                    parent={this}
-                    filterName="suite"
-                    {...props} />
-                } order={1} />
-                <ColumnDefinition
-                id="avgScore"
-                customComponent={(props) => <ScidashAvgScoreDetailLinkColumn parent={this} {...props} />}
-                title="Avg Score"
-                width="100px"
-                order={2} />
-                <ColumnDefinition
-                id="testsCount"
-                title="# Tests"
-                width="100px"
-                order={3} />
-                <ColumnDefinition
-                id="model"
-                title="Model Name"
-                customComponent={ScidashModelDetailLinkColumn}
-                customHeadingComponent={(props) => <ScidashFilterCell
-                    parent={this}
-                    filterName="model_class"
-                    {...props} />
-                }
-                order={4} />
-                <ColumnDefinition
-                id="timestamp"
-                width="250px"
-                sortMethod={this.sortTimestamp}
-                title="Timestamp"
-                customHeadingComponent={(props) => <ScidashDateRangeCell
-                    parent={this}
-                    filterNameFrom="timestamp_before"
-                    filterNameTo="timestamp_after"
-                    {...props} />
-                } order={5} />
-                <ColumnDefinition
-                isMetadata="true"
-                id="_timestamp"
-                title="_timestamp"
-                />
-                </RowDefinition>
-            </Griddle>
+                <div id='controlsContainer'>
+                    <label>
+                        <Toggle
+                            label="Color map"
+                            defaultToggled={false}
+                            onToggle={this.togglColorBlind}
+                            labelPosition="right"
+                            style={{margin: 2.5}}
+                        />
+                        <div
+                            id='colorMapGradientLabel'
+                            className={this.state.colorBlind?'colorBlindGradient':'defaultGradient'}>
+                        </div>
+                    </label>
+                </div>
+                <Griddle
+                    data={this.state.data}
+                    components={this.griddleComponents}
+                    plugins={[plugins.LocalPlugin]}
+                    styleConfig={this.styleConfig} >
+                    <RowDefinition>
+                        <ColumnDefinition
+                            id="suite"
+                            title="Name"
+                            customHeadingComponent={(props) => <ScidashFilterCell
+                                parent={this}
+                                filterName="suite"
+                                {...props} />
+                            } order={1} />
+                        <ColumnDefinition
+                            id="avgScore"
+                            customComponent={(props) => <ScidashAvgScoreDetailLinkColumn parent={this} {...props} />}
+                            title="Avg Score"
+                            width="100px"
+                            order={2} />
+                        <ColumnDefinition
+                            id="testsCount"
+                            title="# Tests"
+                            width="100px"
+                            order={3} />
+                        <ColumnDefinition
+                            id="model"
+                            title="Model Name"
+                            customComponent={ScidashModelDetailLinkColumn}
+                            customHeadingComponent={(props) => <ScidashFilterCell
+                                parent={this}
+                                filterName="model_class"
+                                {...props} />
+                            }
+                            order={4} />
+                        <ColumnDefinition
+                            id="timestamp"
+                            width="250px"
+                            sortMethod={this.sortTimestamp}
+                            title="Timestamp"
+                            customHeadingComponent={(props) => <ScidashDateRangeCell
+                                parent={this}
+                                filterNameFrom="timestamp_before"
+                                filterNameTo="timestamp_after"
+                                {...props} />
+                            } order={5} />
+                        <ColumnDefinition
+                            isMetadata="true"
+                            id="_timestamp"
+                            title="_timestamp"
+                        />
+                    </RowDefinition>
+                </Griddle>
             </div>
         )
     }

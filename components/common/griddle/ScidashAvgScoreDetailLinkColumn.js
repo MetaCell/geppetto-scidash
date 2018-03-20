@@ -61,12 +61,15 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
             />,
         ];
 
+
         let score = "";
         let avgScore = "";
+        let scoreList = "";
 
         if (this.state.data !== null){
             if (typeof this.state.data.get('value') != "undefined")
                 avgScore = this.state.data.get('value').toFixed(2);
+                scoreList = this.state.data.get('scoreList');
         }
 
         return (
@@ -101,7 +104,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
                         }}
                         open={this.state.open}
                     >
-                    <AvgScoreDetails scoreList={this.state.data} />
+                    <AvgScoreDetails scoreList={scoreList} />
                     </Dialog>
                 </div>
         </div>
