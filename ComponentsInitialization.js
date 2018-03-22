@@ -26,7 +26,6 @@ define(function (require) {
                 <Router basename={"/"}>
                 <Switch>
                 <Route path="/" component={MainTemplate} exact/>
-                <Route path="/other" component={MainTemplate} />
                 </Switch>
                 </Router>
                 , document.getElementById('mainContainer')

@@ -2,26 +2,11 @@ import React, { Component } from 'react';
 import TestInstances from '../../components/TestInstances';
 import TestSuites from '../../components/TestSuites';
 import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { grey500, blueGrey900, grey400 } from 'material-ui/styles/colors';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-
-
-// list of props here --> https://github.com/mui-org/material-ui/blob/master/src/styles/baseThemes/lightBaseTheme.js
-const customTheme = {
-    palette: {
-      primary1Color: grey500,
-      primary2Color: blueGrey900,
-      primary3Color: '#b0ac9a',
-      pickerHeaderColor: '#b0ac9a',
-    }
-};
-
-const theme = getMuiTheme(customTheme);
 
 export class Home extends React.Component {
 
@@ -30,7 +15,9 @@ export class Home extends React.Component {
 
         this.state = {
             testsPage: true,
-            suitesPage: false
+            suitesPage: false,
+            testsActive: true,
+            suitesActive: false
         }
 
         this.openTestsPage = this.openTestsPage.bind(this)
@@ -40,14 +27,18 @@ export class Home extends React.Component {
     openTestsPage(){
         this.setState({
             testsPage: true,
-            suitesPage: false
+            suitesPage: false,
+            testsActive: true,
+            suitesActive: false
         });
     }
 
     openSuitesPage(){
         this.setState({
             testsPage: false,
-            suitesPage: true
+            suitesPage: true,
+            testsActive: false,
+            suitesActive: true
         });
     }
 
@@ -63,17 +54,11 @@ export class Home extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-md-3 col-md-offset-5">
-                        <button onClick={this.openTestsPage}>
-                            Tests View
-                        </button>
-                        <button onClick={this.openSuitesPage}>
-                            Suites View
-                        </button>
+                        <RaisedButton label="Tests View" primary={this.state.testsActive} onClick={this.openTestsPage} />
+                        <RaisedButton label="Suites View" primary={this.state.suitesActive} onClick={this.openSuitesPage} />
                     </div>
                 </div>
-                <MuiThemeProvider muiTheme={theme}>
-                    {currentPage}
-                </MuiThemeProvider>
+                {currentPage}
             </div>
         );
     }
