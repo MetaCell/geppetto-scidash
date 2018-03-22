@@ -1,44 +1,41 @@
-define(function (require) {
+import React from 'react';
+import Home from './home/Home';
+import Header from './Header';
+import Footer from './Footer';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { grey500, blueGrey900, grey400  } from 'material-ui/styles/colors';
 
-    var React = require('react');
-    var Home = require('./home/Home').Home;
-    var Header = require('./Header');
-    var Footer = require('./Footer');
-    var MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
-    var getMuiTheme = require('material-ui/styles/getMuiTheme').default;
-    var grey500 = require('material-ui/styles/colors');
-    var blueGrey900 = require('material-ui/styles/colors');
+// list of props here --> https://github.com/mui-org/material-ui/blob/master/src/styles/baseThemes/lightBaseTheme.js
+const customTheme = {
+    palette: {
+        primary1Color: grey500,
+        primary2Color: blueGrey900,
+        primary3Color: '#b0ac9a',
+        pickerHeaderColor: '#b0ac9a',
+    }
+};
 
-    // list of props here --> https://github.com/mui-org/material-ui/blob/master/src/styles/baseThemes/lightBaseTheme.js
-    const customTheme = {
-        palette: {
-            primary1color: grey500,
-            primary2color: blueGrey900,
-            primary3color: '#b0ac9a',
-            pickerheadercolor: '#b0ac9a',
-        }
-    };
+const theme = getMuiTheme(customTheme);
 
-    const theme = getMuiTheme(customTheme);
+export default class MainTemplate extends React.Component {
 
-    return class MainTemplate extends React.Component {
-
-        render() {
-            return (
-                <div className="mainContainer">
-                    <Header/>
-                    <div className="midContainer">
-                        <div className="row">
-                            <div className="col-md-12">
-                                <MuiThemeProvider muiTheme={theme}>
-                                    <Home />
-                                </MuiThemeProvider>
-                            </div>
+    render() {
+        return (
+            <div className="mainContainer">
+                <Header/>
+                <div className="midContainer">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <MuiThemeProvider muiTheme={theme}>
+                                <Home />
+                            </MuiThemeProvider>
                         </div>
                     </div>
-                    <Footer/>
                 </div>
-            );
-        }
-    };
-});
+                <Footer/>
+            </div>
+        );
+    }
+
+};
