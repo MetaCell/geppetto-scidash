@@ -7,7 +7,7 @@ define(function (require) {
         var Route = require('react-router-dom').Route;
         var Switch = require('react-router-dom').Switch;
 
-        var MainTemplate = require('./pages/MainTemplate');
+        var MainTemplate = require('./pages/MainTemplate').default;
 
         require('./styles/scidash.less');
 

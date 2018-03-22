@@ -8,7 +8,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 
-export class Home extends React.Component {
+export default class Home extends React.Component {
 
     constructor(props, context){
         super(props, context);
