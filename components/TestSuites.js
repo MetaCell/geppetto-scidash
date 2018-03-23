@@ -2,6 +2,9 @@ import React from 'react';
 import Griddle, {ColumnDefinition, RowDefinition, plugins} from 'griddle-react';
 import Toggle from 'material-ui/Toggle';
 
+import GEPPETTO from 'geppetto';
+import Scidash from '../common/Scidash';
+
 import BackendService from '../common/BackendService';
 import ScidashFilterCell from './common/griddle/ScidashFilterCell';
 import ScidashDateRangeCell from './common/griddle/ScidashDateRangeCell';
@@ -48,7 +51,7 @@ export default class TestSuites extends React.Component {
             with_suites: true
         };
 
-        this.togglColorBlind = this.togglColorBlind.bind(this);
+        this.toggleColorBlind = this.toggleColorBlind.bind(this);
 
     }
 
@@ -64,6 +67,11 @@ export default class TestSuites extends React.Component {
 
     componentDidMount() {
         this.load();
+        GEPPETTO.on(Scidash.COLOR_MAP_TOGGLED, this.toggleColorBlind, this)
+    }
+
+    componentWillUnmount(){
+        GEPPETTO.off(Scidash.COLOR_MAP_TOGGLED, this.toggleColorBlind, this)
     }
 
     groupScores(scores){
@@ -174,7 +182,7 @@ export default class TestSuites extends React.Component {
             });
     }
 
-    togglColorBlind(event){
+    toggleColorBlind(event){
         this.setState({
             colorBlind: !this.state.colorBlind
         });
@@ -184,21 +192,6 @@ export default class TestSuites extends React.Component {
     render() {
         return (
             <div>
-                <div id='controlsContainer'>
-                    <label>
-                        <Toggle
-                            label="Color map"
-                            defaultToggled={false}
-                            onToggle={this.togglColorBlind}
-                            labelPosition="right"
-                            style={{margin: 2.5}}
-                        />
-                        <div
-                            id='colorMapGradientLabel'
-                            className={this.state.colorBlind?'colorBlindGradient':'defaultGradient'}>
-                        </div>
-                    </label>
-                </div>
                 <Griddle
                     data={this.state.data}
                     components={this.griddleComponents}

@@ -2,6 +2,9 @@ import React from 'react';
 import Griddle, {ColumnDefinition, RowDefinition, plugins} from 'griddle-react';
 import Toggle from 'material-ui/Toggle';
 
+import GEPPETTO from 'geppetto';
+import Scidash from '../common/Scidash';
+
 import BackendService from '../common/BackendService';
 import ScidashFilterCell from './common/griddle/ScidashFilterCell';
 import ScidashDateRangeCell from './common/griddle/ScidashDateRangeCell';
@@ -55,11 +58,16 @@ export default class TestInstances extends React.Component {
         }
         this.filters = {};
 
-        this.togglColorBlind = this.togglColorBlind.bind(this);
+        this.toggleColorBlind = this.toggleColorBlind.bind(this);
     }
 
     componentDidMount() {
         this.load();
+        GEPPETTO.on(Scidash.COLOR_MAP_TOGGLED, this.toggleColorBlind, this)
+    }
+
+    componentWillUnmount(){
+        GEPPETTO.off(Scidash.COLOR_MAP_TOGGLED, this.toggleColorBlind, this)
     }
 
     load(filters) {
@@ -193,7 +201,7 @@ export default class TestInstances extends React.Component {
             });
     }
 
-    togglColorBlind(event){
+    toggleColorBlind(event){
         this.setState({
             colorBlind: !this.state.colorBlind
         });
@@ -202,120 +210,105 @@ export default class TestInstances extends React.Component {
     render() {
         return (
             <div>
-            <div id='controlsContainer'>
-                <label>
-                    <Toggle
-                      label="Color map"
-                      defaultToggled={false}
-                      onToggle={this.togglColorBlind}
-                      labelPosition="right"
-                      style={{margin: 2.5}}
-                    />
-                    <div
-                        id='colorMapGradientLabel'
-                        className={this.state.colorBlind?'colorBlindGradient':'defaultGradient'}>
-                    </div>
-                </label>
-            </div>
-            <Griddle
-                data={this.state.data}
-                components={this.griddleComponents}
-                plugins={[plugins.LocalPlugin]}
-                styleConfig={this.styleConfig} >
-                <RowDefinition>
-                <ColumnDefinition
-                id="name"
-                title="Name"
-                customHeadingComponent={(props) => <ScidashFilterCell
-                    parent={this}
-                    filterName="score_name"
-                    {...props} />
-                } order={1} />
-                <ColumnDefinition
-                id="score"
-                title="Score"
-                sortMethod={this.sortScore}
-                customComponent={(props) => <ScidashScoreDetailLinkColumn parent={this} {...props} />}
-                order={2} />
-                <ColumnDefinition
-                id="_sort_key"
-                title="_sort_key"
-                isMetadata="true"
-                />
-                <ColumnDefinition
-                id="score_type"
-                title="Score Type"
-                customHeadingComponent={(props) => <ScidashFilterCell
-                    filterName="score_type"
-                    parent={this}
-                    autoCompleteDataSource={[]}
-                    {...props} />
-                } order={3} />
-                <ColumnDefinition
-                id="score_type"
-                title="Score Type"
-                customHeadingComponent={(props) => <ScidashFilterCell
-                    filterName="score_type"
-                    parent={this}
-                    autoCompleteDataSource={[]}
-                    {...props} />
-                } order={3} />
-                <ColumnDefinition
-                id="model"
-                title="Model"
-                sortMethod={this.sortModel}
-                customComponent={ScidashModelDetailLinkColumn}
-                customHeadingComponent={(props) => <ScidashFilterCell
-                    parent={this}
-                    filterName="model_class"
-                    autoCompleteDataSource={[]}
-                    {...props} />
-                } order={6} />
-                <ColumnDefinition
-                id="hostname"
-                title="Hostname"
-                customHeadingComponent={(props) => <ScidashFilterCell
-                    parent={this}
-                    filterName="hostname"
-                    autoCompleteDataSource={[]}
-                    {...props} />
-                } order={7} />
-                <ColumnDefinition
-                id="owner"
-                title="Owner"
-                customHeadingComponent={(props) => <ScidashFilterCell
-                    parent={this}
-                    filterName="owner"
-                    autoCompleteDataSource={[]}
-                    {...props} />
-                } order={8} />
-                <ColumnDefinition
-                id="build_info"
-                title="Build Info"
-                customHeadingComponent={(props) => <ScidashFilterCell
-                    parent={this}
-                    filterName="build_info"
-                    autoCompleteDataSource={[]}
-                    {...props} />
-                } order={9} />
-                <ColumnDefinition
-                id="timestamp"
-                sortMethod={this.sortTimestamp}
-                title="Timestamp"
-                customHeadingComponent={(props) => <ScidashDateRangeCell
-                    parent={this}
-                    filterNameFrom="timestamp_before"
-                    filterNameTo="timestamp_after"
-                    {...props} />
-                } order={10} />
-                <ColumnDefinition
-                isMetadata="true"
-                id="_timestamp"
-                title="_timestamp"
-                />
-                </RowDefinition>
-            </Griddle>
-            </div>
+                <Griddle
+                    data={this.state.data}
+                    components={this.griddleComponents}
+                    plugins={[plugins.LocalPlugin]}
+                    styleConfig={this.styleConfig} >
+                    <RowDefinition>
+                        <ColumnDefinition
+                            id="name"
+                            title="Name"
+                            customHeadingComponent={(props) => <ScidashFilterCell
+                                parent={this}
+                                filterName="score_name"
+                                {...props} />
+                            } order={1} />
+                        <ColumnDefinition
+                            id="score"
+                            title="Score"
+                            sortMethod={this.sortScore}
+                            customComponent={(props) => <ScidashScoreDetailLinkColumn parent={this} {...props} />}
+                            order={2} />
+                        <ColumnDefinition
+                            id="_sort_key"
+                            title="_sort_key"
+                            isMetadata="true"
+                        />
+                        <ColumnDefinition
+                            id="score_type"
+                            title="Score Type"
+                            customHeadingComponent={(props) => <ScidashFilterCell
+                                filterName="score_type"
+                                parent={this}
+                                autoCompleteDataSource={[]}
+                                {...props} />
+                            } order={3} />
+                        <ColumnDefinition
+                            id="score_type"
+                            title="Score Type"
+                            customHeadingComponent={(props) => <ScidashFilterCell
+                                filterName="score_type"
+                                parent={this}
+                                autoCompleteDataSource={[]}
+                                {...props} />
+                            } order={3} />
+                        <ColumnDefinition
+                            id="model"
+                            title="Model"
+                            sortMethod={this.sortModel}
+                            customComponent={ScidashModelDetailLinkColumn}
+                            customHeadingComponent={(props) => <ScidashFilterCell
+                                parent={this}
+                                filterName="model_class"
+                                autoCompleteDataSource={[]}
+                                {...props} />
+                            } order={6} />
+                        <ColumnDefinition
+                            id="hostname"
+                            title="Hostname"
+                            customHeadingComponent={(props) => <ScidashFilterCell
+                                parent={this}
+                                filterName="hostname"
+                                autoCompleteDataSource={[]}
+                                {...props} />
+                            } order={7} />
+                        <ColumnDefinition
+                            id="owner"
+                            title="Owner"
+                            customHeadingComponent={(props) => <ScidashFilterCell
+                                parent={this}
+                                filterName="owner"
+                                autoCompleteDataSource={[]}
+                                {...props} />
+                            } order={8} />
+                        <ColumnDefinition
+                            id="build_info"
+                            title="Build Info"
+                            customHeadingComponent={(props) => <ScidashFilterCell
+                                parent={this}
+                                filterName="build_info"
+                                autoCompleteDataSource={[]}
+                                {...props} />
+                            } order={9} />
+                        <ColumnDefinition
+            id="timestamp"
+            sortMethod={this.sortTimestamp}
+            title="Timestamp"
+            customHeadingComponent={(props) => <ScidashDateRangeCell
+                parent={this}
+                filterNameFrom="timestamp_before"
+                filterNameTo="timestamp_after"
+                {...props} />
+            } order={10} />
+        <ColumnDefinition
+            isMetadata="true"
+            id="_timestamp"
+            title="_timestamp"
+        />
+            </RowDefinition>
+        </Griddle>
+    </div>
         )
     }
 }
