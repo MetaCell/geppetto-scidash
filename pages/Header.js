@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardText} from 'material-ui/Card';
 
 import ColorMapToggle from '../components/common/scidash/ColorMapToggle';
 
@@ -15,11 +16,40 @@ export default class Header extends React.Component {
 
         this.state = {
             testsActive: true,
-            suitesActive: false
+            suitesActive: false,
+            showSettings: false
         }
 
         this.openTestsPage = this.openTestsPage.bind(this)
         this.openSuitesPage = this.openSuitesPage.bind(this)
+
+        this.headerLinksStyle = {
+            position: "fixed",
+            top: "25px",
+            right: "80px",
+            fontSize: "26px"
+        }
+
+        this.settingsPopupStyle = {
+            position: "absolute",
+            top: "0px",
+            right: "45px",
+            width: "150px",
+            zIndex: "100"
+        }
+
+        this.buttonsStyle = {
+            position: "relative",
+            left: "62px"
+        }
+
+        this.toggleSettings = this.toggleSettings.bind(this);
+    }
+
+    toggleSettings(){
+        this.setState({
+            showSettings: !this.state.showSettings
+        })
     }
 
     openTestsPage(){
@@ -40,20 +70,30 @@ export default class Header extends React.Component {
 
     render() {
 
+        if (this.state.showSettings)
+            this.settingsPopupStyle['display'] = "block";
+        else
+            this.settingsPopupStyle['display'] = "none";
+
         return (
             <div id="header">
                 <div id="scidash-logo">
                 </div>
                 <div id="headerLinks">
                     <div className="row">
-                        <div className="col-md-3 col-md-offset-4">
-                            <RaisedButton label="Tests View" primary={this.state.testsActive} onClick={this.openTestsPage} />
-                            <RaisedButton label="Suites View" primary={this.state.suitesActive} onClick={this.openSuitesPage} />
+                        <div className="col-md-3 col-md-offset-4" style={this.buttonsStyle}>
+                                <RaisedButton label="Tests View" primary={this.state.testsActive} onClick={this.openTestsPage} />
+                                <RaisedButton label="Suites View" primary={this.state.suitesActive} onClick={this.openSuitesPage} />
                         </div>
                     </div>
                 </div>
-                <div id="headerSocialLinks">
-                    <ColorMapToggle />
+                <div id="headerSocialLinks" style={this.headerLinksStyle}>
+                    <button><i className="fa fa-cog" onClick={this.toggleSettings}></i></button>
+                    <Card style={this.settingsPopupStyle}>
+                        <CardText>
+                            <ColorMapToggle />
+                        </CardText>
+                    </Card>
                 </div>
             </div>
 

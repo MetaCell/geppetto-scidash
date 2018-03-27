@@ -203,7 +203,7 @@ export default class TestSuites extends React.Component {
                             title="Name"
                             customHeadingComponent={(props) => <ScidashFilterCell
                                 parent={this}
-                                filterName="suite"
+                                filterName="by_suite_name"
                                 {...props} />
                             } order={1} />
                         <ColumnDefinition
