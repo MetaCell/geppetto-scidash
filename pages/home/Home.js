@@ -24,7 +24,6 @@ export default class Home extends React.Component {
     componentDidMount(){
         GEPPETTO.on(Scidash.TESTS_PAGE_ACTIVATED, this.openTestsPage, this);
         GEPPETTO.on(Scidash.SUITES_PAGE_ACTIVATED, this.openSuitesPage, this);
-        console.log(GEPPETTO);
     }
 
     componentWillUnmount(){

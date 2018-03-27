@@ -45,12 +45,12 @@ export default class Header extends React.Component {
                 <div id="scidash-logo">
                 </div>
                 <div id="headerLinks">
-                <div className="row">
-                    <div className="col-md-3 col-md-offset-4">
-                        <RaisedButton label="Tests View" primary={this.state.testsActive} onClick={this.openTestsPage} />
-                        <RaisedButton label="Suites View" primary={this.state.suitesActive} onClick={this.openSuitesPage} />
+                    <div className="row">
+                        <div className="col-md-3 col-md-offset-4">
+                            <RaisedButton label="Tests View" primary={this.state.testsActive} onClick={this.openTestsPage} />
+                            <RaisedButton label="Suites View" primary={this.state.suitesActive} onClick={this.openSuitesPage} />
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div id="headerSocialLinks">
                     <ColorMapToggle />
