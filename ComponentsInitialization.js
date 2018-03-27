@@ -7,7 +7,7 @@ define(function (require) {
         var Route = require('react-router-dom').Route;
         var Switch = require('react-router-dom').Switch;
 
-        var MainTemplate = require('./pages/MainTemplate').default;
+        var App = require('./App').default;
 
         require('./styles/scidash.less');
 
@@ -25,7 +25,7 @@ define(function (require) {
         ReactDOM.render(
                 <Router basename={"/"}>
                 <Switch>
-                <Route path="/" component={MainTemplate} exact/>
+                <Route path="/" component={App} exact/>
                 </Switch>
                 </Router>
                 , document.getElementById('mainContainer')

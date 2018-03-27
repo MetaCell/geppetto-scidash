@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import TestInstances from '../../components/TestInstances';
 import TestSuites from '../../components/TestSuites';
-import RaisedButton from 'material-ui/RaisedButton';
 import { grey500, blueGrey900, grey400 } from 'material-ui/styles/colors';
+
+import GEPPETTO from 'geppetto';
+import Scidash from '../../common/Scidash';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -14,20 +16,23 @@ export default class Home extends React.Component {
         super(props, context);
 
         this.state = {
-            testsPage: true,
-            suitesPage: false,
             testsActive: true,
             suitesActive: false
         }
+    }
 
-        this.openTestsPage = this.openTestsPage.bind(this)
-        this.openSuitesPage = this.openSuitesPage.bind(this)
+    componentDidMount(){
+        GEPPETTO.on(Scidash.TESTS_PAGE_ACTIVATED, this.openTestsPage, this);
+        GEPPETTO.on(Scidash.SUITES_PAGE_ACTIVATED, this.openSuitesPage, this);
+    }
+
+    componentWillUnmount(){
+        GEPPETTO.off(Scidash.TESTS_PAGE_ACTIVATED, this.openTestsPage, this);
+        GEPPETTO.off(Scidash.SUITES_PAGE_ACTIVATED, this.openSuitesPage, this);
     }
 
     openTestsPage(){
         this.setState({
-            testsPage: true,
-            suitesPage: false,
             testsActive: true,
             suitesActive: false
         });
@@ -35,8 +40,6 @@ export default class Home extends React.Component {
 
     openSuitesPage(){
         this.setState({
-            testsPage: false,
-            suitesPage: true,
             testsActive: false,
             suitesActive: true
         });
@@ -45,19 +48,13 @@ export default class Home extends React.Component {
     render() {
         let currentPage = null;
 
-        if (this.state.testsPage)
+        if (this.state.testsActive)
             currentPage = <TestInstances />
-        if (this.state.suitesPage)
+        if (this.state.suitesActive)
             currentPage = <TestSuites />
 
         return (
             <div>
-                <div className="row">
-                    <div className="col-md-3 col-md-offset-5">
-                        <RaisedButton label="Tests View" primary={this.state.testsActive} onClick={this.openTestsPage} />
-                        <RaisedButton label="Suites View" primary={this.state.suitesActive} onClick={this.openSuitesPage} />
-                    </div>
-                </div>
                 {currentPage}
             </div>
         );
