@@ -5,6 +5,7 @@ import Toggle from 'material-ui/Toggle';
 import GEPPETTO from 'geppetto';
 import Scidash from '../common/Scidash';
 
+import RaisedButton from 'material-ui/RaisedButton';
 import BackendService from '../common/BackendService';
 import ScidashFilterCell from './common/griddle/ScidashFilterCell';
 import ScidashDateRangeCell from './common/griddle/ScidashDateRangeCell';
@@ -39,7 +40,23 @@ export default class TestSuites extends React.Component {
         }
         this.griddleComponents = {
             Filter: () => null,
-            SettingsToggle: () => null
+            SettingsToggle: () => null,
+            NextButton: (props) => {
+                if (props.hasNext)
+                    return <RaisedButton label={props.text} onClick={props.getNext} style={{
+                        marginLeft: "10px"
+                    }}/>;
+
+                return null;
+            },
+            PreviousButton: (props) => {
+                if (props.hasPrevious)
+                    return <RaisedButton label={props.text} onClick={props.getPrevious} style={{
+                        marginRight: "10px"
+                    }}/>;
+
+                return null;
+            }
         }
         this.styleConfig = {
             classNames: {
