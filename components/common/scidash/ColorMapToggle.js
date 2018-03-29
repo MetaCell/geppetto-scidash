@@ -18,14 +18,6 @@ export default class ColorMapToggle extends React.Component {
         this.reset = this.reset.bind(this);
     }
 
-    componentDidMount(){
-        GEPPETTO.on(Scidash.TESTS_PAGE_ACTIVATED + " " + Scidash.SUITES_PAGE_ACTIVATED, this.reset)
-    }
-
-    componentWillUnmount(){
-        GEPPETTO.off(Scidash.TESTS_PAGE_ACTIVATED + " " + Scidash.SUITES_PAGE_ACTIVATED, this.reset)
-    }
-
     toggleColorBlind(event){
         GEPPETTO.trigger(Scidash.COLOR_MAP_TOGGLED);
         this.setState({
