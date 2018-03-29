@@ -226,13 +226,17 @@ export default class TestInstances extends React.Component {
 
     render() {
         const customName = ({value}) => <div style={{paddingRight:"20px"}}>{value}</div>;
+        const pageProperties = {
+            currentPage: 1
+        }
         return (
             <div>
                 <Griddle
                     data={this.state.data}
                     components={this.griddleComponents}
                     plugins={[plugins.LocalPlugin]}
-                    styleConfig={this.styleConfig} >
+                    styleConfig={this.styleConfig}
+                    pageProperties={pageProperties} >
                     <RowDefinition>
                         <ColumnDefinition
                             id="name"
