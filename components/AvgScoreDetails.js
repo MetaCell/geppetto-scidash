@@ -36,7 +36,9 @@ export default class ScoreDetails extends React.Component {
         });
 
         return (
-            <Card>
+            <Card style={{
+                overflow: "scroll"
+            }}>
                 <CardText>
                     <table className="table">
                         <thead>
