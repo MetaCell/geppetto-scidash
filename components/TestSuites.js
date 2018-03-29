@@ -36,7 +36,7 @@ export default class TestSuites extends React.Component {
         this.state = {
             data: [this.dataTemplate],
             autoCompleteData: this.autoCompleteDataTemplate,
-            colorBlind: false
+            colorBlind: props.colorBlind
         }
         this.griddleComponents = {
             Filter: () => null,

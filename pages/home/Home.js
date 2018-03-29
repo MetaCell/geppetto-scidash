@@ -17,7 +17,8 @@ export default class Home extends React.Component {
 
         this.state = {
             testsActive: true,
-            suitesActive: false
+            suitesActive: false,
+            colorBlind: false
         }
     }
 
@@ -31,17 +32,19 @@ export default class Home extends React.Component {
         GEPPETTO.off(Scidash.SUITES_PAGE_ACTIVATED, this.openSuitesPage, this);
     }
 
-    openTestsPage(){
+    openTestsPage(colorBlind){
         this.setState({
             testsActive: true,
-            suitesActive: false
+            suitesActive: false,
+            colorBlind: colorBlind
         });
     }
 
-    openSuitesPage(){
+    openSuitesPage(colorBlind){
         this.setState({
             testsActive: false,
-            suitesActive: true
+            suitesActive: true,
+            colorBlind: colorBlind
         });
     }
 
@@ -49,9 +52,9 @@ export default class Home extends React.Component {
         let currentPage = null;
 
         if (this.state.testsActive)
-            currentPage = <TestInstances />
+            currentPage = <TestInstances colorBlind={this.state.colorBlind}/>
         if (this.state.suitesActive)
-            currentPage = <TestSuites />
+            currentPage = <TestSuites colorBlind={this.state.colorBlind}/>
 
         return (
             <div>

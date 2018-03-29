@@ -17,7 +17,8 @@ export default class Header extends React.Component {
         this.state = {
             testsActive: true,
             suitesActive: false,
-            showSettings: false
+            showSettings: false,
+            colorBlind: false
         }
 
         this.openTestsPage = this.openTestsPage.bind(this)
@@ -46,6 +47,20 @@ export default class Header extends React.Component {
         this.toggleSettings = this.toggleSettings.bind(this);
     }
 
+    componentDidMount(){
+        GEPPETTO.on(Scidash.COLOR_MAP_TOGGLED, this.saveColorMapState, this)
+    }
+
+    componentWillUnmount(){
+        GEPPETTO.off(Scidash.COLOR_MAP_TOGGLED, this.saveColorMapState, this)
+    }
+
+    saveColorMapState(){
+        this.setState({
+            colorBlind: !this.state.colorBlind
+        })
+    }
+
     toggleSettings(){
         this.setState({
             showSettings: !this.state.showSettings
@@ -53,7 +68,7 @@ export default class Header extends React.Component {
     }
 
     openTestsPage(){
-        GEPPETTO.trigger(Scidash.TESTS_PAGE_ACTIVATED);
+        GEPPETTO.trigger(Scidash.TESTS_PAGE_ACTIVATED, this.state.colorBlind);
         this.setState({
             testsActive: true,
             suitesActive: false
@@ -61,7 +76,7 @@ export default class Header extends React.Component {
     }
 
     openSuitesPage(){
-        GEPPETTO.trigger(Scidash.SUITES_PAGE_ACTIVATED);
+        GEPPETTO.trigger(Scidash.SUITES_PAGE_ACTIVATED, this.state.colorBlind);
         this.setState({
             testsActive: false,
             suitesActive: true
