@@ -68,7 +68,7 @@ export default class Header extends React.Component {
     }
 
     openTestsPage(){
-        GEPPETTO.trigger(Scidash.TESTS_PAGE_ACTIVATED);
+        GEPPETTO.trigger(Scidash.TESTS_PAGE_ACTIVATED, this.state.colorBlind);
         this.setState({
             testsActive: true,
             suitesActive: false
@@ -76,7 +76,7 @@ export default class Header extends React.Component {
     }
 
     openSuitesPage(){
-        GEPPETTO.trigger(Scidash.SUITES_PAGE_ACTIVATED);
+        GEPPETTO.trigger(Scidash.SUITES_PAGE_ACTIVATED, this.state.colorBlind);
         this.setState({
             testsActive: false,
             suitesActive: true
