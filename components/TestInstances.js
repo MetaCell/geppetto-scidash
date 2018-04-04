@@ -2,6 +2,8 @@ import React from 'react';
 import Griddle, {ColumnDefinition, RowDefinition, plugins} from 'griddle-react';
 import Toggle from 'material-ui/Toggle';
 
+import _ from "underscore";
+
 import GEPPETTO from 'geppetto';
 import Scidash from '../common/Scidash';
 
@@ -73,7 +75,18 @@ export default class TestInstances extends React.Component {
                 TableHeadingCell: 'scidash-table-heading-cell'
             }
         }
-        this.filters = {};
+
+        let dateFrom = new Date();
+        let dateTo = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+
+        dateFrom.setMonth(dateFrom.getMonth() - 1);
+        dateFrom.setHours(0, 0, 0, 0);
+        dateTo.setHours(0, 0, 0, 0);
+
+        this.filters = {
+            'timestamp_before': dateTo.toISOString(),
+            'timestamp_after': dateFrom.toISOString()
+        };
 
         this.toggleColorBlind = this.toggleColorBlind.bind(this);
     }
@@ -88,13 +101,13 @@ export default class TestInstances extends React.Component {
     }
 
     load(filters) {
-        if (typeof filters == "undefined"){
-            filters = {};
+        if (typeof filters != "undefined"){
+            this.filters = _.extend(this.filters, filters)
         }
         let scoreData = [];
         let autoCompleteData = {};
 
-        BackendService.score.getAll(filters)
+        BackendService.score.getAll(this.filters)
             .then((results) => {
                 for (let score of results['scores']){
                     var testSuite = null;
@@ -320,8 +333,8 @@ export default class TestInstances extends React.Component {
             title="Timestamp"
             customHeadingComponent={(props) => <ScidashDateRangeCell
                 parent={this}
-                filterNameFrom="timestamp_before"
-                filterNameTo="timestamp_after"
+                filterNameFrom="timestamp_after"
+                filterNameTo="timestamp_before"
                 {...props} />
             } order={10} />
         <ColumnDefinition

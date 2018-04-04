@@ -9,7 +9,7 @@ export default class ScidashDateRangeCell extends React.Component {
         this.columnId = props.columnId;
 
         this.valueFrom = new Date();
-        this.valueTo = new Date();
+        this.valueTo = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 
         this.valueFrom.setMonth(this.valueFrom.getMonth() - 1);
         this.valueFrom.setHours(0, 0, 0, 0);
@@ -50,8 +50,8 @@ export default class ScidashDateRangeCell extends React.Component {
             valueTo: this.valueTo,
             changed: false
         })
-        this.parent.onFilter('', this.filterNameFrom);
-        this.parent.onFilter('', this.filterNameTo);
+        this.parent.onFilter(this.valueFrom.toISOString(), this.filterNameFrom);
+        this.parent.onFilter(this.valueTo.toISOString(), this.filterNameTo);
     }
 
     render(){
@@ -76,7 +76,7 @@ export default class ScidashDateRangeCell extends React.Component {
                         value={this.state.valueFrom}
                         onChange={(event, date) => {
                             this.changed = true;
-                            this.parent.onFilter(date.toISOString(), this.filterNameTo);
+                            this.parent.onFilter(date.toISOString(), this.filterNameFrom);
                             this.setState({
                                 valueFrom: date,
                                 changed: true
@@ -95,7 +95,7 @@ export default class ScidashDateRangeCell extends React.Component {
                         textFieldStyle={this.styleTextField}
                         value={this.state.valueTo}
                         onChange={(event, date) => {
-                            this.parent.onFilter(date.toISOString(), this.filterNameFrom);
+                            this.parent.onFilter(date.toISOString(), this.filterNameTo);
                             this.setState({
                                 valueTo: date,
                                 changed: true
