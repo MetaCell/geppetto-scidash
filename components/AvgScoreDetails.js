@@ -17,33 +17,34 @@ export default class AvgScoreDetails extends React.Component {
             detailsShowing: false,
             currentScore: null
         }
+        this.updateScoreDetails = this.updateScoreDetails.bind(this);
+    }
+
+    updateScoreDetails(score){
+        if (this.state.currentScore != score){
+            this.setState({
+                currentScore: score,
+                detailsShowing: true
+            });
+        } else {
+            this.setState({
+                currentScore: null
+            });
+        }
     }
 
     toggleScoreDetails(score){
-        let stateObj = {}
-        console.log(this.state.currentScore == score)
-
-        if (this.state.currentScore == score && this.state.detailsShowing)
-            stateObj = {
-                detailsShowing: false,
-                currentScore: null
-            };
-
-        if (this.state.currentScore != score)
-            stateObj = {
-                detailsShowing: true,
-                currentScore: score
-            };
-
-        this.setState(stateObj);
-        console.log(this.state)
-
+        this.setState({
+            detailsShowing: false
+        }, () => this.updateScoreDetails(score));
     }
 
     render(){
 
         let modelName = "";
         const details = this.state.detailsShowing ? <ScoreDetails scoreInstance={this.state.currentScore} /> : null;
+
+        console.log(details);
 
         if (typeof this.state.scoreList != "unedfined"){
             modelName = this.state.scoreList.get(0).get('model_instance').get('model_class').get('class_name');
@@ -69,9 +70,7 @@ export default class AvgScoreDetails extends React.Component {
 
         return (
             <div>
-                <Card style={{
-                    overflow: "scroll"
-                }}>
+                <Card>
                     <CardText>
                         <table className="table">
                             <thead>
