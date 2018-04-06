@@ -138,6 +138,11 @@ export default class TestSuites extends React.Component {
     }
 
     load(filters) {
+
+        this.setState({
+            showLoading: true
+        })
+
         if (typeof filters == "undefined"){
             filters = {
                 with_suites: true
@@ -149,6 +154,9 @@ export default class TestSuites extends React.Component {
         BackendService.score.getAll(filters)
             .then((results) => {
 
+                this.setState({
+                    showLoading: false
+                })
                 let suiteData = this.groupScores(results['scores'])
 
                 if (suiteData.length > 0){
@@ -207,6 +215,7 @@ export default class TestSuites extends React.Component {
 
 
     render() {
+        const loader = this.state.showLoading ? <i className="fa fa-cog fa-spin centered-modal loading-spinner"></i> : "";
         return (
             <div>
                 <Griddle
@@ -262,6 +271,7 @@ export default class TestSuites extends React.Component {
                         />
                     </RowDefinition>
                 </Griddle>
+                {loader}
             </div>
         )
     }

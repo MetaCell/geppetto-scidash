@@ -57,12 +57,12 @@ export default class AvgScoreDetails extends React.Component {
                 color: "#fff"
             }} key={"score-" + item.get("id")}>
 
-                    <a onClick={() => this.toggleScoreDetails(item)} style={{
-                        cursor: "pointer",
-                        color: "white"
-                    }}>{item.get("sort_key").toFixed(2)}</a>
+            <a onClick={() => this.toggleScoreDetails(item)} style={{
+                cursor: "pointer",
+                color: "white"
+            }}>{item.get("sort_key").toFixed(2)}</a>
 
-                </td>;
+    </td>;
         });
         const headings = this.state.scoreList.map((item, index) => {
             return <td key={"heading-" + item.get("id")}>{item.get("test_instance").get("test_class").get("class_name")}</td>;
