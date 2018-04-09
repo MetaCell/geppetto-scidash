@@ -3,13 +3,14 @@ export default class Helper {
     constructor(){}
 
     isEmptyString(string){
-        if (string === null)
-            return true;
+        isEmpty = false;
 
-        if (string.length == 0)
-            return true;
+        if (string === null || string === undefined || 
+            (string != undefined && string.length == 0)){
+            isEmpty = true;
+        }
 
-        return false;
+        return isEmpty;
     }
 
     getBackground(sortKey, colorBlind){
