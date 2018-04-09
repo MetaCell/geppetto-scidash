@@ -3,7 +3,7 @@ export default class Helper {
     constructor(){}
 
     isEmptyString(string){
-        isEmpty = false;
+        var isEmpty = false;
 
         if (string === null || string === undefined || 
             (string != undefined && string.length == 0)){
