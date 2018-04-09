@@ -107,6 +107,13 @@ export default class ScoreDetails extends React.Component {
                                     )
                                 )}
                                 </div>
+                                <div><strong>Simulator: </strong>
+                                {this.helper.isEmptyString(this.state.scoreInstance.get("model_instance").get("backend")) ? (
+                                    "None"
+                                ): (
+                                    this.state.scoreInstance.get("model_instance").get("backend")
+                                )}
+                                </div>
                             </CardText>
                         </Card>
                     </div>

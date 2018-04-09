@@ -2,6 +2,8 @@ import React from 'react';
 import Griddle, {ColumnDefinition, RowDefinition, plugins} from 'griddle-react';
 import Toggle from 'material-ui/Toggle';
 
+import _ from "underscore";
+
 import GEPPETTO from 'geppetto';
 import Scidash from '../common/Scidash';
 
@@ -45,7 +47,8 @@ export default class TestInstances extends React.Component {
         this.state = {
             data: [this.dataTemplate],
             autoCompleteData: this.autoCompleteDataTemplate,
-            colorBlind: props.colorBlind
+            colorBlind: props.colorBlind,
+            showLoading: false
         }
         this.griddleComponents = {
             Filter: () => null,
@@ -73,7 +76,18 @@ export default class TestInstances extends React.Component {
                 TableHeadingCell: 'scidash-table-heading-cell'
             }
         }
-        this.filters = {};
+
+        let dateFrom = new Date();
+        let dateTo = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+
+        dateFrom.setMonth(dateFrom.getMonth() - 1);
+        dateFrom.setHours(0, 0, 0, 0);
+        dateTo.setHours(0, 0, 0, 0);
+
+        this.filters = {
+            'timestamp_before': dateTo.toISOString(),
+            'timestamp_after': dateFrom.toISOString()
+        };
 
         this.toggleColorBlind = this.toggleColorBlind.bind(this);
     }
@@ -88,14 +102,21 @@ export default class TestInstances extends React.Component {
     }
 
     load(filters) {
-        if (typeof filters == "undefined"){
-            filters = {};
+        if (typeof filters != "undefined"){
+            this.filters = _.extend(this.filters, filters)
         }
         let scoreData = [];
         let autoCompleteData = {};
 
-        BackendService.score.getAll(filters)
+        this.setState({
+            showLoading: true
+        })
+
+        BackendService.score.getAll(this.filters)
             .then((results) => {
+                this.setState({
+                    showLoading: false
+                })
                 for (let score of results['scores']){
                     var testSuite = null;
                     if (score.test_instance.test_suites.length > 0){
@@ -163,7 +184,6 @@ export default class TestInstances extends React.Component {
         } else {
             this.filters[columnId] = value;
         }
-
         this.load(this.filters);
     }
 
@@ -226,6 +246,7 @@ export default class TestInstances extends React.Component {
 
     render() {
         const customName = ({value}) => <div style={{paddingRight:"20px"}}>{value}</div>;
+        const loader = this.state.showLoading ? <i className="fa fa-cog fa-spin centered-modal loading-spinner"></i> : "";
         const pageProperties = {
             currentPage: 1
         }
@@ -243,9 +264,9 @@ export default class TestInstances extends React.Component {
                             title="Name"
                             customComponent={customName}
                             customHeadingComponent={(props) => <ScidashFilterCell
-                                parent={this}
-                                filterName="score_name"
-                                {...props} />
+                                    parent={this}
+                                    filterName="score_name"
+                                    {...props} />
                             } order={1} />
                         <ColumnDefinition
                             id="score"
@@ -262,19 +283,19 @@ export default class TestInstances extends React.Component {
                             id="score_type"
                             title="Score Type"
                             customHeadingComponent={(props) => <ScidashFilterCell
-                                filterName="score_type"
-                                parent={this}
-                                autoCompleteDataSource={[]}
-                                {...props} />
+                                    filterName="score_type"
+                                    parent={this}
+                                    autoCompleteDataSource={[]}
+                                    {...props} />
                             } order={3} />
                         <ColumnDefinition
                             id="score_type"
                             title="Score Type"
                             customHeadingComponent={(props) => <ScidashFilterCell
-                                filterName="score_type"
-                                parent={this}
-                                autoCompleteDataSource={[]}
-                                {...props} />
+                                    filterName="score_type"
+                                    parent={this}
+                                    autoCompleteDataSource={[]}
+                                    {...props} />
                             } order={3} />
                         <ColumnDefinition
                             id="model"
@@ -282,56 +303,57 @@ export default class TestInstances extends React.Component {
                             sortMethod={this.sortModel}
                             customComponent={ScidashModelDetailLinkColumn}
                             customHeadingComponent={(props) => <ScidashFilterCell
-                                parent={this}
-                                filterName="model_class"
-                                autoCompleteDataSource={[]}
-                                {...props} />
+                                    parent={this}
+                                    filterName="model_class"
+                                    autoCompleteDataSource={[]}
+                                    {...props} />
                             } order={6} />
                         <ColumnDefinition
                             id="hostname"
                             title="Hostname"
                             customHeadingComponent={(props) => <ScidashFilterCell
-                                parent={this}
-                                filterName="hostname"
-                                autoCompleteDataSource={[]}
-                                {...props} />
+                                    parent={this}
+                                    filterName="hostname"
+                                    autoCompleteDataSource={[]}
+                                    {...props} />
                             } order={7} />
                         <ColumnDefinition
                             id="owner"
                             title="Owner"
                             customHeadingComponent={(props) => <ScidashFilterCell
-                                parent={this}
-                                filterName="owner"
-                                autoCompleteDataSource={[]}
-                                {...props} />
+                                    parent={this}
+                                    filterName="owner"
+                                    autoCompleteDataSource={[]}
+                                    {...props} />
                             } order={8} />
                         <ColumnDefinition
                             id="build_info"
                             title="Build Info"
                             customHeadingComponent={(props) => <ScidashFilterCell
-                                parent={this}
-                                filterName="build_info"
-                                autoCompleteDataSource={[]}
-                                {...props} />
+                                    parent={this}
+                                    filterName="build_info"
+                                    autoCompleteDataSource={[]}
+                                    {...props} />
                             } order={9} />
                         <ColumnDefinition
-            id="timestamp"
-            sortMethod={this.sortTimestamp}
-            title="Timestamp"
-            customHeadingComponent={(props) => <ScidashDateRangeCell
-                parent={this}
-                filterNameFrom="timestamp_before"
-                filterNameTo="timestamp_after"
-                {...props} />
-            } order={10} />
-        <ColumnDefinition
-            isMetadata="true"
-            id="_timestamp"
-            title="_timestamp"
-        />
-            </RowDefinition>
-        </Griddle>
-    </div>
+                            id="timestamp"
+                            sortMethod={this.sortTimestamp}
+                            title="Timestamp"
+                            customHeadingComponent={(props) => <ScidashDateRangeCell
+                                    parent={this}
+                                    filterNameFrom="timestamp_after"
+                                    filterNameTo="timestamp_before"
+                                    {...props} />
+                            } order={10} />
+                        <ColumnDefinition
+                            isMetadata="true"
+                            id="_timestamp"
+                            title="_timestamp"
+                        />
+                    </RowDefinition>
+                </Griddle>
+                {loader}
+            </div>
         )
     }
 }
