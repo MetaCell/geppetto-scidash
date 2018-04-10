@@ -216,13 +216,17 @@ export default class TestSuites extends React.Component {
 
     render() {
         const loader = this.state.showLoading ? <i className="fa fa-cog fa-spin centered-modal loading-spinner"></i> : "";
+        const pageProperties = {
+            currentPage: 1
+        }
         return (
             <div>
                 <Griddle
                     data={this.state.data}
                     components={this.griddleComponents}
                     plugins={[plugins.LocalPlugin]}
-                    styleConfig={this.styleConfig} >
+                    styleConfig={this.styleConfig}
+                    pageProperties={pageProperties} >
                     <RowDefinition>
                         <ColumnDefinition
                             id="suite"

@@ -22,9 +22,13 @@ export default class ScoreDetails extends React.Component {
 
         return (
             <Card>
-                <CardText>
+                <CardText style={{
+                    wordWrap: "break-word"
+                }}>
                     <div style={{ float:"left", width: "360px" }}>
-                        <h4>{this.state.scoreInstance.get("test_instance").get("test_class").get("class_name") + " details"}</h4>
+                        <h4 style={{
+                            maxWidth: "360px"
+                        }}>{this.state.scoreInstance.get("test_instance").get("test_class").get("class_name") + " details"}</h4>
                         <Card>
                             <CardText>
                                 <div><strong>Test name: </strong>

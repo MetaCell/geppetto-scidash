@@ -99,7 +99,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
                         actions={actions}
                         modal={true}
                         contentStyle={{
-                            width: "830px",
+                            width: "860px",
                             maxWidth: "none"
                         }}
                         contentClassName="centered-modal"
