@@ -3,6 +3,7 @@ import Griddle, {ColumnDefinition, RowDefinition, plugins} from 'griddle-react';
 import Toggle from 'material-ui/Toggle';
 
 import _ from "underscore";
+import $ from "jquery";
 
 import GEPPETTO from 'geppetto';
 import Scidash from '../common/Scidash';
@@ -101,22 +102,34 @@ export default class TestInstances extends React.Component {
         GEPPETTO.off(Scidash.COLOR_MAP_TOGGLED, this.toggleColorBlind, this)
     }
 
-    load(filters) {
+    load(filters, withLoading) {
         if (typeof filters != "undefined"){
             this.filters = _.extend(this.filters, filters)
+        }
+
+        if (typeof withLoading == "undefined"){
+            withLoading = true;
         }
         let scoreData = [];
         let autoCompleteData = {};
 
-        this.setState({
-            showLoading: true
-        })
+        if (withLoading) {
+            this.setState({
+                showLoading: true
+            });
+            // ¯\_(ツ)_/¯
+            $(".griddle-page-select").hide()
+        }
 
         BackendService.score.getAll(this.filters)
             .then((results) => {
                 this.setState({
                     showLoading: false
                 })
+
+                // ¯\_(ツ)_/¯
+                $(".griddle-page-select").show()
+
                 for (let score of results['scores']){
                     var testSuite = null;
                     if (score.test_instance.test_suites.length > 0){
@@ -184,7 +197,7 @@ export default class TestInstances extends React.Component {
         } else {
             this.filters[columnId] = value;
         }
-        this.load(this.filters);
+        this.load(this.filters, false);
     }
 
     sortTimestamp(data, column, sortAscending = false) {
@@ -246,10 +259,13 @@ export default class TestInstances extends React.Component {
 
     render() {
         const customName = ({value}) => <div style={{paddingRight:"20px"}}>{value}</div>;
-        const loader = this.state.showLoading ? <i className="fa fa-cog fa-spin centered-modal loading-spinner"></i> : "";
+        const loader = this.state.showLoading ? <i className="fa fa-cog fa-4x fa-spin centered-modal loading-spinner" style={{
+            top:"30%"
+        }}></i> : "";
         const pageProperties = {
             currentPage: 1
         }
+
         return (
             <div>
                 <Griddle

@@ -151,12 +151,20 @@ export default class TestSuites extends React.Component {
         let suiteData = [];
         let autoCompleteData = {};
 
+
+        // ¯\_(ツ)_/¯
+        $(".griddle-page-select").hide()
+
         BackendService.score.getAll(filters)
             .then((results) => {
 
                 this.setState({
                     showLoading: false
-                })
+                });
+
+                // ¯\_(ツ)_/¯
+                $(".griddle-page-select").show()
+
                 let suiteData = this.groupScores(results['scores'])
 
                 if (suiteData.length > 0){
@@ -215,7 +223,9 @@ export default class TestSuites extends React.Component {
 
 
     render() {
-        const loader = this.state.showLoading ? <i className="fa fa-cog fa-spin centered-modal loading-spinner"></i> : "";
+        const loader = this.state.showLoading ? <i className="fa fa-cog fa-4x fa-spin centered-modal loading-spinner" style={{
+            top:"30%"
+        }}></i> : "";
         const pageProperties = {
             currentPage: 1
         }
