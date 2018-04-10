@@ -65,13 +65,15 @@ export default class AvgScoreDetails extends React.Component {
     </td>;
         });
         const headings = this.state.scoreList.map((item, index) => {
-            return <td key={"heading-" + item.get("id")}>{item.get("test_instance").get("test_class").get("class_name")}</td>;
+            return <th className="avg-score-heading" key={"heading-" + item.get("id")}>{item.get("test_instance").get("test_class").get("class_name")}</th>;
         });
 
         return (
             <div>
                 <Card>
-                    <CardText>
+                    <CardText style={{
+                        overflowX: "scroll"
+                    }}>
                         <table className="table">
                             <thead>
                                 <tr>
