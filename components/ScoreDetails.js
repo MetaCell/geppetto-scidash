@@ -44,8 +44,20 @@ export default class ScoreDetails extends React.Component {
                                     ): (
                                         <span style={{
                                             background: this.helper.getBackground(this.state.scoreInstance.get("sort_key"), false),
-                                            color: "white"
-                                        }}>{this.state.scoreInstance.get("score").toFixed(3) + " / " + this.state.scoreInstance.get("sort_key").toFixed(2)}</span>
+                                            color: "white",
+                                            padding:"1px"
+                                        }}>{this.state.scoreInstance.get("score").toFixed(3)}</span>
+                                    )}
+                                </div>
+                                <div><strong>Normalized score: </strong>
+                                    {this.helper.isEmptyString(this.state.scoreInstance.get("sort_key")) ? (
+                                        "None"
+                                    ): (
+                                        <span style={{
+                                            background: this.helper.getBackground(this.state.scoreInstance.get("sort_key"), false),
+                                            color: "white",
+                                            padding:"1px"
+                                        }}>{this.state.scoreInstance.get("sort_key").toFixed(2)}</span>
                                     )}
                                 </div>
                                 <div><strong>Test class: </strong>
