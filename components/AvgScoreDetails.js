@@ -15,7 +15,8 @@ export default class AvgScoreDetails extends React.Component {
         this.state = {
             scoreList: this.props.scoreList,
             detailsShowing: false,
-            currentScore: null
+            currentScore: null,
+            selectedScore: null
         }
         this.updateScoreDetails = this.updateScoreDetails.bind(this);
     }
@@ -24,7 +25,8 @@ export default class AvgScoreDetails extends React.Component {
         if (this.state.currentScore != score){
             this.setState({
                 currentScore: score,
-                detailsShowing: true
+                detailsShowing: true,
+                selectedScore: score.get("id")
             });
         } else {
             this.setState({
@@ -44,8 +46,6 @@ export default class AvgScoreDetails extends React.Component {
         let modelName = "";
         const details = this.state.detailsShowing ? <ScoreDetails scoreInstance={this.state.currentScore} /> : null;
 
-        console.log(details);
-
         if (typeof this.state.scoreList != "unedfined"){
             modelName = this.state.scoreList.get(0).get('model_instance').get('model_class').get('class_name');
         }
@@ -54,15 +54,16 @@ export default class AvgScoreDetails extends React.Component {
 
             return <td style={{
                 background: this.helper.getBackground(item.get("sort_key")),
-                color: "#fff"
+                color: "#fff",
+                borderBottom: this.state.selectedScore == item.get("id") ? "2px solid red" : "none"
             }} key={"score-" + item.get("id")}>
 
-            <a onClick={() => this.toggleScoreDetails(item)} style={{
-                cursor: "pointer",
-                color: "white"
-            }}>{item.get("sort_key").toFixed(2)}</a>
+                <a onClick={() => this.toggleScoreDetails(item)} style={{
+                    cursor: "pointer",
+                    color: "white"
+                }}>{item.get("sort_key").toFixed(2)}</a>
 
-    </td>;
+            </td>;
         });
         const headings = this.state.scoreList.map((item, index) => {
             return <th className="avg-score-heading" key={"heading-" + item.get("id")}>{item.get("test_instance").get("test_class").get("class_name")}</th>;

@@ -95,6 +95,7 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
                 <Dialog
                     actions={actions}
                     modal={true}
+                    autoScrollBodyContent={true}
                     contentStyle={{
                         width: "830px",
                         maxWidth: "none"
