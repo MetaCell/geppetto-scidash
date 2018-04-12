@@ -98,14 +98,12 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
                     <Dialog
                         actions={actions}
                         modal={true}
+                        autoScrollBodyContent={true}
                         contentStyle={{
                             width: "860px",
                             maxWidth: "none"
                         }}
                         contentClassName="centered-modal"
-                        bodyStyle={{
-                            overflowY: "scroll"
-                        }}
                         open={this.state.open}
                     >
                     <AvgScoreDetails scoreList={scoreList} style={{overflowY: "scroll"}}/>
