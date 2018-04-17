@@ -13,7 +13,8 @@ export default class ScoreDetails extends React.Component {
         this.props = props;
 
         this.state = {
-            scoreInstance: props.scoreInstance
+            scoreInstance: props.scoreInstance,
+            colorBlind: props.colorBlind
         };
     }
 
@@ -23,9 +24,13 @@ export default class ScoreDetails extends React.Component {
         return (
             <Card>
                 <CardText style={{
-                    wordWrap: "break-word"
+                    wordWrap: "break-word",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    alignItems: "flex-start"
                 }}>
-                    <div style={{ float:"left", width: "360px" }}>
+                    <div style={{minWidth: "350px", margin: "15px"}}>
                         <h4 style={{
                             maxWidth: "360px"
                         }}>{this.state.scoreInstance.get("test_instance").get("test_class").get("class_name") + " details"}</h4>
@@ -43,7 +48,7 @@ export default class ScoreDetails extends React.Component {
                                         "None"
                                     ): (
                                         <span style={{
-                                            background: this.helper.getBackground(this.state.scoreInstance.get("sort_key"), false),
+                                            background: this.helper.getBackground(this.state.scoreInstance.get("sort_key"), this.state.colorBlind),
                                             color: "white",
                                             padding:"1px"
                                         }}>{this.state.scoreInstance.get("score").toFixed(3)}</span>
@@ -54,7 +59,7 @@ export default class ScoreDetails extends React.Component {
                                         "None"
                                     ): (
                                         <span style={{
-                                            background: this.helper.getBackground(this.state.scoreInstance.get("sort_key"), false),
+                                            background: this.helper.getBackground(this.state.scoreInstance.get("sort_key"), this.state.colorBlind),
                                             color: "white",
                                             padding:"1px"
                                         }}>{this.state.scoreInstance.get("sort_key").toFixed(2)}</span>
@@ -133,11 +138,10 @@ export default class ScoreDetails extends React.Component {
                             </CardText>
                         </Card>
                     </div>
-                    <div style={{ float:"right", width:"360px", wordWrap: "break-word" }}>
+                    <div style={{ wordWrap: "break-word", minWidth:"350px", margin:"15px" }}>
                         <h4>Model details</h4>
                         <ModelDetails modelInstance={modelInstance} />
                     </div>
-                    <div style={{ clear:"both" }}></div>
                 </CardText>
             </Card>
         );

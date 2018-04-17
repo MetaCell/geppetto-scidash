@@ -102,7 +102,7 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
                     }}
                     open={this.state.open}
                 >
-                    <ScoreDetails scoreInstance={this.state.scoreObject} />
+                    <ScoreDetails scoreInstance={this.state.scoreObject} colorBlind={this.state.colorBlind}/>
                 </Dialog>
             </div>
         </div>

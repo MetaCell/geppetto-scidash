@@ -14,11 +14,13 @@ export default class AvgScoreDetails extends React.Component {
 
         this.state = {
             scoreList: this.props.scoreList,
+            colorBlind: this.props.colorBlind,
             detailsShowing: false,
             currentScore: null,
             selectedScore: null
         }
         this.updateScoreDetails = this.updateScoreDetails.bind(this);
+        console.log(this.state);
     }
 
     updateScoreDetails(score){
@@ -44,7 +46,7 @@ export default class AvgScoreDetails extends React.Component {
     render(){
 
         let modelName = "";
-        const details = this.state.detailsShowing ? <ScoreDetails scoreInstance={this.state.currentScore} /> : null;
+        const details = this.state.detailsShowing ? <ScoreDetails scoreInstance={this.state.currentScore} colorBlind={this.state.colorBlind} /> : null;
 
         if (typeof this.state.scoreList != "unedfined"){
             modelName = this.state.scoreList.get(0).get('model_instance').get('model_class').get('class_name');
@@ -53,7 +55,7 @@ export default class AvgScoreDetails extends React.Component {
         const columns = this.state.scoreList.map((item, index) => {
 
             return <td style={{
-                background: this.helper.getBackground(item.get("sort_key")),
+                background: this.helper.getBackground(item.get("sort_key"), this.state.colorBlind),
                 color: "#fff",
                 borderBottom: this.state.selectedScore == item.get("id") ? "2px solid red" : "none"
             }} key={"score-" + item.get("id")}>
