@@ -32,8 +32,7 @@ export default class AvgScoreDetails extends React.Component {
             });
         } else {
             this.setState({
-                currentScore: null,
-                selectedScore: null
+                currentScore: null
             });
         }
     }
@@ -58,7 +57,7 @@ export default class AvgScoreDetails extends React.Component {
             return <td style={{
                 background: this.helper.getBackground(item.get("sort_key"), this.state.colorBlind),
                 color: "#fff",
-                fontStyle: this.state.selectedScore == item.get("id") ? "italic" : "normal"
+                borderBottom: this.state.selectedScore == item.get("id") ? "2px solid red" : "none"
             }} key={"score-" + item.get("id")}>
 
                 <a onClick={() => this.toggleScoreDetails(item)} style={{
@@ -69,9 +68,7 @@ export default class AvgScoreDetails extends React.Component {
             </td>;
         });
         const headings = this.state.scoreList.map((item, index) => {
-            return <th className="avg-score-heading" key={"heading-" + item.get("id")} style={{
-                fontStyle: this.state.selectedScore == item.get("id") ? "italic" : "normal"
-            }}>{item.get("test_instance").get("test_class").get("class_name")}</th>;
+            return <th className="avg-score-heading" key={"heading-" + item.get("id")}>{item.get("test_instance").get("test_class").get("class_name")}</th>;
         });
 
         return (
