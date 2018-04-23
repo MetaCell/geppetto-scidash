@@ -37,6 +37,7 @@ export default class TestInstances extends React.Component {
             timestamp: " ",
             _timestamp: " "
         }
+
         this.autoCompleteDataTemplate = {
                 name: [],
                 score: [],

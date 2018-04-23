@@ -1,5 +1,6 @@
 import React from "react";
 import Helper from "../../../common/Helper";
+import $ from "jquery";
 
 export default class ScidashModelDetailLinkColumn extends React.Component {
     constructor(props, context){
@@ -19,7 +20,7 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
         }
 
         return (
-            <div className="build-info-cell">
+            <div className="build-info-cell" title={this.props.value}>
                 <i className={`fa ${iconClass}`}></i> {this.props.value}
             </div>
         )
