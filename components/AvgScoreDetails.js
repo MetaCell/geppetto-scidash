@@ -20,7 +20,6 @@ export default class AvgScoreDetails extends React.Component {
             selectedScore: null
         }
         this.updateScoreDetails = this.updateScoreDetails.bind(this);
-        console.log(this.state);
     }
 
     updateScoreDetails(score){

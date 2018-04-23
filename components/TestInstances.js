@@ -13,13 +13,18 @@ import BackendService from '../common/BackendService';
 import ScidashFilterCell from './common/griddle/ScidashFilterCell';
 import ScidashDateRangeCell from './common/griddle/ScidashDateRangeCell';
 
+import Helper from '../common/Helper';
 import ScidashModelDetailLinkColumn from './common/griddle/ScidashModelDetailLinkColumn';
 import ScidashScoreDetailLinkColumn from './common/griddle/ScidashScoreDetailLinkColumn';
+import ScidashBuildInfoColumn from './common/griddle/ScidashBuildInfoColumn';
 
 
 export default class TestInstances extends React.Component {
     constructor(props, context) {
         super(props, context);
+
+        this.helper = new Helper()
+
         this.dataTemplate = {
             name: " ",
             score_type: " ",
@@ -102,14 +107,11 @@ export default class TestInstances extends React.Component {
         GEPPETTO.off(Scidash.COLOR_MAP_TOGGLED, this.toggleColorBlind, this)
     }
 
-    load(filters, withLoading) {
-        if (typeof filters != "undefined"){
+    load(filters = null, withLoading = true) {
+        if (filters !== null){
             this.filters = _.extend(this.filters, filters)
         }
 
-        if (typeof withLoading == "undefined"){
-            withLoading = true;
-        }
         let scoreData = [];
         let autoCompleteData = {};
 
@@ -345,6 +347,7 @@ export default class TestInstances extends React.Component {
                         <ColumnDefinition
                             id="build_info"
                             title="Build Info"
+                            customComponent={ScidashBuildInfoColumn}
                             customHeadingComponent={(props) => <ScidashFilterCell
                                     parent={this}
                                     filterName="build_info"

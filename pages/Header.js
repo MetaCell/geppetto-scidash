@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
 import {Card, CardText} from 'material-ui/Card';
 
 import ColorMapToggle from '../components/common/scidash/ColorMapToggle';
@@ -103,7 +104,7 @@ export default class Header extends React.Component {
                     </div>
                 </div>
                 <div id="headerSocialLinks" style={this.headerLinksStyle}>
-                    <button><i className="fa fa-cog" onClick={this.toggleSettings}></i></button>
+                    <RaisedButton onClick={this.toggleSettings} icon={<FontIcon className="fa fa-cog" style={{ padding: 5 }}/>} />
                     <Card style={this.settingsPopupStyle}>
                         <CardText>
                             <ColorMapToggle />
