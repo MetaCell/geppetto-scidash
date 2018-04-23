@@ -35,7 +35,7 @@ export default class Header extends React.Component {
         this.settingsPopupStyle = {
             position: "absolute",
             top: "0px",
-            right: "45px",
+            right: "95px",
             width: "150px",
             zIndex: "100"
         }
