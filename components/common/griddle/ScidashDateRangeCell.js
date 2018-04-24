@@ -43,6 +43,10 @@ export default class ScidashDateRangeCell extends React.Component {
 
     }
 
+    componentDidMount(){
+        $(".date-range-tooltip").tooltip()
+    }
+
     clear(event){
         event.stopPropagation()
         this.setState({
@@ -65,7 +69,7 @@ export default class ScidashDateRangeCell extends React.Component {
                 {this.props.title} {clearButton} {this.props.icon}
                 </p>
 
-                <div className="datepicker-wrapper">
+                <div className="datepicker-wrapper date-range-tooltip" title="From">
                     <DatePicker
                         hintText="From"
                         title="From"
@@ -85,11 +89,11 @@ export default class ScidashDateRangeCell extends React.Component {
                     />
                 </div>
 
-                <div className="datepicker-wrapper">
+                <div className="datepicker-wrapper date-range-tooltip" title="To">
                     <DatePicker
                         hintText="To"
                         title="To"
-                        className="scidash-materialui-field"
+                        className="scidash-materialui-field date-range-tooltip"
                         onClick={(event) => event.stopPropagation()}
                         style={this.styleWrapper}
                         textFieldStyle={this.styleTextField}

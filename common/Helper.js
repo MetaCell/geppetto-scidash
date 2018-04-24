@@ -39,4 +39,20 @@ export default class Helper {
         }
 
     }
+
+    getOSIconClass(osName = null){
+
+        switch(osName){
+            case "OSX":
+            case "Darwin":
+                return "fa-apple";
+            case "Linux":
+                return "fa-linux";
+            case "Windows":
+                return "fa-windows";
+            default:
+                return "";
+        }
+
+    }
 }
