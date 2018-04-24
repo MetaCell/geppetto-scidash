@@ -9,6 +9,10 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
         this.helper = new Helper();
     }
 
+    componentDidMount(){
+        $(".build-info-cell").tooltip()
+    }
+
     render(){
         let buildInfoRegex = /(.+)(\/)(\w+)/;
         let buildInfoResult = null;
