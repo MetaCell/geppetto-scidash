@@ -27,22 +27,23 @@ export default class Header extends React.Component {
 
         this.headerLinksStyle = {
             position: "fixed",
-            top: "25px",
-            right: "80px",
-            fontSize: "26px"
+            top: 25,
+            right: 80,
+            fontSize: 26
         }
 
         this.settingsPopupStyle = {
             position: "absolute",
-            top: "0px",
-            right: "95px",
-            width: "150px",
-            zIndex: "100"
+            top: 0,
+            right: 95,
+            width: 150,
+            zIndex: 100
         }
 
         this.buttonsStyle = {
             position: "relative",
-            left: "62px"
+            left: 62,
+            minWidth: 270
         }
 
         this.toggleSettings = this.toggleSettings.bind(this);

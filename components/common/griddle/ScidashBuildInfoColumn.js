@@ -10,7 +10,9 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
     }
 
     componentDidMount(){
-        $(".build-info-cell").tooltip()
+        // sad fix for weird React lifecycle bug :(,
+        // pls, someone, check how it works without setTimeout from time to time
+        setTimeout(() => $(".build-info-cell").tooltip(), 400)
     }
 
     render(){
