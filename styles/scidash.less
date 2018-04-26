@@ -1,3 +1,223 @@
-#mainContainer{
-    color: white;
+@import "colors";
+
+body {
+    background: #ada996; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #ada996, #f2f2f2, #dbdbdb, #eaeaea); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #ada996, #f2f2f2, #dbdbdb, #eaeaea); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.mainContainer{
+    margin: 0 auto;
+    height: 100%;
+    min-height: 100%;
+    font-size: 16px;
+}
+
+.midContainer {
+    width: 100%;
+    padding: 2%;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 60px;
+    z-index: 100 !important;
+    overflow-y: scroll;
+}
+
+#header {
+    color: @secondary_color;
+
+    a {
+        color: @secondary_color !important;
+    }
+
+    a:hover {
+        color: @primary_color !important;
+    }
+}
+
+#headerSocialLinks {
+    z-index: 110;
+    text-align: right;
+    > a, > span {
+        margin: 0 5px;
+    }
+}
+
+#headerLinks {
+    font-size: 0.9em;
+    font-weight: 400;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 32px;
+    height: 30px;
+    text-align: center;
+    letter-spacing: 1px;
+
+    .activeImageHeader {
+        position: relative;
+    }
+
+    a {
+        margin: 0px 10px;
+    }
+}
+
+#scidash-logo {
+    background-image: url('../pages/images/scidash_logo.png');
+    background-size: 100% 100%;
+    height: 47px;
+    width: 160.5px;
+    position: fixed;
+    top: 21px;
+    left: 10px;
+}
+
+#footer-scidash {
+    color: @secondary_color;
+    font-weight: 500;
+    clear: both;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    z-index: 10;
+    height: 60px;
+    margin-top: -60px;
+    font-size: 0.75em;
+
+    #footerLinks {
+        border-bottom: 1px solid;
+        border-top: 1px solid;
+        padding: 4px;
+        text-align: center;
+
+        a {
+            color: @secondary_color;
+            margin: 0px 10px;
+        }
+
+        a:hover {
+            color: @primary_color;
+        }
+    }
+    #footerDate {
+        margin-top: 8px;
+        text-align: center;
+    }
+}
+
+.scidash-table {
+    color: @secondary_color;
+    .scidash-table-heading-cell{
+        vertical-align:top;
+        text-align: left;
+    }
+    .filter-label {
+        padding: 0px 10px;
+        font-weight: normal;
+        float:left;
+    }
+    tbody {
+        font-size: 13px;
+    }
+    .griddle-cell {
+        border-top:1px solid #aaa;
+    }
+}
+
+.scidash-materialui-field {
+    float:right;
+    div{
+        display:none;
+    }
+    input {
+        box-shadow: none;
+    }
+}
+
+.datepicker-wrapper {
+    float:left;
+}
+
+.griddle-cell {
+    position:relative;
+}
+
+.griddle-pagination {
+    text-align: center;
+}
+
+#colorMapGradientLabel {
+    width: 100%;
+    height: 10px;
+}
+
+.colorBlindGradient {
+    background: linear-gradient(to right, yellow, blue);
+}
+
+.defaultGradient {
+    background: linear-gradient(to right, red , green);
+}
+
+#controlsContainer {
+    width: 100%;
+    text-align: left;
+}
+
+/* Input fields adjustments */
+.scidash-materialui-field {
+    font-size: 13px !important;
+    font-weight: normal !important;
+    padding-left: 3px !important;
+}
+
+/* Autosuggest adjustments */
+span[role=menuitem]{
+    font-size: 13px !important;
+    min-height: 30px !important;
+    line-height: 30px !important;
+
+    div div {
+        padding: 0px 5px 0px 5px !important;
+    }
+}
+
+div[role=menu]{
+    padding: 0px !important;
+}
+
+.suites-table{
+    width:900px;
+    margin:0 auto;
+}
+
+.centered-modal {
+    position: fixed !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    overflow-y: scroll;
+}
+
+.loading-spinner {
+    width: 64px;
+    height: 64px;
+    text-align: center;
+    overflow: visible;
+}
+
+.avg-score-heading {
+    word-wrap: break-word;
+    max-width: 150px;
+}
+
+.build-info-cell {
+    width: 100px;
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

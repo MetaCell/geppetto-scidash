@@ -1,25 +1,66 @@
-define(function (require) {
+import React, { Component } from 'react';
+import TestInstances from '../../components/TestInstances';
+import TestSuites from '../../components/TestSuites';
+import { grey500, blueGrey900, grey400 } from 'material-ui/styles/colors';
 
-    var React = require('react');
-    var Example = require('../../components/Example')
-    var Link = require('react-router-dom').Link;
-    var home = React.createClass({
+import GEPPETTO from 'geppetto';
+import Scidash from '../../common/Scidash';
 
-        render() {
-            return (
-                <div>
-                    <Example />
-                    <div>
-                        <h2>HOME PAGE</h2>
-                    </div>
-                    <div>
-                        <Link to='/other'>Other</Link>
-                    </div>
-                </div>
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
-            );
+
+export default class Home extends React.Component {
+
+    constructor(props, context){
+        super(props, context);
+
+        this.state = {
+            testsActive: true,
+            suitesActive: false,
+            colorBlind: false
         }
-    });
+    }
 
-    return home;
-});
+    componentDidMount(){
+        GEPPETTO.on(Scidash.TESTS_PAGE_ACTIVATED, this.openTestsPage, this);
+        GEPPETTO.on(Scidash.SUITES_PAGE_ACTIVATED, this.openSuitesPage, this);
+    }
+
+    componentWillUnmount(){
+        GEPPETTO.off(Scidash.TESTS_PAGE_ACTIVATED, this.openTestsPage, this);
+        GEPPETTO.off(Scidash.SUITES_PAGE_ACTIVATED, this.openSuitesPage, this);
+    }
+
+    openTestsPage(colorBlind){
+        this.setState({
+            testsActive: true,
+            suitesActive: false,
+            colorBlind: colorBlind
+        });
+    }
+
+    openSuitesPage(colorBlind){
+        this.setState({
+            testsActive: false,
+            suitesActive: true,
+            colorBlind: colorBlind
+        });
+    }
+
+    render() {
+        let currentPage = null;
+
+        if (this.state.testsActive)
+            currentPage = <TestInstances colorBlind={this.state.colorBlind}/>
+        if (this.state.suitesActive)
+            currentPage = <TestSuites colorBlind={this.state.colorBlind}/>
+
+        return (
+            <div>
+                {currentPage}
+            </div>
+        );
+    }
+}
+

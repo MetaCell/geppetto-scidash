@@ -1,34 +1,25 @@
-define(function (require) {
+import React from 'react';
+import Home from './home/Home';
+import Header from './Header';
+import Footer from './Footer';
 
-    var React = require('react');
-    var Route = require('react-router-dom').Route;
 
-    var Home = require('./home/Home');
-    var Other = require('./other/Other');
-    
-    var Header = require('./Header');
-    var Footer = require('./Footer');
+export default class MainTemplate extends React.Component {
 
-    var mainTemplate = React.createClass({
-        render() {
-            return (
-                <div id="scidashContainer">
-                    <div id="innerContainer">
-                        <Header/>
-
-                        <div id="midContainer">
-                            <Route path={'/'} component={Home} exact/>
-                            <Route path={'/other'} component={Other} />
+    render() {
+        return (
+            <div className="mainContainer">
+                <Header/>
+                <div className="midContainer">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <Home />
                         </div>
-                        
                     </div>
-
-                    <Footer/>
-                    
                 </div>
-            );
-        }
-    });
+                <Footer/>
+            </div>
+        );
+    }
 
-    return mainTemplate;
-});
+};
