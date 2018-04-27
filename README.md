@@ -1,8 +1,8 @@
 # geppetto-scidash
 
-This repository contains the Geppetto extension for SciDash. This extension is designed to work with the Scidash backend app (see [README](https://github.com/MetaCell/scidash on that repo) for further details of how it all ties together). 
+This repository contains the Geppetto extension for SciDash. This extension is designed to work with the Scidash backend app (see README on https://github.com/MetaCell/scidash for further details of how it all ties together). 
 
-The extension needs to be cloned into the Scidash static folder, after cloning the geppetto frontend, to the path `org.geppetto.frontend/src/main/webapp/extensions/geppetto-scidash` and enabled with the following `GeppettoConfiguration.json` (this file resides in the Geppetto webapp folder):
+The extension needs to be cloned into the Scidash django-app static folder, after cloning the geppetto frontend, to the path `org.geppetto.frontend/src/main/webapp/extensions/` and enabled with the following `GeppettoConfiguration.json` (this file resides in the Geppetto webapp folder):
 
 ```json
 {
