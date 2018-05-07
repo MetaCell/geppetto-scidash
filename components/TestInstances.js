@@ -17,6 +17,7 @@ import Helper from '../common/Helper';
 import ScidashModelDetailLinkColumn from './common/griddle/ScidashModelDetailLinkColumn';
 import ScidashScoreDetailLinkColumn from './common/griddle/ScidashScoreDetailLinkColumn';
 import ScidashBuildInfoColumn from './common/griddle/ScidashBuildInfoColumn';
+import ScidashTimestampColumn from './common/griddle/ScidashTimestampColumn';
 
 
 export default class TestInstances extends React.Component {
@@ -148,7 +149,12 @@ export default class TestInstances extends React.Component {
                         timeZone: 'UTC',
                         timeZoneName: 'short'
                     };
-                    let formattedDate = new Date(score.timestamp).toLocaleString('en-US', options);
+                    let fullDate = new Date(score.timestamp).toLocaleString('en-US', options);
+                    let shortDate = new Date(score.timestamp).toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
 
                     scoreData.push({
                         name: score.test_instance.test_class.class_name,
@@ -160,7 +166,7 @@ export default class TestInstances extends React.Component {
                         hostname: score.test_instance.hostname,
                         owner: score.owner.username,
                         build_info: score.test_instance.build_info,
-                        timestamp: formattedDate,
+                        timestamp: {full: fullDate, short: shortDate},
                         _timestamp: score.timestamp
                     });
                 }
@@ -359,6 +365,8 @@ export default class TestInstances extends React.Component {
                             id="timestamp"
                             sortMethod={this.sortTimestamp}
                             title="Timestamp"
+                            width="100px"
+                            customComponent={ScidashTimestampColumn}
                             customHeadingComponent={(props) => <ScidashDateRangeCell
                                     parent={this}
                                     filterNameFrom="timestamp_after"

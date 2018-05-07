@@ -18,7 +18,7 @@ export default class Helper {
         let decreasingValue = 255;
         let growingValue = 255;
 
-        if (typeof sortKey != "undefined"){
+        if (typeof sortKey != "undefined" && !isNaN(sortKey)){
             sortKeyRounded = sortKey.toFixed(2);
             percents = sortKeyRounded * 100;
             decreasingValue = Math.floor(255 - (255 / 100 * percents));
