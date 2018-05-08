@@ -12,6 +12,7 @@ import ScidashDateRangeCell from './common/griddle/ScidashDateRangeCell';
 
 import ScidashAvgScoreDetailLinkColumn from '../components/common/griddle/ScidashAvgScoreDetailLinkColumn';
 import ScidashModelDetailLinkColumn from './common/griddle/ScidashModelDetailLinkColumn';
+import ScidashTimestampColumn from './common/griddle/ScidashTimestampColumn';
 
 
 export default class TestSuites extends React.Component {
@@ -125,7 +126,15 @@ export default class TestSuites extends React.Component {
 
             result[modelSuiteKey]['avgScore']['scoreList'].push(score)
             result[modelSuiteKey]['testsCount'] = result[modelSuiteKey]['avgScore']['scoreList'].length;
-            result[modelSuiteKey]['timestamp'] = new Date(suiteTimestamp).toLocaleString('en-US', options);
+
+            let fullDate = new Date(suiteTimestamp).toLocaleString('en-US', options);
+            let shortDate = new Date(suiteTimestamp).toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            result[modelSuiteKey]['timestamp'] = {full: fullDate, short: shortDate};
             result[modelSuiteKey]['_timestamp'] = suiteTimestamp;
         }
 
@@ -269,9 +278,10 @@ export default class TestSuites extends React.Component {
                             order={4} />
                         <ColumnDefinition
                             id="timestamp"
-                            width="250px"
+                            width="100px"
                             sortMethod={this.sortTimestamp}
                             title="Timestamp"
+                            customComponent={ScidashTimestampColumn}
                             customHeadingComponent={(props) => <ScidashDateRangeCell
                                 parent={this}
                                 filterNameFrom="timestamp_before"
