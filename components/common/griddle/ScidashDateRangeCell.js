@@ -36,7 +36,7 @@ export default class ScidashDateRangeCell extends React.Component {
         }
 
         this.styleWrapper = {
-            margin: "0px 10px 0px 0px"
+            margin: "0px 1px 0px 0px"
         }
 
         this.clear = this.clear.bind(this);
@@ -64,48 +64,52 @@ export default class ScidashDateRangeCell extends React.Component {
         let clearButton = this.state.changed ? <button onClick={this.clear}> Reset</button> : "";
 
         return (
-            <span>
+            <span style={{
+                textAlign: "center"
+            }}>
                 <p>
-                {this.props.title} {clearButton} {this.props.icon}
+                    {this.props.title} {clearButton} {this.props.icon}
                 </p>
 
-                <div className="datepicker-wrapper date-range-tooltip" title="From">
-                    <DatePicker
-                        hintText="From"
-                        title="From"
-                        onClick={(event) => event.stopPropagation()}
-                        className="scidash-materialui-field"
-                        style={this.styleWrapper}
-                        textFieldStyle={this.styleTextField}
-                        value={this.state.valueFrom}
-                        onChange={(event, date) => {
-                            this.changed = true;
-                            this.parent.onFilter(date.toISOString(), this.filterNameFrom);
-                            this.setState({
-                                valueFrom: date,
-                                changed: true
-                            });
-                        }}
-                    />
-                </div>
+                <div className="datepicker-wrapper">
+                    <div className=" date-range-tooltip" title="From">
+                        <DatePicker
+                            hintText="From"
+                            title="From"
+                            onClick={(event) => event.stopPropagation()}
+                            className="scidash-materialui-field"
+                            style={this.styleWrapper}
+                            textFieldStyle={this.styleTextField}
+                            value={this.state.valueFrom}
+                            onChange={(event, date) => {
+                                this.changed = true;
+                                this.parent.onFilter(date.toISOString(), this.filterNameFrom);
+                                this.setState({
+                                    valueFrom: date,
+                                    changed: true
+                                });
+                            }}
+                        />
+                    </div>
 
-                <div className="datepicker-wrapper date-range-tooltip" title="To">
-                    <DatePicker
-                        hintText="To"
-                        title="To"
-                        className="scidash-materialui-field date-range-tooltip"
-                        onClick={(event) => event.stopPropagation()}
-                        style={this.styleWrapper}
-                        textFieldStyle={this.styleTextField}
-                        value={this.state.valueTo}
-                        onChange={(event, date) => {
-                            this.parent.onFilter(date.toISOString(), this.filterNameTo);
-                            this.setState({
-                                valueTo: date,
-                                changed: true
-                            });
-                        }}
-                    />
+                    <div className="date-range-tooltip" title="To">
+                        <DatePicker
+                            hintText="To"
+                            title="To"
+                            className="scidash-materialui-field date-range-tooltip"
+                            onClick={(event) => event.stopPropagation()}
+                            style={this.styleWrapper}
+                            textFieldStyle={this.styleTextField}
+                            value={this.state.valueTo}
+                            onChange={(event, date) => {
+                                this.parent.onFilter(date.toISOString(), this.filterNameTo);
+                                this.setState({
+                                    valueTo: date,
+                                    changed: true
+                                });
+                            }}
+                        />
+                    </div>
                 </div>
 
             </span>
