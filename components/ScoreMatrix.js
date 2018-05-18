@@ -1,4 +1,6 @@
 import React from "react";
+import {Card, CardText} from 'material-ui/Card';
+import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import BackendService from "../common/BackendService";
@@ -17,6 +19,7 @@ export default class ScoreMatrix extends React.Component {
 
         this.state = {
             scoreMatrix: {},
+            showLoading: false
         }
 
         this.showAll = this.showAll.bind(this)
@@ -30,9 +33,16 @@ export default class ScoreMatrix extends React.Component {
         if (!hash)
             return;
 
+        this.setState({
+            showLoading: true
+        })
+
         BackendService.score.getAll({
             suite_hash: hash
         }).then((results) => {
+            this.setState({
+                showLoading: false
+            })
             this.scores = results["scores"];
             this.buildMatrix(this.scores);
         })
@@ -59,7 +69,7 @@ export default class ScoreMatrix extends React.Component {
 
         for (let score of scoreList){
             let modelName = score.model_instance.model_class.class_name;
-            let testName = score.test_instance.test_class.class_name;
+            let testHashId = score.test_instance.hash_id;
 
             if (this.hiddenModels.includes(modelName)){
                 continue;
@@ -68,10 +78,7 @@ export default class ScoreMatrix extends React.Component {
             if (!(modelName in scoreMatrix.rows))
                 scoreMatrix.rows[modelName] = new Map()
 
-            if (!(scoreMatrix.rows[modelName].has(`${testName.replace(" ", "_")}_${score.id}`)))
-                scoreMatrix.rows[modelName].set(`${testName.replace(" ", "_")}_${score.id}`, null);
-
-            scoreMatrix.rows[modelName].set(`${testName.replace(" ", "_")}_${score.id}`, score);
+            scoreMatrix.rows[modelName].set(testHashId, score);
         }
 
         let biggestRow = new Map();
@@ -84,7 +91,10 @@ export default class ScoreMatrix extends React.Component {
             scoreMatrix["headings"] = [];
 
             for (let item of biggestRow.entries()){
-                scoreMatrix.headings.push(item[1].test_instance.test_class.class_name);
+                scoreMatrix.headings.push({
+                    title: item[1].test_instance.test_class.class_name,
+                    id: item[1].test_instance.hash_id
+                });
             }
         }
 
@@ -94,30 +104,57 @@ export default class ScoreMatrix extends React.Component {
     }
 
     render(){
+        const loader = this.state.showLoading ? <i className="fa fa-cog fa-4x fa-spin centered-modal loading-spinner" style={{
+            top:"30%"
+        }}></i> : "";
+
         return (
-            <table className="table">
-                <thead>
-                    <tr>
-                        {this.state.scoreMatrix.headings && <th></th>}
-                        {this.state.scoreMatrix.headings && this.state.scoreMatrix.headings.map((heading, index) => <th key={index}>{heading}</th>)}
-                        <th style={{ textAlign: "center" }}>
-                            {this.hiddenModels.length > 0 && <RaisedButton onClick={this.showAll} label="Show all" />}
-                        </th>
-                    </tr>
-            </thead>
-            <tbody>
-                {this.state.scoreMatrix.rows && Object.keys(this.state.scoreMatrix.rows).map((key, index) => {
-                    return (<tr key={index}>
-                        <td>{key}</td>
-                    {[...this.state.scoreMatrix.rows[key]].map((score, index) => <td style={{
-                        background: this.helper.getBackground(score[1].sort_key, this.props.colorBlind),
-                        color: "white"
-                    }} key={score[0]}>{score[1].sort_key.toFixed(2)}</td> )}
-                <td style={{padding: 0}}><i onClick={() => this.hideRow(key)} className="fa fa-eye eye-icon"></i></td>
-            </tr>)
-                })}
-            </tbody>
-        </table>
+            <Card>
+                <CardText>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                {this.state.scoreMatrix.headings && <th></th>}
+                                {this.state.scoreMatrix.headings && this.state.scoreMatrix.headings.map((heading, index) => <th key={index}>{heading.title}</th>)}
+                                <th style={{ textAlign: "right" }}>
+                                    {this.hiddenModels.length > 0 && <RaisedButton onClick={this.showAll} icon={<FontIcon className="fa fa-eye" style={{ padding: 5 }}/>}/>}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.scoreMatrix.rows && Object.keys(this.state.scoreMatrix.rows).map((key, index) => {
+                                return (<tr key={index}>
+                                    <td>{key}</td>
+
+                                {this.state.scoreMatrix.headings.map((heading, index) => {
+
+                                    let score = this.state.scoreMatrix["rows"][key].get(heading.id)
+
+                                    if (score != "undefined"){
+                                        return (<td
+                                            style={{
+                                                background: this.helper.getBackground(score.sort_key, this.props.colorBlind),
+                                                color: "white"
+                                            }}
+                                            key={index}>{score.sort_key.toFixed(2)}
+                                        </td>);
+                                    } else {
+                                        return (<td> None </td>);
+                                    }
+                                })}
+
+                                <td style={{
+                                    padding: 0,
+                                    textAlign: "right",
+                                    width: "10%"
+                                }}><i onClick={() => this.hideRow(key)} className="fa fa-eye-slash eye-icon"></i></td>
+                        </tr>)
+                            })}
+                        </tbody>
+                    </table>
+                    {loader}
+                </CardText>
+            </Card>
         )
     }
 }
