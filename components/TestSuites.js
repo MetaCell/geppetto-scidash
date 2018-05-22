@@ -40,6 +40,7 @@ export default class TestSuites extends React.Component {
             autoCompleteData: this.autoCompleteDataTemplate,
             colorBlind: props.colorBlind
         }
+
         this.griddleComponents = {
             Filter: () => null,
             SettingsToggle: () => null,
@@ -48,7 +49,6 @@ export default class TestSuites extends React.Component {
                     return <RaisedButton label={props.text} onClick={props.getNext} style={{
                         marginLeft: "10px"
                     }}/>;
-
                 return null;
             },
             PreviousButton: (props) => {
@@ -56,16 +56,17 @@ export default class TestSuites extends React.Component {
                     return <RaisedButton label={props.text} onClick={props.getPrevious} style={{
                         marginRight: "10px"
                     }}/>;
-
                 return null;
             }
         }
+
         this.styleConfig = {
             classNames: {
                 Table: 'table scidash-table suites-table',
                 TableHeadingCell: 'scidash-table-heading-cell'
             }
         }
+
         this.filters = {
             with_suites: true
         };
