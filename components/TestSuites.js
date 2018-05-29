@@ -13,13 +13,14 @@ import ScidashDateRangeCell from './common/griddle/ScidashDateRangeCell';
 import ScidashAvgScoreDetailLinkColumn from '../components/common/griddle/ScidashAvgScoreDetailLinkColumn';
 import ScidashModelDetailLinkColumn from './common/griddle/ScidashModelDetailLinkColumn';
 import ScidashTimestampColumn from './common/griddle/ScidashTimestampColumn';
+import ScidashSuiteNameLinkColumn from './common/griddle/ScidashSuiteNameLinkColumn';
 
 
 export default class TestSuites extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.dataTemplate = {
-            suite: " ",
+            suiteObject: " ",
             avgScore: [],
             testsCount: "",
             model: {},
@@ -27,7 +28,7 @@ export default class TestSuites extends React.Component {
             _timestamp: " "
         }
         this.autoCompleteDataTemplate = {
-            suite: [],
+            suiteObject: [],
             avgScore: [],
             testsCount: [],
             model: [],
@@ -39,6 +40,7 @@ export default class TestSuites extends React.Component {
             autoCompleteData: this.autoCompleteDataTemplate,
             colorBlind: props.colorBlind
         }
+
         this.griddleComponents = {
             Filter: () => null,
             SettingsToggle: () => null,
@@ -47,7 +49,6 @@ export default class TestSuites extends React.Component {
                     return <RaisedButton label={props.text} onClick={props.getNext} style={{
                         marginLeft: "10px"
                     }}/>;
-
                 return null;
             },
             PreviousButton: (props) => {
@@ -55,16 +56,17 @@ export default class TestSuites extends React.Component {
                     return <RaisedButton label={props.text} onClick={props.getPrevious} style={{
                         marginRight: "10px"
                     }}/>;
-
                 return null;
             }
         }
+
         this.styleConfig = {
             classNames: {
                 Table: 'table scidash-table suites-table',
                 TableHeadingCell: 'scidash-table-heading-cell'
             }
         }
+
         this.filters = {
             with_suites: true
         };
@@ -108,6 +110,7 @@ export default class TestSuites extends React.Component {
 
         for (let score of scores){
             let suiteName = score.test_instance.test_suites[0].name;
+            let suiteObject = score.test_instance.test_suites[0];
             let suiteTimestamp = score.test_instance.test_suites[0].timestamp;
             let modelName = score.model_instance.model_class.class_name;
             let modelSuiteKey = suiteName + "_" + modelName;
@@ -116,6 +119,7 @@ export default class TestSuites extends React.Component {
                 result[modelSuiteKey] = {};
 
             result[modelSuiteKey]['suite'] = suiteName;
+            result[modelSuiteKey]['suiteObject'] = suiteObject;
             result[modelSuiteKey]['model'] = score.model_instance;
 
             if (!('avgScore' in result[modelSuiteKey]))
@@ -181,8 +185,16 @@ export default class TestSuites extends React.Component {
                         autoCompleteData[key] = [];
 
                         for (let item of suiteData){
-                            if (!autoCompleteData[key].includes(item[key]))
-                                autoCompleteData[key].push(item[key]);
+                                switch(key){
+                                    case "suiteObject":
+                                        if (!autoCompleteData[key].includes(item[key].name))
+                                            autoCompleteData[key].push(item[key].name);
+                                        break;
+                                    default:
+                                        if (!autoCompleteData[key].includes(item[key]))
+                                            autoCompleteData[key].push(item[key]);
+                                        break;
+                                }
                         }
                     }
                     this.setState({
@@ -248,8 +260,12 @@ export default class TestSuites extends React.Component {
                     pageProperties={pageProperties} >
                     <RowDefinition>
                         <ColumnDefinition
-                            id="suite"
+                            id="suiteObject"
                             title="Name"
+                            customComponent={(props) => <ScidashSuiteNameLinkColumn
+                                    parent={this}
+                                    {...props}
+                                    /> }
                             customHeadingComponent={(props) => <ScidashFilterCell
                                 parent={this}
                                 filterName="by_suite_name"
