@@ -81,11 +81,11 @@ export default class ScoreMatrix extends React.Component {
         })
     }
 
-    hideRow(modelName){
-        if (this.hiddenModels.includes(modelName))
+    hideRow(modelInstanceName){
+        if (this.hiddenModels.includes(modelInstanceName))
             return;
 
-        this.hiddenModels = [modelName, ...this.hiddenModels];
+        this.hiddenModels = [modelInstanceName, ...this.hiddenModels];
 
         this.buildTableData(this.scores);
     }
@@ -101,29 +101,34 @@ export default class ScoreMatrix extends React.Component {
             headings: [
                 {
                     title: "model_name",
-                    id: "modelName"
+                    id: "modelInstanceName"
                 }
             ]
         };
 
         for (let score of scoreList){
-            let modelName = score.model_instance.model_class.class_name;
+            let modelInstanceName = score.model_instance.name;
+            let modelInstanceId = score.model_instance.id;
             let testHashId = score.test_instance.hash_id;
+            let modelKey = `${modelInstanceName}_${modelInstanceId}`;
 
-            if (this.hiddenModels.includes(modelName)){
+            if (this.hiddenModels.includes(modelKey)){
                 continue;
             }
 
-            if (!(modelName in scoreMatrix.rows))
-                scoreMatrix.rows[modelName] = new Map()
+            if (!(modelKey in scoreMatrix.rows))
+                scoreMatrix.rows[modelKey] = {
+                    title: modelInstanceName,
+                    info: new Map()
+                }
 
-            scoreMatrix.rows[modelName].set(testHashId, score);
+            scoreMatrix.rows[modelKey]["info"].set(testHashId, score);
         }
 
         let biggestRow = new Map();
         for (let row of Object.values(scoreMatrix.rows)){
-            if (row.size > biggestRow.size)
-                biggestRow = row;
+            if (row["info"].size > biggestRow.size)
+                biggestRow = row["info"];
         }
 
         if (biggestRow.size > 0){
@@ -153,10 +158,10 @@ export default class ScoreMatrix extends React.Component {
             let rowData = {};
 
             for (let heading of scoreMatrix.headings){
-                if (heading.id != "modelName")
-                    rowData[heading.id] = scoreMatrix["rows"][key].get(heading.id);
+                if (heading.id != "modelInstanceName")
+                    rowData[heading.id] = scoreMatrix["rows"][key]["info"].get(heading.id);
                 else
-                    rowData["modelName"] = key;
+                    rowData["modelInstanceName"] = scoreMatrix["rows"][key]["title"];
             }
 
             rowData["hideButtons"] = key;
@@ -167,6 +172,8 @@ export default class ScoreMatrix extends React.Component {
         this.setState({
             scoreMatrix: scoreMatrix,
             tableData: this.tableData
+        }, () => {
+            $(".eye-icon, button[title='Show all']").tooltip()
         });
     }
 
@@ -178,14 +185,17 @@ export default class ScoreMatrix extends React.Component {
             }
 
             const ScoreCell = ({value}) => <div style={{
-                background: this.helper.getBackground(value.get("sort_key")),
+                background: this.helper.getBackground(value.get("sort_key"), this.state.colorBlind),
                 color: "white",
                 padding: "8px",
                 margin : 0
             }}>{value.get("sort_key").toFixed(2)}</div>
 
-            const HideRowCell = ({value}) => <i onClick={() => this.hideRow(value)} className="fa fa-eye-slash eye-icon"></i>
-            const ShowAllHeading = ({value}) => <RaisedButton onClick={this.showAll} icon={<FontIcon className="fa fa-eye" style={{ padding: 5 }}/>}/>
+
+            const HideRowCell = ({value}) => <i onClick={() => this.hideRow(value)} className="fa fa-eye-slash eye-icon" title="Hide row"></i>
+                const ShowAllHeading = ({value}) => <RaisedButton style={ !this.hiddenModels.length ? {
+                display: "none"
+            } : {}} onClick={this.showAll} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5 }}/>} title="Show all"/>
 
             const griddleComponents = {
                 Filter: () => null,

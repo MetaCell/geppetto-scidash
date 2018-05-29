@@ -57,12 +57,14 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
             />,
         ];
 
-        let class_name = "";
+        let className = "";
         let modelObject = {};
+        let instanceName = "";
 
         if (typeof this.state.modelInstanceObject.get("model_class") != "undefined"){
             modelObject = this.state.modelInstanceObject.get("model_class");
-            class_name = modelObject.get("class_name");
+            className = modelObject.get("class_name");
+            instanceName = this.state.modelInstanceObject.get("name");
         }
 
         return (
@@ -72,9 +74,9 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
                         style={{
                             cursor: "pointer"
                         }}
-                    >{class_name}</a>
+                    >{className} {instanceName && `(${instanceName})`}</a>
                     <Dialog
-                        title={class_name + " details"}
+                        title={className + " details"}
                         actions={actions}
                         modal={true}
                         contentStyle={customContentStyle}

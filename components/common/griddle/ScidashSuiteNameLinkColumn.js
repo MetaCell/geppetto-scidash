@@ -76,7 +76,7 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
                     contentClassName="centered-modal"
                     open={this.state.open}
                 >
-                    <ScoreMatrix suite={this.props.value} colorBlind={this.props.parent.colorBlind}/>
+                    <ScoreMatrix suite={this.props.value} colorBlind={this.state.colorBlind}/>
                 </Dialog>
             </div>
         );
