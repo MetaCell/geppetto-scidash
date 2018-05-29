@@ -72,9 +72,9 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
                         style={{
                             cursor: "pointer"
                         }}
-                    >{class_name}</a>
+                    >{className} {instanceName && `(${instanceName})`}</a>
                     <Dialog
-                        title={class_name + " details"}
+                        title={className + " details"}
                         actions={actions}
                         modal={true}
                         contentStyle={customContentStyle}

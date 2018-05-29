@@ -109,16 +109,16 @@ export default class TestSuites extends React.Component {
         };
 
         for (let score of scores){
-            let suiteName = score.test_instance.test_suites[0].name;
+            let suiteHash = score.test_instance.test_suites[0].hash;
             let suiteObject = score.test_instance.test_suites[0];
             let suiteTimestamp = score.test_instance.test_suites[0].timestamp;
-            let modelName = score.model_instance.model_class.class_name;
-            let modelSuiteKey = suiteName + "_" + modelName;
+            let modelInstanceName = score.model_instance.name;
+            let modelSuiteKey = suiteHash + "_" + modelInstanceName;
 
             if(!(modelSuiteKey in result))
                 result[modelSuiteKey] = {};
 
-            result[modelSuiteKey]['suite'] = suiteName;
+            result[modelSuiteKey]['suite'] = suiteHash;
             result[modelSuiteKey]['suiteObject'] = suiteObject;
             result[modelSuiteKey]['model'] = score.model_instance;
 
