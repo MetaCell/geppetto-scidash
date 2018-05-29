@@ -57,12 +57,14 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
             />,
         ];
 
-        let class_name = "";
+        let className = "";
         let modelObject = {};
+        let instanceName = "";
 
         if (typeof this.state.modelInstanceObject.get("model_class") != "undefined"){
             modelObject = this.state.modelInstanceObject.get("model_class");
-            class_name = modelObject.get("class_name");
+            className = modelObject.get("class_name");
+            instanceName = this.state.modelInstanceObject.get("name");
         }
 
         return (
