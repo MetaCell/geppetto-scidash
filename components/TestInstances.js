@@ -97,6 +97,12 @@ export default class TestInstances extends React.Component {
             'timestamp_after': dateFrom.toISOString()
         };
 
+        let filters = new URLSearchParams(location.search);
+
+        for (let filter of filters){
+            this.filters[filter[0]]=filter[1]
+        }
+
         this.toggleColorBlind = this.toggleColorBlind.bind(this);
     }
 
@@ -180,6 +186,8 @@ export default class TestInstances extends React.Component {
                                 if (key == "model"){
                                     if (!autoCompleteData[key].includes(item[key]["model_class"]["class_name"]))
                                         autoCompleteData[key].push(item[key]["model_class"]["class_name"])
+                                    if (!autoCompleteData[key].includes(item[key]["name"]))
+                                        autoCompleteData[key].push(item[key]["name"])
                                 } else {
                                     if (!autoCompleteData[key].includes(item[key]))
                                         autoCompleteData[key].push(item[key]);
@@ -329,7 +337,7 @@ export default class TestInstances extends React.Component {
                             customComponent={ScidashModelDetailLinkColumn}
                             customHeadingComponent={(props) => <ScidashFilterCell
                                     parent={this}
-                                    filterName="model_class"
+                                    filterName="model_name"
                                     autoCompleteDataSource={[]}
                                     {...props} />
                             } order={6} />
