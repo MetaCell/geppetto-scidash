@@ -288,7 +288,7 @@ export default class TestSuites extends React.Component {
                             customComponent={ScidashModelDetailLinkColumn}
                             customHeadingComponent={(props) => <ScidashFilterCell
                                 parent={this}
-                                filterName="model_class"
+                                filterName="model_name"
                                 {...props} />
                             }
                             order={4} />
