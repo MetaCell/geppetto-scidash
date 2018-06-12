@@ -67,9 +67,27 @@ export default class TestSuites extends React.Component {
             }
         }
 
+        let dateFrom = new Date();
+        let dateTo = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+
+        dateFrom.setMonth(dateFrom.getMonth() - 1);
+        dateFrom.setHours(0, 0, 0, 0);
+        dateTo.setHours(0, 0, 0, 0);
+
         this.filters = {
-            with_suites: true
+            'timestamp_before': dateTo.toISOString(),
+            'timestamp_after': dateFrom.toISOString(),
+            'with_suites': true
         };
+
+        let filters = new URLSearchParams(location.search);
+
+        for (let filter of filters){
+            if (/^timestamp_/.test(filter))
+                this.filters[filter[0]]=new Date(filter[1]).toISOString()
+            else
+                this.filters[filter[0]]=filter[1]
+        }
 
         this.toggleColorBlind = this.toggleColorBlind.bind(this);
 
@@ -86,7 +104,7 @@ export default class TestSuites extends React.Component {
     }
 
     componentDidMount() {
-        this.load();
+        this.load(this.filters);
         GEPPETTO.on(Scidash.COLOR_MAP_TOGGLED, this.toggleColorBlind, this)
     }
 
@@ -300,8 +318,8 @@ export default class TestSuites extends React.Component {
                             customComponent={ScidashTimestampColumn}
                             customHeadingComponent={(props) => <ScidashDateRangeCell
                                 parent={this}
-                                filterNameFrom="timestamp_before"
-                                filterNameTo="timestamp_after"
+                                filterNameFrom="timestamp_after"
+                                filterNameTo="timestamp_before"
                                 {...props} />
                             } order={5} />
                         <ColumnDefinition

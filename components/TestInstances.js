@@ -100,7 +100,10 @@ export default class TestInstances extends React.Component {
         let filters = new URLSearchParams(location.search);
 
         for (let filter of filters){
-            this.filters[filter[0]]=filter[1]
+            if (/^timestamp_/.test(filter))
+                this.filters[filter[0]]=new Date(filter[1]).toISOString()
+            else
+                this.filters[filter[0]]=filter[1]
         }
 
         this.toggleColorBlind = this.toggleColorBlind.bind(this);
@@ -273,7 +276,6 @@ export default class TestInstances extends React.Component {
             colorBlind: !this.state.colorBlind
         });
     }
-
     render() {
         const customName = ({value}) => <div style={{paddingRight:"20px"}}>{value}</div>;
         const loader = this.state.showLoading ? <i className="fa fa-cog fa-4x fa-spin centered-modal loading-spinner" style={{
