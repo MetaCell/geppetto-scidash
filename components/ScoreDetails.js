@@ -18,6 +18,19 @@ export default class ScoreDetails extends React.Component {
         };
     }
 
+    getBuildInfoWithIcon(build_info){
+        let buildInfoRegex = /(.+)(\/)(\w+)/;
+        let buildInfoResult = null;
+        let iconClass = "";
+
+        if (buildInfoRegex.test(build_info)){
+            buildInfoResult = buildInfoRegex.exec(build_info)
+            iconClass = this.helper.getOSIconClass(buildInfoResult[3])
+        }
+
+        return (<span><i className={`fa ${iconClass}`}></i> {build_info}</span>)
+    }
+
     render(){
         let modelInstance = this.state.scoreInstance.get("model_instance");
 
@@ -83,11 +96,11 @@ export default class ScoreDetails extends React.Component {
                                     N/A
                                 </div>
                                 <div><strong>Build info: </strong>
-                                {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("build_info")) ? (
-                                    "None"
-                                ): (
-                                    this.state.scoreInstance.get("test_instance").get("build_info")
-                                )}
+                                    {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("build_info")) ? (
+                                        "None"
+                                    ): (
+                                        this.getBuildInfoWithIcon(this.state.scoreInstance.get("test_instance").get("build_info"))
+                                    )}
                                 </div>
                                 <div><strong>Hostname: </strong>
                                 {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("hostname")) ? (
