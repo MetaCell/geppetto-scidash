@@ -47,13 +47,17 @@ export default class Header extends React.Component {
         }
 
         this.toggleSettings = this.toggleSettings.bind(this);
+        this.wrapSettingsRef = this.wrapSettingsRef.bind(this);
+        this.handleClickOutsideSettings = this.handleClickOutsideSettings.bind(this);
     }
 
     componentDidMount(){
+        document.addEventListener('mousedown', this.handleClickOutsideSettings);
         GEPPETTO.on(Scidash.COLOR_MAP_TOGGLED, this.saveColorMapState, this)
     }
 
     componentWillUnmount(){
+        document.removeEventListener('mousedown', this.handleClickOutsideSettings);
         GEPPETTO.off(Scidash.COLOR_MAP_TOGGLED, this.saveColorMapState, this)
     }
 
@@ -67,6 +71,14 @@ export default class Header extends React.Component {
         this.setState({
             showSettings: !this.state.showSettings
         })
+    }
+
+    handleClickOutsideSettings(event){
+        if (this.wrapperSettings && !this.wrapperSettings.contains(event.target)) {
+            this.setState({
+                showSettings: false
+            })
+        }
     }
 
     openTestsPage(){
@@ -83,6 +95,10 @@ export default class Header extends React.Component {
             testsActive: false,
             suitesActive: true
         });
+    }
+
+    wrapSettingsRef(node){
+        this.wrapperSettings = node;
     }
 
     render() {
@@ -104,7 +120,7 @@ export default class Header extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div id="headerSocialLinks" style={this.headerLinksStyle}>
+                <div id="headerSocialLinks" style={this.headerLinksStyle} ref={this.wrapSettingsRef}>
                     <RaisedButton onClick={this.toggleSettings} icon={<FontIcon className="fa fa-cog" style={{ padding: 5 }}/>} />
                     <Card style={this.settingsPopupStyle}>
                         <CardText>
