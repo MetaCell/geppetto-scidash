@@ -93,8 +93,8 @@ export default class TestInstances extends React.Component {
         dateTo.setHours(0, 0, 0, 0);
 
         this.filters = {
-            'timestamp_before': dateTo.toISOString(),
-            'timestamp_after': dateFrom.toISOString()
+            'timestamp_to': dateTo.toISOString(),
+            'timestamp_from': dateFrom.toISOString()
         };
 
         let filters = new URLSearchParams(location.search);
@@ -300,7 +300,7 @@ export default class TestInstances extends React.Component {
                             customComponent={customName}
                             customHeadingComponent={(props) => <ScidashFilterCell
                                     parent={this}
-                                    filterName="score_name"
+                                    filterName="name"
                                     {...props} />
                             } order={1} />
                         <ColumnDefinition
@@ -324,22 +324,13 @@ export default class TestInstances extends React.Component {
                                     {...props} />
                             } order={3} />
                         <ColumnDefinition
-                            id="score_type"
-                            title="Score Type"
-                            customHeadingComponent={(props) => <ScidashFilterCell
-                                    filterName="score_type"
-                                    parent={this}
-                                    autoCompleteDataSource={[]}
-                                    {...props} />
-                            } order={3} />
-                        <ColumnDefinition
                             id="model"
                             title="Model"
                             sortMethod={this.sortModel}
                             customComponent={ScidashModelDetailLinkColumn}
                             customHeadingComponent={(props) => <ScidashFilterCell
                                     parent={this}
-                                    filterName="model_name"
+                                    filterName="model"
                                     autoCompleteDataSource={[]}
                                     {...props} />
                             } order={6} />
@@ -379,8 +370,8 @@ export default class TestInstances extends React.Component {
                             customComponent={ScidashTimestampColumn}
                             customHeadingComponent={(props) => <ScidashDateRangeCell
                                     parent={this}
-                                    filterNameFrom="timestamp_after"
-                                    filterNameTo="timestamp_before"
+                                    filterNameFrom="timestamp_from"
+                                    filterNameTo="timestamp_to"
                                     {...props} />
                             } order={10} />
                         <ColumnDefinition

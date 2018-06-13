@@ -75,8 +75,8 @@ export default class TestSuites extends React.Component {
         dateTo.setHours(0, 0, 0, 0);
 
         this.filters = {
-            'timestamp_before': dateTo.toISOString(),
-            'timestamp_after': dateFrom.toISOString(),
+            'timestamp_to': dateTo.toISOString(),
+            'timestamp_from': dateFrom.toISOString(),
             'with_suites': true
         };
 
@@ -168,11 +168,12 @@ export default class TestSuites extends React.Component {
         return list;
     }
 
-    load(filters) {
+    load(filters, withLoading = true) {
 
-        this.setState({
-            showLoading: true
-        })
+        if (withLoading)
+            this.setState({
+                showLoading: true
+            })
 
         if (typeof filters == "undefined"){
             filters = {
@@ -235,7 +236,7 @@ export default class TestSuites extends React.Component {
             this.filters[columnId] = value;
         }
 
-        this.load(this.filters);
+        this.load(this.filters, false);
     }
 
     sortTimestamp(data, column, sortAscending = false) {
@@ -279,14 +280,14 @@ export default class TestSuites extends React.Component {
                     <RowDefinition>
                         <ColumnDefinition
                             id="suiteObject"
-                            title="Name"
+                            title="Suite Name"
                             customComponent={(props) => <ScidashSuiteNameLinkColumn
                                     parent={this}
                                     {...props}
                                     /> }
                             customHeadingComponent={(props) => <ScidashFilterCell
                                 parent={this}
-                                filterName="by_suite_name"
+                                filterName="suite_name"
                                 {...props} />
                             } order={1} />
                         <ColumnDefinition
@@ -302,11 +303,11 @@ export default class TestSuites extends React.Component {
                             order={3} />
                         <ColumnDefinition
                             id="model"
-                            title="Model Name"
+                            title="Model"
                             customComponent={ScidashModelDetailLinkColumn}
                             customHeadingComponent={(props) => <ScidashFilterCell
                                 parent={this}
-                                filterName="model_name"
+                                filterName="model"
                                 {...props} />
                             }
                             order={4} />
@@ -318,8 +319,8 @@ export default class TestSuites extends React.Component {
                             customComponent={ScidashTimestampColumn}
                             customHeadingComponent={(props) => <ScidashDateRangeCell
                                 parent={this}
-                                filterNameFrom="timestamp_after"
-                                filterNameTo="timestamp_before"
+                                filterNameFrom="timestamp_from"
+                                filterNameTo="timestamp_to"
                                 {...props} />
                             } order={5} />
                         <ColumnDefinition
