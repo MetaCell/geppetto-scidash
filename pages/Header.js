@@ -22,6 +22,7 @@ export default class Header extends React.Component {
             colorBlind: false
         }
 
+
         this.openTestsPage = this.openTestsPage.bind(this)
         this.openSuitesPage = this.openSuitesPage.bind(this)
 
@@ -52,6 +53,23 @@ export default class Header extends React.Component {
     }
 
     componentDidMount(){
+        let pages = new URLSearchParams(location.search);
+        let currentPage = null;
+
+        for (let page of pages) {
+            if (page[0] == "page")
+                currentPage = page[1].toLowerCase();
+        }
+
+        if (currentPage != null){
+            if (currentPage == "tests")
+                this.openTestsPage()
+
+            if (currentPage == "suites")
+                this.openSuitesPage()
+
+        }
+
         document.addEventListener('mousedown', this.handleClickOutsideSettings);
         GEPPETTO.on(Scidash.COLOR_MAP_TOGGLED, this.saveColorMapState, this)
     }
