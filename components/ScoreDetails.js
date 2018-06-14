@@ -18,6 +18,27 @@ export default class ScoreDetails extends React.Component {
         };
     }
 
+    getBuildInfoWithIcon(build_info){
+        // Separating build info into 3 parts. 
+        // First is any symbol and number - (.+) 
+        // Than slash is going, but we have to add backslash cause slash in regex is reserved - (\/)
+        // And then actually what we searching for, name of the system, just a regular word - (\w+)
+        //
+        // Example source data - Darwin-17.5.0-x86_64-i386-64bit/Darwin
+        // Result example - ["Darwin-17.5.0-x86_64-i386-64bit", "/", "Darwin"]
+        
+        let buildInfoRegex = /(.+)(\/)(\w+)/;
+        let buildInfoResult = null;
+        let iconClass = "";
+
+        if (buildInfoRegex.test(build_info)){
+            buildInfoResult = buildInfoRegex.exec(build_info)
+            iconClass = this.helper.getOSIconClass(buildInfoResult[3])
+        }
+
+        return (<span><i className={`fa ${iconClass}`}></i> {build_info}</span>)
+    }
+
     render(){
         let modelInstance = this.state.scoreInstance.get("model_instance");
 
@@ -83,11 +104,11 @@ export default class ScoreDetails extends React.Component {
                                     N/A
                                 </div>
                                 <div><strong>Build info: </strong>
-                                {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("build_info")) ? (
-                                    "None"
-                                ): (
-                                    this.state.scoreInstance.get("test_instance").get("build_info")
-                                )}
+                                    {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("build_info")) ? (
+                                        "None"
+                                    ): (
+                                        this.getBuildInfoWithIcon(this.state.scoreInstance.get("test_instance").get("build_info"))
+                                    )}
                                 </div>
                                 <div><strong>Hostname: </strong>
                                 {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("hostname")) ? (
