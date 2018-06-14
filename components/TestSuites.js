@@ -83,10 +83,15 @@ export default class TestSuites extends React.Component {
         let filters = new URLSearchParams(location.search);
 
         for (let filter of filters){
-            if (/^timestamp_/.test(filter))
-                this.filters[filter[0]]=new Date(filter[1]).toISOString()
-            else
+            if (/^timestamp_/.test(filter)) {
+                let date = new Date(filter[1]);
+
+                if (Object.prototype.toString.call(date) === "[object Date]")
+                    if (!isNaN(date.getTime()))
+                        this.filters[filter[0]]= date.toISOString()
+            } else {
                 this.filters[filter[0]]=filter[1]
+            }
         }
 
         this.toggleColorBlind = this.toggleColorBlind.bind(this);
