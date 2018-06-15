@@ -88,7 +88,7 @@ export default class TestInstances extends React.Component {
         let dateFrom = new Date();
         let dateTo = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 
-        dateFrom.setMonth(dateFrom.getMonth() - 1);
+        dateFrom.setMonth(dateFrom.getMonth() - 3);
         dateFrom.setHours(0, 0, 0, 0);
         dateTo.setHours(0, 0, 0, 0);
 
