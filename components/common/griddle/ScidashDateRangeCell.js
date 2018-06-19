@@ -8,15 +8,14 @@ export default class ScidashDateRangeCell extends React.Component {
         this.parent = props.parent;
         this.columnId = props.columnId;
 
-        this.valueFrom = new Date();
-        this.valueTo = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-
-        this.valueFrom.setMonth(this.valueFrom.getMonth() - 1);
-        this.valueFrom.setHours(0, 0, 0, 0);
-        this.valueTo.setHours(0, 0, 0, 0);
-
         this.filterNameFrom = props.filterNameFrom;
         this.filterNameTo = props.filterNameTo;
+
+        if (this.filterNameFrom in this.parent.filters)
+            this.valueFrom = new Date(this.parent.filters[this.filterNameFrom])
+
+        if (this.filterNameTo in this.parent.filters)
+            this.valueTo = new Date(this.parent.filters[this.filterNameTo])
 
         this.state = {
             valueFrom: this.valueFrom,

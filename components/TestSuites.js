@@ -13,13 +13,14 @@ import ScidashDateRangeCell from './common/griddle/ScidashDateRangeCell';
 import ScidashAvgScoreDetailLinkColumn from '../components/common/griddle/ScidashAvgScoreDetailLinkColumn';
 import ScidashModelDetailLinkColumn from './common/griddle/ScidashModelDetailLinkColumn';
 import ScidashTimestampColumn from './common/griddle/ScidashTimestampColumn';
+import ScidashSuiteNameLinkColumn from './common/griddle/ScidashSuiteNameLinkColumn';
 
 
 export default class TestSuites extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.dataTemplate = {
-            suite: " ",
+            suiteObject: " ",
             avgScore: [],
             testsCount: "",
             model: {},
@@ -27,7 +28,7 @@ export default class TestSuites extends React.Component {
             _timestamp: " "
         }
         this.autoCompleteDataTemplate = {
-            suite: [],
+            suiteObject: [],
             avgScore: [],
             testsCount: [],
             model: [],
@@ -39,6 +40,7 @@ export default class TestSuites extends React.Component {
             autoCompleteData: this.autoCompleteDataTemplate,
             colorBlind: props.colorBlind
         }
+
         this.griddleComponents = {
             Filter: () => null,
             SettingsToggle: () => null,
@@ -47,7 +49,6 @@ export default class TestSuites extends React.Component {
                     return <RaisedButton label={props.text} onClick={props.getNext} style={{
                         marginLeft: "10px"
                     }}/>;
-
                 return null;
             },
             PreviousButton: (props) => {
@@ -55,19 +56,43 @@ export default class TestSuites extends React.Component {
                     return <RaisedButton label={props.text} onClick={props.getPrevious} style={{
                         marginRight: "10px"
                     }}/>;
-
                 return null;
             }
         }
+
         this.styleConfig = {
             classNames: {
                 Table: 'table scidash-table suites-table',
                 TableHeadingCell: 'scidash-table-heading-cell'
             }
         }
+
+        let dateFrom = new Date();
+        let dateTo = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+
+        dateFrom.setMonth(dateFrom.getMonth() - 3);
+        dateFrom.setHours(0, 0, 0, 0);
+        dateTo.setHours(0, 0, 0, 0);
+
         this.filters = {
-            with_suites: true
+            'timestamp_to': dateTo.toISOString(),
+            'timestamp_from': dateFrom.toISOString(),
+            'with_suites': true
         };
+
+        let filters = new URLSearchParams(location.search);
+
+        for (let filter of filters){
+            if (/^timestamp_/.test(filter)) {
+                let date = new Date(filter[1]);
+
+                if (Object.prototype.toString.call(date) === "[object Date]")
+                    if (!isNaN(date.getTime()))
+                        this.filters[filter[0]]= date.toISOString()
+            } else {
+                this.filters[filter[0]]=filter[1]
+            }
+        }
 
         this.toggleColorBlind = this.toggleColorBlind.bind(this);
 
@@ -84,7 +109,7 @@ export default class TestSuites extends React.Component {
     }
 
     componentDidMount() {
-        this.load();
+        this.load(this.filters);
         GEPPETTO.on(Scidash.COLOR_MAP_TOGGLED, this.toggleColorBlind, this)
     }
 
@@ -107,15 +132,17 @@ export default class TestSuites extends React.Component {
         };
 
         for (let score of scores){
-            let suiteName = score.test_instance.test_suites[0].name;
+            let suiteHash = score.test_instance.test_suites[0].hash;
+            let suiteObject = score.test_instance.test_suites[0];
             let suiteTimestamp = score.test_instance.test_suites[0].timestamp;
-            let modelName = score.model_instance.model_class.class_name;
-            let modelSuiteKey = suiteName + "_" + modelName;
+            let modelInstanceName = score.model_instance.name;
+            let modelSuiteKey = suiteHash + "_" + modelInstanceName;
 
             if(!(modelSuiteKey in result))
                 result[modelSuiteKey] = {};
 
-            result[modelSuiteKey]['suite'] = suiteName;
+            result[modelSuiteKey]['suite'] = suiteHash;
+            result[modelSuiteKey]['suiteObject'] = suiteObject;
             result[modelSuiteKey]['model'] = score.model_instance;
 
             if (!('avgScore' in result[modelSuiteKey]))
@@ -146,11 +173,12 @@ export default class TestSuites extends React.Component {
         return list;
     }
 
-    load(filters) {
+    load(filters, withLoading = true) {
 
-        this.setState({
-            showLoading: true
-        })
+        if (withLoading)
+            this.setState({
+                showLoading: true
+            })
 
         if (typeof filters == "undefined"){
             filters = {
@@ -181,8 +209,16 @@ export default class TestSuites extends React.Component {
                         autoCompleteData[key] = [];
 
                         for (let item of suiteData){
-                            if (!autoCompleteData[key].includes(item[key]))
-                                autoCompleteData[key].push(item[key]);
+                                switch(key){
+                                    case "suiteObject":
+                                        if (!autoCompleteData[key].includes(item[key].name))
+                                            autoCompleteData[key].push(item[key].name);
+                                        break;
+                                    default:
+                                        if (!autoCompleteData[key].includes(item[key]))
+                                            autoCompleteData[key].push(item[key]);
+                                        break;
+                                }
                         }
                     }
                     this.setState({
@@ -205,7 +241,7 @@ export default class TestSuites extends React.Component {
             this.filters[columnId] = value;
         }
 
-        this.load(this.filters);
+        this.load(this.filters, false);
     }
 
     sortTimestamp(data, column, sortAscending = false) {
@@ -248,11 +284,15 @@ export default class TestSuites extends React.Component {
                     pageProperties={pageProperties} >
                     <RowDefinition>
                         <ColumnDefinition
-                            id="suite"
-                            title="Name"
+                            id="suiteObject"
+                            title="Suite Name"
+                            customComponent={(props) => <ScidashSuiteNameLinkColumn
+                                    parent={this}
+                                    {...props}
+                                    /> }
                             customHeadingComponent={(props) => <ScidashFilterCell
                                 parent={this}
-                                filterName="by_suite_name"
+                                filterName="suite_name"
                                 {...props} />
                             } order={1} />
                         <ColumnDefinition
@@ -268,11 +308,11 @@ export default class TestSuites extends React.Component {
                             order={3} />
                         <ColumnDefinition
                             id="model"
-                            title="Model Name"
+                            title="Model"
                             customComponent={ScidashModelDetailLinkColumn}
                             customHeadingComponent={(props) => <ScidashFilterCell
                                 parent={this}
-                                filterName="model_class"
+                                filterName="model"
                                 {...props} />
                             }
                             order={4} />
@@ -284,8 +324,8 @@ export default class TestSuites extends React.Component {
                             customComponent={ScidashTimestampColumn}
                             customHeadingComponent={(props) => <ScidashDateRangeCell
                                 parent={this}
-                                filterNameFrom="timestamp_before"
-                                filterNameTo="timestamp_after"
+                                filterNameFrom="timestamp_from"
+                                filterNameTo="timestamp_to"
                                 {...props} />
                             } order={5} />
                         <ColumnDefinition

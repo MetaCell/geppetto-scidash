@@ -7,10 +7,16 @@ export default class ScidashFilterCell extends React.Component {
         super(props, context);
         this.parent = props.parent;
         this.columnId = props.columnId;
-        this.state = {
-            value: ''
-        };
         this.filterName = props.filterName;
+
+        if (this.filterName in this.parent.filters)
+            this.state = {
+                value: this.parent.filters[this.filterName]
+            };
+        else
+            this.state = {
+                value: ''
+            }
 
         this.styleDefault = {
             width: "100px",

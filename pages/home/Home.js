@@ -23,6 +23,24 @@ export default class Home extends React.Component {
     }
 
     componentDidMount(){
+
+        let pages = new URLSearchParams(location.search);
+        let currentPage = null;
+
+        for (let page of pages) {
+            if (page[0] == "page")
+                currentPage = page[1].toLowerCase();
+        }
+
+        if (currentPage != null){
+            if (currentPage == "tests")
+                this.openTestsPage(this.state.colorBlind)
+
+            if (currentPage == "suites")
+                this.openSuitesPage(this.state.colorBlind)
+
+        }
+
         GEPPETTO.on(Scidash.TESTS_PAGE_ACTIVATED, this.openTestsPage, this);
         GEPPETTO.on(Scidash.SUITES_PAGE_ACTIVATED, this.openSuitesPage, this);
     }
