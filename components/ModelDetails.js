@@ -47,7 +47,7 @@ export default class ModelDetails extends React.Component {
                         {this.helper.isEmptyString(this.state.modelInstance.get("model_class").get("url")) ? (
                             "None"
                         ): (
-                            <a href={this.state.modelInstance.get("model_class").get("url")}>{this.state.modelInstance.get("model_class").get("url")}</a>
+                            <a target='_blank' className="model-url" href={this.state.modelInstance.get("model_class").get("url")}>{this.state.modelInstance.get("model_class").get("url")}</a>
                         )}
                     </p>
                     <p>
@@ -69,7 +69,7 @@ export default class ModelDetails extends React.Component {
                         {this.helper.isEmptyString(this.state.modelInstance.get("url")) ? (
                             "None"
                         ): (
-                            <a target='_blank' href={this.state.modelInstance.get("url")}> {this.state.modelInstance.get("url")}</a>
+                            <a target='_blank' className="model-url" href={this.state.modelInstance.get("url")}> {this.state.modelInstance.get("url")}</a>
                         )}
                     </p>
                     <p><strong>Instance - Run parameters: </strong>

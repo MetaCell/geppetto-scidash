@@ -78,6 +78,7 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
                         actions={actions}
                         modal={true}
                         contentStyle={customContentStyle}
+                        autoScrollBodyContent={true}
                         open={this.state.open}
                     >
                         <ModelDetails modelInstance={this.state.modelInstanceObject} />

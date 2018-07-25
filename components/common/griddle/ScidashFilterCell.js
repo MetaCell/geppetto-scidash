@@ -44,6 +44,7 @@ export default class ScidashFilterCell extends React.Component {
                 <AutoComplete
                     className="scidash-materialui-field"
                     searchText={this.state.value}
+                    filter={AutoComplete.caseInsensitiveFilter}
                     onClick={(event) => {
                         event.stopPropagation();
                     }}
