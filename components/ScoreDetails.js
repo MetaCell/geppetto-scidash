@@ -104,11 +104,11 @@ export default class ScoreDetails extends React.Component {
                                     N/A
                                 </div>
                                 <div><strong>Build info: </strong>
-                                {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("build_info")) ? (
-                                    "None"
-                                ): (
-                                    this.state.scoreInstance.get("test_instance").get("build_info")
-                                )}
+                                    {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("build_info")) ? (
+                                        "None"
+                                    ): (
+                                        this.getBuildInfoWithIcon(this.state.scoreInstance.get("test_instance").get("build_info"))
+                                    )}
                                 </div>
                                 <div><strong>Hostname: </strong>
                                 {this.helper.isEmptyString(this.state.scoreInstance.get("test_instance").get("hostname")) ? (
@@ -140,7 +140,7 @@ export default class ScoreDetails extends React.Component {
                                 ): (
                                     (
                                     <span>
-                                        <a href={this.state.scoreInstance.get("test_instance").get("observation").get("url")}>{this.state.scoreInstance.get("test_instance").get("observation").get("url")}</a>
+                                        <a target='_blank' href={this.state.scoreInstance.get("test_instance").get("observation").get("url")}>{this.state.scoreInstance.get("test_instance").get("observation").get("url")}</a>
                                         <ul>
                                             <li>mean: {this.state.scoreInstance.get("test_instance").get("observation").get("mean")}</li>
                                             <li>std: {this.state.scoreInstance.get("test_instance").get("observation").get("std")}</li>

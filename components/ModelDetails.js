@@ -11,7 +11,7 @@ export default class ModelDetails extends React.Component {
 
         this.state = {
             modelInstance: props.modelInstance
-        }
+        };
     }
 
 
@@ -20,7 +20,7 @@ export default class ModelDetails extends React.Component {
         const capabilities = this.state.modelInstance.get("model_class")
             .get("capabilities").map((capability) => {
                 return <li key={capability.get("id")}>{capability.get("class_name")}</li>;
-        })
+        });
 
         let runParamsObj = Array.from(this.state.modelInstance.get("run_params")).reduce((obj, [key, value]) => (
             Object.assign(obj, { [key]: value }) // Be careful! Maps can have non-String keys; object literals can't.

@@ -88,14 +88,30 @@ export default class TestInstances extends React.Component {
         let dateFrom = new Date();
         let dateTo = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 
-        dateFrom.setMonth(dateFrom.getMonth() - 1);
+        dateFrom.setMonth(dateFrom.getMonth() - 3);
         dateFrom.setHours(0, 0, 0, 0);
         dateTo.setHours(0, 0, 0, 0);
 
         this.filters = {
-            'timestamp_before': dateTo.toISOString(),
-            'timestamp_after': dateFrom.toISOString()
+            'timestamp_to': dateTo.toISOString(),
+            'timestamp_from': dateFrom.toISOString()
         };
+
+        let filters = new URLSearchParams(location.search);
+
+        for (let filter of filters){
+            if (/^timestamp_/.test(filter)){
+
+                let date = new Date(filter[1]);
+
+                if (Object.prototype.toString.call(date) === "[object Date]")
+                    if (!isNaN(date.getTime()))
+                        this.filters[filter[0]]= date.toISOString()
+
+            } else {
+                this.filters[filter[0]]=filter[1]
+            }
+        }
 
         this.toggleColorBlind = this.toggleColorBlind.bind(this);
 
@@ -181,6 +197,8 @@ export default class TestInstances extends React.Component {
                                 if (key == "model"){
                                     if (!autoCompleteData[key].includes(item[key]["model_class"]["class_name"]))
                                         autoCompleteData[key].push(item[key]["model_class"]["class_name"])
+                                    if (!autoCompleteData[key].includes(item[key]["name"]))
+                                        autoCompleteData[key].push(item[key]["name"])
                                 } else {
                                     if (!autoCompleteData[key].includes(item[key]))
                                         autoCompleteData[key].push(item[key]);
@@ -266,7 +284,6 @@ export default class TestInstances extends React.Component {
             colorBlind: !this.state.colorBlind
         });
     }
-
     render() {
         const customName = ({value}) => <div style={{paddingRight:"20px"}}>{value}</div>;
         const loader = this.state.showLoading ? <i className="fa fa-cog fa-4x fa-spin centered-modal loading-spinner" style={{
@@ -291,7 +308,7 @@ export default class TestInstances extends React.Component {
                             customComponent={customName}
                             customHeadingComponent={(props) => <ScidashFilterCell
                                     parent={this}
-                                    filterName="score_name"
+                                    filterName="name"
                                     {...props} />
                             } order={1} />
                         <ColumnDefinition
@@ -315,22 +332,13 @@ export default class TestInstances extends React.Component {
                                     {...props} />
                             } order={3} />
                         <ColumnDefinition
-                            id="score_type"
-                            title="Score Type"
-                            customHeadingComponent={(props) => <ScidashFilterCell
-                                    filterName="score_type"
-                                    parent={this}
-                                    autoCompleteDataSource={[]}
-                                    {...props} />
-                            } order={3} />
-                        <ColumnDefinition
                             id="model"
                             title="Model"
                             sortMethod={this.sortModel}
                             customComponent={ScidashModelDetailLinkColumn}
                             customHeadingComponent={(props) => <ScidashFilterCell
                                     parent={this}
-                                    filterName="model_class"
+                                    filterName="model"
                                     autoCompleteDataSource={[]}
                                     {...props} />
                             } order={6} />
@@ -370,8 +378,8 @@ export default class TestInstances extends React.Component {
                             customComponent={ScidashTimestampColumn}
                             customHeadingComponent={(props) => <ScidashDateRangeCell
                                     parent={this}
-                                    filterNameFrom="timestamp_after"
-                                    filterNameTo="timestamp_before"
+                                    filterNameFrom="timestamp_from"
+                                    filterNameTo="timestamp_to"
                                     {...props} />
                             } order={10} />
                         <ColumnDefinition
