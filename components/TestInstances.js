@@ -114,6 +114,7 @@ export default class TestInstances extends React.Component {
         }
 
         this.toggleColorBlind = this.toggleColorBlind.bind(this);
+
     }
 
     componentDidMount() {

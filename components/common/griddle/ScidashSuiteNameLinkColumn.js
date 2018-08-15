@@ -63,6 +63,8 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
                     onClick={this.openScoreMatrix}
                     style={{
                         cursor: "pointer",
+                        wordWrap: "break-word",
+                        paddingRight: "20px"
                     }}
                 >{ this.props.value != " " && this.props.value.get("name") }</a>
                 <Dialog
