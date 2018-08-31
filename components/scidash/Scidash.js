@@ -1,7 +1,7 @@
 import React from 'react';
 
 import HeaderContainer from '../page/header/HeaderContainer';
-import Footer from '../page/Footer';
+import FooterContainer from '../page/footer/FooterContainer';
 import Content from '../page/Content';
 
 
@@ -19,10 +19,8 @@ export default class Scidash extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Footer/>
+                <FooterContainer />
             </div>
         )
-
     }
-
 }

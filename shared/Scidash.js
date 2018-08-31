@@ -5,4 +5,3 @@ var Scidash = {
 };
 
 export default Scidash;
-

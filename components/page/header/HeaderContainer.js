@@ -35,8 +35,8 @@ const mapDispatchToProps = dispatch => {
             });
         },
 
-        handleClickOutsideSettings: (wrapperSettings, event) => {
-            if (wrapperSettings && !wrapperSettings.contains(event.target)) {
+        handleClickOutsideSettings: (wrapperSettings, event, settingsDisplaying) => {
+            if (wrapperSettings && !wrapperSettings.contains(event.target) && settingsDisplaying) {
                 dispatch({
                     type: "HIDE_SETTINGS"
                 });

@@ -1,8 +1,9 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-
 import FontIcon from 'material-ui/FontIcon';
 import {Card, CardText} from 'material-ui/Card';
+
+import ColorMapToggleContainer from "../../color-map-toggle/ColorMapToggleContainer";
 
 
 export default class Header extends React.Component {
@@ -14,17 +15,14 @@ export default class Header extends React.Component {
         this.wrapperSettings = null;
 
         this.wrapSettingsRef = this.wrapSettingsRef.bind(this);
-
-        console.log(this.props);
-
     }
 
     componentWillMount(){
-        document.addEventListener('mousedown', (event) => this.props.handleClickOutsideSettings(this.wrapperSettings, event));
+        document.addEventListener('mousedown', (event) => this.props.handleClickOutsideSettings(this.wrapperSettings, event, this.props.showSettings));
     }
 
     componentWillUnmount(){
-        document.removeEventListener('mousedown', (event) => this.props.handleClickOutsideSettings(this.wrapperSettings, event));
+        document.removeEventListener('mousedown', (event) => this.props.handleClickOutsideSettings(this.wrapperSettings, event, this.props.showSettings));
     }
 
     wrapSettingsRef(node){
@@ -54,12 +52,11 @@ export default class Header extends React.Component {
                     <RaisedButton onClick={this.props.toggleSettings} icon={<FontIcon className="fa fa-cog" style={{ padding: 5 }}/>} />
                     <Card style={this.props.settingsPopupStyle}>
                         <CardText>
-                            colormaptoggle
+                            <ColorMapToggleContainer />
                         </CardText>
                     </Card>
                 </div>
             </div>
         )
     }
-
 }
