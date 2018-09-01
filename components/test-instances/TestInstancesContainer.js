@@ -2,6 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TestInstances from './TestInstances'
 import RaisedButton from 'material-ui/RaisedButton';
+import ScidashStorage from '../../shared/ScidashStorage';
+
+import {
+    filteringStarted,
+    filteringFinished
+} from '../../actions/creators/test-instances';
 
 const mapStateToProps = state => {
     return {
@@ -37,12 +43,7 @@ const mapStateToProps = state => {
         },
         pageProperties: {
             currentPage: 1
-        }
-    };
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
+        },
         sortScore: (data, column, sortAscending = true) => {
             return data.sort(
                 (original, newRecord) => {
@@ -59,12 +60,31 @@ const mapDispatchToProps = dispatch => {
                     }
                 });
         },
+        showLoading: state.testInstances.showLoading
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
         onFilterUpdate: (searchText, filterName) =>  {
-            dispatch({
-                type: 'FILTER_UPDATED',
-                filterName,
-                searchText
-            })
+            let storage = new ScidashStorage();
+            let timeoutKey = 'lastFilterTimeoutId';
+
+            if (storage.getItem(timeoutKey)){
+                clearTimeout(storage.getItem(timeoutKey))
+                storage.setItem(timeoutKey, false)
+            }
+
+            let f = (searchText, filterName, dispatch) => {
+                dispatch(filteringStarted(
+                    searchText,
+                    filterName,
+                    dispatch
+                ));
+            }
+
+            let timeoutId = setTimeout(f, 200, searchText, filterName, dispatch);
+            storage.setItem(timeoutKey, timeoutId);
         }
     };
 }

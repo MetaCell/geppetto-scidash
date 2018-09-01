@@ -1,0 +1,19 @@
+{
+  "name": "geppetto-scidash",
+  "version": "1.0.0",
+  "description": "This repository contains the Geppetto extension for SciDash. This extension is designed to work with the Scidash backend app (see README on https://github.com/MetaCell/scidash for further details of how it all ties together).",
+  "main": "App.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MetaCell/geppetto-scidash.git"
+  },
+  "author": "Metacell ltd.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MetaCell/geppetto-scidash/issues"
+  },
+  "homepage": "https://github.com/MetaCell/geppetto-scidash#readme"
+}

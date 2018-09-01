@@ -1,16 +1,34 @@
 import React from 'react';
 import ScoreApiService from './api/ScoreApiService';
 import RaisedButton from 'material-ui/RaisedButton';
-import TestInstancesAdapter from '../shared/TestInstancesAdapter';
+import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter';
+import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
+import Helper from '../shared/Helper';
 
 
 export default class InitialStateService {
 
     initialStateTemplate = {
-        globalFilters: {},
+        global: {
+            globalFilters: {},
+        },
         testInstances: {
-            data: [],
+            data: [
+                {
+                    name: " ",
+                    score_type: " ",
+                    _sort_key: 0,
+                    score: {},
+                    test_class: " ",
+                    model: {},
+                    hostname: " ",
+                    build_info: " ",
+                    timestamp: " ",
+                    _timestamp: " "
+                }
+            ],
             filters: {},
+            showLoading: false,
             autoCompleteData: {
                 name: [],
                 score: [],
@@ -47,34 +65,45 @@ export default class InitialStateService {
 
     initialState = null;
 
-    loadScores(filters = {}){
-        return new Promise((resolve, reject) => {
-            new ScoreApiService().getList(filters)
-                .then((result) => result.json())
-                .then((result) => {
-                    let scoreData = [];
-                    let adapter = new TestInstancesAdapter()
-                    adapter.setup(result)
-                    scoreData = adapter.getTableData()
+    loadScores(filters){
 
-                    resolve(scoreData)
-                });
-        })
+        let service = new ScoreApiService();
+        service.clearFilters();
+
+        if (filters !== null){
+            for (let filterName of Object.keys(filters)){
+                service.setupFilter(filterName, filters[filterName]);
+            }
+        }
+
+        return service.getList(!Object.keys(filters).length);
+    }
+
+    getInitialStateTemplate(){
+        return this.initialStateTemplate
     }
 
     getInitialState(){
-        return this.initialState === null ? this.initialStateTemplate : this.initialState;
+        return this.initialState === null ? this.getInitialStateTemplate() : this.initialState;
     }
 
     generateInitialState(onStateGenerated){
-        this.initialState = this.initialStateTemplate;
+        this.initialState = this.getInitialState()
 
-        this.loadScores().then((scoreData) => {
+        let filtersFromUrl = new Helper().queryStringToDict(location.search)
 
-            this.initialState.testInstances.data = scoreData;
+        this.loadScores(filtersFromUrl).then((scores) => {
+
+            this.initialState.testInstances.data = new TestInstancesGriddleAdapter()
+                .setup(scores)
+                .getGriddleData();
+
+            this.initialState.testSuites.data = new TestSuitesGriddleAdapter()
+                .setup(scores)
+                .getGriddleData();
+
             onStateGenerated(this.initialState);
 
         });
     }
-
 }

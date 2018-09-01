@@ -1,5 +1,11 @@
 import { connect } from 'react-redux';
 import Header from './Header';
+import {
+    toggleSettings,
+    hideSettings,
+    openSuitesPage,
+    openTestsPage
+} from '../../../actions/creators/header';
 
 
 const mapStateToProps = state => {
@@ -30,29 +36,21 @@ const mapDispatchToProps = dispatch => {
     return {
 
         toggleSettings: () => {
-            dispatch({
-                type: "TOGGLE_SETTINGS"
-            });
+            dispatch(toggleSettings());
         },
 
         handleClickOutsideSettings: (wrapperSettings, event, settingsDisplaying) => {
             if (wrapperSettings && !wrapperSettings.contains(event.target) && settingsDisplaying) {
-                dispatch({
-                    type: "HIDE_SETTINGS"
-                });
+                dispatch(hideSettings());
             }
         },
 
         openTestsPage: () => {
-            dispatch({
-                type: "OPEN_TESTS_PAGE"
-            });
+            dispatch(openTestsPage());
         },
 
         openSuitesPage: () => {
-            dispatch({
-                type: "OPEN_SUITES_PAGE"
-            });
+            dispatch(openSuitesPage());
         }
     }
 }

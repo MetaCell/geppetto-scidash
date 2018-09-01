@@ -1,12 +1,22 @@
 import { connect } from 'react-redux';
 import FilterCell from './FilterCell';
+import ScoreApiService from '../../../../services/api/ScoreApiService';
 
 
 const mapStateToProps = (state, ownProps) => {
+
+    let currentFilters = new ScoreApiService().getFilters();
+    let filterName = ownProps.filterName;
+    let value = '';
+
+    if (filterName in currentFilters)
+        value = currentFilters[filterName];
+    else
+        value = '';
+
     return {
         title: ownProps.title,
         icon: ownProps.icon,
-        value: null,
         styleDefault: {
             width: "100px",
             height: "28px",
@@ -25,8 +35,10 @@ const mapStateToProps = (state, ownProps) => {
         },
         autoCompleteData: ownProps.autoCompleteData,
         columnId: ownProps.columnId,
-        filterName: ownProps.filteName,
-        onFilterUpdate: ownProps.onFilterUpdate
+        onFilterUpdate: ownProps.onFilterUpdate,
+        value,
+        filterName,
+        currentFilters
     }
 }
 

@@ -1,5 +1,4 @@
 export function toggleSettings(headerState, action){
-    console.log("Action dispatched: ", action);
 
     let newState = {
         ...headerState,
@@ -10,7 +9,6 @@ export function toggleSettings(headerState, action){
 }
 
 export function hideSettings(headerState, action){
-    console.log("Action dispatched: ", action);
 
     let newState = {
         ...headerState,
@@ -21,7 +19,6 @@ export function hideSettings(headerState, action){
 }
 
 export function toggleColorBlind(headerState, action){
-    console.log("Action dispatched: ", action);
 
     let newState = {
         ...headerState,
@@ -32,7 +29,6 @@ export function toggleColorBlind(headerState, action){
 }
 
 export function openTestsPage(headerState, action){
-    console.log("Action dispatched: ", action);
 
     let newState = {
         ...headerState,
@@ -44,7 +40,6 @@ export function openTestsPage(headerState, action){
 }
 
 export function openSuitesPage(headerState, action){
-    console.log("Action dispatched: ", action);
 
     let newState = {
         ...headerState,

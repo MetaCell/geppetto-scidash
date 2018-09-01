@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import ColorMapToggle from './ColorMapToggle';
+import { toggleColorBlind } from '../../actions/creators/header';
 
 
 const mapStateToProps = state => {
@@ -10,7 +11,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleColorBlind: () => dispatch({ type: "TOGGLE_COLOR_BLIND" })
+        toggleColorBlind: () => dispatch(toggleColorBlind())
     };
 }
 

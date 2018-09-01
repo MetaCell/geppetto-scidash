@@ -1,19 +1,13 @@
+import GriddleAdapter from './GriddleAdapter';
+import InitialStateService from '../../services/InitialStateService';
 
-export default class TestInstancesAdapter {
+export default class TestInstancesAdapter extends GriddleAdapter{
 
-    setup(rawScores){
-        this.scores = rawScores;
-    }
-
-    getRawScores(){
-        return this.scores
-    }
-
-    getTableData(){
+    getGriddleData(){
 
         let scoreData = [];
 
-        for (let score of this.getRawScores()){
+        for (let score of this.getScores()){
             var testSuite = null;
 
             if (score.test_instance.test_suites.length > 0){
@@ -52,6 +46,12 @@ export default class TestInstancesAdapter {
                 _timestamp: score.timestamp
             });
         }
+
+        if (scoreData.length == 0)
+            scoreData = new InitialStateService()
+                .getInitialStateTemplate()
+                .testInstances
+                .data;
 
         return scoreData;
 
