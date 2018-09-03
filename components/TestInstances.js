@@ -81,7 +81,7 @@ export default class TestInstances extends React.Component {
         this.styleConfig = {
             classNames: {
                 Table: 'table scidash-table',
-                TableHeadingCell: 'scidash-table-heading-cell'
+                TableHeadingCell: 'scidash-test-table-heading-cell'
             }
         }
 
