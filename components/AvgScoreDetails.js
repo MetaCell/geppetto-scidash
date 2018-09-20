@@ -82,7 +82,7 @@ export default class AvgScoreDetails extends React.Component {
                     <CardText style={{
                         overflowX: "scroll"
                     }}>
-                        <table className="table">
+                        <table className="table scidash-tilted-titles-table">
                             <thead>
                                 <tr>
                                     <td></td>

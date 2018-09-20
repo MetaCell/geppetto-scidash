@@ -63,7 +63,7 @@ export default class TestSuites extends React.Component {
         this.styleConfig = {
             classNames: {
                 Table: 'table scidash-table suites-table',
-                TableHeadingCell: 'scidash-tilted-titles-table-heading-cell'
+                TableHeadingCell: 'scidash-table-heading-cell'
             }
         }
 

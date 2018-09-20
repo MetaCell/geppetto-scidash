@@ -32,8 +32,8 @@ export default class ScoreMatrix extends React.Component {
 
         this.styleConfig = {
             classNames: {
-                Table: "table scidash-table suites-table",
-                TableHeadingCell: "scidash-table-heading-cell",
+                Table: "table scidash-tilted-titles-table suites-table",
+                TableHeadingCell: "scidash-tilted-titles-table-heading-cell",
             }
         }
 
