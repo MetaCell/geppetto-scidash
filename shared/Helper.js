@@ -56,6 +56,26 @@ export default class Helper {
 
     }
 
+    capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    noneIfEmptyString(string = "") {
+        return this.isEmptyString(string) ? "None" : string;
+    }
+
+    noneIfEmptyArray(array = []) {
+        return array.length == 0 ? "None" : array;
+    }
+
+    noneIfEmptyObject(object = {}) {
+        return Object.keys(object).length == 0 ? "None" : object;
+    }
+
+    noneIfEmptyMap(object = {}) {
+        return object.size == 0 ? "None" : object;
+    }
+
     queryStringToDict(queryString){
         let filters = new URLSearchParams(queryString);
         let parsedFilters = {};
@@ -74,6 +94,22 @@ export default class Helper {
         }
 
         return parsedFilters
+    }
+
+    parseBuildInfo(string){
+        let buildInfoRegex = /(.+)(\/)(\w+)/;
+        let buildInfoResult = null;
+        let iconClass = "";
+
+        if (buildInfoRegex.test(string)){
+            buildInfoResult = buildInfoRegex.exec(string);
+            iconClass = this.getOSIconClass(buildInfoResult[3]);
+        }
+
+        return {
+            text: string,
+            icon: iconClass
+        };
     }
 
 }

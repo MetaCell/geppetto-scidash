@@ -1,3 +1,5 @@
+import ApiService from '../services/api/ApiService';
+
 export function toggleSettings(headerState, action){
 
     let newState = {
@@ -30,6 +32,9 @@ export function toggleColorBlind(headerState, action){
 
 export function openTestsPage(headerState, action){
 
+    new ApiService().clearFilters()
+    window.history.pushState("", "", "/");
+
     let newState = {
         ...headerState,
         suitesActive: false,
@@ -40,6 +45,9 @@ export function openTestsPage(headerState, action){
 }
 
 export function openSuitesPage(headerState, action){
+
+    new ApiService().clearFilters()
+    window.history.pushState("", "", "/");
 
     let newState = {
         ...headerState,

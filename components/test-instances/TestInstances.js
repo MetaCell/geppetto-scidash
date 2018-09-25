@@ -1,18 +1,21 @@
-import React from 'react';
-import Griddle, {ColumnDefinition, RowDefinition, plugins} from 'griddle-react';
+import React from "react";
+import Griddle, {ColumnDefinition, RowDefinition, plugins} from "griddle-react";
 
-import CustomScoreName from './partials/CustomScoreName';
-import FilterCellContainer from './partials/filter-cell/FilterCellContainer';
-import ScidashScoreDetailLinkColumn from './partials/ScidashScoreDetailLinkColumn';
-import ScidashModelDetailLinkColumn from './partials/ScidashModelDetailLinkColumn';
-import ScidashDateRangeCell from './partials/ScidashDateRangeCell';
-import ScidashBuildInfoColumn from './partials/ScidashBuildInfoColumn';
-import ScidashTimestampColumn from './partials/ScidashTimestampColumn';
+import FilterCellContainer from "../filter-cell/FilterCellContainer";
+import ScidashScoreDetailLinkColumn from "./partials/ScidashScoreDetailLinkColumn";
+import ScidashModelDetailLinkColumn from "./partials/ScidashModelDetailLinkColumn";
+import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
+import {
+    CustomScoreName,
+    ScidashBuildInfoColumn,
+    ScidashTimestampColumn
+} from "./partials";
 
-import Loader from '../loader/Loader';
+import Loader from "../loader/Loader";
 
 
 export default class TestInstances extends React.Component {
+
     constructor(props, context){
         super(props, context);
 
@@ -104,12 +107,7 @@ export default class TestInstances extends React.Component {
                             title="Timestamp"
                             width="100px"
                             customComponent={ScidashTimestampColumn}
-                            customHeadingComponent={(props) => <ScidashDateRangeCell
-                                parent={this}
-                                filterNameFrom="timestamp_from"
-                                filterNameTo="timestamp_to"
-                                {...props} />
-                            } order={10} />
+                            customHeadingComponent={DateRangeCellContainer} order={10} />
                         <ColumnDefinition
                             isMetadata="true"
                             id="_timestamp"

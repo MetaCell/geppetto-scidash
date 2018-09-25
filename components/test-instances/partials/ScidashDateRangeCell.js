@@ -3,6 +3,7 @@ import React from 'react';
 import DatePicker from 'material-ui/DatePicker';
 
 export default class ScidashDateRangeCell extends React.Component {
+
     constructor(props, context){
         super(props, context);
         this.parent = props.parent;
@@ -58,7 +59,6 @@ export default class ScidashDateRangeCell extends React.Component {
     }
 
     render(){
-
 
         let clearButton = this.state.changed ? <button onClick={this.clear}> Reset</button> : "";
 

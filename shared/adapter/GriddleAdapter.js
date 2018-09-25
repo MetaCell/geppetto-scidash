@@ -2,8 +2,6 @@
 export default class GriddleAdapter {
     // Base class for griddle data adapters which converts raw data from API to the Griddle format
 
-    scores = []
-
     setup(rawScores){
         this.scores = rawScores;
         return this;

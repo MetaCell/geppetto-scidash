@@ -3,7 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import ModelDetails from './ModelDetails';
+import ModelDetails from '../../model-details/ModelDetailsContainer';
 
 const customContentStyle = {
     width: '900px',
@@ -83,7 +83,7 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
                         autoScrollBodyContent={true}
                         open={this.state.open}
                     >
-                        <ModelDetails modelInstance={this.state.modelInstanceObject} />
+                        <ModelDetails model={this.state.modelInstanceObject} />
                     </Dialog>
                 </div>
             );

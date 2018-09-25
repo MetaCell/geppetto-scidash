@@ -1,18 +1,18 @@
-import { connect } from 'react-redux';
-import FilterCell from './FilterCell';
-import ScoreApiService from '../../../../services/api/ScoreApiService';
+import { connect } from "react-redux";
+import FilterCell from "./FilterCell";
+import ScoreApiService from "../../services/api/ScoreApiService";
 
 
 const mapStateToProps = (state, ownProps) => {
 
     let currentFilters = new ScoreApiService().getFilters();
     let filterName = ownProps.filterName;
-    let value = '';
+    let value = "";
 
     if (filterName in currentFilters)
         value = currentFilters[filterName];
     else
-        value = '';
+        value = "";
 
     return {
         title: ownProps.title,

@@ -2,7 +2,7 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import ScoreDetails from './ScoreDetails';
+import ScoreDetailsContainer from '../../score-details/ScoreDetailsContainer';
 import Helper from '../../../shared/Helper';
 
 const customContentStyle = {
@@ -102,7 +102,7 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
                     }}
                     open={this.state.open}
                 >
-                    <ScoreDetails scoreInstance={this.state.scoreObject} colorBlind={this.state.colorBlind}/>
+                    <ScoreDetailsContainer score={this.state.scoreObject} colorBlind={this.state.colorBlind}/>
                 </Dialog>
             </div>
         </div>

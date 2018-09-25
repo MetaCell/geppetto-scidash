@@ -20,7 +20,10 @@ export function filteringStarted(searchText, filterName, dispatch){
 
     service.getList().then((result) => {
 
-        window.history.pushState("", "", "/?" + service.stringifyFilters(service.getFilters()));
+        let filters = service.getFilters();
+        let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(service.getFilters()) : "/";
+
+        window.history.pushState("", "", filterString);
         dispatch(filteringFinished(result))
 
     })

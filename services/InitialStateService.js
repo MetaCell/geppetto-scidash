@@ -3,6 +3,7 @@ import ScoreApiService from './api/ScoreApiService';
 import RaisedButton from 'material-ui/RaisedButton';
 import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter';
 import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
+import TestInstancesAutocompleteAdapter from '../shared/adapter/TestInstancesAutocompleteAdapter';
 import Helper from '../shared/Helper';
 
 
@@ -10,7 +11,7 @@ export default class InitialStateService {
 
     initialStateTemplate = {
         global: {
-            globalFilters: {},
+            globalFilters: { },
         },
         testInstances: {
             data: [
@@ -24,7 +25,8 @@ export default class InitialStateService {
                     hostname: " ",
                     build_info: " ",
                     timestamp: " ",
-                    _timestamp: " "
+                    _timestamp: " ",
+                    template: true
                 }
             ],
             filters: {},
@@ -40,7 +42,8 @@ export default class InitialStateService {
                 owner: [],
                 build_info: [],
                 timestamp: [],
-                _timestamp: []
+                _timestamp: [],
+                template: true
             }
         },
         testSuites: {
@@ -64,6 +67,21 @@ export default class InitialStateService {
     }
 
     initialState = null;
+
+    constructor(){
+
+        let dateFrom = new Date();
+        let dateTo = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+
+        dateFrom.setMonth(dateFrom.getMonth() - 3);
+        dateFrom.setHours(0, 0, 0, 0);
+        dateTo.setHours(0, 0, 0, 0);
+
+        this.initialStateTemplate.global.globalFilters = {
+            timestamp_from: dateFrom.toISOString(),
+            timestamp_to: dateTo.toISOString()
+        };
+    }
 
     loadScores(filters){
 
@@ -92,7 +110,10 @@ export default class InitialStateService {
 
         let filtersFromUrl = new Helper().queryStringToDict(location.search)
 
-        this.loadScores(filtersFromUrl).then((scores) => {
+        this.loadScores({
+            ...this.initialState.global.globalFilters,
+            ...filtersFromUrl
+        }).then((scores) => {
 
             this.initialState.testInstances.data = new TestInstancesGriddleAdapter()
                 .setup(scores)
@@ -101,6 +122,10 @@ export default class InitialStateService {
             this.initialState.testSuites.data = new TestSuitesGriddleAdapter()
                 .setup(scores)
                 .getGriddleData();
+
+            this.initialState.testInstances.autoCompleteData = new TestInstancesAutocompleteAdapter()
+                .setup(this.initialState.testInstances.data)
+                .getAutocompleteData();
 
             onStateGenerated(this.initialState);
 
