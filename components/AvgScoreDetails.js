@@ -80,14 +80,12 @@ export default class AvgScoreDetails extends React.Component {
 
         return (
             <div>
-                <Card style={{
-                    width: "auto"
-                }}>
+                <Card>
                     <CardText style={{
                         overflowX: "scroll"
                     }}>
                         <table className="modal-table scidash-tilted-titles-table">
-                            <thead className="griddle-table-heading">
+                            <thead>
                                 <tr>
                                     <td></td>
                                     {headings}

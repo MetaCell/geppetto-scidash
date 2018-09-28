@@ -155,13 +155,15 @@ body {
     }
 }
 
-.modelName-row-heading{
-	padding: 0px 20px 5px 0;
+.hideAll-column {
+    /* Adjustments to */
+    th:last-child{
+    	transform : translate(80px, 100px) rotate(315deg);
+    }
 }
 
-.showAll-button{
-	transform : none;
-	vertical-align : bottom;
+.modelName-row-heading{
+	padding: 0px 20px 5px 0;
 }
 
 .scidash-materialui-field {
@@ -241,9 +243,8 @@ div[role=menu]{
     position: fixed !important;
     top: 50%;
     left: 50%;
-    width: 50%;
     transform: translate(-50%, -50%) !important;
-    overflow-y: hidden;
+    overflow-y: scroll;
 }
 
 .loading-spinner {

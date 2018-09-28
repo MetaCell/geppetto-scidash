@@ -32,7 +32,7 @@ export default class ScoreMatrix extends React.Component {
 
         this.styleConfig = {
             classNames: {
-                Table: "modal-table scidash-tilted-titles-table",
+                Table: "modal-table scidash-tilted-titles-table hideAll-column",
                 TableHeadingCell: "scidash-tilted-titles-table-heading-cell",
             }
         }
@@ -196,7 +196,7 @@ export default class ScoreMatrix extends React.Component {
             const HideRowCell = ({value}) => <i onClick={() => this.hideRow(value)} className="fa fa-eye-slash eye-icon" title="Hide row"></i>
                 const ShowAllHeading = ({value}) => <RaisedButton style={ !this.hiddenModels.length ? {
                 display: "none"
-            } : {}} onClick={this.showAll} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5 }}/>} title="Show all"/>
+            } : {transform : "none"}} onClick={this.showAll} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5 , transform : "none"}}/>} title="Show all"/>
 
             const griddleComponents = {
                 Filter: () => null,
