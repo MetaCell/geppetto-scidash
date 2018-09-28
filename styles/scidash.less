@@ -130,12 +130,12 @@ body {
 .scidash-tilted-titles-table {
     color: @secondary_color;
     .scidash-tilted-titles-table-heading-cell{
-        vertical-align:top;
-        text-align: left;
-        height: 150px;
-        max-width: 90px;
-        word-wrap: break-word;
-        transform: translate(60px,35px) rotate(315deg);
+            vertical-align: top;
+		    text-align: left;
+		    height: 200px;
+		    max-width: 50px;
+		    width: auto;
+		    transform: translate(75px, 135px) rotate(315deg);
 	}
     .filter-label {
         padding: 0px 10px;
@@ -149,11 +149,21 @@ body {
     th{
         vertical-align:top;
     }
+    
     .griddle-cell {
         border-top:1px solid #aaa;
     }
 }
-    
+
+.modelName-row-heading{
+	padding: 0px 20px 5px 0;
+}
+
+.showAll-button{
+	transform : none;
+	vertical-align : bottom;
+}
+
 .scidash-materialui-field {
     float:right;
     div{
@@ -222,12 +232,18 @@ div[role=menu]{
     margin:0 auto;
 }
 
+.modal-table{
+    width: auto;
+    margin:0 auto;
+}
+
 .centered-modal {
     position: fixed !important;
     top: 50%;
     left: 50%;
+    width: 50%;
     transform: translate(-50%, -50%) !important;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 .loading-spinner {
@@ -235,11 +251,6 @@ div[role=menu]{
     height: 64px;
     text-align: center;
     overflow: visible;
-}
-
-.avg-score-heading {
-    word-wrap: break-word;
-    max-width: 150px;
 }
 
 .build-info-cell {

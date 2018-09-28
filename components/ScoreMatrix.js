@@ -32,7 +32,7 @@ export default class ScoreMatrix extends React.Component {
 
         this.styleConfig = {
             classNames: {
-                Table: "table scidash-tilted-titles-table suites-table",
+                Table: "modal-table scidash-tilted-titles-table",
                 TableHeadingCell: "scidash-tilted-titles-table-heading-cell",
             }
         }
@@ -188,7 +188,8 @@ export default class ScoreMatrix extends React.Component {
                 background: this.helper.getBackground(value.get("sort_key"), this.state.colorBlind),
                 color: "white",
                 padding: "8px",
-                margin : 0
+                margin : 0,
+                width: "auto"
             }}>{value.get("sort_key").toFixed(2)}</div>
 
 
@@ -200,7 +201,7 @@ export default class ScoreMatrix extends React.Component {
             const griddleComponents = {
                 Filter: () => null,
                 PageDropdown: () => null,
-                NoResults: () => <table className="table scidash-table suites-table no-results-table"><thead><tr><th><ShowAllHeading /></th></tr></thead></table>,
+                NoResults: () => <table className="modal-table scidash-tilted-titles-table"><thead><tr><th><ShowAllHeading /></th></tr></thead></table>,
                 SettingsToggle: () => null,
                 NextButton: (props) => {
                     if (props.hasNext)
@@ -236,6 +237,7 @@ export default class ScoreMatrix extends React.Component {
                                                     id={heading.id}
                                                     key={index}
                                                     title=" "
+                                                    cssClassName="modelName-row-heading"
                                                     order={index + 1} />);
                                     } else if (heading.title == "hide_all") {
                                         return (<ColumnDefinition
