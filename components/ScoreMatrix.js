@@ -20,6 +20,9 @@ export default class ScoreMatrix extends React.Component {
         this.scores = [];
         this.hiddenModels = [];
         this.tableData = [];
+        this.tableHeadersMaxLength = 1;
+        this.tableHeadersMaxLengthConstant = 6.5;
+        this.currentHeadingTitleIteration;
 
         this.state = {
             scoreMatrix: {
@@ -65,7 +68,7 @@ export default class ScoreMatrix extends React.Component {
         this.setState({
             colorBlind: this.props.colorBlind
         })
-        this.load(this.props.suite.get("hash"))
+        this.load(this.props.suite.get("hash"));
     }
 
     load(hash = false){
@@ -146,6 +149,12 @@ export default class ScoreMatrix extends React.Component {
             id: "hideButtons"
         })
 
+        this.tableHeadersMaxLength = 0;
+        for (var i = 0; i < scoreMatrix.headings.length; i++) {
+        	if(this.tableHeadersMaxLength < scoreMatrix.headings[i].title.length){
+        		this.tableHeadersMaxLength = scoreMatrix.headings[i].title.length;
+        	}
+        }
 
         return scoreMatrix;
     }
@@ -178,6 +187,7 @@ export default class ScoreMatrix extends React.Component {
     }
 
     render(){
+    	var self = this;
         if (this.state.scoreMatrix.headings.length > 0){
             const pageProperties = {
                 currentPage: 1,
@@ -193,10 +203,12 @@ export default class ScoreMatrix extends React.Component {
             }}>{value.get("sort_key").toFixed(2)}</div>
 
 
+            const Heading = ({title}) => <div className="scidash-tilted-titles-table-heading-cell-div">{title}</div>;
+            
             const HideRowCell = ({value}) => <i onClick={() => this.hideRow(value)} className="fa fa-eye-slash eye-icon" title="Hide row"></i>
                 const ShowAllHeading = ({value}) => <RaisedButton style={ !this.hiddenModels.length ? {
                 display: "none"
-            } : {}} onClick={this.showAll} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5}}/>} title="Show all"/>
+            } : {maxWidth: '60px',minWidth: '60px'}} onClick={this.showAll} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5}}/>} title="Show all"/>
 
             const griddleComponents = {
                 Filter: () => null,
@@ -232,7 +244,7 @@ export default class ScoreMatrix extends React.Component {
                             pageProperties={pageProperties} >
                             <RowDefinition>
                                 {this.state.scoreMatrix.headings.map((heading, index) => {
-                                    if (heading.title == "model_name"){
+                                	if (heading.title == "model_name"){
                                         return (<ColumnDefinition
                                                     id={heading.id}
                                                     key={index}
@@ -250,11 +262,12 @@ export default class ScoreMatrix extends React.Component {
                                                     cssClassName="griddle-cell score-matrix-cell"
                                                     order={index + 1} />);
                                     } else {
-                                        return (<ColumnDefinition
+                                    	return (<ColumnDefinition
                                                     id={heading.id}
                                                     key={index}
                                                     title={heading.title}
                                                     customComponent={ScoreCell}
+                                        			customHeadingComponent={Heading}
                                                     cssClassName="griddle-cell score-matrix-cell"
                                                     order={index + 1} />);
                                     }

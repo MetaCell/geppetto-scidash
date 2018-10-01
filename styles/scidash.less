@@ -130,12 +130,11 @@ body {
 .scidash-tilted-titles-table {
     color: @secondary_color;
     .scidash-tilted-titles-table-heading-cell{
-            vertical-align: top;
-		    text-align: left;
-		    height: 200px;
-		    max-width: 50px;
-		    width: auto;
-		    transform: translate(75px, 135px) rotate(315deg);
+         	height:30px;
+			max-height: 30px;
+    		max-width: 50px;
+			vertical-align: bottom;
+			white-space: nowrap;   
 	}
     .filter-label {
         padding: 0px 10px;
@@ -155,10 +154,23 @@ body {
     }
 }
 
+.scidash-tilted-titles-table-heading-cell-div{
+    vertical-align: top;
+    text-align: left;
+    max-width: 220px;
+    height: 200px;
+    max-height: 150px;
+    width: 225px;
+    transform: translate(35px, 35px) rotate(315deg);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .hideAll-column {
     /* Adjustments to column with hide all buttons*/
     th:last-child{
-    	transform : translate(80px, 100px) rotate(315deg);
+    	padding-left : 20px;
     }
 }
 
@@ -231,12 +243,12 @@ div[role=menu]{
 
 .suites-table{
     width: 90%;
-    margin:0 auto;
+    margin:10px auto;
 }
 
 .modal-table{
     width: auto;
-    margin:0 auto;
+    margin:55px auto;
 }
 
 .centered-modal {
