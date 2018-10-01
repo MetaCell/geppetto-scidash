@@ -73,7 +73,7 @@ export default class AvgScoreDetails extends React.Component {
         });
         const headings = this.state.scoreList.map((item, index) => {
             return <th className="scidash-tilted-titles-table-heading-cell" key={"heading-" + item.get("id")}
-            		style={{fontStyle: this.state.selectedScore == item.get("id") ? "italic" : "normal",	
+                    style={{fontStyle: this.state.selectedScore == item.get("id") ? "italic" : "normal",	
                     textDecoration: this.state.selectedScore == item.get("id") ? "underline" : "none"}}>
                       <div className="scidash-tilted-titles-table-heading-cell-div">
                           {item.get("test_instance").get("test_class").get("class_name")}

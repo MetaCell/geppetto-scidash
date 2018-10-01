@@ -20,9 +20,6 @@ export default class ScoreMatrix extends React.Component {
         this.scores = [];
         this.hiddenModels = [];
         this.tableData = [];
-        this.tableHeadersMaxLength = 1;
-        this.tableHeadersMaxLengthConstant = 6.5;
-        this.currentHeadingTitleIteration;
 
         this.state = {
             scoreMatrix: {
@@ -149,13 +146,6 @@ export default class ScoreMatrix extends React.Component {
             id: "hideButtons"
         })
 
-        this.tableHeadersMaxLength = 0;
-        for (var i = 0; i < scoreMatrix.headings.length; i++) {
-        	if(this.tableHeadersMaxLength < scoreMatrix.headings[i].title.length){
-        		this.tableHeadersMaxLength = scoreMatrix.headings[i].title.length;
-        	}
-        }
-
         return scoreMatrix;
     }
 
@@ -203,7 +193,7 @@ export default class ScoreMatrix extends React.Component {
             }}>{value.get("sort_key").toFixed(2)}</div>
 
 
-            const Heading = ({title}) => <div className="scidash-tilted-titles-table-heading-cell-div">{title}</div>;
+            const TitleHeader = ({title}) => <div className="scidash-tilted-titles-table-heading-cell-div">{title}</div>;
             
             const HideRowCell = ({value}) => <i onClick={() => this.hideRow(value)} className="fa fa-eye-slash eye-icon" title="Hide row"></i>
                 const ShowAllHeading = ({value}) => <RaisedButton style={ !this.hiddenModels.length ? {
@@ -267,7 +257,7 @@ export default class ScoreMatrix extends React.Component {
                                                     key={index}
                                                     title={heading.title}
                                                     customComponent={ScoreCell}
-                                        			customHeadingComponent={Heading}
+                                    	            customHeadingComponent={TitleHeader}
                                                     cssClassName="griddle-cell score-matrix-cell"
                                                     order={index + 1} />);
                                     }
