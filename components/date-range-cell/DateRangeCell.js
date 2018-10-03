@@ -1,8 +1,7 @@
 import React from "react";
-
 import DatePicker from "material-ui/DatePicker";
+import { ClearButton } from "./partials";
 
-import ClearButton from "./partials";
 
 export default class DateRangeCell extends React.Component {
 
@@ -13,14 +12,21 @@ export default class DateRangeCell extends React.Component {
     }
 
     render(){
-        console.log(this.props);
-
         return (
             <span style={{
                 textAlign: "center"
             }}>
                 <p>
-                    {this.props.title} {this.props.icon}
+                    {this.props.title}&nbsp;
+
+                    <ClearButton
+                        changed={this.props.changed}
+                        clearFilter={(event) => {
+                            this.props.stopPropagation(event);
+                            this.props.onClearDateFilter();
+                        }} />
+
+                    {this.props.icon}
                 </p>
 
                 <div className="datepicker-wrapper">
@@ -33,7 +39,7 @@ export default class DateRangeCell extends React.Component {
                             style={this.props.styleWrapper}
                             textFieldStyle={this.props.styleTextField}
                             value={this.props.value.from}
-                            onChange={this.props.onChange}
+                            onChange={(event, date) => this.props.onFilterUpdate(date.toISOString(), this.props.filterNameFrom)}
                         />
                     </div>
 
@@ -46,11 +52,10 @@ export default class DateRangeCell extends React.Component {
                             style={this.props.styleWrapper}
                             textFieldStyle={this.props.styleTextField}
                             value={this.props.value.to}
-                            onChange={this.props.onChange}
+                            onChange={(event, date) => this.props.onFilterUpdate(date.toISOString(), this.props.filterNameTo)}
                         />
                     </div>
                 </div>
-
             </span>
         );
 

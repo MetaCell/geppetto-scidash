@@ -3,16 +3,21 @@ import { connect } from 'react-redux';
 import TestInstances from './TestInstances'
 import RaisedButton from 'material-ui/RaisedButton';
 import ScidashStorage from '../../shared/ScidashStorage';
+import ScoreApiService from '../../services/api/ScoreApiService';
 
 import {
     filteringStarted,
     filteringFinished
 } from '../../actions/creators/test-instances';
 
+import {
+    dateFilterChanged,
+    clearDateFilter
+} from '../../actions/creators/global';
+
 const mapStateToProps = state => {
     return {
         data: state.testInstances.data,
-        filters: {},
         colorBlind: state.header.colorBlind,
         styleConfig: {
             classNames: {
@@ -60,11 +65,13 @@ const mapStateToProps = state => {
                     }
                 });
         },
-        showLoading: state.testInstances.showLoading
+        showLoading: state.testInstances.showLoading,
+        dateFilterChanged: state.global.dateFilterChanged
     };
 }
 
 const mapDispatchToProps = dispatch => {
+
     return {
         onFilterUpdate: (searchText, filterName) =>  {
             let storage = new ScidashStorage();
@@ -83,8 +90,16 @@ const mapDispatchToProps = dispatch => {
                 ));
             }
 
+            if (/^timestamp_.*/.test(filterName)){
+                dispatch(dateFilterChanged());
+            }
+
             let timeoutId = setTimeout(f, 200, searchText, filterName, dispatch);
             storage.setItem(timeoutKey, timeoutId);
+        },
+        onDateFilterClear: (event) => {
+            event.stopPropagation();
+            dispatch(clearDateFilter())
         }
     };
 }

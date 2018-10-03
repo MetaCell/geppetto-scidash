@@ -12,6 +12,7 @@ export default class InitialStateService {
     initialStateTemplate = {
         global: {
             globalFilters: { },
+            dateFilterChanged: false
         },
         testInstances: {
             data: [

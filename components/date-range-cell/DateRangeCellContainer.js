@@ -21,9 +21,11 @@ const mapStateToProps = (state, ownProps) => {
     }
 
     return {
-        changed: false,
+        changed: ownProps.dateFilterChanged,
         title: ownProps.title,
         icon: ownProps.icon,
+        filterNameFrom: filterNameBase + names[0],
+        filterNameTo: filterNameBase + names[1],
         styleTextField: {
             width: "80px",
             borderRadius: "0px",
@@ -37,20 +39,15 @@ const mapStateToProps = (state, ownProps) => {
         styleWrapper: {
             margin: "0px 1px 0px 0px"
         },
+        onFilterUpdate: ownProps.onFilterUpdate,
         value,
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        clearFilter: () => {
-            console.log("Hi");
-        },
         stopPropagation: (event) => {
             event.stopPropagation()
-        },
-        onChange: (event, date) => {
-            console.log("ON DATE RANGE CHANGE");
         }
     }
 }

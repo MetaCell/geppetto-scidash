@@ -107,7 +107,13 @@ export default class TestInstances extends React.Component {
                             title="Timestamp"
                             width="100px"
                             customComponent={ScidashTimestampColumn}
-                            customHeadingComponent={DateRangeCellContainer} order={10} />
+                            customHeadingComponent={(props) =>  <DateRangeCellContainer
+                                onFilterUpdate={this.props.onFilterUpdate}
+                                dateFilterChanged={this.props.dateFilterChanged}
+                                onDateFilterChanged={this.props.onDateFilterChanged}
+                                {...props}
+                                />
+                            } order={10} />
                         <ColumnDefinition
                             isMetadata="true"
                             id="_timestamp"
