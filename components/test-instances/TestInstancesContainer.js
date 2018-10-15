@@ -72,34 +72,38 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 
+    let filter = (searchText, filterName, dispatch, reset = false) => {
+
+        let storage = new ScidashStorage();
+        let timeoutKey = 'lastFilterTimeoutId';
+
+        if (storage.getItem(timeoutKey)){
+            clearTimeout(storage.getItem(timeoutKey))
+            storage.setItem(timeoutKey, false)
+        }
+
+        let f = (searchText, filterName, dispatch) => {
+            dispatch(filteringStarted(
+                searchText,
+                filterName,
+                dispatch
+            ));
+        }
+
+        if (/^timestamp_.*/.test(filterName) && !reset){
+            dispatch(dateFilterChanged());
+        }
+
+        let timeoutId = setTimeout(f, 200, searchText, filterName, dispatch);
+        storage.setItem(timeoutKey, timeoutId);
+    }
+
     return {
         onFilterUpdate: (searchText, filterName) =>  {
-            let storage = new ScidashStorage();
-            let timeoutKey = 'lastFilterTimeoutId';
-
-            if (storage.getItem(timeoutKey)){
-                clearTimeout(storage.getItem(timeoutKey))
-                storage.setItem(timeoutKey, false)
-            }
-
-            let f = (searchText, filterName, dispatch) => {
-                dispatch(filteringStarted(
-                    searchText,
-                    filterName,
-                    dispatch
-                ));
-            }
-
-            if (/^timestamp_.*/.test(filterName)){
-                dispatch(dateFilterChanged());
-            }
-
-            let timeoutId = setTimeout(f, 200, searchText, filterName, dispatch);
-            storage.setItem(timeoutKey, timeoutId);
+            filter(searchText, filterName, dispatch)
         },
         onDateFilterClear: (event) => {
-            event.stopPropagation();
-            dispatch(clearDateFilter())
+            dispatch(clearDateFilter(filter, dispatch))
         }
     };
 }

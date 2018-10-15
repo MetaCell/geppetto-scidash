@@ -7,8 +7,10 @@ export function dateFilterChanged(){
     }
 }
 
-export function clearDateFilter(){
+export function clearDateFilter(filter, dispatch){
     return {
-        type: DATE_FILTER_CLEAR
+        type: DATE_FILTER_CLEAR,
+        filter,
+        dispatch
     }
 }

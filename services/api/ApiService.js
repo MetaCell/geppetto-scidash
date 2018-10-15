@@ -30,7 +30,6 @@ export default class ApiService {
     }
 
     setupFilter(key, value){
-
         let currentFilters = {}
 
         try{

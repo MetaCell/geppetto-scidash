@@ -23,7 +23,7 @@ export default class DateRangeCell extends React.Component {
                         changed={this.props.changed}
                         clearFilter={(event) => {
                             this.props.stopPropagation(event);
-                            this.props.onClearDateFilter();
+                            this.props.onDateFilterClear();
                         }} />
 
                     {this.props.icon}

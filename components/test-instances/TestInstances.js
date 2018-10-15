@@ -110,7 +110,7 @@ export default class TestInstances extends React.Component {
                             customHeadingComponent={(props) =>  <DateRangeCellContainer
                                 onFilterUpdate={this.props.onFilterUpdate}
                                 dateFilterChanged={this.props.dateFilterChanged}
-                                onDateFilterChanged={this.props.onDateFilterChanged}
+                                onDateFilterClear={this.props.onDateFilterClear}
                                 {...props}
                                 />
                             } order={10} />

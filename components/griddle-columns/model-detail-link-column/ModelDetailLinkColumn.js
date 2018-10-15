@@ -91,3 +91,4 @@ export default class ScidashModelDetailLinkColumn extends React.Component {
 }
 
 
+

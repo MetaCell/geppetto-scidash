@@ -40,6 +40,7 @@ const mapStateToProps = (state, ownProps) => {
             margin: "0px 1px 0px 0px"
         },
         onFilterUpdate: ownProps.onFilterUpdate,
+        onDateFilterClear: ownProps.onDateFilterClear,
         value,
     };
 }
