@@ -71,11 +71,18 @@ export default class AvgScoreDetails extends React.Component {
 
             </td>;
         });
+        
+        var that = this;
         const headings = this.state.scoreList.map((item, index) => {
+        	//different class for two last headings, prevents title going overflow
+        	var thDivClassName = "scidash-tilted-titles-table-heading-cell-div";
+        	if(index >= (that.state.scoreList.size-2)){
+        		thDivClassName += " last-heading";
+        	}
             return <th className="scidash-tilted-titles-table-heading-cell" key={"heading-" + item.get("id")}
                     style={{fontStyle: this.state.selectedScore == item.get("id") ? "italic" : "normal",	
                     textDecoration: this.state.selectedScore == item.get("id") ? "underline" : "none"}}>
-                      <div className="scidash-tilted-titles-table-heading-cell-div">
+                      <div className={thDivClassName}>
                           {item.get("test_instance").get("test_class").get("class_name")}
                       </div>
                    </th>;

@@ -51,7 +51,7 @@ export default class ScoreDetails extends React.Component {
                     justifyContent: "space-around",
                     alignItems: "flex-start"
                 }}>
-                    <div style={{minWidth: "350px", margin: "15px"}}>
+                    <div style={{minWidth: "100px", margin: "15px"}}>
                         <h4 style={{
                             maxWidth: "360px"
                         }}>{this.state.scoreInstance.get("test_instance").get("test_class").get("class_name") + " details"}</h4>
@@ -159,7 +159,7 @@ export default class ScoreDetails extends React.Component {
                             </CardText>
                         </Card>
                     </div>
-                    <div style={{ wordWrap: "break-word", minWidth:"350px", margin:"15px" }}>
+                    <div style={{ wordWrap: "break-word", minWidth:"100px", margin:"15px" }}>
                         <h4>Model details</h4>
                         <ModelDetails modelInstance={modelInstance} />
                     </div>

@@ -189,16 +189,17 @@ export default class ScoreMatrix extends React.Component {
                 color: "white",
                 padding: "8px",
                 margin : 0,
-                width: "auto"
+                width: "auto",
+                textAlign: "center"
             }}>{value.get("sort_key").toFixed(2)}</div>
 
 
             const TitleHeader = ({title}) => <div className="scidash-tilted-titles-table-heading-cell-div">{title}</div>;
             
             const HideRowCell = ({value}) => <i onClick={() => this.hideRow(value)} className="fa fa-eye-slash eye-icon" title="Hide row"></i>
-                const ShowAllHeading = ({value}) => <RaisedButton style={ !this.hiddenModels.length ? {
+                const ShowAllHeading = ({value}) => <RaisedButton id="showAllButton" style={ !this.hiddenModels.length ? {
                 display: "none"
-            } : {maxWidth: '60px',minWidth: '60px'}} onClick={this.showAll} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5}}/>} title="Show all"/>
+            } : {minWidth: '45px', width: '45px', maxHeight : '30px'}} onClick={this.showAll} icon={<FontIcon className="fa fa-eye show-all-icon"/>} title="Show all"/>
 
             const griddleComponents = {
                 Filter: () => null,
@@ -246,7 +247,7 @@ export default class ScoreMatrix extends React.Component {
                                                     id="hideButtons"
                                                     key={index}
                                                     title={heading.title}
-                                                    width="88px"
+                                                    width="55px"
                                                     customComponent={HideRowCell}
                                                     customHeadingComponent={ShowAllHeading}
                                                     cssClassName="griddle-cell score-matrix-cell"

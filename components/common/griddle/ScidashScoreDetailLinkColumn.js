@@ -96,10 +96,11 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
                     actions={actions}
                     modal={true}
                     autoScrollBodyContent={true}
-                    contentStyle={{
-                        width: "830px",
-                        maxWidth: "none"
-                    }}
+	                contentStyle={{
+	                    width: "75%",
+	                    maxWidth: "none"
+	                }}
+                	contentClassName="centered-modal"
                     open={this.state.open}
                 >
                     <ScoreDetails scoreInstance={this.state.scoreObject} colorBlind={this.state.colorBlind}/>
