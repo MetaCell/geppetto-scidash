@@ -2,9 +2,10 @@ import React from "react";
 import Griddle, {ColumnDefinition, RowDefinition, plugins} from "griddle-react";
 
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
-import ScidashScoreDetailLinkColumn from "./partials/ScidashScoreDetailLinkColumn";
-import ScidashModelDetailLinkColumn from "./partials/ScidashModelDetailLinkColumn";
+import ScoreDetailLinkColumnContainer from "../griddle-columns/score-detail-link-column/ScoreDetailLinkColumnContainer";
+import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link-column/ModelDetailLinkColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
+
 import {
     CustomScoreName,
     ScidashBuildInfoColumn,
@@ -12,7 +13,6 @@ import {
 } from "./partials";
 
 import Loader from "../loader/Loader";
-
 
 export default class TestInstances extends React.Component {
 
@@ -46,7 +46,9 @@ export default class TestInstances extends React.Component {
                             id="score"
                             title="Score"
                             sortMethod={this.props.sortScore}
-                            customComponent={(props) => <ScidashScoreDetailLinkColumn parent={this} {...props} />}
+                            customComponent={(props) => <ScoreDetailLinkColumnContainer
+                                    colorBlind={this.props.colorBlind}
+                                    {...props} />}
                             order={2} />
                         <ColumnDefinition
                             id="_sort_key"
@@ -66,7 +68,7 @@ export default class TestInstances extends React.Component {
                             id="model"
                             title="Model"
                             sortMethod={this.sortModel}
-                            customComponent={ScidashModelDetailLinkColumn}
+                            customComponent={ModelDetailLinkColumnContainer}
                             customHeadingComponent={(props) => <FilterCellContainer
                                 autoCompleteData={this.props.autoCompleteData}
                                 onFilterUpdate={this.props.onFilterUpdate}

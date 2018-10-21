@@ -1,10 +1,10 @@
 import {
-    FILTERING_STARTED,
-    FILTERING_FINISHED
+    FILTERING_TESTS_STARTED,
+    FILTERING_TESTS_FINISHED
 } from '../actions/creators/test-instances';
 import {
-    filteringStarted,
-    filteringFinished
+    filteringTestsStarted,
+    filteringTestsFinished
 } from '../actions/test-instances';
 
 
@@ -17,14 +17,14 @@ export default function scidashTestInstances(state = {}, action = null){
     let newState = null;
 
     switch(action.type){
-        case FILTERING_STARTED:
+        case FILTERING_TESTS_STARTED:
             newState = {
-                ...filteringStarted(state, action)
+                ...filteringTestsStarted(state, action)
             };
             break;
-        case FILTERING_FINISHED:
+        case FILTERING_TESTS_FINISHED:
             newState = {
-                ...filteringFinished(state, action)
+                ...filteringTestsFinished(state, action)
             };
             break;
         default:

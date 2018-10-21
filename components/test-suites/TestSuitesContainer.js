@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TestInstances from './TestInstances'
+import TestSuites from './TestSuites'
 import RaisedButton from 'material-ui/RaisedButton';
 import ScidashStorage from '../../shared/ScidashStorage';
 import ScoreApiService from '../../services/api/ScoreApiService';
 
 import {
-    filteringTestsStarted
-} from '../../actions/creators/test-instances';
+    filteringSuitesStarted,
+    filteringSuitesFinished
+} from '../../actions/creators/test-suites';
 
 import {
     dateFilterChanged,
@@ -16,15 +17,15 @@ import {
 
 const mapStateToProps = state => {
     return {
-        data: state.testInstances.data,
+        data: state.testSuites.data,
         colorBlind: state.header.colorBlind,
         styleConfig: {
             classNames: {
-                Table: 'table scidash-table',
+                Table: 'table scidash-table suites-table',
                 TableHeadingCell: 'scidash-table-heading-cell'
             }
         },
-        autoCompleteData: state.testInstances.autoCompleteData,
+        autoCompleteData: state.testSuites.autoCompleteData,
         griddleComponents: {
             Filter: () => null,
             SettingsToggle: () => null,
@@ -48,7 +49,7 @@ const mapStateToProps = state => {
         pageProperties: {
             currentPage: 1
         },
-        showLoading: state.testInstances.showLoading,
+        showLoading: state.testSuites.showLoading,
         dateFilterChanged: state.global.dateFilterChanged,
     };
 }
@@ -66,7 +67,7 @@ const mapDispatchToProps = dispatch => {
         }
 
         let f = (searchText, filterName, dispatch) => {
-            dispatch(filteringTestsStarted(
+            dispatch(filteringSuitesStarted(
                 searchText,
                 filterName,
                 dispatch
@@ -107,10 +108,10 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-const TestInstancesContainer = connect(
+const TestSuitesContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(TestInstances)
+)(TestSuites)
 
 
-export default TestInstancesContainer;
+export default TestSuitesContainer;

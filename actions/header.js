@@ -29,31 +29,3 @@ export function toggleColorBlind(headerState, action){
 
     return newState;
 }
-
-export function openTestsPage(headerState, action){
-
-    new ApiService().clearFilters()
-    window.history.pushState("", "", "/");
-
-    let newState = {
-        ...headerState,
-        suitesActive: false,
-        testsActive: true
-    };
-
-    return newState;
-}
-
-export function openSuitesPage(headerState, action){
-
-    new ApiService().clearFilters()
-    window.history.pushState("", "", "/");
-
-    let newState = {
-        ...headerState,
-        testsActive: false,
-        suitesActive: true
-    };
-
-    return newState;
-}

@@ -23,7 +23,7 @@ const ModelDetails = ({ modelClassName, modelClassUrl, classCapabilities, instan
                 <p><strong>Instance name: </strong>
                     {instanceName}
                 </p>
-                <p><strong>Instance source: </strong>
+                <p className="model-url"><strong>Instance source: </strong>
                     {instanceSource}
                 </p>
                 <p><strong>Instance - Run parameters: </strong>

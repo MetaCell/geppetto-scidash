@@ -5,90 +5,63 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import ModelDetailsContainer from '../../model-details/ModelDetailsContainer';
 
-const customContentStyle = {
-    width: '900px',
-    height: '900px'
-};
+export default class ModelDetailLinkColumn extends React.Component {
 
-export default class ScidashModelDetailLinkColumn extends React.Component {
     constructor(props, context){
-        super(props, context)
+        super(props, context);
         this.props = props;
-        this.openModelDetail = this.openModelDetail.bind(this);
-        this.closeModelDetail = this.closeModelDetail.bind(this);
         this.state = {
             open: false,
-            modelInstanceObject: new Map()
-        };
+        }
+        this.openModelDetail = this.openModelDetail.bind(this)
+        this.closeModelDetail = this.closeModelDetail.bind(this)
     }
 
-    componentDidMount(){
+    openModelDetail(event){
+        event.preventDefault();
         this.setState({
-            modelInstanceObject: this.props.value
+            open: true
         })
     }
 
-    componentWillReceiveProps(nextProps, nextState){
+    closeModelDetail(event){
+        event.preventDefault();
         this.setState({
-            modelInstanceObject: nextProps.value
-        });
+            open: false
+        })
     }
 
-    openModelDetail(e){
-        e.preventDefault()
-        this.setState({
-            open:true
-        });
-    }
 
-    closeModelDetail(e){
-        e.preventDefault()
-        this.setState({
-            open:false
-        });
-    }
-
-    render(){
+    render() {
         const actions = [
-            <FlatButton
+
+        <FlatButton
             label="Close"
             primary={true}
             onClick={this.closeModelDetail}
-            />,
+        />
+
         ];
 
-        let className = "";
-        let modelObject = {};
-        let instanceName = "";
-
-        if (typeof this.state.modelInstanceObject.get("model_class") != "undefined"){
-            modelObject = this.state.modelInstanceObject.get("model_class");
-            className = modelObject.get("class_name");
-            instanceName = this.state.modelInstanceObject.get("name");
-        }
-
         return (
-                <div>
-                    <a
-                        onClick={this.openModelDetail}
-                        style={{
-                            cursor: "pointer"
-                        }}
-                    >{className} {instanceName && `(${instanceName})`}</a>
-                    <Dialog
-                        title={className + " details"}
-                        actions={actions}
-                        modal={true}
-                        contentStyle={customContentStyle}
-                        autoScrollBodyContent={true}
-                        open={this.state.open}
-                    >
-                        <ModelDetailsContainer model={this.state.modelInstanceObject} />
-                    </Dialog>
-                </div>
-            );
+            <div>
+                <a
+                    onClick={this.openModelDetail}
+                    style={{
+                        cursor: "pointer"
+                    }}
+                >{this.props.className} {this.props.instanceName && `(${this.props.instanceName})`}</a>
+            <Dialog
+                title={this.props.className + " details"}
+                actions={actions}
+                modal={true}
+                contentStyle={this.props.customContentStyle}
+                autoScrollBodyContent={true}
+                open={this.state.open}
+            >
+                <ModelDetailsContainer model={this.props.modelInstance} />
+            </Dialog>
+        </div>
+        );
     }
 }
-
-
-

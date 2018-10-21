@@ -1,17 +1,22 @@
 import {
     toggleSettings,
     hideSettings,
-    toggleColorBlind,
+    toggleColorBlind
+} from '../actions/header';
+import {
     openTestsPage,
     openSuitesPage
-} from '../actions/header';
+} from '../actions/shared';
 import {
     TOGGLE_SETTINGS,
     HIDE_SETTINGS,
     TOGGLE_COLOR_BLIND,
+} from '../actions/creators/header';
+import {
     OPEN_SUITES_PAGE,
     OPEN_TESTS_PAGE
-} from '../actions/creators/header';
+} from '../actions/creators/shared';
+
 
 export default function scidashHeader(state = {}, action){
     console.group("SCIDASH HEADER REDUCER");
@@ -40,12 +45,12 @@ export default function scidashHeader(state = {}, action){
             break;
         case OPEN_SUITES_PAGE:
             newState = {
-                ...openSuitesPage(state, action)
+                ...openSuitesPage(state, action, 'header')
             }
             break;
         case OPEN_TESTS_PAGE:
             newState = {
-                ...openTestsPage(state, action)
+                ...openTestsPage(state, action, 'header')
             }
             break;
         default:

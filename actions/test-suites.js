@@ -1,7 +1,7 @@
-import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter';
+import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
 import $ from 'jquery';
 
-export function filteringTestsStarted(state, action){
+export function filteringSuitesStarted(state, action){
 
     $(".griddle-page-select").hide()
 
@@ -13,9 +13,9 @@ export function filteringTestsStarted(state, action){
     return newState;
 }
 
-export function filteringTestsFinished(state, action){
+export function filteringSuitesFinished(state, action){
 
-    let adapter = new TestInstancesGriddleAdapter()
+    let adapter = new TestSuitesGriddleAdapter()
 
     $(".griddle-page-select").show()
 
@@ -29,3 +29,4 @@ export function filteringTestsFinished(state, action){
 
     return newState;
 }
+

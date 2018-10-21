@@ -1,9 +1,11 @@
 import React from 'react';
 import ScoreApiService from './api/ScoreApiService';
+import PagesService from './PagesService';
 import RaisedButton from 'material-ui/RaisedButton';
 import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter';
 import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
 import TestInstancesAutocompleteAdapter from '../shared/adapter/TestInstancesAutocompleteAdapter';
+import TestSuitesAutocompleteAdapter from '../shared/adapter/TestSuitesAutocompleteAdapter';
 import Helper from '../shared/Helper';
 
 
@@ -12,7 +14,8 @@ export default class InitialStateService {
     initialStateTemplate = {
         global: {
             globalFilters: { },
-            dateFilterChanged: false
+            dateFilterChanged: false,
+            currentPage: new PagesService().getDefault()
         },
         testInstances: {
             data: [
@@ -48,8 +51,18 @@ export default class InitialStateService {
             }
         },
         testSuites: {
-            data: [],
+            data: [
+                {
+                    suiteObject: " ",
+                    avgScore: [],
+                    testsCount: "",
+                    model: {},
+                    timestamp: " ",
+                    _timestamp: " "
+                }
+            ],
             filters: {},
+            showLoading: false,
             autoCompleteData: {
                 suiteObject: [],
                 avgScore: [],
@@ -126,6 +139,10 @@ export default class InitialStateService {
 
             this.initialState.testInstances.autoCompleteData = new TestInstancesAutocompleteAdapter()
                 .setup(this.initialState.testInstances.data)
+                .getAutocompleteData();
+
+            this.initialState.testSuites.autoCompleteData = new TestSuitesAutocompleteAdapter()
+                .setup(this.initialState.testSuites.data)
                 .getAutocompleteData();
 
             onStateGenerated(this.initialState);

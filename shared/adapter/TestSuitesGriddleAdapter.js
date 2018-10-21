@@ -1,4 +1,5 @@
 import GriddleAdapter from './GriddleAdapter';
+import InitialStateService from '../../services/InitialStateService';
 
 export default class TestSuitesGriddleAdapter extends GriddleAdapter{
 
@@ -66,6 +67,16 @@ export default class TestSuitesGriddleAdapter extends GriddleAdapter{
         for (let item of list){
             item['avgScore']['value'] = this.countAggregateScore(item['avgScore']['scoreList']);
         }
+
+        if (list.length == 0){
+            console.log(list);
+            list = new InitialStateService()
+                .getInitialStateTemplate()
+                .testSuites
+                .data;
+        }
+
         return list;
+
     }
 }

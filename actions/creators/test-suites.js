@@ -1,16 +1,16 @@
 import ScoreApiService from "../../services/api/ScoreApiService";
 
-export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
-export const FILTERING_TESTS_FINISHED = "FILTERING_TESTS_FINISHED";
+export const FILTERING_SUITES_STARTED = "FILTERING_SUITES_STARTED";
+export const FILTERING_SUITES_FINISHED = "FILTERING_SUITES_FINISHED";
 
-export function filteringTestsFinished(scores){
+export function filteringSuitesFinished(scores){
     return {
-        type: FILTERING_TESTS_FINISHED,
+        type: FILTERING_SUITES_FINISHED,
         scores
     };
 }
 
-export function filteringTestsStarted(searchText, filterName, dispatch){
+export function filteringSuitesStarted(searchText, filterName, dispatch){
     let service = new ScoreApiService();
 
     if (searchText.length > 0)
@@ -24,11 +24,12 @@ export function filteringTestsStarted(searchText, filterName, dispatch){
         let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(service.getFilters()) : "/";
 
         window.history.pushState("", "", filterString);
-        dispatch(filteringTestsFinished(result))
+        dispatch(filteringSuitesFinished(result))
 
     })
 
     return {
-        type: FILTERING_TESTS_STARTED
+        type: FILTERING_SUITES_STARTED
     }
 }
+

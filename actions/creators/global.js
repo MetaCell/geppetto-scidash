@@ -4,7 +4,7 @@ export const DATE_FILTER_CLEAR = "DATE_FILTER_CLEAR";
 export function dateFilterChanged(){
     return {
         type: DATE_FILTER_CHANGED
-    }
+    };
 }
 
 export function clearDateFilter(filter, dispatch){
@@ -12,5 +12,5 @@ export function clearDateFilter(filter, dispatch){
         type: DATE_FILTER_CLEAR,
         filter,
         dispatch
-    }
+    };
 }

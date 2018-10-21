@@ -3,10 +3,11 @@ import Header from './Header';
 import {
     toggleSettings,
     hideSettings,
+} from '../../../actions/creators/header';
+import {
     openSuitesPage,
     openTestsPage
-} from '../../../actions/creators/header';
-
+} from '../../../actions/creators/shared';
 
 const mapStateToProps = state => {
     return {
