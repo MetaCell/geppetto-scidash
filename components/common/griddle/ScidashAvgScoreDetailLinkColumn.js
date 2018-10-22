@@ -55,31 +55,22 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
     }
     
     takeScreenshot(){
-        window.html2canvas = html2canvas
-
-        var tbl = document.getElementById('table_container_div');
-        var colSize = tbl.getElementsByTagName('col').length;
-        var col = tbl.getElementsByTagName('col')[colSize-1];
-        if (col) {
-          col.style.visibility="collapse";
-        }
-        
-        html2canvas(document.querySelector("#table_container_div")).then(function(canvas) {
-        	var a = document.createElement('a');
-	        // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
-	        a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-	        a.download = 'screenshot_table.jpg';
-	        a.click();
-        });
+    	html2canvas(document.querySelector("#table_container_div")).then(function(canvas) {
+    		var a = document.createElement('a');
+    		// toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
+    		a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    		a.download = 'screenshot_table.png';
+    		a.click();
+    	});
     }
 
     render(){
         const actions = [
-			<FlatButton
-			label="Screenshot"
-			primary={true}
-			icon={<FontIcon className="fa fa-camera"/>}
-			onClick={this.takeScreenshot}
+            <FlatButton
+            label="Screenshot"
+            primary={true}
+            icon={<FontIcon className="fa fa-camera"/>}
+            onClick={this.takeScreenshot}
 			/>,
             <FlatButton
             label="Close"

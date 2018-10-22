@@ -53,37 +53,36 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
     }
     
     toggleLastColumn(mode){
-        var col;
-        var tbl = document.getElementsByClassName("scidash-tilted-titles-table")[0];
-        if (tbl != null) {
-            col = tbl.getElementsByTagName("tr")[1].getElementsByTagName("td").length-1;
+    	var col;
+    	var tbl = document.getElementsByClassName("scidash-tilted-titles-table")[0];
+    	if (tbl != null) {
+    		col = tbl.getElementsByTagName("tr")[1].getElementsByTagName("td").length-1;
 
-            if (col < 0 || col >= tbl.rows.length) {
-                alert("Invalid Column");
-                return;
-            }
+    		if (col < 0 || col >= tbl.rows.length) {
+    			return;
+    		}
 
-            for (var i = 0; i < tbl.rows.length; i++) {
-                for (var j = 0; j < tbl.rows[i].cells.length; j++) {
-                    tbl.rows[i].cells[j].style.display = "";
-                    if (j == col)
-                        tbl.rows[i].cells[j].style.display = mode? "":"none";
-                }
-            }
-        }
+    		for (var i = 0; i < tbl.rows.length; i++) {
+    			for (var j = 0; j < tbl.rows[i].cells.length; j++) {
+    				tbl.rows[i].cells[j].style.display = "";
+    				if (j == col)
+    					tbl.rows[i].cells[j].style.display = mode? "":"none";
+    			}
+    		}
+    	}
     }
     
     takeScreenshot(){
     	var self = this;
-        this.toggleLastColumn(false);
-        html2canvas(document.querySelector("#table_container_div")).then(function(canvas) {
-        	var a = document.createElement('a');
-	        // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
-	        a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-	        a.download = 'screenshot_table.jpg';
-	        a.click();
-	        self.toggleLastColumn(true);
-        });
+    	this.toggleLastColumn(false);
+    	html2canvas(document.querySelector("#table_container_div")).then(function(canvas) {
+    		var a = document.createElement('a');
+    		// toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
+    		a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    		a.download = 'screenshot_table.png';
+    		a.click();
+    		self.toggleLastColumn(true);
+    	});
     }
 
     render(){
@@ -91,7 +90,7 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
         <FlatButton
             label="Screenshot"
             primary={true}
-        	icon={<FontIcon className="fa fa-camera"/>}
+            icon={<FontIcon className="fa fa-camera"/>}
             onClick={this.takeScreenshot}
         />,
         <FlatButton
@@ -102,7 +101,7 @@ export default class ScidashScoreDetailLinkColumn extends React.Component {
         ];
 
         return (
-            <div id="modal_dialog">
+            <div>
                 <a
                     onClick={this.openScoreMatrix}
                     style={{
