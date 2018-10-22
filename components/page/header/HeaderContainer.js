@@ -45,7 +45,6 @@ const mapDispatchToProps = dispatch => {
                 dispatch(hideSettings());
             }
         },
-
         openTestsPage: () => {
             dispatch(openTestsPage());
         },

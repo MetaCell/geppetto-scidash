@@ -4,34 +4,15 @@ import FlatButton from 'material-ui/FlatButton';
 import Helper from '../../../shared/Helper';
 //import ScoreMatrix from './../../ScoreMatrix';
 
-const customContentStyle = {
-    width: '900px',
-    height: '900px'
-};
-
 export default class ScidashSuiteNameLinkColumn extends React.Component {
     constructor(props, context){
         super(props, context)
         this.props = props;
         this.openScoreMatrix = this.openScoreMatrix.bind(this);
         this.closeScoreMatrix = this.closeScoreMatrix.bind(this);
-        this.helper = new Helper();
         this.state = {
-            open: false,
-            colorBlind: false
+            open: false
         };
-    }
-
-    componentDidMount(){
-        this.setState({
-            colorBlind: this.props.colorBlind
-        })
-    }
-
-    componentWillReceiveProps(nextProps, nextState){
-        this.setState({
-            colorBlind: this.props.colorBlind
-        });
     }
 
     openScoreMatrix(e){

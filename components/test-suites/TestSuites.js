@@ -6,9 +6,9 @@ import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 // TODO: move this component to shared
 // Also remove all Scidash mentions
-import ScidashTimestampColumn from "./partials/ScidashTimestampColumn";
-import ScidashSuiteNameLinkColumn from "./partials/ScidashSuiteNameLinkColumn";
-import ScidashAvgScoreDetailLinkColumn from "./partials/ScidashAvgScoreDetailLinkColumn";
+import ScidashTimestampColumn from "./partials";
+import SuiteNameLinkColumnContainer from "../griddle-columns/suite-name-link-column/SuiteNameLinkColumnContainer";
+import AvgScoreDetailLinkColumnContainer from "../griddle-columns/avg-score-detail-link-column/AvgScoreDetailLinkColumnContainer"
 
 import Loader from "../loader/Loader";
 
@@ -32,7 +32,7 @@ export default class TestInstances extends React.Component {
                         <ColumnDefinition
                             id="suiteObject"
                             title="Suite Name"
-                            customComponent={(props) => <ScidashSuiteNameLinkColumn
+                            customComponent={(props) => <SuiteNameLinkColumnContainer
                                     colorBlind={this.props.colorBlind}
                                     {...props}
                                     /> }
@@ -44,7 +44,7 @@ export default class TestInstances extends React.Component {
                             } order={1} />
                         <ColumnDefinition
                             id="avgScore"
-                            customComponent={(props) => <ScidashAvgScoreDetailLinkColumn parent={this} colorBlind={this.props.colorBlind} {...props} />}
+                            customComponent={(props) => <AvgScoreDetailLinkColumnContainer colorBlind={this.props.colorBlind} {...props} />}
                             title="Avg Score"
                             width="100px"
                             order={2} />
@@ -71,9 +71,9 @@ export default class TestInstances extends React.Component {
                             title="Timestamp"
                             customComponent={ScidashTimestampColumn}
                             customHeadingComponent={(props) => <DateRangeCellContainer
-                                filterNameFrom="timestamp_from"
-                                filterNameTo="timestamp_to"
                                 onFilterUpdate={this.props.onFilterUpdate}
+                                dateFilterChanged={this.props.dateFilterChanged}
+                                onDateFilterClear={this.props.onDateFilterClear}
                                 {...props} />
                             } order={5} />
                         <ColumnDefinition
