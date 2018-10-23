@@ -2,7 +2,7 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Helper from '../../../shared/Helper';
-//import ScoreMatrix from './../../ScoreMatrix';
+import ScoreMatrixContainer from '../../score-matrix/ScoreMatrixContainer';
 
 export default class ScidashSuiteNameLinkColumn extends React.Component {
     constructor(props, context){
@@ -59,6 +59,13 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
                     contentClassName="centered-modal"
                     open={this.state.open}
                 >
+                    <ScoreMatrixContainer
+                        colorBlind={this.props.colorBlind}
+                        scoreMatrix={this.props.scoreMatrix}
+                        scoreMatrixTableData={this.props.scoreMatrixTableData}
+                        hiddenModels={this.props.hiddenModels}
+                        hideRow={this.props.hideRow}
+                    />
                 </Dialog>
             </div>
         );

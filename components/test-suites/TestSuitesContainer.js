@@ -7,7 +7,8 @@ import ScoreApiService from '../../services/api/ScoreApiService';
 
 import {
     filteringSuitesStarted,
-    filteringSuitesFinished
+    filteringSuitesFinished,
+    hideModel
 } from '../../actions/creators/test-suites';
 
 import {
@@ -18,6 +19,9 @@ import {
 const mapStateToProps = state => {
     return {
         data: state.testSuites.data,
+        scoreMatrix: state.testSuites.scoreMatrix,
+        scoreMatrixTableData: state.testSuites.scoreMatrixTableData,
+        hiddenModels: state.testSuites.hiddenModels,
         colorBlind: state.header.colorBlind,
         styleConfig: {
             classNames: {
@@ -83,6 +87,7 @@ const mapDispatchToProps = dispatch => {
     }
 
     return {
+        hideRow: (modelKey) => dispatch(hideModel(modelKey)),
         onFilterUpdate: (searchText, filterName) =>  {
             filter(searchText, filterName, dispatch)
         },

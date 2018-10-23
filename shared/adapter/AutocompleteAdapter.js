@@ -1,7 +1,15 @@
+class AdapterException {
+
+    message = '';
+
+    constructor(message){
+        this.message = message;
+    }
+}
 
 export default class AutocompleteAdapter {
 
-    setup(tableData) {
+    constructor(tableData) {
         this.tableData = tableData
         return this;
     }

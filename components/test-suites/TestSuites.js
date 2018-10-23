@@ -34,6 +34,10 @@ export default class TestInstances extends React.Component {
                             title="Suite Name"
                             customComponent={(props) => <SuiteNameLinkColumnContainer
                                     colorBlind={this.props.colorBlind}
+                                    scoreMatrix={this.props.scoreMatrix}
+                                    scoreMatrixTableData={this.props.scoreMatrixTableData}
+                                    hideRow={this.props.hideRow}
+                                    hiddenModels={this.props.hiddenModels}
                                     {...props}
                                     /> }
                             customHeadingComponent={(props) => <FilterCellContainer

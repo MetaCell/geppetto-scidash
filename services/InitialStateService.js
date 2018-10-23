@@ -4,6 +4,7 @@ import PagesService from './PagesService';
 import RaisedButton from 'material-ui/RaisedButton';
 import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter';
 import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
+import ScoreMatrixGriddleAdapter from '../shared/adapter/ScoreMatrixGriddleAdapter';
 import TestInstancesAutocompleteAdapter from '../shared/adapter/TestInstancesAutocompleteAdapter';
 import TestSuitesAutocompleteAdapter from '../shared/adapter/TestSuitesAutocompleteAdapter';
 import Helper from '../shared/Helper';
@@ -61,6 +62,9 @@ export default class InitialStateService {
                     _timestamp: " "
                 }
             ],
+            scoreMatrixTableData: [],
+            scoreMatrix: {},
+            hiddenModels:[],
             filters: {},
             showLoading: false,
             autoCompleteData: {
@@ -129,24 +133,35 @@ export default class InitialStateService {
             ...filtersFromUrl
         }).then((scores) => {
 
-            this.initialState.testInstances.data = new TestInstancesGriddleAdapter()
-                .setup(scores)
+            this.initialState.testInstances.data = new TestInstancesGriddleAdapter(scores)
                 .getGriddleData();
 
-            this.initialState.testSuites.data = new TestSuitesGriddleAdapter()
-                .setup(scores)
-                .getGriddleData();
-
-            this.initialState.testInstances.autoCompleteData = new TestInstancesAutocompleteAdapter()
-                .setup(this.initialState.testInstances.data)
+            this.initialState.testInstances.autoCompleteData = new TestInstancesAutocompleteAdapter(this.initialState.testInstances.data)
                 .getAutocompleteData();
 
-            this.initialState.testSuites.autoCompleteData = new TestSuitesAutocompleteAdapter()
-                .setup(this.initialState.testSuites.data)
-                .getAutocompleteData();
+            this.loadScores({
+                ...this.initialState.global.globalFilters,
+                ...filtersFromUrl,
+                with_suites: true
+            }).then((scores) => {
 
-            onStateGenerated(this.initialState);
+                this.initialState.testSuites.data = new TestSuitesGriddleAdapter(scores)
+                    .getGriddleData();
 
+                this.initialState.testSuites.autoCompleteData = new TestSuitesAutocompleteAdapter(this.initialState.testSuites.data)
+                    .getAutocompleteData();
+
+                let scoreMatrixAdapter = ScoreMatrixGriddleAdapter.getInstance(scores)
+
+                this.initialState.testSuites.scoreMatrixTableData = scoreMatrixAdapter
+                    .setHiddenModels([])
+                    .getGriddleData()
+
+                this.initialState.testSuites.scoreMatrix = scoreMatrixAdapter
+                    .getScoreMatrix()
+
+                onStateGenerated(this.initialState);
+            });
         });
     }
 }

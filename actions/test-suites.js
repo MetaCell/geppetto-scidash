@@ -1,4 +1,5 @@
 import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
+import ScoreMatrixGriddleAdapter from '../shared/adapter/ScoreMatrixGriddleAdapter';
 import $ from 'jquery';
 
 export function filteringSuitesStarted(state, action){
@@ -30,3 +31,17 @@ export function filteringSuitesFinished(state, action){
     return newState;
 }
 
+export function hideModel(state, action){
+    let hiddenModels = state.hiddenModels;
+    hiddenModels.push(action.modelKey);
+
+    let adapter = ScoreMatrixGriddleAdapter.getInstance()
+    adapter.setHiddenModels(hiddenModels);
+
+    return {
+        ...state,
+        scoreMatrix: adapter.getScoreMatrix(),
+        scoreMatrixTableData: adapter.getGriddleData(),
+        hiddenModels
+    }
+}

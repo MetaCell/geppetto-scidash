@@ -3,7 +3,13 @@ import SuiteNameLinkColumn from './SuiteNameLinkColumn';
 
 
 const mapStateToProps = (state, ownProps) => {
-    return {}
+    return {
+        colorBlind: ownProps.colorBlind,
+        hiddenModels: ownProps.hiddenModels,
+        scoreMatrix: ownProps.scoreMatrix,
+        scoreMatrixTableData: ownProps.scoreMatrixTableData,
+        hideRow: ownProps.hideRow
+    }
 }
 
 const mapDispatchToProps = dispatch => {

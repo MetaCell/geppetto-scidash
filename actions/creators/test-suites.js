@@ -2,6 +2,7 @@ import ScoreApiService from "../../services/api/ScoreApiService";
 
 export const FILTERING_SUITES_STARTED = "FILTERING_SUITES_STARTED";
 export const FILTERING_SUITES_FINISHED = "FILTERING_SUITES_FINISHED";
+export const HIDE_MODEL = "HIDE_MODEL";
 
 export function filteringSuitesFinished(scores){
     return {
@@ -18,7 +19,9 @@ export function filteringSuitesStarted(searchText, filterName, dispatch){
     else
         service.deleteFilter(filterName);
 
-    service.getList().then((result) => {
+    service.getList({
+        with_suites: true
+    }).then((result) => {
 
         let filters = service.getFilters();
         let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(service.getFilters()) : "/";
@@ -33,3 +36,9 @@ export function filteringSuitesStarted(searchText, filterName, dispatch){
     }
 }
 
+export function hideModel(modelKey) {
+    return {
+        type: HIDE_MODEL,
+        modelKey
+    }
+}

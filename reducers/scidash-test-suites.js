@@ -1,10 +1,12 @@
 import {
     FILTERING_SUITES_FINISHED,
-    FILTERING_SUITES_STARTED
+    FILTERING_SUITES_STARTED,
+    HIDE_MODEL
 } from "../actions/creators/test-suites"
 import {
     filteringSuitesFinished,
-    filteringSuitesStarted
+    filteringSuitesStarted,
+    hideModel
 } from "../actions/test-suites"
 
 export default function scidashTestSuites(state = {}, action){
@@ -24,6 +26,11 @@ export default function scidashTestSuites(state = {}, action){
         case FILTERING_SUITES_FINISHED:
             newState = {
                 ...filteringSuitesFinished(state, action)
+            };
+            break;
+        case HIDE_MODEL:
+            newState = {
+                ...hideModel(state, action)
             };
             break;
         default:

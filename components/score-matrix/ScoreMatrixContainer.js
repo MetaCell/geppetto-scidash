@@ -4,7 +4,17 @@ import Helper from '../../shared/Helper';
 
 
 const mapStateToProps = (state, ownProps) => {
-    return {}
+    return {
+        scoreMatrix: ownProps.scoreMatrix,
+        scoreMatrixTableData: ownProps.scoreMatrixTableData,
+        hiddenModels: ownProps.hiddenModels,
+        pageProperties: {
+            currentPage: 1,
+            pageSize: 50
+        },
+        colorBlind: ownProps.colorBlind,
+        hideRow: ownProps.hideRow
+    }
 }
 
 const mapDispatchToProps = dispatch => {

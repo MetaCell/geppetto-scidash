@@ -2,6 +2,7 @@ import React from "react";
 import $ from "jquery";
 
 
+// FIXME: This component repeating in another partials.js for test-instances, it should be fixed in future
 export default class ScidashTimestampColumn extends React.Component {
 
     constructor(props, context){
