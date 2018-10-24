@@ -59,7 +59,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
     		var a = document.createElement('a');
     		// toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
     		a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    		a.download = 'screenshot_table.png';
+    		a.download = 'Average_score_image.png';
     		a.click();
     	});
     }
@@ -67,7 +67,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
     render(){
         const actions = [
             <FlatButton
-            label="Screenshot"
+            label="Save As Image"
             primary={true}
             icon={<FontIcon className="fa fa-camera"/>}
             onClick={this.takeScreenshot}
