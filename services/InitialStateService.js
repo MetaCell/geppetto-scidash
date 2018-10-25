@@ -8,13 +8,14 @@ import ScoreMatrixGriddleAdapter from '../shared/adapter/ScoreMatrixGriddleAdapt
 import TestInstancesAutocompleteAdapter from '../shared/adapter/TestInstancesAutocompleteAdapter';
 import TestSuitesAutocompleteAdapter from '../shared/adapter/TestSuitesAutocompleteAdapter';
 import Helper from '../shared/Helper';
+import Config from '../shared/Config';
 
 
 export default class InitialStateService {
 
     initialStateTemplate = {
         global: {
-            globalFilters: { },
+            globalFilters: {},
             dateFilterChanged: false,
             currentPage: new PagesService().getDefault()
         },
@@ -62,8 +63,8 @@ export default class InitialStateService {
                     _timestamp: " "
                 }
             ],
-            scoreMatrixTableData: [],
-            scoreMatrix: {},
+            scoreMatrixTableDataList: {},
+            scoreMatrixList: {},
             hiddenModels:[],
             filters: {},
             showLoading: false,
@@ -91,7 +92,7 @@ export default class InitialStateService {
         let dateFrom = new Date();
         let dateTo = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 
-        dateFrom.setMonth(dateFrom.getMonth() - 6);
+        dateFrom.setMonth(dateFrom.getMonth() - 20);
         dateFrom.setHours(0, 0, 0, 0);
         dateTo.setHours(0, 0, 0, 0);
 
@@ -112,7 +113,15 @@ export default class InitialStateService {
             }
         }
 
-        return service.getList(!Object.keys(filters).length);
+        let keys = Object.keys(filters).filter(key => !Config.cachableFilters.includes(key))
+
+        //return service.getList(!keys.length > 0);
+        return service.getList();
+    }
+
+    cleanUp(){
+        let service = new ScoreApiService();
+        service.deleteFilter("with_suites");
     }
 
     getInitialStateTemplate(){
@@ -153,12 +162,14 @@ export default class InitialStateService {
 
                 let scoreMatrixAdapter = ScoreMatrixGriddleAdapter.getInstance(scores)
 
-                this.initialState.testSuites.scoreMatrixTableData = scoreMatrixAdapter
+                this.initialState.testSuites.scoreMatrixTableDataList = scoreMatrixAdapter
                     .setHiddenModels([])
                     .getGriddleData()
 
-                this.initialState.testSuites.scoreMatrix = scoreMatrixAdapter
+                this.initialState.testSuites.scoreMatrixList = scoreMatrixAdapter
                     .getScoreMatrix()
+
+                this.cleanUp()
 
                 onStateGenerated(this.initialState);
             });

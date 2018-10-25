@@ -1,15 +1,17 @@
-import { connect } from 'react-redux';
-import SuiteNameLinkColumn from './SuiteNameLinkColumn';
+import { connect } from "react-redux";
+import SuiteNameLinkColumn from "./SuiteNameLinkColumn";
 
 
 const mapStateToProps = (state, ownProps) => {
+    let suiteHash = ownProps.value.get("hash");
+
     return {
         colorBlind: ownProps.colorBlind,
         hiddenModels: ownProps.hiddenModels,
-        scoreMatrix: ownProps.scoreMatrix,
-        scoreMatrixTableData: ownProps.scoreMatrixTableData,
+        scoreMatrix: ownProps.scoreMatrixList[suiteHash],
+        scoreMatrixTableData: ownProps.scoreMatrixTableDataList[suiteHash],
         hideRow: ownProps.hideRow
-    }
+    };
 }
 
 const mapDispatchToProps = dispatch => {

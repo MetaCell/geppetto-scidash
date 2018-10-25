@@ -4,7 +4,7 @@ import InitialStateService from '../../services/InitialStateService';
 export default class ScoreMatrixGriddleAdapter extends GriddleAdapter{
 
     hiddenModels = []
-    scoreMatrix = {}
+    scoreMatrixList = {}
 
     static instance = null;
 
@@ -29,78 +29,97 @@ export default class ScoreMatrixGriddleAdapter extends GriddleAdapter{
     }
 
     getScoreMatrix(){
-        return this.scoreMatrix;
+        return this.scoreMatrixList;
     }
 
     buildMatrix(){
-        this.scoreMatrix = {
-            rows: {},
-            headings: [
-                {
-                    title: "model_name",
-                    id: "modelInstanceName"
-                }
-            ]
-        };
+        let suiteHashes = new Set();
 
         for (let score of this.getScores()){
-            let modelInstanceName = score.model_instance.name;
-            let modelInstanceId = score.model_instance.id;
-            let testHashId = score.test_instance.hash_id;
-            let modelKey = `${modelInstanceName}_${modelInstanceId}`;
+            suiteHashes.add(score.test_instance.test_suites[0].hash);
+        }
 
-            if (this.hiddenModels.includes(modelKey)){
-                continue;
-            }
-
-            if (!(modelKey in this.scoreMatrix.rows))
-                this.scoreMatrix.rows[modelKey] = {
-                    title: modelInstanceName,
-                    info: new Map()
+        for (let hash of suiteHashes){
+            let scoreMatrix = {
+                rows: {},
+                headings: [
+                    {
+                        title: "model_name",
+                        id: "modelInstanceName"
+                    }
+                ]
+            };
+            for (let score of this.getScores()){
+                if (hash != score.test_instance.test_suites[0].hash){
+                    continue;
                 }
 
-            this.scoreMatrix.rows[modelKey]["info"].set(testHashId, score);
-        }
+                let modelInstanceName = score.model_instance.name;
+                let modelInstanceId = score.model_instance.id;
+                let testHashId = score.test_instance.hash_id;
+                let modelKey = `${modelInstanceName}_${modelInstanceId}`;
 
-        let biggestRow = new Map();
-        for (let row of Object.values(this.scoreMatrix.rows)){
-            if (row["info"].size > biggestRow.size)
-                biggestRow = row["info"];
-        }
+                if (this.hiddenModels.includes(modelKey)){
+                    continue;
+                }
 
-        if (biggestRow.size > 0){
-            for (let item of biggestRow.entries()){
-                this.scoreMatrix.headings.push({
-                    title: item[1].test_instance.test_class.class_name,
-                    id: item[1].test_instance.hash_id
-                });
+                if (!(modelKey in scoreMatrix.rows))
+                    scoreMatrix.rows[modelKey] = {
+                        title: modelInstanceName,
+                        info: new Map()
+                    }
+
+                scoreMatrix.rows[modelKey]["info"].set(testHashId, score);
             }
-        }
 
-        this.scoreMatrix.headings.push({
-            title: "hide_all",
-            id: "hideButtons"
-        })
+            let biggestRow = new Map();
+            for (let row of Object.values(scoreMatrix.rows)){
+                if (row["info"].size > biggestRow.size)
+                    biggestRow = row["info"];
+            }
+
+            if (biggestRow.size > 0){
+                for (let item of biggestRow.entries()){
+                    scoreMatrix.headings.push({
+                        title: item[1].test_instance.test_class.class_name,
+                        id: item[1].test_instance.hash_id
+                    });
+                }
+            }
+
+            scoreMatrix.headings.push({
+                title: "hide_all",
+                id: "hideButtons"
+            });
+
+            this.scoreMatrixList[hash] = scoreMatrix
+        }
 
         return this;
     }
 
     getGriddleData(){
         this.buildMatrix();
-        let tableData = [];
+        let tableData = {};
 
-        Object.keys(this.getScoreMatrix().rows).map((key, heading) => {
-            let rowData = {};
+        for (let hash of Object.keys(this.scoreMatrixList)){
+            let scoreMatrix = this.getScoreMatrix()[hash];
 
-            for (let heading of this.getScoreMatrix().headings){
-                if (heading.id != "modelInstanceName")
-                    rowData[heading.id] = this.getScoreMatrix()["rows"][key]["info"].get(heading.id);
-                else
-                    rowData["modelInstanceName"] = this.getScoreMatrix()["rows"][key]["title"];
-            }
-            rowData["hideButtons"] = key;
-            tableData.push(rowData);
-        });
+            tableData[hash] = [];
+
+            Object.keys(scoreMatrix.rows).map((key) => {
+                let rowData = {};
+
+                for (let heading of scoreMatrix.headings){
+                    if (heading.id != "modelInstanceName")
+                        rowData[heading.id] = scoreMatrix["rows"][key]["info"].get(heading.id);
+                    else
+                        rowData["modelInstanceName"] = scoreMatrix["rows"][key]["title"];
+                }
+                rowData["hideButtons"] = key;
+                tableData[hash].push(rowData);
+            });
+        }
 
         return tableData
     }

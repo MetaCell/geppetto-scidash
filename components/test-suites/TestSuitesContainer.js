@@ -19,8 +19,8 @@ import {
 const mapStateToProps = state => {
     return {
         data: state.testSuites.data,
-        scoreMatrix: state.testSuites.scoreMatrix,
-        scoreMatrixTableData: state.testSuites.scoreMatrixTableData,
+        scoreMatrixList: state.testSuites.scoreMatrixList,
+        scoreMatrixTableDataList: state.testSuites.scoreMatrixTableDataList,
         hiddenModels: state.testSuites.hiddenModels,
         colorBlind: state.header.colorBlind,
         styleConfig: {

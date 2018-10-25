@@ -16,11 +16,9 @@ export function filteringSuitesStarted(state, action){
 
 export function filteringSuitesFinished(state, action){
 
-    let adapter = new TestSuitesGriddleAdapter()
+    let adapter = new TestSuitesGriddleAdapter(action.scores)
 
     $(".griddle-page-select").show()
-
-    adapter.setup(action.scores);
 
     let newState = {
         ...state,
