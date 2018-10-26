@@ -38,6 +38,7 @@ export default class TestInstances extends React.Component {
                                     scoreMatrixTableDataList={this.props.scoreMatrixTableDataList}
                                     hideRow={this.props.hideRow}
                                     hiddenModels={this.props.hiddenModels}
+                                    showAllModels={this.props.showAllModels}
                                     {...props}
                                     /> }
                             customHeadingComponent={(props) => <FilterCellContainer

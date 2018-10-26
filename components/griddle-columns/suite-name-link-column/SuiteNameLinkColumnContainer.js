@@ -10,7 +10,8 @@ const mapStateToProps = (state, ownProps) => {
         hiddenModels: ownProps.hiddenModels,
         scoreMatrix: ownProps.scoreMatrixList[suiteHash],
         scoreMatrixTableData: ownProps.scoreMatrixTableDataList[suiteHash],
-        hideRow: ownProps.hideRow
+        hideRow: ownProps.hideRow,
+        showAllModels: ownProps.showAllModels
     };
 }
 

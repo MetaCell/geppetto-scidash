@@ -13,7 +13,8 @@ const mapStateToProps = (state, ownProps) => {
             pageSize: 50
         },
         colorBlind: ownProps.colorBlind,
-        hideRow: ownProps.hideRow
+        hideRow: ownProps.hideRow,
+        showAllModels: ownProps.showAllModels
     }
 }
 

@@ -43,7 +43,7 @@ export default class App extends React.Component {
 
     componentDidMount(){
 
-        new InitialStateService().generateInitialState((initialState) => {
+        InitialStateService.getInstance().generateInitialState((initialState) => {
             this.setState({
                 store: createStore(scidashApp, initialState)
             });

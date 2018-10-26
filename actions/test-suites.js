@@ -38,8 +38,20 @@ export function hideModel(state, action){
 
     return {
         ...state,
-        scoreMatrix: adapter.getScoreMatrix(),
-        scoreMatrixTableData: adapter.getGriddleData(),
+        scoreMatrixList: adapter.getScoreMatrix(),
+        scoreMatrixTableDataList: adapter.getGriddleData(),
         hiddenModels
     }
+}
+
+export function showAllModels(state, action){
+    let adapter = ScoreMatrixGriddleAdapter.getInstance()
+    adapter.setHiddenModels([]);
+
+    return {
+        ...state,
+        scoreMatrixList: adapter.getScoreMatrix(),
+        scoreMatrixTableDataList: adapter.getGriddleData(),
+        hiddenModels: []
+    };
 }

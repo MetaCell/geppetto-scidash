@@ -3,6 +3,7 @@ import ScoreApiService from "../../services/api/ScoreApiService";
 export const FILTERING_SUITES_STARTED = "FILTERING_SUITES_STARTED";
 export const FILTERING_SUITES_FINISHED = "FILTERING_SUITES_FINISHED";
 export const HIDE_MODEL = "HIDE_MODEL";
+export const SHOW_ALL_MODELS = "SHOW_ALL_MODELS";
 
 export function filteringSuitesFinished(scores){
     return {
@@ -41,4 +42,10 @@ export function hideModel(modelKey) {
         type: HIDE_MODEL,
         modelKey
     }
+}
+
+export function showAllModels(){
+    return {
+        type: SHOW_ALL_MODELS
+    };
 }

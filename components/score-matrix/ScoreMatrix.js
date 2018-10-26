@@ -16,6 +16,7 @@ export default class ScoreMatrix extends React.Component {
     }
 
     render(){
+        // FIXME: move to partials
         const ScoreCell = ({value}) => {
             return <div style={{
                 background: typeof value == "undefined" ? "white" : this.helper.getBackground(value.get("sort_key"), this.props.colorBlind),
@@ -29,7 +30,7 @@ export default class ScoreMatrix extends React.Component {
 
         const ShowAllHeading = ({value}) => <RaisedButton style={ !this.props.hiddenModels.length ? {
             display: "none"
-        } : {}} onClick={this.props.showAll} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5 }}/>} title="Show all"/>;
+        } : {}} onClick={this.props.showAllModels} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5 }}/>} title="Show all"/>;
 
         const griddleComponents = {
             Filter: () => null,

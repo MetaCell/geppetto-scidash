@@ -1,5 +1,6 @@
 import React from 'react';
 import ScoreApiService from './api/ScoreApiService';
+import DateRangeApiService from './api/DateRangeApiService';
 import PagesService from './PagesService';
 import RaisedButton from 'material-ui/RaisedButton';
 import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter';
@@ -87,19 +88,21 @@ export default class InitialStateService {
 
     initialState = null;
 
-    constructor(){
+    static instance = null;
 
-        let dateFrom = new Date();
-        let dateTo = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    static getInstance(){
 
-        dateFrom.setMonth(dateFrom.getMonth() - 20);
-        dateFrom.setHours(0, 0, 0, 0);
-        dateTo.setHours(0, 0, 0, 0);
+        if (this.instance === null){
+            this.instance = new this();
+        }
 
-        this.initialStateTemplate.global.globalFilters = {
-            timestamp_from: dateFrom.toISOString(),
-            timestamp_to: dateTo.toISOString()
-        };
+        return this.instance;
+    }
+
+    countPeriod(){
+        let dateRangeService = new DateRangeApiService();
+
+        return dateRangeService.getList(true);
     }
 
     loadScores(filters){
@@ -115,8 +118,7 @@ export default class InitialStateService {
 
         let keys = Object.keys(filters).filter(key => !Config.cachableFilters.includes(key))
 
-        //return service.getList(!keys.length > 0);
-        return service.getList();
+        return service.getList(!keys.length > 0);
     }
 
     cleanUp(){
@@ -137,41 +139,48 @@ export default class InitialStateService {
 
         let filtersFromUrl = new Helper().queryStringToDict(location.search)
 
-        this.loadScores({
-            ...this.initialState.global.globalFilters,
-            ...filtersFromUrl
-        }).then((scores) => {
-
-            this.initialState.testInstances.data = new TestInstancesGriddleAdapter(scores)
-                .getGriddleData();
-
-            this.initialState.testInstances.autoCompleteData = new TestInstancesAutocompleteAdapter(this.initialState.testInstances.data)
-                .getAutocompleteData();
-
+        this.countPeriod().then((result) => {
+            this.initialState.global.globalFilters = {
+                timestamp_from: result.acceptable_period,
+                timestamp_to: result.current_date
+            };
+        }).then(() => {
             this.loadScores({
                 ...this.initialState.global.globalFilters,
-                ...filtersFromUrl,
-                with_suites: true
+                ...filtersFromUrl
             }).then((scores) => {
 
-                this.initialState.testSuites.data = new TestSuitesGriddleAdapter(scores)
+                this.initialState.testInstances.data = new TestInstancesGriddleAdapter(scores)
                     .getGriddleData();
 
-                this.initialState.testSuites.autoCompleteData = new TestSuitesAutocompleteAdapter(this.initialState.testSuites.data)
+                this.initialState.testInstances.autoCompleteData = new TestInstancesAutocompleteAdapter(this.initialState.testInstances.data)
                     .getAutocompleteData();
 
-                let scoreMatrixAdapter = ScoreMatrixGriddleAdapter.getInstance(scores)
+                this.loadScores({
+                    ...this.initialState.global.globalFilters,
+                    ...filtersFromUrl,
+                    with_suites: true
+                }).then((scores) => {
 
-                this.initialState.testSuites.scoreMatrixTableDataList = scoreMatrixAdapter
-                    .setHiddenModels([])
-                    .getGriddleData()
+                    this.initialState.testSuites.data = new TestSuitesGriddleAdapter(scores)
+                        .getGriddleData();
 
-                this.initialState.testSuites.scoreMatrixList = scoreMatrixAdapter
-                    .getScoreMatrix()
+                    this.initialState.testSuites.autoCompleteData = new TestSuitesAutocompleteAdapter(this.initialState.testSuites.data)
+                        .getAutocompleteData();
 
-                this.cleanUp()
+                    let scoreMatrixAdapter = ScoreMatrixGriddleAdapter.getInstance(scores)
 
-                onStateGenerated(this.initialState);
+                    this.initialState.testSuites.scoreMatrixTableDataList = scoreMatrixAdapter
+                        .setHiddenModels([])
+                        .getGriddleData()
+
+                    this.initialState.testSuites.scoreMatrixList = scoreMatrixAdapter
+                        .getScoreMatrix()
+
+                    this.cleanUp()
+
+                    onStateGenerated(this.initialState);
+                });
             });
         });
     }

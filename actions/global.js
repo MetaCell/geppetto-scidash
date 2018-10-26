@@ -10,7 +10,7 @@ export function dateFilterChanged(state, action){
 }
 
 export function dateFilterClear(state, action){
-    let initialStateService = new InitialStateService();
+    let initialStateService = InitialStateService.getInstance();
     let scoreApiService = new ScoreApiService();
 
     for (let entry of Object.entries(initialStateService.getInitialState().global.globalFilters)){

@@ -5,7 +5,7 @@ import InitialStateService from "../services/InitialStateService";
 export function openTestsPage(state, action, type){
 
     let apiService = new ApiService();
-    let initialStateService = new InitialStateService();
+    let initialStateService = InitialStateService.getInstance();
     apiService.clearFilters()
 
     apiService.setupFilter("timestamp_from", initialStateService.getInitialState()
@@ -41,7 +41,7 @@ export function openTestsPage(state, action, type){
 export function openSuitesPage(state, action, type){
 
     let apiService = new ApiService();
-    let initialStateService = new InitialStateService();
+    let initialStateService = InitialStateService.getInstance();
     apiService.clearFilters();
     apiService.setupFilter("timestamp_from", initialStateService.getInitialState()
         .global

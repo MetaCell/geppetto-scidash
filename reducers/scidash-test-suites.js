@@ -1,12 +1,14 @@
 import {
     FILTERING_SUITES_FINISHED,
     FILTERING_SUITES_STARTED,
-    HIDE_MODEL
+    HIDE_MODEL,
+    SHOW_ALL_MODELS
 } from "../actions/creators/test-suites"
 import {
     filteringSuitesFinished,
     filteringSuitesStarted,
-    hideModel
+    hideModel,
+    showAllModels
 } from "../actions/test-suites"
 
 export default function scidashTestSuites(state = {}, action){
@@ -31,6 +33,11 @@ export default function scidashTestSuites(state = {}, action){
         case HIDE_MODEL:
             newState = {
                 ...hideModel(state, action)
+            };
+            break;
+        case SHOW_ALL_MODELS:
+            newState = {
+                ...showAllModels(state, action)
             };
             break;
         default:

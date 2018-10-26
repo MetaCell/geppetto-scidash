@@ -65,6 +65,7 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
                         scoreMatrixTableData={this.props.scoreMatrixTableData}
                         hiddenModels={this.props.hiddenModels}
                         hideRow={this.props.hideRow}
+                        showAllModels={this.props.showAllModels}
                     />
                 </Dialog>
             </div>

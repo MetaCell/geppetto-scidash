@@ -8,7 +8,8 @@ import ScoreApiService from '../../services/api/ScoreApiService';
 import {
     filteringSuitesStarted,
     filteringSuitesFinished,
-    hideModel
+    hideModel,
+    showAllModels
 } from '../../actions/creators/test-suites';
 
 import {
@@ -88,6 +89,7 @@ const mapDispatchToProps = dispatch => {
 
     return {
         hideRow: (modelKey) => dispatch(hideModel(modelKey)),
+        showAllModels: () => dispatch(showAllModels()),
         onFilterUpdate: (searchText, filterName) =>  {
             filter(searchText, filterName, dispatch)
         },
