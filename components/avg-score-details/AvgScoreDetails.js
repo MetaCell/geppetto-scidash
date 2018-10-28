@@ -45,9 +45,9 @@ export default class AvgScoreDetails extends React.Component {
             <div>
                 <Card>
                     <CardText style={{
-                        overflowX: "scroll"
+                        overflowX: "scroll",
                     }}>
-                        <table className="table">
+                        <table className="modal-table scidash-tilted-titles-table">
                             <AvgScoreTableHeadings
                                 scoreList={this.props.scoreList}
                                 selectedScore={this.state.selectedScore}

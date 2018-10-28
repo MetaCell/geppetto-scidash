@@ -5,6 +5,12 @@ import Helper from '../../shared/Helper';
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        styleConfig: {
+            classNames: {
+                Table: "modal-table scidash-tilted-titles-table hideAll-column",
+                TableHeadingCell: "scidash-tilted-titles-table-heading-cell",
+            }
+        },
         scoreMatrix: ownProps.scoreMatrix,
         scoreMatrixTableData: ownProps.scoreMatrixTableData,
         hiddenModels: ownProps.hiddenModels,

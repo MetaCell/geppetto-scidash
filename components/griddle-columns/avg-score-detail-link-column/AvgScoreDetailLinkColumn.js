@@ -67,7 +67,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
                         modal={true}
                         autoScrollBodyContent={true}
                         contentStyle={{
-                            width: "80%",
+                            width: "51%",
                             maxWidth: "none"
                         }}
                         contentClassName="centered-modal"

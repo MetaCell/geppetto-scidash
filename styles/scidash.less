@@ -127,6 +127,71 @@ body {
     }
 }
 
+.scidash-tilted-titles-table{
+    color: @secondary_color;
+    vertical-align:top;
+    text-align: left;
+    .scidash-tilted-titles-table-heading-cell{
+        height:30px;
+        max-height: 30px;
+        max-width: 50px;
+        vertical-align: bottom;
+        white-space: nowrap;
+    }
+    .filter-label {
+        padding: 0px 10px;
+        font-weight: normal;
+        float:left;
+    }
+    tbody {
+        font-size: 13px;
+    }
+    th{
+        vertical-align:top;
+    }
+    .griddle-cell {
+        border-top:1px solid #aaa;
+    }
+}
+
+.scidash-tilted-titles-table-heading-cell-div{
+    vertical-align: top;
+    text-align: left;
+    max-width: 220px;
+    height: 20px;
+    max-height: 150px;
+    width: 225px;
+    transform: translate(-25px, -70px) rotate(315deg);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.last-heading{
+    transform: translate(-20px, -55px) rotate(315deg);
+    width: 175px;
+    max-width: 200px;
+}
+
+.hideAll-column {
+    /* Adjustments to column with hide all buttons*/
+    th:last-child{
+        padding-left : 5px;
+    }
+}
+
+#showAllButton{
+    height: 27px !important;
+}
+
+.modelName-row-heading{
+    padding-right: 5px;
+    text-align: right;
+    font-weight: bold;
+    font-size : 14px;
+    font-family : Roboto, sans-serif;
+}
+
 .scidash-materialui-field {
     float:right;
     div{
@@ -192,7 +257,31 @@ div[role=menu]{
 
 .suites-table{
     width: 90%;
+    margin:10 auto;
+}
+
+.modal-table{
+    width: auto;
     margin:0 auto;
+}
+
+.modal-table th {
+  height: 140px;
+  white-space: nowrap;
+  padding: 5px 10px;
+}
+
+.modal-table thead > tr {
+    height : 165px;
+}
+
+.modal-table th > div > span {
+    padding: 5px 10px;
+}
+
+.rotatedTitle {
+    width : 200px;
+    height : 200px;
 }
 
 .centered-modal {
@@ -210,11 +299,6 @@ div[role=menu]{
     overflow: visible;
 }
 
-.avg-score-heading {
-    word-wrap: break-word;
-    max-width: 150px;
-}
-
 .build-info-cell {
     width: 100px;
     max-width: 100px;
@@ -224,7 +308,7 @@ div[role=menu]{
 }
 
 .eye-icon {
-    margin: 4px 39px;
+    margin: 4px 15px;
     font-size: 25px;
     display: block;
     cursor: pointer;

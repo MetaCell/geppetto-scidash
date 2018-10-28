@@ -72,9 +72,10 @@ export default class ScoreDetailLinkColumn extends React.Component {
                     modal={true}
                     autoScrollBodyContent={true}
                     contentStyle={{
-                        width: "830px",
+                        width: "75%",
                         maxWidth: "none"
                     }}
+                    contentClassName="centered-modal"
                     open={this.state.open}
                 >
                     <ScoreDetailsContainer score={this.props.scoreObject} colorBlind={this.props.colorBlind}/>

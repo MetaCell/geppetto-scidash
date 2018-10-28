@@ -53,7 +53,7 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
                     modal={true}
                     autoScrollBodyContent={true}
                     contentStyle={{
-                        width: "80%",
+                        width: "75%",
                         maxWidth: "none"
                     }}
                     contentClassName="centered-modal"

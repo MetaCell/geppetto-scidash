@@ -28,7 +28,7 @@ const ScoreDetails = ({
                 justifyContent: "space-around",
                 alignItems: "flex-start"
             }}>
-                <div style={{minWidth: "350px", margin: "15px"}}>
+                <div style={{minWidth: "100px", margin: "15px"}}>
                     <h4 style={{
                         maxWidth: "360px"
                     }}>{testClassName + " details"}</h4>
@@ -84,7 +84,7 @@ const ScoreDetails = ({
                         </CardText>
                     </Card>
                 </div>
-                <div style={{ wordWrap: "break-word", minWidth:"350px", margin:"15px" }}>
+                <div style={{ wordWrap: "break-word", minWidth:"100px", margin:"15px" }}>
                     <h4>Model details</h4>
                     <ModelDetailsContainer model={modelInstance} />
                 </div>
