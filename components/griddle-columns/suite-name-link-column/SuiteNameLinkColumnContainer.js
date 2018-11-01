@@ -3,6 +3,9 @@ import SuiteNameLinkColumn from "./SuiteNameLinkColumn";
 
 
 const mapStateToProps = (state, ownProps) => {
+    if (ownProps.value == " "){
+        return {}
+    }
     let suiteHash = ownProps.value.get("hash");
 
     return {

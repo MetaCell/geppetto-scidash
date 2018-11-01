@@ -5,6 +5,7 @@ import FilterCellContainer from "../filter-cell/FilterCellContainer";
 import ScoreDetailLinkColumnContainer from "../griddle-columns/score-detail-link-column/ScoreDetailLinkColumnContainer";
 import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link-column/ModelDetailLinkColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
+import Config from "../../shared/Config";
 
 import {
     CustomScoreName,
@@ -38,6 +39,7 @@ export default class TestInstances extends React.Component {
                             customComponent={CustomScoreName}
                             customHeadingComponent={(props) => <FilterCellContainer
                                 autoCompleteData={this.props.autoCompleteData}
+                                namespace={Config.instancesNamespace}
                                 onFilterUpdate={this.props.onFilterUpdate}
                                 filterName="name"
                                 {...props} />
@@ -60,6 +62,7 @@ export default class TestInstances extends React.Component {
                             title="Score Type"
                             customHeadingComponent={(props) => <FilterCellContainer
                                 autoCompleteData={this.props.autoCompleteData}
+                                namespace={Config.instancesNamespace}
                                 onFilterUpdate={this.props.onFilterUpdate}
                                 filterName="score_type"
                                 {...props} />
@@ -71,6 +74,7 @@ export default class TestInstances extends React.Component {
                             customComponent={ModelDetailLinkColumnContainer}
                             customHeadingComponent={(props) => <FilterCellContainer
                                 autoCompleteData={this.props.autoCompleteData}
+                                namespace={Config.instancesNamespace}
                                 onFilterUpdate={this.props.onFilterUpdate}
                                 filterName="model"
                                 {...props} />
@@ -80,6 +84,7 @@ export default class TestInstances extends React.Component {
                             title="Hostname"
                             customHeadingComponent={(props) => <FilterCellContainer
                                 autoCompleteData={this.props.autoCompleteData}
+                                namespace={Config.instancesNamespace}
                                 onFilterUpdate={this.props.onFilterUpdate}
                                 filterName="hostname"
                                 {...props} />
@@ -89,6 +94,7 @@ export default class TestInstances extends React.Component {
                             title="Owner"
                             customHeadingComponent={(props) => <FilterCellContainer
                                 autoCompleteData={this.props.autoCompleteData}
+                                namespace={Config.instancesNamespace}
                                 onFilterUpdate={this.props.onFilterUpdate}
                                 filterName="owner"
                                 {...props} />
@@ -99,6 +105,7 @@ export default class TestInstances extends React.Component {
                             customComponent={ScidashBuildInfoColumn}
                             customHeadingComponent={(props) => <FilterCellContainer
                                 autoCompleteData={this.props.autoCompleteData}
+                                namespace={Config.instancesNamespace}
                                 onFilterUpdate={this.props.onFilterUpdate}
                                 filterName="build_info"
                                 {...props} />
@@ -111,6 +118,7 @@ export default class TestInstances extends React.Component {
                             customComponent={ScidashTimestampColumn}
                             customHeadingComponent={(props) =>  <DateRangeCellContainer
                                 onFilterUpdate={this.props.onFilterUpdate}
+                                namespace={Config.instancesNamespace}
                                 dateFilterChanged={this.props.dateFilterChanged}
                                 onDateFilterClear={this.props.onDateFilterClear}
                                 {...props}

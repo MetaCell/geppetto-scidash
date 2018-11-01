@@ -4,6 +4,9 @@ import Helper from "../../../shared/Helper";
 
 
 const mapStateToProps = (state, ownProps) => {
+    if (!ownProps.value.size){
+        return {}
+    }
     let helper = new Helper();
 
     let avgScore = ownProps.value.get('value').toFixed(2);

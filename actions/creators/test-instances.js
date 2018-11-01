@@ -1,4 +1,5 @@
 import ScoreApiService from "../../services/api/ScoreApiService";
+import Config from '../../shared/Config';
 
 export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
 export const FILTERING_TESTS_FINISHED = "FILTERING_TESTS_FINISHED";
@@ -14,14 +15,17 @@ export function filteringTestsStarted(searchText, filterName, dispatch){
     let service = new ScoreApiService();
 
     if (searchText.length > 0)
-        service.setupFilter(filterName, searchText);
+        service.setupFilter(filterName, searchText, Config.instancesNamespace);
     else
-        service.deleteFilter(filterName);
+        service.deleteFilter(filterName, Config.instancesNamespace);
 
-    service.getList().then((result) => {
+    service.deleteFilter("with_suites");
 
-        let filters = service.getFilters();
-        let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(service.getFilters()) : "/";
+    service.getList(false, Config.instancesNamespace).then((result) => {
+
+        let filters = service.getFilters(Config.instancesNamespace);
+
+        let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "/";
 
         window.history.pushState("", "", filterString);
         dispatch(filteringTestsFinished(result))

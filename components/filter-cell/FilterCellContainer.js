@@ -3,7 +3,8 @@ import FilterCell from "./FilterCell"
 import ScoreApiService from "../../services/api/ScoreApiService"
 
 const mapStateToProps = (state, ownProps) => {
-    let currentFilters = new ScoreApiService().getFilters()
+    let namespace = ownProps.namespace;
+    let currentFilters = new ScoreApiService().getFilters(namespace)
     let filterName = ownProps.filterName
     let value = ""
 

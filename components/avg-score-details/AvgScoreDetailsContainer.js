@@ -3,7 +3,6 @@ import AvgScoreDetails from './AvgScoreDetails';
 
 
 const mapStateToProps = (state, ownProps) => {
-
     let modelName = "";
     let scoreList = ownProps.scoreList;
 

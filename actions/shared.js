@@ -1,27 +1,14 @@
 import PagesService from "../services/PagesService";
 import ApiService from "../services/api/ApiService";
+import Config from "../shared/Config";
 import InitialStateService from "../services/InitialStateService";
 
 export function openTestsPage(state, action, type){
 
-    let apiService = new ApiService();
-    let initialStateService = InitialStateService.getInstance();
-    apiService.clearFilters()
-
-    apiService.setupFilter("timestamp_from", initialStateService.getInitialState()
-        .global
-        .globalFilters
-        .timestamp_from)
-    apiService.setupFilter("timestamp_to", initialStateService.getInitialState()
-        .global
-        .globalFilters
-        .timestamp_to)
-
-    window.history.pushState("", "", "/");
-
     let newState = {
         ...state
     };
+
     if (type == 'header') {
         newState = {
             ...state,
@@ -29,6 +16,12 @@ export function openTestsPage(state, action, type){
             testsActive: true
         };
     } else if (type == 'global') {
+        let service = new ApiService();
+        let filters = service.getFilters(Config.instancesNamespace);
+        let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "/";
+
+        window.history.pushState("", "", filterString);
+
         newState = {
             ...state,
             dateFilterChanged: false,
@@ -39,19 +32,6 @@ export function openTestsPage(state, action, type){
 }
 
 export function openSuitesPage(state, action, type){
-
-    let apiService = new ApiService();
-    let initialStateService = InitialStateService.getInstance();
-    apiService.clearFilters();
-    apiService.setupFilter("timestamp_from", initialStateService.getInitialState()
-        .global
-        .globalFilters
-        .timestamp_from)
-    apiService.setupFilter("timestamp_to", initialStateService.getInitialState()
-        .global
-        .globalFilters
-        .timestamp_to)
-    window.history.pushState("", "", "/");
 
     let newState = {
         ...state
@@ -64,6 +44,11 @@ export function openSuitesPage(state, action, type){
             suitesActive: true
         };
     } else if (type == 'global') {
+        let service = new ApiService();
+        let filters = service.getFilters(Config.suiteNamespace);
+        let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "/";
+
+        window.history.pushState("", "", filterString);
         newState = {
             ...state,
             dateFilterChanged: false,

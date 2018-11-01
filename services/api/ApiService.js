@@ -1,5 +1,6 @@
 import ScidashStorage from '../../shared/ScidashStorage';
 import Helper from '../../shared/Helper';
+import Config from '../../shared/Config';
 
 
 class ApiServiceException {
@@ -29,7 +30,7 @@ export default class ApiService {
         return params;
     }
 
-    setupFilter(key, value){
+    setupFilter(key, value, namespace = null){
         let currentFilters = {}
 
         try{
@@ -38,7 +39,10 @@ export default class ApiService {
 
         let newFilter = {}
 
-        newFilter[key] = value;
+        if (namespace)
+            newFilter[`${namespace}${Config.namespaceDivider}${key}`] = value;
+        else
+            newFilter[key] = value
 
         this.storage.setItem('filters', JSON.stringify({
             ...currentFilters,
@@ -48,10 +52,14 @@ export default class ApiService {
         return this;
     }
 
-    deleteFilter(key){
+    deleteFilter(key, namespace = null){
 
         let currentFilters = JSON.parse(this.storage.getItem('filters'))
-        delete currentFilters[key];
+
+        if (namespace)
+            delete currentFilters[`${namespace}${Config.namespaceDivider}${key}`]
+        else
+            delete currentFilters[key];
 
         this.storage.setItem('filters', JSON.stringify({
             ...currentFilters,
@@ -60,11 +68,43 @@ export default class ApiService {
         return this;
     }
 
-    getFilters(){
-        if (this.storage.getItem("filters"))
-            return JSON.parse(this.storage.getItem("filters"));
-        else
+    matchNamespace(namespace, key){
+        return new RegExp(`^${namespace}${Config.namespaceDivider}.+$`).test(key)
+    }
+
+    hasNamespace(filterName){
+        return new RegExp(`^.+${Config.namespaceDivider}.+$`).test(filterName)
+    }
+
+    getFilters(namespace = null){
+        let result = {};
+        console.log("DEBUG");
+
+        if (this.storage.getItem("filters")){
+
+            let filters = JSON.parse(this.storage.getItem("filters"));
+
+            if (namespace){
+                for (let filterName of Object.keys(filters)){
+                    if(this.matchNamespace(namespace, filterName)){
+                        result[filterName.split(Config.namespaceDivider)[1]] = filters[filterName];
+                    } else if (!this.hasNamespace(filterName)){
+                        result[filterName] = filters[filterName];
+                    }
+                }
+            } else {
+                for (let filterName of Object.keys(filters)){
+                    if (this.hasNamespace(filterName))
+                        result[filterName.split(Config.namespaceDivider)[1]] = filters[filterName];
+                    else
+                        result[filterName] = filters[filterName];
+                }
+            }
+        } else{
             return {}
+        }
+
+        return result;
     }
 
     clearFilters(){
@@ -73,6 +113,15 @@ export default class ApiService {
 
     clearCache(storage){
         storage.clear()
+    }
+
+    clearFiltersByNamespace(namespace){
+        let filters = this.getFilters();
+
+        for (filterName in Object.keys(filters)){
+            if(this.matchNamespace(namespace))
+                this.deleteFilter(filterName, namespace);
+        }
     }
 
     saveToCache(key, data){
@@ -87,15 +136,15 @@ export default class ApiService {
         return JSON.parse(this.storage.getItem(key))
     }
 
-    getList(cache = false){
+    getList(cache = false, namespace=Config.instancesNamespace){
 
         if (this.endpoint === null){
             throw new ApiServiceException("You should define API endpoint");
         }
 
-        let queryPath = this.endpoint + (this.getFilters() ? "?" + this.stringifyFilters(this.getFilters()) : "");
+        let queryPath = this.endpoint + (this.getFilters(namespace) ? "?" + this.stringifyFilters(this.getFilters(namespace)) : "");
 
-        if (this.storage.getItem(queryPath)){
+        if (this.storage.getItem(queryPath) && cache){
             return new Promise((resolve, reject) => {
                 resolve(this.getFromCache(queryPath));
             });

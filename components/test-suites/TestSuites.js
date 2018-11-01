@@ -9,6 +9,7 @@ import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 import ScidashTimestampColumn from "./partials";
 import SuiteNameLinkColumnContainer from "../griddle-columns/suite-name-link-column/SuiteNameLinkColumnContainer";
 import AvgScoreDetailLinkColumnContainer from "../griddle-columns/avg-score-detail-link-column/AvgScoreDetailLinkColumnContainer"
+import Config from "../../shared/Config";
 
 import Loader from "../loader/Loader";
 
@@ -42,10 +43,11 @@ export default class TestInstances extends React.Component {
                                     {...props}
                                     /> }
                             customHeadingComponent={(props) => <FilterCellContainer
-                                filterName="suite_name"
-                                onFilterUpdate={this.props.onFilterUpdate}
-                                autoCompleteData={this.props.autoCompleteData}
-                                {...props} />
+                                    filterName="suite_name"
+                                    namespace={Config.suiteNamespace}
+                                    onFilterUpdate={this.props.onFilterUpdate}
+                                    autoCompleteData={this.props.autoCompleteData}
+                                    {...props} />
                             } order={1} />
                         <ColumnDefinition
                             id="avgScore"
@@ -63,9 +65,10 @@ export default class TestInstances extends React.Component {
                             title="Model"
                             customComponent={ModelDetailLinkColumnContainer}
                             customHeadingComponent={(props) => <FilterCellContainer
-                                filterName="model"
-                                onFilterUpdate={this.props.onFilterUpdate}
-                                autoCompleteData={this.props.autoCompleteData}
+                                    filterName="model"
+                                    namespace={Config.suiteNamespace}
+                                    onFilterUpdate={this.props.onFilterUpdate}
+                                    autoCompleteData={this.props.autoCompleteData}
                                 {...props} />
                             }
                             order={4} />

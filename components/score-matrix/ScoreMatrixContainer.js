@@ -25,7 +25,24 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return {}
+    return {
+        sortScore: (data, column, sortAscending = true) => {
+            return data.sort(
+                (original, newRecord) => {
+                    original = (!!original.get('_sort_key') && original.get('_sort_key')) || "";
+                    newRecord = (!!newRecord.get('_sort_key') && newRecord.get('_sort_key')) || "";
+
+                    if(original === newRecord) {
+                        return 0;
+                    } else if (original > newRecord) {
+                        return sortAscending ? 1 : -1;
+                    }
+                    else {
+                        return sortAscending ? -1 : 1;
+                    }
+                });
+        },
+    }
 }
 
 const ScoreMatrixContainer = connect(
