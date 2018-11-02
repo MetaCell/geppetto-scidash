@@ -1,9 +1,21 @@
 import React from 'react';
-import MainTemplate from './pages/MainTemplate';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+
+import scidashApp from './reducers/scidash-app';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { grey500, blueGrey900, grey400  } from 'material-ui/styles/colors';
+import ScidashContainer from './components/scidash/ScidashContainer';
+import InitialStateService from './services/InitialStateService';
+import Loader from './components/loader/Loader';
+
+
+// Needed for onTouchTap
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 
 // list of props here --> https://github.com/mui-org/material-ui/blob/master/src/styles/baseThemes/lightBaseTheme.js
 const customTheme = {
@@ -15,18 +27,46 @@ const customTheme = {
     }
 };
 
+
 const theme = getMuiTheme(customTheme);
+
 
 export default class App extends React.Component {
 
-    render(){
+    constructor(props, context){
+        super(props, context);
 
-        return (
-            <MuiThemeProvider muiTheme={theme}>
-                <MainTemplate />
-            </MuiThemeProvider>
-        )
+        this.state = {
+            store: null
+        }
+    }
+
+    componentDidMount(){
+
+        InitialStateService.getInstance().generateInitialState((initialState) => {
+            this.setState({
+                store: createStore(scidashApp, initialState)
+            });
+        });
 
     }
 
+    render(){
+
+        if (this.state.store === null){
+            return (
+                <Loader />
+            );
+        } else {
+            return (
+                <MuiThemeProvider muiTheme={theme}>
+                    <Provider store={this.state.store}>
+                        <ScidashContainer />
+                    </Provider>
+                </MuiThemeProvider>
+            );
+        }
+
+    }
 }
+
