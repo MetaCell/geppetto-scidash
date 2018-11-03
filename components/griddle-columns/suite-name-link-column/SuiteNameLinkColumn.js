@@ -45,7 +45,7 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
 
     		for (var i = 0; i < tbl.rows.length; i++) {
     			for (var j = 0; j < tbl.rows[i].cells.length; j++) {
-    				if(tbl.rows[i].cells[j].getElementsByTagName("button").length>0){
+    				if(tbl.rows[i].cells[j].getElementsByTagName("i").length>0){
     					tbl.rows[i].cells[j].style.display = "";
     					if (j == col){
     						tbl.rows[i].cells[j].style.display = mode? "":"none";
