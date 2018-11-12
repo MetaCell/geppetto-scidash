@@ -33,7 +33,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
     }
     
     takeScreenshot(){
-    	html2canvas(document.querySelector("#table_container_div")).then(function(canvas) {
+    	html2canvas(document.querySelector("#table-container-div")).then(function(canvas) {
     		var a = document.createElement('a');
     		// toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
     		a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");

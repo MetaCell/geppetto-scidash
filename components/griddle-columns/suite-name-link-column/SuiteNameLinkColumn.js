@@ -12,7 +12,6 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
         this.props = props;
         this.openScoreMatrix = this.openScoreMatrix.bind(this);
         this.closeScoreMatrix = this.closeScoreMatrix.bind(this);
-        this.toggleLastColumnhep = this.toggleLastColumnVisibility.bind(this);
         this.takeScreenshot = this.takeScreenshot.bind(this);
         this.state = {
             open: false
@@ -39,7 +38,7 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
     	if (tbl != null) {
     		col = tbl.getElementsByTagName("tr")[1].getElementsByTagName("td").length-1;
 
-    		if (col < 0 || col >= tbl.rows.length) {
+    		if (col < 0 || col >= tbl.getElementsByTagName("td").length) {
     			return;
     		}
 
@@ -60,7 +59,7 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
     	var self = this;
     	this.toggleLastColumnVisibility(false);
     	var scoreMatrixTable = document.getElementsByClassName("scidash-tilted-titles-table")[0];
-    	html2canvas(document.querySelector("#table_container_div")).then(function(canvas) {
+    	html2canvas(document.querySelector("#table-container-div")).then(function(canvas) {
     		var a = document.createElement('a');
     		// toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
     		a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
