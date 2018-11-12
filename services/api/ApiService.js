@@ -104,7 +104,6 @@ export default class ApiService {
             return {}
         }
 
-        console.log("result "+result);
         return result;
     }
 
