@@ -2,9 +2,8 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
-import Helper from '../../../shared/Helper';
+import ScreenShotHelper from '../../../shared/ScreenShotHelper';
 import ScoreMatrixContainer from '../../score-matrix/ScoreMatrixContainer';
-import html2canvas from 'html2canvas';
 
 export default class ScidashSuiteNameLinkColumn extends React.Component {
     constructor(props, context){
@@ -16,6 +15,7 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
         this.state = {
             open: false
         };
+        this.screenShotHelper = new ScreenShotHelper();
     }
 
     openScoreMatrix(e){
@@ -32,41 +32,9 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
         });
     }
     
-    toggleLastColumnVisibility(mode){
-    	var col;
-    	var tbl = document.getElementsByClassName("scidash-tilted-titles-table")[0];
-    	if (tbl != null) {
-    		col = tbl.getElementsByTagName("tr")[1].getElementsByTagName("td").length-1;
-
-    		if (col < 0 || col >= tbl.getElementsByTagName("td").length) {
-    			return;
-    		}
-
-    		for (var i = 0; i < tbl.rows.length; i++) {
-    			for (var j = 0; j < tbl.rows[i].cells.length; j++) {
-    				if(tbl.rows[i].cells[j].getElementsByTagName("i").length>0){
-    					tbl.rows[i].cells[j].style.display = "";
-    					if (j == col){
-    						tbl.rows[i].cells[j].style.display = mode? "":"none";
-    					}
-    				}
-    			}
-    		}
-    	}
-    }
-    
-    takeScreenshot(){
-    	var self = this;
-    	this.toggleLastColumnVisibility(false);
-    	var scoreMatrixTable = document.getElementsByClassName("scidash-tilted-titles-table")[0];
-    	html2canvas(document.querySelector("#table-container-div")).then(function(canvas) {
-    		var a = document.createElement('a');
-    		// toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
-    		a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    		a.download = 'score_matrix_image.png';
-    		a.click();
-    		self.toggleLastColumnVisibility(true);
-    	});
+    takeScreenshot(e){
+        e.preventDefault()
+        this.screenShotHelper.takeScreenshot("score_matrix_image",true);
     }
 
     render(){

@@ -4,8 +4,7 @@ import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import AvgScoreDetailsContainer from '../../avg-score-details/AvgScoreDetailsContainer';
-import Helper from '../../../shared/Helper';
-import html2canvas from 'html2canvas';
+import ScreenShotHelper from '../../../shared/ScreenShotHelper';
 
 export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
     constructor(props, context){
@@ -13,9 +12,11 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
         this.props = props;
         this.openAvgScoreDetail = this.openAvgScoreDetail.bind(this);
         this.closeAvgScoreDetail = this.closeAvgScoreDetail.bind(this);
+        this.takeScreenshot = this.takeScreenshot.bind(this);
         this.state = {
             open: false,
         };
+        this.screenShotHelper = new ScreenShotHelper();
     }
 
     openAvgScoreDetail(e){
@@ -32,14 +33,9 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
         });
     }
     
-    takeScreenshot(){
-    	html2canvas(document.querySelector("#table-container-div")).then(function(canvas) {
-    		var a = document.createElement('a');
-    		// toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
-    		a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    		a.download = 'Average_score_image.png';
-    		a.click();
-    	});
+    takeScreenshot(e){
+        e.preventDefault()
+        this.screenShotHelper.takeScreenshot("Average_score_image");
     }
 
     render(){
