@@ -12,7 +12,7 @@ import {
 import {
     dateFilterChanged,
     clearDateFilter
-} from '../../actions/creators/global';
+} from '../../actions/creators/test-instances';
 
 const mapStateToProps = state => {
     return {
@@ -49,7 +49,7 @@ const mapStateToProps = state => {
             currentPage: 1
         },
         showLoading: state.testInstances.showLoading,
-        dateFilterChanged: state.global.dateFilterChanged,
+        dateFilterChanged: state.testInstances.dateFilterChanged,
     };
 }
 

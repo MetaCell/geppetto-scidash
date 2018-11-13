@@ -5,6 +5,22 @@ export const FILTERING_SUITES_STARTED = "FILTERING_SUITES_STARTED";
 export const FILTERING_SUITES_FINISHED = "FILTERING_SUITES_FINISHED";
 export const HIDE_MODEL = "HIDE_MODEL";
 export const SHOW_ALL_MODELS = "SHOW_ALL_MODELS";
+export const DATE_FILTER_CHANGED = "SUITES_DATE_FILTER_CHANGED";
+export const DATE_FILTER_CLEAR = "SUITES_DATE_FILTER_CLEAR";
+
+export function dateFilterChanged(){
+    return {
+        type: DATE_FILTER_CHANGED
+    };
+}
+
+export function clearDateFilter(filter, dispatch){
+    return {
+        type: DATE_FILTER_CLEAR,
+        filter,
+        dispatch
+    };
+}
 
 export function filteringSuitesFinished(scores){
     return {

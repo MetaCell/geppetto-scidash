@@ -25,18 +25,6 @@ export default function scidashGlobal(state = {}, action){
     let newState = null;
 
     switch(action.type){
-
-        case DATE_FILTER_CHANGED:
-            newState = {
-                ...dateFilterChanged(state, action)
-            }
-            break;
-
-        case DATE_FILTER_CLEAR:
-            newState = {
-                ...dateFilterClear(state, action)
-            }
-            break;
         case OPEN_SUITES_PAGE:
             newState = {
                 ...openSuitesPage(state, action, 'global')

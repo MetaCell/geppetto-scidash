@@ -15,7 +15,7 @@ import {
 import {
     dateFilterChanged,
     clearDateFilter
-} from '../../actions/creators/global';
+} from '../../actions/creators/test-suites';
 
 const mapStateToProps = state => {
     return {
@@ -55,7 +55,7 @@ const mapStateToProps = state => {
             currentPage: 1
         },
         showLoading: state.testSuites.showLoading,
-        dateFilterChanged: state.global.dateFilterChanged,
+        dateFilterChanged: state.testSuites.dateFilterChanged,
     };
 }
 

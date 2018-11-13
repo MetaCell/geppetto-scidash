@@ -21,51 +21,12 @@ export default class ApiService {
     storage = new ScidashStorage()
 
     stringifyFilters(filters){
-        let params = new URLSearchParams()
-
-        for (let filterName of Object.keys(filters)){
-            params.append(filterName, filters[filterName]);
-        }
-
-        return params;
     }
 
     setupFilter(key, value, namespace = null){
-        let currentFilters = {}
-
-        try{
-            currentFilters = JSON.parse(this.storage.getItem('filters'))
-        } catch (err) { }
-
-        let newFilter = {}
-
-        if (namespace)
-            newFilter[`${namespace}${Config.namespaceDivider}${key}`] = value;
-        else
-            newFilter[key] = value
-
-        this.storage.setItem('filters', JSON.stringify({
-            ...currentFilters,
-            ...newFilter
-        }))
-
-        return this;
     }
 
     deleteFilter(key, namespace = null){
-
-        let currentFilters = JSON.parse(this.storage.getItem('filters'))
-
-        if (namespace)
-            delete currentFilters[`${namespace}${Config.namespaceDivider}${key}`]
-        else
-            delete currentFilters[key];
-
-        this.storage.setItem('filters', JSON.stringify({
-            ...currentFilters,
-        }))
-
-        return this;
     }
 
     matchNamespace(namespace, key){
@@ -78,7 +39,6 @@ export default class ApiService {
 
     getFilters(namespace = null){
         let result = {};
-        console.log("DEBUG");
 
         if (this.storage.getItem("filters")){
 

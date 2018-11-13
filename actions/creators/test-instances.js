@@ -3,6 +3,22 @@ import Config from '../../shared/Config';
 
 export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
 export const FILTERING_TESTS_FINISHED = "FILTERING_TESTS_FINISHED";
+export const DATE_FILTER_CHANGED = "INSTANCES_DATE_FILTER_CHANGED";
+export const DATE_FILTER_CLEAR = "INSTANCES_DATE_FILTER_CLEAR";
+
+export function dateFilterChanged(){
+    return {
+        type: DATE_FILTER_CHANGED
+    };
+}
+
+export function clearDateFilter(filter, dispatch){
+    return {
+        type: DATE_FILTER_CLEAR,
+        filter,
+        dispatch
+    };
+}
 
 export function filteringTestsFinished(scores){
     return {

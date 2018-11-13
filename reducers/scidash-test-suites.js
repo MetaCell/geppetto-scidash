@@ -2,13 +2,17 @@ import {
     FILTERING_SUITES_FINISHED,
     FILTERING_SUITES_STARTED,
     HIDE_MODEL,
-    SHOW_ALL_MODELS
+    SHOW_ALL_MODELS,
+    DATE_FILTER_CHANGED,
+    DATE_FILTER_CLEAR
 } from "../actions/creators/test-suites"
 import {
     filteringSuitesFinished,
     filteringSuitesStarted,
     hideModel,
-    showAllModels
+    showAllModels,
+    dateFilterChanged,
+    dateFilterClear
 } from "../actions/test-suites"
 
 export default function scidashTestSuites(state = {}, action){
@@ -20,6 +24,16 @@ export default function scidashTestSuites(state = {}, action){
     let newState = null;
 
     switch(action.type){
+        case DATE_FILTER_CLEAR:
+            newState = {
+                ...dateFilterClear(state, action)
+            }
+            break;
+        case DATE_FILTER_CHANGED:
+            newState = {
+                ...dateFilterChanged(state, action)
+            }
+            break;
         case FILTERING_SUITES_STARTED:
             newState = {
                 ...filteringSuitesStarted(state, action)

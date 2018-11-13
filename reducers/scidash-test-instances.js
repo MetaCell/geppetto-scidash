@@ -1,10 +1,14 @@
 import {
     FILTERING_TESTS_STARTED,
-    FILTERING_TESTS_FINISHED
+    FILTERING_TESTS_FINISHED,
+    DATE_FILTER_CHANGED,
+    DATE_FILTER_CLEAR
 } from '../actions/creators/test-instances';
 import {
     filteringTestsStarted,
-    filteringTestsFinished
+    filteringTestsFinished,
+    dateFilterChanged,
+    dateFilterClear
 } from '../actions/test-instances';
 
 
@@ -17,6 +21,16 @@ export default function scidashTestInstances(state = {}, action = null){
     let newState = null;
 
     switch(action.type){
+        case DATE_FILTER_CLEAR:
+            newState = {
+                ...dateFilterClear(state, action)
+            }
+            break;
+        case DATE_FILTER_CHANGED:
+            newState = {
+                ...dateFilterChanged(state, action)
+            }
+            break;
         case FILTERING_TESTS_STARTED:
             newState = {
                 ...filteringTestsStarted(state, action)

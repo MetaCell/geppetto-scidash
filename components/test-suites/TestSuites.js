@@ -80,6 +80,7 @@ export default class TestInstances extends React.Component {
                             customComponent={ScidashTimestampColumn}
                             customHeadingComponent={(props) => <DateRangeCellContainer
                                 onFilterUpdate={this.props.onFilterUpdate}
+                                namespace={Config.suiteNamespace}
                                 dateFilterChanged={this.props.dateFilterChanged}
                                 onDateFilterClear={this.props.onDateFilterClear}
                                 {...props} />

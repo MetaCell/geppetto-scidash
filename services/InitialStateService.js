@@ -17,7 +17,6 @@ export default class InitialStateService {
     initialStateTemplate = {
         global: {
             globalFilters: {},
-            dateFilterChanged: false,
             currentPage: new PagesService().getDefault()
         },
         testInstances: {
@@ -36,6 +35,7 @@ export default class InitialStateService {
                     template: true
                 }
             ],
+            dateFilterChanged: false,
             filters: {},
             showLoading: false,
             autoCompleteData: {
@@ -68,6 +68,7 @@ export default class InitialStateService {
             scoreMatrixList: {},
             hiddenModels:[],
             filters: {},
+            dateFilterChanged: false,
             showLoading: false,
             autoCompleteData: {
                 suiteObject: [],
@@ -139,11 +140,14 @@ export default class InitialStateService {
 
         let filtersFromUrl = new Helper().queryStringToDict(location.search)
 
+        let suiteNamespace = Config.suiteNamespace;
+        let instancesNamespace = Config.instancesNamespace;
+
         this.countPeriod().then((result) => {
-            this.initialState.global.globalFilters = {
-                timestamp_from: result.acceptable_period,
-                timestamp_to: result.current_date
-            };
+            this.initialState.global.globalFilters[`${suiteNamespace}:timestamp_from`] = result.acceptable_period;
+            this.initialState.global.globalFilters[`${suiteNamespace}:timestamp_to`] = result.current_date;
+            this.initialState.global.globalFilters[`${instancesNamespace}:timestamp_from`] = result.acceptable_period;
+            this.initialState.global.globalFilters[`${instancesNamespace}:timestamp_to`] = result.current_date;
         }).then(() => {
             this.loadScores({
                 ...this.initialState.global.globalFilters,
