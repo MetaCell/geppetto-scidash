@@ -11,7 +11,6 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
         this.props = props;
         this.openScoreMatrix = this.openScoreMatrix.bind(this);
         this.closeScoreMatrix = this.closeScoreMatrix.bind(this);
-        this.takeScreenshot = this.takeScreenshot.bind(this);
         this.state = {
             open: false
         };
@@ -31,11 +30,6 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
             open:false
         });
     }
-    
-    takeScreenshot(e){
-        e.preventDefault()
-        this.screenShotHelper.takeScreenshot("score_matrix_image",true);
-    }
 
     render(){
         const actions = [
@@ -43,7 +37,7 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
             label="Save As Image"
             primary={true}
             icon={<FontIcon className="fa fa-camera"/>}
-            onClick={this.takeScreenshot}
+            onClick={(e) => {this.screenShotHelper.takeScreenshot(e,"score_matrix_image",true)}}
         />,
         <FlatButton
             label="Close"

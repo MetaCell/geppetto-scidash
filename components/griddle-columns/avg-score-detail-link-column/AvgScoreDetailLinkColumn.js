@@ -12,7 +12,6 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
         this.props = props;
         this.openAvgScoreDetail = this.openAvgScoreDetail.bind(this);
         this.closeAvgScoreDetail = this.closeAvgScoreDetail.bind(this);
-        this.takeScreenshot = this.takeScreenshot.bind(this);
         this.state = {
             open: false,
         };
@@ -32,11 +31,6 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
             open:false
         });
     }
-    
-    takeScreenshot(e){
-        e.preventDefault()
-        this.screenShotHelper.takeScreenshot("Average_score_image");
-    }
 
     render(){
         const actions = [
@@ -44,7 +38,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
             label="Save As Image"
             primary={true}
             icon={<FontIcon className="fa fa-camera"/>}
-            onClick={this.takeScreenshot}
+            onClick={(e) => {this.screenShotHelper.takeScreenshot(e,"Average_score_image")}}
 			/>,
             <FlatButton
             label="Close"
