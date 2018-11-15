@@ -1,9 +1,10 @@
+import FilteringService from "../services/FilteringService";
 
 
 export default class PagesService {
 
-    TESTS_PAGE = 'tests';
-    SUITES_PAGE = 'suites';
+    TESTS_PAGE = "instances";
+    SUITES_PAGE = "suites";
 
     default = "";
 

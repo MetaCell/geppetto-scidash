@@ -1,4 +1,7 @@
 import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter';
+import FilteringService from '../services/FilteringService';
+import Config from '../shared/Config';
+
 import $ from 'jquery';
 
 export function filteringTestsStarted(state, action){
@@ -15,6 +18,7 @@ export function filteringTestsStarted(state, action){
 
 export function filteringTestsFinished(state, action){
 
+    debugger;
     let adapter = new TestInstancesGriddleAdapter(action.scores)
 
     $(".griddle-page-select").show()
@@ -36,11 +40,12 @@ export function dateFilterChanged(state, action){
 }
 
 export function dateFilterClear(state, action){
-    let initialStateService = InitialStateService.getInstance();
-    let scoreApiService = new ScoreApiService();
+    let filteringService = FilteringService.getInstance();
 
-    for (let entry of Object.entries(initialStateService.getInitialState().global.globalFilters)){
-        scoreApiService.setupFilter(entry[0], entry[1]);
+    filteringService.restoreFromInitial(Config.instancesNamespace);
+
+    for (let entry of Object.entries(filteringService.getFilters(Config.instancesNamespace))){
         action.filter(entry[1], entry[0], action.dispatch, true)
     }
+
 }

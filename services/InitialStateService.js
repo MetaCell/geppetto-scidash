@@ -112,7 +112,7 @@ export default class InitialStateService {
 
         let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key))
 
-        return service.getList(!keys.length > 0);
+        return service.getList(!keys.length > 0, namespace);
     }
 
     cleanUp(){
@@ -139,10 +139,11 @@ export default class InitialStateService {
                 filteringS.setupFilters({
                     timestamp_to: result.current_date,
                     timestamp_from: result.acceptable_period
-                }, namespace);
+                }, namespace, true);
             }
 
-            filteringS.extractFiltersFromQueryString(location.search, instancesNamespace)
+            filteringS.extractFiltersFromQueryString(location.search, instancesNamespace);
+            window.history.pushState("", "", "/?" + filteringS.stringifyFilters(filteringS.getFilters(instancesNamespace)));
 
         }).then(() => {
             this.loadScores(instancesNamespace).then((scores) => {

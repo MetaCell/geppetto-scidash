@@ -56,7 +56,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 
     let filter = (searchText, filterName, dispatch, reset = false) => {
-
         let storage = new ScidashStorage();
         let timeoutKey = 'lastFilterTimeoutId';
 
@@ -98,8 +97,7 @@ const mapDispatchToProps = dispatch => {
                         return 0;
                     } else if (original > newRecord) {
                         return sortAscending ? 1 : -1;
-                    }
-                    else {
+                    } else {
                         return sortAscending ? -1 : 1;
                     }
                 });

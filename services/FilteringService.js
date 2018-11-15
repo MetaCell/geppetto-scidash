@@ -3,9 +3,11 @@ import Config from "../shared/Config";
 
 
 export default class FilteringService {
+
     storage = new ScidashStorage();
 
     filters = {};
+    initialFilters = {};
 
     static instance = null;
 
@@ -20,20 +22,41 @@ export default class FilteringService {
         this.extractFromStorage();
     }
 
-    setupFilter(key, value, namespace=null){
-        if (namespace)
+    setupFilter(key, value, namespace=null, initial=false){
+
+        if (namespace){
+
+            if (initial)
+                this.initialFilters[`${namespace}${Config.namespaceDivider}${key}`] = value;
+
             this.filters[`${namespace}${Config.namespaceDivider}${key}`] = value;
-        else
+        } else {
+
+            if (initial)
+                this.initialFilters[key] = value;
+
             this.filters[key] = value
+        }
 
         this.writeToStorage();
 
         return this;
     }
 
-    setupFilters(filters={}, namespace=null){
+    restoreFromInitial(namespace){
+        for (let key of Object.keys(this.initialFilters)){
+            if (this.matchNamespace(key, namespace)){
+                this.filters[key] = this.initialFilters[key];
+            }
+        }
+
+        return this;
+
+    }
+
+    setupFilters(filters={}, namespace=null, initial=false){
         for (let key of Object.keys(filters)){
-            this.setupFilter(key, filters[key], namespace)
+            this.setupFilter(key, filters[key], namespace, initial)
         }
 
         return this;
@@ -113,6 +136,7 @@ export default class FilteringService {
 
     getFilters(namespace=null, cutNamespace=true){
         let result = {};
+
         if (namespace){
 
             for (let filterName of Object.keys(this.filters)){
@@ -169,13 +193,15 @@ export default class FilteringService {
     }
 
     writeToStorage(){
-        this.storage.setItem("filters", JSON.stringify(this.filters))
+        this.storage.setItem("filters", JSON.stringify(this.filters));
+        this.storage.setItem("initialFilters", JSON.stringify(this.initialFilters));
 
         return this;
     }
 
-    extractFromStorage(){
-        this.filters = JSON.parse(this.storage.getItem('filters'));
+    extractFromStorage(initial=false){
+        let key = initial ? 'initialFilters' : 'filters'
+        this.filters = JSON.parse(this.storage.getItem(key));
 
         if (this.filters === null)
             this.filters = {};
