@@ -1,5 +1,5 @@
 import PagesService from "../services/PagesService";
-import ApiService from "../services/api/ApiService";
+import FilteringService from "../services/FilteringService";
 import Config from "../shared/Config";
 import InitialStateService from "../services/InitialStateService";
 
@@ -16,7 +16,7 @@ export function openTestsPage(state, action, type){
             testsActive: true
         };
     } else if (type == 'global') {
-        let service = new ApiService();
+        let service = new FilteringService();
         let filters = service.getFilters(Config.instancesNamespace);
         let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "/";
 
@@ -44,7 +44,7 @@ export function openSuitesPage(state, action, type){
             suitesActive: true
         };
     } else if (type == 'global') {
-        let service = new ApiService();
+        let service = new FilteringService();
         let filters = service.getFilters(Config.suiteNamespace);
         let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "/";
 

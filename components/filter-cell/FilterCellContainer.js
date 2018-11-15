@@ -1,10 +1,10 @@
-import { connect } from "react-redux"
-import FilterCell from "./FilterCell"
-import ScoreApiService from "../../services/api/ScoreApiService"
+import { connect } from "react-redux";
+import FilterCell from "./FilterCell";
+import FilteringService from "../../services/FilteringService";
 
 const mapStateToProps = (state, ownProps) => {
     let namespace = ownProps.namespace;
-    let currentFilters = new ScoreApiService().getFilters(namespace)
+    let currentFilters = FilteringService.getInstance().getFilters(namespace, true)
     let filterName = ownProps.filterName
     let value = ""
 

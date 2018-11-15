@@ -10,13 +10,13 @@ import TestInstancesAutocompleteAdapter from '../shared/adapter/TestInstancesAut
 import TestSuitesAutocompleteAdapter from '../shared/adapter/TestSuitesAutocompleteAdapter';
 import Helper from '../shared/Helper';
 import Config from '../shared/Config';
+import FilteringService from '../services/FilteringService';
 
 
 export default class InitialStateService {
 
     initialStateTemplate = {
         global: {
-            globalFilters: {},
             currentPage: new PagesService().getDefault()
         },
         testInstances: {
@@ -106,25 +106,17 @@ export default class InitialStateService {
         return dateRangeService.getList(true);
     }
 
-    loadScores(filters){
-
+    loadScores(namespace){
+        let filteringS = FilteringService.getInstance();
         let service = new ScoreApiService();
-        service.clearFilters();
 
-        if (filters !== null){
-            for (let filterName of Object.keys(filters)){
-                service.setupFilter(filterName, filters[filterName]);
-            }
-        }
-
-        let keys = Object.keys(filters).filter(key => !Config.cachableFilters.includes(key))
+        let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key))
 
         return service.getList(!keys.length > 0);
     }
 
     cleanUp(){
-        let service = new ScoreApiService();
-        service.deleteFilter("with_suites");
+        FilteringService.getInstance().deleteFilter("with_suites");
     }
 
     getInitialStateTemplate(){
@@ -137,22 +129,23 @@ export default class InitialStateService {
 
     generateInitialState(onStateGenerated){
         this.initialState = this.getInitialState()
-
-        let filtersFromUrl = new Helper().queryStringToDict(location.search)
+        let filteringS = FilteringService.getInstance();
 
         let suiteNamespace = Config.suiteNamespace;
         let instancesNamespace = Config.instancesNamespace;
 
         this.countPeriod().then((result) => {
-            this.initialState.global.globalFilters[`${suiteNamespace}:timestamp_from`] = result.acceptable_period;
-            this.initialState.global.globalFilters[`${suiteNamespace}:timestamp_to`] = result.current_date;
-            this.initialState.global.globalFilters[`${instancesNamespace}:timestamp_from`] = result.acceptable_period;
-            this.initialState.global.globalFilters[`${instancesNamespace}:timestamp_to`] = result.current_date;
+            for (let namespace of [suiteNamespace, instancesNamespace]){
+                filteringS.setupFilters({
+                    timestamp_to: result.current_date,
+                    timestamp_from: result.acceptable_period
+                }, namespace);
+            }
+
+            filteringS.extractFiltersFromQueryString(location.search, instancesNamespace)
+
         }).then(() => {
-            this.loadScores({
-                ...this.initialState.global.globalFilters,
-                ...filtersFromUrl
-            }).then((scores) => {
+            this.loadScores(instancesNamespace).then((scores) => {
 
                 this.initialState.testInstances.data = new TestInstancesGriddleAdapter(scores)
                     .getGriddleData();
@@ -160,11 +153,9 @@ export default class InitialStateService {
                 this.initialState.testInstances.autoCompleteData = new TestInstancesAutocompleteAdapter(this.initialState.testInstances.data)
                     .getAutocompleteData();
 
-                this.loadScores({
-                    ...this.initialState.global.globalFilters,
-                    ...filtersFromUrl,
-                    with_suites: true
-                }).then((scores) => {
+                filteringS.setupFilter("with_suites", true, suiteNamespace);
+
+                this.loadScores(suiteNamespace).then((scores) => {
 
                     this.initialState.testSuites.data = new TestSuitesGriddleAdapter(scores)
                         .getGriddleData();

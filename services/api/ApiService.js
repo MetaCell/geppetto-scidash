@@ -1,6 +1,7 @@
 import ScidashStorage from '../../shared/ScidashStorage';
 import Helper from '../../shared/Helper';
 import Config from '../../shared/Config';
+import FilteringService from '../FilteringService';
 
 
 class ApiServiceException {
@@ -20,68 +21,8 @@ export default class ApiService {
     cacheExpires = 300000
     storage = new ScidashStorage()
 
-    stringifyFilters(filters){
-    }
-
-    setupFilter(key, value, namespace = null){
-    }
-
-    deleteFilter(key, namespace = null){
-    }
-
-    matchNamespace(namespace, key){
-        return new RegExp(`^${namespace}${Config.namespaceDivider}.+$`).test(key)
-    }
-
-    hasNamespace(filterName){
-        return new RegExp(`^.+${Config.namespaceDivider}.+$`).test(filterName)
-    }
-
-    getFilters(namespace = null){
-        let result = {};
-
-        if (this.storage.getItem("filters")){
-
-            let filters = JSON.parse(this.storage.getItem("filters"));
-
-            if (namespace){
-                for (let filterName of Object.keys(filters)){
-                    if(this.matchNamespace(namespace, filterName)){
-                        result[filterName.split(Config.namespaceDivider)[1]] = filters[filterName];
-                    } else if (!this.hasNamespace(filterName)){
-                        result[filterName] = filters[filterName];
-                    }
-                }
-            } else {
-                for (let filterName of Object.keys(filters)){
-                    if (this.hasNamespace(filterName))
-                        result[filterName.split(Config.namespaceDivider)[1]] = filters[filterName];
-                    else
-                        result[filterName] = filters[filterName];
-                }
-            }
-        } else{
-            return {}
-        }
-
-        return result;
-    }
-
-    clearFilters(){
-        this.storage.setItem("filters", "");
-    }
-
     clearCache(storage){
         storage.clear()
-    }
-
-    clearFiltersByNamespace(namespace){
-        let filters = this.getFilters();
-
-        for (filterName in Object.keys(filters)){
-            if(this.matchNamespace(namespace))
-                this.deleteFilter(filterName, namespace);
-        }
     }
 
     saveToCache(key, data){
@@ -97,12 +38,13 @@ export default class ApiService {
     }
 
     getList(cache = false, namespace=Config.instancesNamespace){
+        let filteringS = FilteringService.getInstance();
 
         if (this.endpoint === null){
             throw new ApiServiceException("You should define API endpoint");
         }
 
-        let queryPath = this.endpoint + (this.getFilters(namespace) ? "?" + this.stringifyFilters(this.getFilters(namespace)) : "");
+        let queryPath = this.endpoint + (filteringS.getFilters(namespace, true) ? "?" + filteringS.stringifyFilters(filteringS.getFilters(namespace, true)) : "");
 
         if (this.storage.getItem(queryPath) && cache){
             return new Promise((resolve, reject) => {

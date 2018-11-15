@@ -1,14 +1,13 @@
 import { connect } from "react-redux";
 import DateRangeCell from "./DateRangeCell";
 import Helper from "../../shared/Helper";
-import ScoreApiService from "../../services/api/ScoreApiService";
+import FilteringService from "../../services/FilteringService";
 
 
 const mapStateToProps = (state, ownProps) => {
 
     let namespace = ownProps.namespace;
-
-    let currentFilters = new ScoreApiService().getFilters(namespace);
+    let currentFilters = FilteringService.getInstance().getFilters(namespace, true);
     let cfl = new Helper().capitalizeFirstLetter;
 
     let names = ["from",  "to"];

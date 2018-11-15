@@ -1,4 +1,5 @@
 import ScoreApiService from "../../services/api/ScoreApiService";
+import FilteringService from "../../services/FilteringService";
 import Config from '../../shared/Config';
 
 export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
@@ -28,20 +29,21 @@ export function filteringTestsFinished(scores){
 }
 
 export function filteringTestsStarted(searchText, filterName, dispatch){
-    let service = new ScoreApiService();
+    let apiService = new ScoreApiService();
+    let filteringService = FilteringService.getInstance();
 
     if (searchText.length > 0)
-        service.setupFilter(filterName, searchText, Config.instancesNamespace);
+        filteringService.setupFilter(filterName, searchText, Config.instancesNamespace);
     else
-        service.deleteFilter(filterName, Config.instancesNamespace);
+        filteringService.deleteFilter(filterName, Config.instancesNamespace);
 
-    service.deleteFilter("with_suites");
+    filteringService.deleteFilter("with_suites");
 
-    service.getList(false, Config.instancesNamespace).then((result) => {
+    apiService.getList(false, Config.instancesNamespace).then((result) => {
 
-        let filters = service.getFilters(Config.instancesNamespace);
+        let filters = filteringService.getFilters(Config.instancesNamespace);
 
-        let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "/";
+        let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "/";
 
         window.history.pushState("", "", filterString);
         dispatch(filteringTestsFinished(result))

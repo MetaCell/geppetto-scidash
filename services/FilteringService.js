@@ -1,7 +1,8 @@
 import ScidashStorage from "../shared/ScidashStorage";
 import Config from "../shared/Config";
 
-class FilteringService {
+
+export default class FilteringService {
     storage = new ScidashStorage();
 
     filters = {};
@@ -31,12 +32,9 @@ class FilteringService {
     }
 
     setupFilters(filters={}, namespace=null){
-        this.filters = {
-            ...this.filters,
-            ...filters
+        for (let key of Object.keys(filters)){
+            this.setupFilter(key, filters[key], namespace)
         }
-
-        this.writeToStorage();
 
         return this;
     }
@@ -61,6 +59,28 @@ class FilteringService {
         return this;
     }
 
+    extractFiltersFromQueryString(queryString="", namespace=null){
+        let filters = new URLSearchParams(queryString);
+        let parsedFilters = {};
+
+        for (let filter of filters){
+            if (/^timestamp_/.test(filter)){
+
+                let date = new Date(filter[1]);
+
+                if (Object.prototype.toString.call(date) === "[object Date]")
+                    if (!isNaN(date.getTime()))
+                        parsedFilters[filter[0]]= date.toISOString()
+            } else {
+                parsedFilters[filter[0]]=filter[1]
+            }
+        }
+
+        this.setupFilters(parsedFilters, namespace);
+
+        return this;
+    }
+
     stringifyFilters(filters){
         let params = new URLSearchParams()
 
@@ -80,15 +100,73 @@ class FilteringService {
     }
 
     getFilter(key, namespace=null){
+        let filterName = key;
 
+        if (namespace){
+            filterName = `${namespace}${Config.namespaceDivider}${key}`;
+        }
+
+        if (filterName in this.filters){
+            return this.filters[filterName];
+        }
     }
 
-    getFilters(namespace=null){
+    getFilters(namespace=null, cutNamespace=true){
+        let result = {};
+        if (namespace){
 
+            for (let filterName of Object.keys(this.filters)){
+                if(this.matchNamespace(filterName, namespace)){
+                    if (cutNamespace){
+                        filterName = this.cutNamespace(filterName);
+                        result[filterName] = this.getFilter(filterName, namespace);
+                    } else {
+                        result[filterName] = this.getFilter(filterName, namespace);
+                    }
+                } else if (!this.hasNamespace(filterName)){
+                    result[filterName] = this.getFilter(filterName, namespace);
+                }
+            }
+        } else {
+            for (let filterName of Object.keys(this.filters)){
+                if (this.hasNamespace(filterName)){
+                    if (cutNamespace){
+                        result[this.cutNamespace(filterName)] = this.getFilter(filterName, namespace);
+                    } else{
+                        result[filterName] = this.getFilter(filterName, namespace);
+                    }
+                } else{
+                    result[filterName] = this.getFilter(filterName, namespace);
+                }
+            }
+        }
+
+        return result;
     }
 
-    clearFilters(){}
-    clearFiltersByNamespace(namespace){}
+    cutNamespace(key){
+        if (!this.hasNamespace(key)){
+            return key;
+        }
+
+        return key.split(Config.namespaceDivider)[1]
+    }
+
+    clearFilters(){
+        this.filters = {};
+        this.writeToStorage();
+
+        return this;
+    }
+
+    clearFiltersByNamespace(namespace){
+        for (let key of Object.keys(this.filters)){
+            if (this.matchNamespace(key, namespace))
+                this.deleteFilter(this.cutNamespace(key), namespace)
+        }
+
+        return this;
+    }
 
     writeToStorage(){
         this.storage.setItem("filters", JSON.stringify(this.filters))
@@ -97,11 +175,10 @@ class FilteringService {
     }
 
     extractFromStorage(){
-        try{
-            this.filters = JSON.parse(this.storage.getItem('filters'));
-        } catch(err) {
+        this.filters = JSON.parse(this.storage.getItem('filters'));
+
+        if (this.filters === null)
             this.filters = {};
-        }
 
         return this;
     }

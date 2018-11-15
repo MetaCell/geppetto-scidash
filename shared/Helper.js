@@ -76,26 +76,6 @@ export default class Helper {
         return object.size == 0 ? "None" : object;
     }
 
-    queryStringToDict(queryString){
-        let filters = new URLSearchParams(queryString);
-        let parsedFilters = {};
-
-        for (let filter of filters){
-            if (/^timestamp_/.test(filter)){
-
-                let date = new Date(filter[1]);
-
-                if (Object.prototype.toString.call(date) === "[object Date]")
-                    if (!isNaN(date.getTime()))
-                        parsedFilters[filter[0]]= date.toISOString()
-            } else {
-                parsedFilters[filter[0]]=filter[1]
-            }
-        }
-
-        return parsedFilters
-    }
-
     parseBuildInfo(string){
         let buildInfoRegex = /(.+)(\/)(\w+)/;
         let buildInfoResult = null;
