@@ -1,5 +1,7 @@
 import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
 import ScoreMatrixGriddleAdapter from '../shared/adapter/ScoreMatrixGriddleAdapter';
+import FilteringService from '../services/FilteringService';
+import Config from '../shared/Config';
 import $ from 'jquery';
 
 export function dateFilterChanged(state, action){
@@ -10,12 +12,18 @@ export function dateFilterChanged(state, action){
 }
 
 export function dateFilterClear(state, action){
-    let initialStateService = InitialStateService.getInstance();
-    let scoreApiService = new ScoreApiService();
+    let filteringService = FilteringService.getInstance();
 
-    for (let entry of Object.entries(initialStateService.getInitialState().global.globalFilters)){
-        scoreApiService.setupFilter(entry[0], entry[1]);
+    filteringService.restoreFromInitial(Config.suiteNamespace);
+
+    for (let entry of Object.entries(filteringService.getFilters(Config.suiteNamespace))){
         action.filter(entry[1], entry[0], action.dispatch, true)
+    }
+
+    return {
+        ...state,
+        showLoading: false,
+        dateFilterChanged: false
     }
 }
 

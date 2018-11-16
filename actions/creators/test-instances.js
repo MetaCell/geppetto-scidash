@@ -41,7 +41,6 @@ export function filteringTestsStarted(searchText, filterName, dispatch){
 
     apiService.getList(false, Config.instancesNamespace).then((result) => {
 
-        console.log(result);
         let filters = filteringService.getFilters(Config.instancesNamespace);
 
         let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "/";

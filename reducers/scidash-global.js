@@ -1,8 +1,4 @@
 import {
-    DATE_FILTER_CHANGED,
-    DATE_FILTER_CLEAR
-} from '../actions/creators/global';
-import {
     openTestsPage,
     openSuitesPage
 } from '../actions/shared';
@@ -10,11 +6,6 @@ import {
     OPEN_SUITES_PAGE,
     OPEN_TESTS_PAGE
 } from '../actions/creators/shared';
-
-import {
-    dateFilterChanged,
-    dateFilterClear
-} from '../actions/global';
 
 export default function scidashGlobal(state = {}, action){
     console.group("SCIDASH GLOBAL REDUCER")

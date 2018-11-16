@@ -18,7 +18,6 @@ export function filteringTestsStarted(state, action){
 
 export function filteringTestsFinished(state, action){
 
-    debugger;
     let adapter = new TestInstancesGriddleAdapter(action.scores)
 
     $(".griddle-page-select").show()
@@ -46,6 +45,12 @@ export function dateFilterClear(state, action){
 
     for (let entry of Object.entries(filteringService.getFilters(Config.instancesNamespace))){
         action.filter(entry[1], entry[0], action.dispatch, true)
+    }
+
+    return {
+        ...state,
+        showLoading: false,
+        dateFilterChanged: false
     }
 
 }
