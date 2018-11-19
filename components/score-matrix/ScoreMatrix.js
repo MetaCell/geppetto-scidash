@@ -56,6 +56,7 @@ export default class ScoreMatrix extends React.Component {
                 return null;
             }
         };
+
         return (
             <Card style={{
                     overflow: "scroll"
@@ -91,6 +92,7 @@ export default class ScoreMatrix extends React.Component {
                                                 id={heading.id}
                                                 key={index}
                                                 title={heading.title}
+                                                sortMethod={this.props.sortScore}
                                                 customHeadingComponent={TitleHeader}
                                                 customComponent={ScoreCell}
                                                 cssClassName="griddle-cell score-matrix-cell"

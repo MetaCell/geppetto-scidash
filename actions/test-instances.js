@@ -9,8 +9,7 @@ export function filteringTestsStarted(state, action){
     $(".griddle-page-select").hide()
 
     let newState = {
-        ...state,
-        showLoading: true
+        ...state
     };
 
     return newState;
@@ -24,7 +23,6 @@ export function filteringTestsFinished(state, action){
 
     let newState = {
         ...state,
-        showLoading: false,
         data: adapter.getGriddleData()
     }
 
@@ -49,7 +47,6 @@ export function dateFilterClear(state, action){
 
     return {
         ...state,
-        showLoading: false,
         dateFilterChanged: false
     }
 

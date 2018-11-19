@@ -13,7 +13,7 @@ import Config from "../../shared/Config";
 
 import Loader from "../loader/Loader";
 
-export default class TestInstances extends React.Component {
+export default class TestSuites extends React.Component {
 
     constructor(props, context){
         super(props, context);

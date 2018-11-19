@@ -24,6 +24,11 @@ export default class FilteringService {
 
     setupFilter(key, value, namespace=null, initial=false){
 
+        if (Config.bannedFilters[namespace].includes(key)){
+            console.warn(`${key} is banned for namespace '${namespace}'`)
+            return this;
+        }
+
         if (namespace){
 
             if (initial)

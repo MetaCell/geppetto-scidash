@@ -22,7 +22,6 @@ export function dateFilterClear(state, action){
 
     return {
         ...state,
-        showLoading: false,
         dateFilterChanged: false
     }
 }
@@ -32,8 +31,7 @@ export function filteringSuitesStarted(state, action){
     $(".griddle-page-select").hide()
 
     let newState = {
-        ...state,
-        showLoading: true
+        ...state
     };
 
     return newState;
@@ -47,7 +45,6 @@ export function filteringSuitesFinished(state, action){
 
     let newState = {
         ...state,
-        showLoading: false,
         data: adapter.getGriddleData()
     }
 
