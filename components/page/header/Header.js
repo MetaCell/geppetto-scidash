@@ -44,8 +44,8 @@ export default class Header extends React.Component {
                 <div id="headerLinks">
                     <div className="row">
                         <div className="col-md-3 col-md-offset-4" style={this.props.buttonsStyle}>
-                                <RaisedButton label="Tests View" primary={this.props.testsActive} onClick={this.props.openTestsPage} />
-                                <RaisedButton label="Suites View" primary={this.props.suitesActive} onClick={this.props.openSuitesPage} />
+                                <RaisedButton label="Tests View" primary={this.props.testsActive} onClick={this.props.openTestsView} />
+                                <RaisedButton label="Suites View" primary={this.props.suitesActive} onClick={this.props.openSuitesView} />
                         </div>
                     </div>
                 </div>

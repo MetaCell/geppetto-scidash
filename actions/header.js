@@ -1,4 +1,5 @@
 import ApiService from '../services/api/ApiService';
+import PagesService from '../services/PagesService';
 
 export function toggleSettings(headerState, action){
 
@@ -34,4 +35,12 @@ export function toggleDrawer(headerState, action){
   const { drawerActive, ...others } = headerState;
 
   return { ...others, drawerActive: !drawerActive }
+}
+
+export function changePage(state, action){
+  const { activePage, others } = state;
+  return {
+    ...state,
+    activePage: action.page
+  }
 }

@@ -3,26 +3,30 @@ import FilteringService from "../services/FilteringService";
 
 export default class PagesService {
 
-    TESTS_PAGE = "instances";
-    SUITES_PAGE = "suites";
-    SCORES_PAGE = "SCORES";
-    MODELS_PAGE = "MODELS";
-    TESTS_PAGE = "TESTS";
-    SETTINGS_PAGE = "SETTINGS";
-    SCHEDULER_PAGE = "SCHEDULER";
+    TESTS_VIEW = "instances";
+    SUITES_VIEW = "suites";
+    SCORES_PAGE = "SCORES_PAGE";
+    TESTS_PAGE = "TESTS_PAGE";
+    MODELS_PAGE = "MODELS_PAGE";
+    SETTINGS_PAGE = "SETTINGS_PAGE";
+    SCHEDULING_PAGE = "SCHEDULLING_PAGE";
 
     default = "";
 
     constructor(){
-        this.default = this.TESTS_PAGE;
+        this.default = this.TESTS_VIEW;
+        this.defaultPage = this.SCORES_PAGE;
     }
 
     getAll(){
-        return [TESTS_PAGE, SUITES_PAGE];
+        return [TESTS_VIEW, SUITES_VIEW];
     }
 
     getDefault(){
         return this.default;
     }
 
+    getDefaultPage(){
+      return this.defaultPage;
+    }
 }

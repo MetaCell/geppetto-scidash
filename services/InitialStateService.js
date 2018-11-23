@@ -17,7 +17,7 @@ export default class InitialStateService {
 
     initialStateTemplate = {
         global: {
-            currentPage: new PagesService().getDefault()
+            activeView: new PagesService().getDefault()
         },
         testInstances: {
             data: [
@@ -84,7 +84,8 @@ export default class InitialStateService {
             suitesActive: false,
             showSettings: false,
             colorBlind: false,
-            drawerActive: false
+            drawerActive: false,
+            activePage: new PagesService().getDefaultPage()
         }
     }
 

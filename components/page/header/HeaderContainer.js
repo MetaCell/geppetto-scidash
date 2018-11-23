@@ -5,8 +5,8 @@ import {
     hideSettings,
 } from '../../../actions/creators/header';
 import {
-    openSuitesPage,
-    openTestsPage
+    openSuitesView,
+    openTestsView
 } from '../../../actions/creators/shared';
 
 const mapStateToProps = state => {
@@ -45,12 +45,12 @@ const mapDispatchToProps = dispatch => {
                 dispatch(hideSettings());
             }
         },
-        openTestsPage: () => {
-            dispatch(openTestsPage());
+        openTestsView: () => {
+            dispatch(openTestsView());
         },
 
-        openSuitesPage: () => {
-            dispatch(openSuitesPage());
+        openSuitesView: () => {
+            dispatch(openSuitesView());
         }
     }
 }

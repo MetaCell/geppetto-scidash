@@ -17,6 +17,10 @@ import PagesService from '../../../services/PagesService';
 
 export default ({ drawerActive, changePage, toggleDrawer }) => {
   const pagesService = new PagesService()
+  const handleMenuClick = page => {
+    changePage(page);
+    toggleDrawer();
+  }
   return (
     <div>
       <IconButton
@@ -37,32 +41,32 @@ export default ({ drawerActive, changePage, toggleDrawer }) => {
             id="hamMenuScores"
             primaryText="Scores"
             leftIcon={<SvgIcon>{ScorsIcon}</SvgIcon>}
-            onClick={() => changePage(pagesService.SCORES_PAGE)}
+            onClick={() => handleMenuClick(pagesService.SCORES_PAGE)}
           />
           <MenuItem 
             id="hamMenuTests"
             primaryText="Tests"
-            onClick={() => changePage(pagesService.TESTS_PAGE)}
+            onClick={() => handleMenuClick(pagesService.TESTS_PAGE)}
             leftIcon={<SvgIcon>{TestIcon}</SvgIcon>}
           />
           <MenuItem 
             id="hamMenuModels"
             primaryText="Models"
-            onClick={() => changePage(pagesService.MODELS_PAGE)}
+            onClick={() => handleMenuClick(pagesService.MODELS_PAGE)}
             leftIcon={<SvgIcon>{ModelsIcon}</SvgIcon>}
           />
           <MenuItem 
             id="hamMenuSettings"
             primaryText="Settings"
             leftIcon={<SvgIcon>{SettingsIcon}</SvgIcon>}
-            onClick={() => changePage(pagesService.SETTINGS_PAGE)}
+            onClick={() => handleMenuClick(pagesService.SETTINGS_PAGE)}
             
           />
           <MenuItem 
             id="hamMenuScheduling"
             primaryText="Scheduling"
             leftIcon={<SvgIcon>{SchedulingIcon}</SvgIcon>}
-            onClick={() => changePage(pagesService._SCHEDULER_PAGE)}
+            onClick={() => handleMenuClick(pagesService.SCHEDULING_PAGE)}
           />
       </Drawer>
     </div>

@@ -4,7 +4,8 @@ import Content from './Content';
 
 const mapStateToProps = state => {
     return {
-        currentPage: state.global.currentPage
+        activeView: state.global.activeView,
+        activePage: state.header.activePage
     }
 }
 

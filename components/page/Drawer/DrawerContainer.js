@@ -1,17 +1,18 @@
 import { connect } from 'react-redux';
 import Drawer from './Drawer';
-import { toggleDrawer } from '../../../actions/creators/header';
+import { toggleDrawer, changePage } from '../../../actions/creators/header';
 
 
 const mapStateToProps = state => {
   return {
-    drawerActive: state.header.drawerActive
+    drawerActive: state.header.drawerActive,
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleDrawer: () => dispatch(toggleDrawer())
+    toggleDrawer: () => dispatch(toggleDrawer()),
+    changePage: (page) => dispatch(changePage(page))
   };
 }
 

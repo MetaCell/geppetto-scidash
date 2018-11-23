@@ -24,6 +24,11 @@ const FilterCell = ({
             <AutoComplete
                 className="scidash-materialui-field"
                 searchText={value}
+                popoverProps={{
+                  color:"red",
+                  backgroundColor:"blue",
+                  className: "autosuggest"
+                }}
                 filter={AutoComplete.caseInsensitiveFilter}
                 onClick={(event) => {
                     event.stopPropagation();

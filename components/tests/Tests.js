@@ -5,64 +5,74 @@ import Loader from "../loader/Loader";
 
 import {CustomMenu, CustomTagComponent} from './partial'
 
-export default class TestInstances extends React.Component {
+export default class Tests extends React.Component {
 
-    constructor(props, context){
-        super(props, context);
+  constructor(props, context){
+    super(props, context);
+    this.props = props;
+  }
 
-        this.props = props;
-    }
+  render(){
+    return (
+      <div>
+        <Griddle 
+          data={fakeData.data}
+          components={this.props.griddleComponents}
+          plugins={[plugins.LocalPlugin]}
+          styleConfig={this.props.styleConfig}
+          pageProperties={this.props.pageProperties} 
+        >
+          <RowDefinition>
+            <ColumnDefinition
+              id="name"
+              title="Name"
+              order={1} 
+            />
 
-    render(){
-      console.log(this.props.data)
-        return (
-            <div>
-                <Griddle //emulate the missing field for the menu
-                    data={fakeData.data}
-                    components={this.props.griddleComponents}
-                    plugins={[plugins.LocalPlugin]}
-                    styleConfig={this.props.styleConfig}
-                    pageProperties={this.props.pageProperties} >
-                    <RowDefinition>
-                        <ColumnDefinition
-                            id="name"
-                            title="Name"
-                            order={1} />
+            <ColumnDefinition
+              id="class"
+              title="Class"
+              order={2} 
+            />
 
-                        <ColumnDefinition
-                            id="class"
-                            title="Class"
-                            order={2} />
+            <ColumnDefinition
+              id="tags"
+              customComponent={props => <CustomTagComponent {...props} {...this.props}/>}
+              title="Tags"
+              order={3} 
+            />
 
-                        <ColumnDefinition
-                            id="tags"
-                            customComponent={props => <CustomTagComponent {...props} {...this.props}/>}
-                            title="Tags"
-                            order={3} />
+            <ColumnDefinition
+              id="owner"
+              title="Owner"
+              order={4} 
+            />
+            
+            <ColumnDefinition
+              id="timestamp"
+              title="Last edited"
+              order={5} 
+            />
 
-                        <ColumnDefinition
-                            id="build_info"
-                            title="Build Info"
-                            order={4} />
-                        
-                        <ColumnDefinition
-                          title=""
-                          id="block"
-                          customHeadingComponent={() => <span />}
-                          customComponent={props => <CustomMenu {...props} {...this.props}/>}
-                          order={5}
-                        />
-                        <ColumnDefinition
-                            isMetadata
-                            id="_timestamp"
-                            title="_timestamp"
-                        />
-                    </RowDefinition>
-                </Griddle>
-                {this.props.showLoading ? <Loader /> : ""}
-            </div>
-        );
-    }
+            <ColumnDefinition
+              title=""
+              id="block"
+              customHeadingComponent={() => <span />}
+              customComponent={props => <CustomMenu {...props} {...this.props}/>}
+              order={6}
+            />
+
+            <ColumnDefinition
+              isMetadata
+              id="_timestamp"
+              title="_timestamp"
+            />
+          </RowDefinition>
+        </Griddle>
+        {this.props.showLoading ? <Loader /> : ""}
+      </div>
+    );
+  }
 }
 
 

@@ -2,21 +2,23 @@ import {
     toggleSettings,
     hideSettings,
     toggleColorBlind,
-    toggleDrawer
+    toggleDrawer,
+    changePage
 } from '../actions/header';
 import {
-    openTestsPage,
-    openSuitesPage
+    openTestsView,
+    openSuitesView
 } from '../actions/shared';
 import {
     TOGGLE_SETTINGS,
     HIDE_SETTINGS,
     TOGGLE_COLOR_BLIND,
-    TOGGLE_DRAWER
+    TOGGLE_DRAWER,
+    CHANGE_PAGE
 } from '../actions/creators/header';
 import {
-    OPEN_SUITES_PAGE,
-    OPEN_TESTS_PAGE
+    OPEN_SUITES_VIEW,
+    OPEN_TESTS_VIEW
 } from '../actions/creators/shared';
 
 
@@ -45,19 +47,24 @@ export default function scidashHeader(state = {}, action){
                 ...toggleColorBlind(state, action)
             }
             break;
-        case OPEN_SUITES_PAGE:
+        case OPEN_SUITES_VIEW:
             newState = {
-                ...openSuitesPage(state, action, 'header')
+                ...openSuitesView(state, action, 'header')
             }
             break;
-        case OPEN_TESTS_PAGE:
+        case OPEN_TESTS_VIEW:
             newState = {
-                ...openTestsPage(state, action, 'header')
+                ...openTestsView(state, action, 'header')
             }
             break;
         case TOGGLE_DRAWER:
             newState = {
                 ...toggleDrawer(state, action)
+            }
+            break;
+        case CHANGE_PAGE:
+            newState = {
+                ...changePage(state, action)
             }
             break;
         default:
