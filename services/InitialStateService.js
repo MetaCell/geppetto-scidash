@@ -83,7 +83,8 @@ export default class InitialStateService {
             testsActive: true,
             suitesActive: false,
             showSettings: false,
-            colorBlind: false
+            colorBlind: false,
+            drawerActive: false
         }
     }
 

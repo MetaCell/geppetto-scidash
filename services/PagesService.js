@@ -5,6 +5,11 @@ export default class PagesService {
 
     TESTS_PAGE = "instances";
     SUITES_PAGE = "suites";
+    SCORES_PAGE = "SCORES";
+    MODELS_PAGE = "MODELS";
+    TESTS_PAGE = "TESTS";
+    SETTINGS_PAGE = "SETTINGS";
+    SCHEDULER_PAGE = "SCHEDULER";
 
     default = "";
 

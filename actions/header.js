@@ -29,3 +29,9 @@ export function toggleColorBlind(headerState, action){
 
     return newState;
 }
+
+export function toggleDrawer(headerState, action){
+  const { drawerActive, ...others } = headerState;
+
+  return { ...others, drawerActive: !drawerActive }
+}

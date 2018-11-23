@@ -2,7 +2,7 @@ import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import {Card, CardText} from 'material-ui/Card';
-
+import DrawerContainer from '../Drawer/DrawerContainer';
 import ColorMapToggleContainer from "../../color-map-toggle/ColorMapToggleContainer";
 
 
@@ -40,6 +40,7 @@ export default class Header extends React.Component {
             <div id="header">
                 <div id="scidash-logo">
                 </div>
+                <DrawerContainer/>
                 <div id="headerLinks">
                     <div className="row">
                         <div className="col-md-3 col-md-offset-4" style={this.props.buttonsStyle}>

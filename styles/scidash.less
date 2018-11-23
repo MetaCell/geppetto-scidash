@@ -10,7 +10,7 @@ body {
     margin: 0 auto;
     height: 100%;
     min-height: 100%;
-    font-size: 16px;
+    // font-size: 16px;
 }
 
 .midContainer {
@@ -66,13 +66,13 @@ body {
 }
 
 #scidash-logo {
-    background-image: url('../assets/scidash_logo.png');
+    background-image: url('../assets/scidash_mini_logo.png');
     background-size: 100% 100%;
-    height: 47px;
-    width: 160.5px;
+    height: 56px;
+    width: 56px;
     position: fixed;
-    top: 21px;
-    left: 10px;
+    top: 15px;
+    left: 60px;
 }
 
 #footer-scidash {
@@ -106,6 +106,32 @@ body {
         margin-top: 8px;
         text-align: center;
     }
+}
+
+#hamMenu {
+  overflow: hidden!important;
+  margin-top: 20px!important;
+  margin-left: 10px!important;
+  border-radius: 25px!important; 
+  > svg {
+    color: #757575!important; 
+    margin-top: -4px!important; 
+    margin-left: -4px!important;
+  };
+  &:hover {
+    background-color: #BDBDBD!important;
+  }
+}
+
+.chips {
+  display: flex;
+}
+
+.edit-clone-test {
+  float: right;
+  > button {
+    height: 14px !important;
+  }
 }
 
 .scidash-table {
@@ -240,20 +266,20 @@ body {
     padding-left: 3px !important;
 }
 
-/* Autosuggest adjustments */
-span[role=menuitem]{
-    font-size: 13px !important;
-    min-height: 30px !important;
-    line-height: 30px !important;
+// /* Autosuggest adjustments */
+// span[role=menuitem]{
+//     font-size: 13px !important;
+//     min-height: 30px !important;
+//     line-height: 30px !important;
 
-    div div {
-        padding: 0px 5px 0px 5px !important;
-    }
-}
+//     div div {
+//         padding: 0px 5px 0px 5px !important;
+//     }
+// }
 
-div[role=menu]{
-    padding: 0px !important;
-}
+// div[role=menu]{
+//     padding: 0px !important;
+// }
 
 .suites-table{
     width: 90%;
@@ -324,4 +350,3 @@ div[role=menu]{
 .model-url{
     word-wrap: break-word;
 }
-
