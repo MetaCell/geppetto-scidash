@@ -1,9 +1,11 @@
 import React from "react";
-import Griddle, {ColumnDefinition, RowDefinition, plugins} from "griddle-react";
+import IconButton from "material-ui/IconButton";
+import { brown600, brown500 } from 'material-ui/styles/colors';
+import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
 
 import Loader from "../loader/Loader";
 
-import {CustomMenu, CustomTagComponent} from './partial'
+import { CustomMenu, CustomTagComponent } from './partial'
 
 export default class Tests extends React.Component {
 
@@ -15,6 +17,14 @@ export default class Tests extends React.Component {
   render(){
     return (
       <div>
+        <IconButton 
+          onClick={() => this.props.activateEditTest()}
+          iconClassName="fa fa-plus"
+          iconStyle={{ color: "white" }}
+          hoveredStyle={{ backgroundColor: brown500 }}
+          style={{ float: "right", borderRadius: "40px", backgroundColor: brown600 }}
+        />
+
         <Griddle 
           data={fakeData.data}
           components={this.props.griddleComponents}

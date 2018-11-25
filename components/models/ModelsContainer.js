@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
+import { activateEditModel } from '../../actions/creators/header';
+
 import Models from './Models';
 
 const mapStateToProps = state => {
@@ -38,7 +40,9 @@ const mapStateToProps = state => {
   };
 }
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = dispatch => ({
+  activateEditModel: () => dispatch(activateEditModel())
+})
 
 const ModelsContainer = connect(
   mapStateToProps,

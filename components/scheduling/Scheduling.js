@@ -24,7 +24,7 @@ class Scheduling extends React.Component {
       saveSuites: false,
       selectedTestIDs: [0],
       selectedModelIDs: [1],
-      suitesName: `Suites__${new Date().toJSON().slice(0, 19)}`.replace(/[-:]/g, "_") // a default date set to today
+      suitesName: `Suites_${new Date().toJSON().slice(0, 19)}`.replace(/[-:]/g, "_") // a default date set to today
     }
     
   }

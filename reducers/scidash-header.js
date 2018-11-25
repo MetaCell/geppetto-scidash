@@ -3,7 +3,9 @@ import {
     hideSettings,
     toggleColorBlind,
     toggleDrawer,
-    changePage
+    changePage,
+    activateEditModel,
+    activateEditTest,
 } from '../actions/header';
 import {
     openTestsView,
@@ -14,7 +16,9 @@ import {
     HIDE_SETTINGS,
     TOGGLE_COLOR_BLIND,
     TOGGLE_DRAWER,
-    CHANGE_PAGE
+    CHANGE_PAGE, 
+    ACTIVATE_EDIT_MODEL, 
+    ACTIVATE_EDIT_TEST
 } from '../actions/creators/header';
 import {
     OPEN_SUITES_VIEW,
@@ -65,6 +69,16 @@ export default function scidashHeader(state = {}, action){
         case CHANGE_PAGE:
             newState = {
                 ...changePage(state, action)
+            }
+            break;
+        case ACTIVATE_EDIT_TEST:
+            newState = {
+                ...activateEditTest(state, action)
+            }
+            break;
+        case ACTIVATE_EDIT_MODEL:
+            newState = {
+                ...activateEditModel(state, action)
             }
             break;
         default:

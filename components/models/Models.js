@@ -1,4 +1,6 @@
 import React from "react";
+import IconButton from 'material-ui/IconButton';
+import { brown500, brown400 } from 'material-ui/styles/colors';
 import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
 
 import Loader from "../loader/Loader";
@@ -14,8 +16,16 @@ export default class Models extends React.Component {
   }
 
   render(){
+    const { activateEditModel } = this.props;
     return (
       <div>
+        <IconButton 
+          onClick={() => activateEditModel()}
+          iconClassName="fa fa-plus"
+          iconStyle={{ color: "white" }}
+          hoveredStyle={{ backgroundColor: brown400 }}
+          style={{ float: "right", borderRadius: "40px", backgroundColor: brown500 }}
+        />
         <Griddle
           data={fakeData.data}
           components={this.props.griddleComponents}

@@ -139,8 +139,13 @@ input {
 }
 .edit-clone-test {
   float: right;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
   > button {
-    height: 14px !important;
+    height: 24px !important;
+    padding: 0 !important
   }
 }
 
@@ -160,6 +165,7 @@ input {
     }
     .griddle-cell {
         border-top:1px solid #aaa;
+        vertical-align: middle;
     }
 }
 

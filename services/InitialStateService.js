@@ -85,7 +85,9 @@ export default class InitialStateService {
             showSettings: false,
             colorBlind: false,
             drawerActive: false,
-            activePage: new PagesService().getDefaultPage()
+            activePage: new PagesService().getDefaultPage(),
+            editModelActive: false,
+            editModelActive: false,
         }
     }
 

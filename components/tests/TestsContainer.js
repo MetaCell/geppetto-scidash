@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
+import { activateEditTest } from "../../actions/creators/header";
+
 import Tests from './Tests';
 
 const mapStateToProps = state => {
@@ -38,7 +40,9 @@ const mapStateToProps = state => {
   };
 }
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = dispatch => ({
+  activateEditTest: () => dispatch(activateEditTest())
+})
 
 const TestsContainer = connect(
   mapStateToProps,

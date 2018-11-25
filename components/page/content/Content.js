@@ -3,10 +3,11 @@ import TestInstancesContainer from '../../test-instances/TestInstancesContainer'
 import TestSuitesContainer from '../../test-suites/TestSuitesContainer';
 import PagesService from '../../../services/PagesService';
 
-
-import TestsContainer from '../../tests/TestsContainer';
-import ModelsContainer from '../../models/ModelsContainer';
 import Settings from '../../settings/Settings';
+import ModelsContainer from '../../models/ModelsContainer';
+import EditModelContainer from '../../model-edit/EditModelContainer';
+import TestsContainer from '../../tests/TestsContainer';
+import EditTestContainer from '../../test-edit/EditTestContainer';
 import SchedulingContainer from '../../scheduling/SchedulingContainer';
 
 export default class Content extends React.Component {
@@ -30,9 +31,19 @@ export default class Content extends React.Component {
                 <TestSuitesContainer />
             )
 
+        if (this.props.activePage == pagesService.MODELS_PAGE && this.props.editModelActive)
+            return (
+                <EditModelContainer />
+            )
+        
         if (this.props.activePage == pagesService.MODELS_PAGE)
             return (
                 <ModelsContainer />
+            )
+        
+        if (this.props.activePage == pagesService.TESTS_PAGE && this.props.editTestActive)
+            return (
+                <EditTestContainer />
             )
         
         if (this.props.activePage == pagesService.TESTS_PAGE)

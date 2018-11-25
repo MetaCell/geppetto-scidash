@@ -37,10 +37,23 @@ export function toggleDrawer(headerState, action){
   return { ...others, drawerActive: !drawerActive }
 }
 
-export function changePage(state, action){
-  const { activePage, others } = state;
+export function changePage(headerState, action){
   return {
-    ...state,
+    ...headerState,
     activePage: action.page
+  }
+}
+
+export function activateEditModel(headerState, action){
+  return {
+    ...headerState,
+    editModelActive: !headerState.editModelActive
+  }
+}
+
+export function activateEditTest(headerState, action){
+  return {
+    ...headerState,
+    editTestActive: !headerState.editTestActive
   }
 }

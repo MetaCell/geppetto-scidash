@@ -29,7 +29,10 @@ const mapStateToProps = state => {
             position: "relative",
             left: 62,
             minWidth: 270
-        }
+        },
+        activePage: state.header.activePage,
+        editModelActive: state.header.editModelActive,
+        editTestActive: state.header.editTestActive
     };
 }
 
