@@ -3,12 +3,18 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 import TextField from 'material-ui/TextField';
 
-
-import { CustomTable } from './partial';
-
-
+import DDList from './DDList';
+import CustomTable from './CustomTable';
 
 
+const draggableData = [ // fake 
+  { type: 'tests', name: 'My first test', meta: 'Rheobase test', id: 0 }, 
+  { type: 'models', name: 'My first model', meta: 'Reduced model', id: 1 }, 
+  { type: 'tests', name: 'My second test', meta: 'VM test', id: 2 },
+  { type: 'models', name: 'My second model', meta: 'Reduced model', id: 3 }, 
+  { type: 'tests', name: 'My third test', meta: 'VM test', id: 4 }, 
+  { type: 'models', name: 'My third model', meta: 'Reduced model', id: 5 },
+]
 
 class Scheduling extends React.Component {
 
@@ -16,42 +22,72 @@ class Scheduling extends React.Component {
     super(props, context);
     this.state = {
       saveSuites: false,
-      suitesName: `Suites__${new Date().toJSON().slice(0, 19)}`.replace(/[-:]/g, "_")
+      selectedTestIDs: [0],
+      selectedModelIDs: [1],
+      suitesName: `Suites__${new Date().toJSON().slice(0, 19)}`.replace(/[-:]/g, "_") // a default date set to today
     }
     
   }
 
+  getItemByID(ids){
+    return draggableData.filter(item => ids.includes(item.id))
+  }
+
+  drop(dropData){
+    const { selectedTestIDs, selectedModelIDs } = this.state;
+    if (Object.keys(dropData).indexOf("tests") > -1) {
+      const index = parseInt(dropData.tests)
+      if (selectedTestIDs.indexOf(index) == -1) {
+        this.setState( oldState => ({ selectedTestIDs: [ ...oldState.selectedTestIDs, index] }) )
+      }
+    }
+    else {
+      const index = parseInt(dropData.models)
+      if (selectedModelIDs.indexOf(index) == -1) {
+        this.setState( oldState => ({ selectedModelIDs: [ ...oldState.selectedModelIDs, index] }) )
+      }
+    }
+  }
+
   render () {
-    const { saveSuites, suitesName } = this.state;
-    const { data, models, tests, addModelToScheduler, addTestToScheduler, removeTestFromScheduler, removeModelFromScheduler, setDraggingState, dragging } = this.props;
+    const { saveSuites, suitesName, selectedTestIDs, selectedModelIDs } = this.state;
     return (
       <span>
+        <DDList 
+          data={draggableData} // available tests and models
+          onDrop={dropData => this.drop(dropData)}
+          tests={this.getItemByID(selectedTestIDs)}   // selected tests
+          models={this.getItemByID(selectedModelIDs)} // selected models
+        />
         
-
-        {models.length > 0 && tests.length > 0 ?  
+        {selectedTestIDs.length > 0 && selectedModelIDs.length > 0 ?  
           <span>
-            <CustomTable tests={tests} models={models} />
+            <CustomTable  //renders a table with compatibility between selected tests and models
+              tests={this.getItemByID(selectedTestIDs)} 
+              models={this.getItemByID(selectedModelIDs)} 
+            />
             <div style={styles.saveContainer}>
-              <RaisedButton style={styles.saveButton}>Run tests</RaisedButton>
+              <RaisedButton >Run tests</RaisedButton>
               {saveSuites ?
                 <span style={styles.saveSubContainer}>
                   <TextField
                     value={suitesName}	
-                    floatingLabelText="Enter a name"
-                    placeholder='Name the suites'
                     style={styles.saveRoot}
+                    placeholder='Name the suites'
+                    floatingLabelText="Enter a name"
                     onChange={e => this.setState({ suitesName: e.target.value })}
-                    onKeyPress={e => e.key === 'Enter' ? this.doSomethingToAddTab(e.target.value) : null}
+                    onKeyPress={e => e.key === 'Enter' ? ()=>{} : null}
                   />
                 </span> 
                 : null
               }
             </div>
-            <div style={styles.radioContainer}>
+            <div style={styles.checkboxContainer}>
               <Checkbox
-                label="Save as Suite"
                 checked={saveSuites}
-                onClick={e => this.doSomethingToHandleSaveSuite(e.target.checked)}
+                label="Save as Suite"
+                style={styles.checkbox}
+                onClick={e => this.setState(oldState => ({ saveSuites: !oldState.saveSuites }))}
               />
             </div>
           </span>
@@ -62,59 +98,33 @@ class Scheduling extends React.Component {
   }
 }
 
-
-
 export default Scheduling
 
-
 const styles = {
-  searchRoot: { 
-    position: 'relative', 
-    width: '80%', 
-    left: '20px', 
-    top: '5px'
-  },
-  searchInput: { 
-    paddingLeft: '38px', 
-    borderRadius: '25px', 
-    position:'relative', 
-    boxShadow: "none", 
-    border: "1px solid grey", 
-    height: "2em" 
-  },
   saveContainer: { 
     textAlign: 'center', 
     marginTop: '35px', 
     position: 'relative' 
   },
   saveSubContainer: { 
-    position: 'absolute', marginLeft: '25px' 
+    position: 'absolute', 
+    marginLeft: '0px',
+    marginTop: '-26px' 
   },
   saveButton: {
     display: 'inline-block'
   },
   saveRoot: { 
-    marginLeft: '10px', width: '200px' 
+    marginLeft: '10px', 
+    width: '200px' 
   },
-  saveInput: { 
-    outline: 'none !important', 
-    border: 'none !important', 
-    boxShadow: 'none !important' 
-  }, // frontend overides these props upstream
-  searchIcon: {
-    position: 'absolute', 
-    left:'10px'
+  checkboxContainer: {
+    marginLeft: "auto", 
+    marginRight: "auto", 
+    textAlign: "center", 
+    width: "160px"
   },
-  radioContainer: {
-    textAlign: 'center', position: 'relative'
-  },
-  radioRoot: {
-    marginLeft:'15px'
-  },
-  header: {
-    position: 'relative', left: '20px', top: "9px"
-  },
-  divider: {
-    marginTop: '12px' 
-  },
+  checkbox: {
+    marginLeft: "20px"
+  }
 };

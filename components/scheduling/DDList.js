@@ -7,9 +7,6 @@ import { Draggable, Droppable } from 'react-drag-and-drop';
 import { TestIcon, ModelsIcon } from '../../assets/CustomIcons';
 import { brown500, blue500, grey500, brown200, brown100, blue200, blue100 } from 'material-ui/styles/colors';
 
-
-
-
 const styles = {
   header: {
     position: 'relative', left: '20px', top: "9px", color: "black"
@@ -24,6 +21,7 @@ const brownColors = {
   hover: brown100,
   end: "inherit"
 }
+
 const blueColors = {
   start: blue200,
   hover: blue100,
