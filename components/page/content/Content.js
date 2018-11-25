@@ -34,19 +34,20 @@ export default class Content extends React.Component {
         }
     }
     drop(dropData){
-      
-      console.log(dropData)
       if (Object.keys(dropData).indexOf("tests") > -1) {
-        console.log("tests:")
-        console.log(parseInt(dropData.tests));
-        this.setState( ({ tests }) => ({ tests: [ ...tests, parseInt(dropData.tests)] }) )
+        const index = parseInt(dropData.tests)
+        if (this.state.tests.indexOf(index) == -1) {
+          this.setState( ({ tests }) => ({ tests: [ ...tests, index] }) )
+        }
       }
       else {
-        console.log("models:")
-        console.log(parseInt(dropData.models));
-        this.setState( ({ models }) => ({ models: [ ...models, parseInt(dropData.models)] }) )
+        const index = parseInt(dropData.models)
+        if (this.state.models.indexOf(index) == -1) {
+          this.setState( ({ models }) => ({ models: [ ...models, index] }) )
+        }
       }
     }
+
     render() {
         let pagesService = new PagesService()
 

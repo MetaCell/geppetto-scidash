@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import { Draggable, Droppable } from 'react-drag-and-drop';
 import { TestIcon, ModelsIcon } from '../../assets/CustomIcons';
-import { brown500, blue500, grey500 } from 'material-ui/styles/colors';
+import { brown500, blue500, grey500, brown200, brown100, blue200, blue100 } from 'material-ui/styles/colors';
 
 
 
@@ -19,10 +19,15 @@ const styles = {
   }
 }
 
-const colors = {
-  start: "pink",
-  hover: "orange",
-  end: "white"
+const brownColors = {
+  start: brown200,
+  hover: brown100,
+  end: "inherit"
+}
+const blueColors = {
+  start: blue200,
+  hover: blue100,
+  end: "inherit"
 }
 // DONT USE UPPERCASE FOR DRAGGABLE NOT DROPPABLE TYPES
 
@@ -30,8 +35,8 @@ export default class DDList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      testsBGC: "white",
-      modelsBGC: "white",
+      testsBGC: "none",
+      modelsBGC: "none",
       dragging: false
     }
   }
@@ -39,29 +44,29 @@ export default class DDList extends React.Component {
   changeBGC(type, action) {
     if (action == "start") {
       if (type == "tests") {
-        this.setState({ testsBGC: colors.start, dragging: type })
+        this.setState({ testsBGC: brownColors.start, dragging: type })
       }
       else {
-        this.setState({ modelsBGC: colors.start, dragging: type })
+        this.setState({ modelsBGC: blueColors.start, dragging: type })
       }
     }
     else if (action == "end") {
-      this.setState({ modelsBGC: colors.end, testsBGC: colors.end, dragging: false })
+      this.setState({ modelsBGC: blueColors.end, testsBGC: brownColors.end, dragging: false })
     }
     else if (action == "enter") {
       if (type == "tests" && this.state.dragging == "tests") {
-        this.setState({ testsBGC: colors.hover })
+        this.setState({ testsBGC: brownColors.hover })
       }
       else if (type == "models" && this.state.dragging == "models") {
-        this.setState({ modelsBGC: colors.hover })  
+        this.setState({ modelsBGC: blueColors.hover })  
       }
     }
     else if (action == "leave"){
       if (type == "tests" && this.state.dragging == "tests"){
-        this.setState({ testsBGC: colors.start })  
+        this.setState({ testsBGC: brownColors.start })  
       }
       else if (type == "models" && this.state.dragging == "models") {
-        this.setState({ modelsBGC: colors.start })
+        this.setState({ modelsBGC: blueColors.start })
       }
     }
   }
@@ -75,9 +80,8 @@ export default class DDList extends React.Component {
             {data.map( dataItem => (
               <Draggable 
                 key={dataItem.id}
-                type={dataItem.type}
                 data={dataItem.id}
-                className="scrolling3" 
+                type={dataItem.type}
                 onDragEnd={() => this.changeBGC(dataItem.type, "end")}
                 onDragStart={() => this.changeBGC(dataItem.type, "start")}
               >
@@ -120,6 +124,7 @@ export default class DDList extends React.Component {
               />
             ))}
           </Droppable>
+          {this.state.dragging == "tests" ? <p style={{ textAlign: "center", marginTop: "-25px" }}>DROP HERE</p> : null}
           
         </div>
         <div className="scrolling2">
@@ -147,6 +152,7 @@ export default class DDList extends React.Component {
               />
             ))}
           </Droppable>
+          {this.state.dragging == "models" ? <p style={{ textAlign: "center", marginTop: "-25px" }}>DROP HERE</p> : null}
         </div>
 
       </div>
@@ -156,13 +162,13 @@ export default class DDList extends React.Component {
 
 const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firstActionClass, firstAction, secondActionClass, secondAction }) => (
   
-    <div style={{display: 'flex', flexDirection: "row", justifyItems: "center", alignItems: "center"}}>
+    <div style={{display: 'flex', flexDirection: "row", justifyItems: "center", alignItems: "center", margin: "3px 8px 0px"}}>
       <span style={{width: "40px", height: "40px", borderRadius: "40px", backgroundColor: leftIconColor, display: "flex", alignItems:"center", justifyContent:"center"}}>
         <SvgIcon color={"white"} style={{backgroundColor: leftIconColor}}>{leftIconSVG}</SvgIcon>
       </span>
       
-      <span style={{width: '100px', marginLeft: "10px", display: "flex", flexDirection: "column", justifyContent: "space-around"}}>
-        <p style={{fontSize: "14px", margin: "0"}}>{primaryText}</p>
+      <span style={{flex: 1, marginLeft: "10px", display: "flex", flexDirection: "column", justifyContent: "space-around"}}>
+        <p style={{fontSize: "14px", margin: "0", color: "black"}}>{primaryText}</p>
         <p style={{fontSize: "12px", margin: "0", color: "grey"}}>{secondaryText}</p>
       </span>
       
