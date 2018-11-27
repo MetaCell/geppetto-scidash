@@ -25,11 +25,24 @@ export default class ScreenShotHelper {
     	}
     }
     
+    toggleHeadersOverflowSetting(mode){
+    	var headers =  document.getElementsByClassName("scidash-tilted-titles-table-heading-cell-div");
+    	
+    	var overflown = "hidden";
+    	if(mode){
+    		overflown = "visible";
+    	}
+    	for(var i=0; i<headers.length; i++){
+    		headers[i].style["overflow"] = overflown;
+    	}
+    }
+    
     takeScreenshot(e,title, toggleColumn){
     	e.preventDefault();
-    	var table = document.querySelector("#table-container-div");
+    	var table = document.querySelector("#table-container-div").parentElement;
     	var self = this;
     	if(table!=null){
+    		self.toggleHeadersOverflowSetting(true);
     		if(toggleColumn){
     			this.toggleLastColumnVisibility(false);
     		}
@@ -42,6 +55,7 @@ export default class ScreenShotHelper {
         		if(toggleColumn){
         			self.toggleLastColumnVisibility(true);
         		}
+        		self.toggleHeadersOverflowSetting(false);
         	});
     	}
     }
