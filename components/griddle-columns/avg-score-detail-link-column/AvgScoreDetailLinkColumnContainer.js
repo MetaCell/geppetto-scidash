@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import AvgScoreDetailLinkColumn from './AvgScoreDetailLinkColumn';
 import Helper from "../../../shared/Helper";
+import ScreenShotHelper from '../../../shared/ScreenShotHelper';
+
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -23,7 +25,12 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return {}
+    let screenshotHelper = new ScreenShotHelper()
+    return {
+        takeScreenshot: (e) => {
+            screenShotHelper.takeScreenshot(e,"Average_score_image")
+        }
+    }
 }
 
 const AvgScoreDetailLinkColumnContainer = connect(

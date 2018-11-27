@@ -4,7 +4,6 @@ import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import AvgScoreDetailsContainer from '../../avg-score-details/AvgScoreDetailsContainer';
-import ScreenShotHelper from '../../../shared/ScreenShotHelper';
 
 export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
     constructor(props, context){
@@ -15,7 +14,6 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
         this.state = {
             open: false,
         };
-        this.screenShotHelper = new ScreenShotHelper();
     }
 
     openAvgScoreDetail(e){
@@ -38,8 +36,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
             label="Save As Image"
             primary={true}
             icon={<FontIcon className="fa fa-camera"/>}
-            onClick={(e) => {this.screenShotHelper.takeScreenshot(e,"Average_score_image")}}
-			/>,
+            onClick={this.props.takeScreenshot()} />,
             <FlatButton
             label="Close"
             primary={true}
