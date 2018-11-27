@@ -58,7 +58,7 @@ export default class ScoreMatrix extends React.Component {
         };
 
         return (
-            <Card style={{
+            <Card id="table-container-div" style={{
                     overflow: "scroll"
                 }}>
                 <CardText>

@@ -31,7 +31,7 @@ const ScoreDetails = ({
                 <div style={{minWidth: "100px", margin: "15px"}}>
                     <h4 style={{
                         maxWidth: "360px"
-                    }}>{testClassName + " details"}</h4>
+                    }}>{"Test details"}</h4>
                     <Card>
                         <CardText>
                             <div><strong>Test name: </strong>
