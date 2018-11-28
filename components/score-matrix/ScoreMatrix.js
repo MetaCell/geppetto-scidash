@@ -28,7 +28,7 @@ export default class ScoreMatrix extends React.Component {
             }}>{typeof value == "undefined" ? " ": value.get("sort_key").toFixed(2)}</div>;
         }
 
-        const TitleHeader = ({title}) => <div className="scidash-tilted-titles-table-heading-cell-div">{title}</div>;
+        const TitleHeader = ({title}) => <div className="scidash-tilted-titles-table-heading-cell-div">InjectedCurrentAPAmplitudeTest</div>;
 
         const HideRowCell = ({value}) => <i onClick={() => this.props.hideRow(value)} className="fa fa-eye-slash eye-icon" title="Hide row"></i>;
 
