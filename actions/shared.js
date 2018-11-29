@@ -3,7 +3,7 @@ import FilteringService from "../services/FilteringService";
 import Config from "../shared/Config";
 import InitialStateService from "../services/InitialStateService";
 
-export function openTestsPage(state, action, type){
+export function openTestsView(state, action, type){
 
     let newState = {
         ...state
@@ -25,13 +25,13 @@ export function openTestsPage(state, action, type){
         newState = {
             ...state,
             dateFilterChanged: false,
-            currentPage: new PagesService().TESTS_PAGE
+            activeView: new PagesService().TESTS_VIEW
         };
     }
     return newState;
 }
 
-export function openSuitesPage(state, action, type){
+export function openSuitesView(state, action, type){
 
     let newState = {
         ...state
@@ -52,7 +52,7 @@ export function openSuitesPage(state, action, type){
         newState = {
             ...state,
             dateFilterChanged: false,
-            currentPage: new PagesService().SUITES_PAGE
+            activeView: new PagesService().SUITES_VIEW
         };
     }
 

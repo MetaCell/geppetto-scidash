@@ -10,7 +10,7 @@ import { grey500, blueGrey900, grey400  } from 'material-ui/styles/colors';
 import ScidashContainer from './components/scidash/ScidashContainer';
 import InitialStateService from './services/InitialStateService';
 import Loader from './components/loader/Loader';
-
+import { brown500 } from 'material-ui/styles/colors';
 
 // Needed for onTouchTap
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -24,7 +24,11 @@ const customTheme = {
         primary2Color: blueGrey900,
         primary3Color: '#b0ac9a',
         pickerHeaderColor: '#b0ac9a',
-    }
+    },
+    chip: {
+      backgroundColor: brown500,
+      textColor: "white",
+    },
 };
 
 

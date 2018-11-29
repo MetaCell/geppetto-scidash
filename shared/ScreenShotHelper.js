@@ -27,16 +27,26 @@ export default class ScreenShotHelper {
 
     toggleHeadersOverflowSetting(mode){
         var headers =  document.getElementsByClassName("scidash-tilted-titles-table-heading-cell-div");
+        var tableContainer = document.querySelector("#table-container-div");
+        var table = document.getElementsByClassName("scidash-tilted-titles-table")[0];
 
         var overflown = "hidden";
-
+        var tableContainerSize = tableContainer.offsetHeight;
+        var tableTop;
         if(mode){
             overflown = "visible";
+            tableTop = "20px";
+            tableContainerSize = tableContainer.offsetHeight + 10 + "px";
+            } else {
+                tableTop = "";
+                tableContainerSize = tableContainer.offsetHeight - 10 + "px";
         }
-
         for(var i=0; i<headers.length; i++){
             headers[i].style["overflow"] = overflown;
         }
+
+        tableContainer.style["height"] = tableContainer;
+        table.style["margin-top"] = tableTop;
     }
 
     takeScreenshot(e,title, toggleColumn){

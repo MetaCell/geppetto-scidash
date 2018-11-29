@@ -36,7 +36,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
             label="Save As Image"
             primary={true}
             icon={<FontIcon className="fa fa-camera"/>}
-            onClick={this.props.takeScreenshot()} />,
+            onClick={(e) => {this.props.takeScreenshot(e)}} />,
             <FlatButton
             label="Close"
             primary={true}

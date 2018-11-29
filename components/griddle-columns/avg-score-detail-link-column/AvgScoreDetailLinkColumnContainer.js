@@ -28,7 +28,7 @@ const mapDispatchToProps = dispatch => {
     let screenshotHelper = new ScreenShotHelper()
     return {
         takeScreenshot: (e) => {
-            screenShotHelper.takeScreenshot(e,"Average_score_image")
+            screenshotHelper.takeScreenshot(e,"Average_score_image")
         }
     }
 }

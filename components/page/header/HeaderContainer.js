@@ -5,8 +5,8 @@ import {
     hideSettings,
 } from '../../../actions/creators/header';
 import {
-    openSuitesPage,
-    openTestsPage
+    openSuitesView,
+    openTestsView
 } from '../../../actions/creators/shared';
 
 const mapStateToProps = state => {
@@ -29,7 +29,10 @@ const mapStateToProps = state => {
             position: "relative",
             left: 62,
             minWidth: 270
-        }
+        },
+        activePage: state.header.activePage,
+        editModelActive: state.header.editModelActive,
+        editTestActive: state.header.editTestActive
     };
 }
 
@@ -45,12 +48,12 @@ const mapDispatchToProps = dispatch => {
                 dispatch(hideSettings());
             }
         },
-        openTestsPage: () => {
-            dispatch(openTestsPage());
+        openTestsView: () => {
+            dispatch(openTestsView());
         },
 
-        openSuitesPage: () => {
-            dispatch(openSuitesPage());
+        openSuitesView: () => {
+            dispatch(openSuitesView());
         }
     }
 }
