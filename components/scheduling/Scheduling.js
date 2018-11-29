@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 import TextField from 'material-ui/TextField';
 
-import DDList from './DDList';
+import DDListContainer from './DDListContainer';
 import CustomTable from './CustomTable';
 
 
@@ -30,41 +30,20 @@ class Scheduling extends React.Component {
   }
 
   getItemByID(ids){
-    return draggableData.filter(item => ids.includes(item.id))
-  }
-
-  drop(dropData){
-    const { selectedTestIDs, selectedModelIDs } = this.state;
-    if (Object.keys(dropData).indexOf("tests") > -1) {
-      const index = parseInt(dropData.tests)
-      if (selectedTestIDs.indexOf(index) == -1) {
-        this.setState( oldState => ({ selectedTestIDs: [ ...oldState.selectedTestIDs, index] }) )
-      }
-    }
-    else {
-      const index = parseInt(dropData.models)
-      if (selectedModelIDs.indexOf(index) == -1) {
-        this.setState( oldState => ({ selectedModelIDs: [ ...oldState.selectedModelIDs, index] }) )
-      }
-    }
+    return this.props.data.filter(item => ids.includes(item.id))
   }
 
   render () {
-    const { saveSuites, suitesName, selectedTestIDs, selectedModelIDs } = this.state;
+    const { data, saveSuites, suitesName } = this.state;
     return (
       <span>
-        <DDList 
-          data={draggableData} // available tests and models
-          onDrop={dropData => this.drop(dropData)}
-          tests={this.getItemByID(selectedTestIDs)}   // selected tests
-          models={this.getItemByID(selectedModelIDs)} // selected models
-        />
+        <DDListContainer/>
         
-        {selectedTestIDs.length > 0 && selectedModelIDs.length > 0 ?  
+        {this.props.models.length > 0 && this.props.tests.length > 0 ?  
           <span>
             <CustomTable  //renders a table with compatibility between selected tests and models
-              tests={this.getItemByID(selectedTestIDs)} 
-              models={this.getItemByID(selectedModelIDs)} 
+              tests={this.getItemByID(this.props.tests)} 
+              models={this.getItemByID(this.props.models)} 
             />
             <div style={styles.saveContainer}>
               <RaisedButton >Run tests</RaisedButton>

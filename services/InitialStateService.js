@@ -88,6 +88,18 @@ export default class InitialStateService {
             activePage: new PagesService().getDefaultPage(),
             editModelActive: false,
             editModelActive: false,
+        },
+        scheduler: {
+          data: [
+            { type: 'tests', name: 'My first test', meta: 'Rheobase test', id: 0 }, 
+            { type: 'models', name: 'My first model', meta: 'Reduced model', id: 1 }, 
+            { type: 'tests', name: 'My second test', meta: 'VM test', id: 2 },
+            { type: 'models', name: 'My second model', meta: 'Reduced model', id: 3 }, 
+            { type: 'tests', name: 'My third test', meta: 'VM test', id: 4 }, 
+            { type: 'models', name: 'My third model', meta: 'Reduced model', id: 5 },
+          ],
+          tests: [],
+          models: []
         }
     }
 
