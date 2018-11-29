@@ -1,10 +1,10 @@
 import {
-    openTestsPage,
-    openSuitesPage
+    openTestsView,
+    openSuitesView
 } from '../actions/shared';
 import {
-    OPEN_SUITES_PAGE,
-    OPEN_TESTS_PAGE
+    OPEN_SUITES_VIEW,
+    OPEN_TESTS_VIEW
 } from '../actions/creators/shared';
 
 export default function scidashGlobal(state = {}, action){
@@ -16,14 +16,14 @@ export default function scidashGlobal(state = {}, action){
     let newState = null;
 
     switch(action.type){
-        case OPEN_SUITES_PAGE:
+        case OPEN_SUITES_VIEW:
             newState = {
-                ...openSuitesPage(state, action, 'global')
+                ...openSuitesView(state, action, 'global')
             }
             break;
-        case OPEN_TESTS_PAGE:
+        case OPEN_TESTS_VIEW:
             newState = {
-                ...openTestsPage(state, action, 'global')
+                ...openTestsView(state, action, 'global')
             }
             break;
         default:

@@ -1,20 +1,28 @@
 import {
     toggleSettings,
     hideSettings,
-    toggleColorBlind
+    toggleColorBlind,
+    toggleDrawer,
+    changePage,
+    activateEditModel,
+    activateEditTest,
 } from '../actions/header';
 import {
-    openTestsPage,
-    openSuitesPage
+    openTestsView,
+    openSuitesView
 } from '../actions/shared';
 import {
     TOGGLE_SETTINGS,
     HIDE_SETTINGS,
     TOGGLE_COLOR_BLIND,
+    TOGGLE_DRAWER,
+    CHANGE_PAGE, 
+    ACTIVATE_EDIT_MODEL, 
+    ACTIVATE_EDIT_TEST
 } from '../actions/creators/header';
 import {
-    OPEN_SUITES_PAGE,
-    OPEN_TESTS_PAGE
+    OPEN_SUITES_VIEW,
+    OPEN_TESTS_VIEW
 } from '../actions/creators/shared';
 
 
@@ -43,14 +51,34 @@ export default function scidashHeader(state = {}, action){
                 ...toggleColorBlind(state, action)
             }
             break;
-        case OPEN_SUITES_PAGE:
+        case OPEN_SUITES_VIEW:
             newState = {
-                ...openSuitesPage(state, action, 'header')
+                ...openSuitesView(state, action, 'header')
             }
             break;
-        case OPEN_TESTS_PAGE:
+        case OPEN_TESTS_VIEW:
             newState = {
-                ...openTestsPage(state, action, 'header')
+                ...openTestsView(state, action, 'header')
+            }
+            break;
+        case TOGGLE_DRAWER:
+            newState = {
+                ...toggleDrawer(state, action)
+            }
+            break;
+        case CHANGE_PAGE:
+            newState = {
+                ...changePage(state, action)
+            }
+            break;
+        case ACTIVATE_EDIT_TEST:
+            newState = {
+                ...activateEditTest(state, action)
+            }
+            break;
+        case ACTIVATE_EDIT_MODEL:
+            newState = {
+                ...activateEditModel(state, action)
             }
             break;
         default:

@@ -1,15 +1,14 @@
-export const OPEN_SUITES_PAGE = "OPEN_SUITES_PAGE";
-export const OPEN_TESTS_PAGE = "OPEN_TESTS_PAGE";
+export const OPEN_SUITES_VIEW = "OPEN_SUITES_VIEW";
+export const OPEN_TESTS_VIEW = "OPEN_TESTS_VIEW";
 
-export function openTestsPage(){
+export function openTestsView(){
     return {
-        type: OPEN_TESTS_PAGE
+        type: OPEN_TESTS_VIEW
     };
 }
 
-export function openSuitesPage(){
+export function openSuitesView(){
     return {
-        type: OPEN_SUITES_PAGE
+        type: OPEN_SUITES_VIEW
     };
 }
-
