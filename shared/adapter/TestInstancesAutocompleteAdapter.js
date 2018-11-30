@@ -1,17 +1,17 @@
-import AutocompleteAdapter from "./AutocompleteAdapter";
+import BaseAdapter from './BaseAdapter';
 import InitialStateService from "../../services/InitialStateService";
 
-export default class TestInstancesAutocompleteAdapter extends AutocompleteAdapter {
+export default class TestInstancesAutocompleteAdapter extends BaseAdapter {
 
     getAutocompleteData(){
 
         let autoCompleteData = {};
 
-        if (this.getTableData().length > 0 && !this.getTableData()[0].template){
-            for (let key of Object.keys(this.getTableData()[0])){
+        if (this.getRawData().length > 0 && !this.getRawData()[0].template){
+            for (let key of Object.keys(this.getRawData()[0])){
                 autoCompleteData[key] = [];
 
-                for (let item of this.getTableData()){
+                for (let item of this.getRawData()){
 
                     if (key == "model"){
                         if (!autoCompleteData[key].includes(item[key]["model_class"]["class_name"]))
