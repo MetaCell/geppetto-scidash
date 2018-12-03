@@ -10,7 +10,7 @@ body {
     margin: 0 auto;
     height: 100%;
     min-height: 100%;
-    font-size: 16px;
+    // font-size: 16px;
 }
 
 .midContainer {
@@ -66,13 +66,13 @@ body {
 }
 
 #scidash-logo {
-    background-image: url('../pages/images/scidash_logo.png');
+    background-image: url('../assets/scidash_mini_logo.png');
     background-size: 100% 100%;
-    height: 47px;
-    width: 160.5px;
+    height: 56px;
+    width: 56px;
     position: fixed;
-    top: 21px;
-    left: 10px;
+    top: 15px;
+    left: 60px;
 }
 
 #footer-scidash {
@@ -108,6 +108,47 @@ body {
     }
 }
 
+#hamMenu {
+  overflow: hidden!important;
+  margin-top: 20px!important;
+  margin-left: 10px!important;
+  border-radius: 25px!important; 
+  > svg {
+    color: #757575!important; 
+    margin-top: -4px!important; 
+    margin-left: -4px!important;
+  };
+  &:hover {
+    background-color: #BDBDBD!important;
+  }
+}
+
+.chips {
+  display: flex;
+}
+
+input:focus {
+  outline: none!important; 
+  border: none!important;
+  box-shadow: none!important;
+}
+input {
+  outline: none!important; 
+  border: none!important;
+  box-shadow: none!important;
+}
+.edit-clone-test {
+  float: right;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  > button {
+    height: 24px !important;
+    padding: 0 !important
+  }
+}
+
 .scidash-table {
     color: @secondary_color;
     .scidash-table-heading-cell{
@@ -124,7 +165,73 @@ body {
     }
     .griddle-cell {
         border-top:1px solid #aaa;
+        vertical-align: middle;
     }
+}
+
+.scidash-tilted-titles-table {
+    color: @secondary_color;
+    .scidash-tilted-titles-table-heading-cell{
+         	height:30px;
+         	max-height: 30px;
+         	max-width: 50px;
+         	vertical-align: bottom;
+         	white-space: nowrap;   
+	}
+    .filter-label {
+        padding: 0px 10px;
+        font-weight: normal;
+        float:left;
+    }
+    tbody {
+        font-size: 13px;
+    }
+    
+    th{
+        vertical-align:top;
+    }
+    
+    .griddle-cell {
+        border-top:1px solid #aaa;
+    }
+}
+
+.scidash-tilted-titles-table-heading-cell-div{
+    vertical-align: top;
+    text-align: left;
+    max-width: 220px;
+    height: 20px;
+    max-height: 150px;
+    width: 225px;
+    transform: translate(-25px, -70px) rotate(315deg);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.last-heading{
+    transform: translate(-20px, -55px) rotate(315deg);
+    width: 175px;
+    max-width: 200px;
+}
+
+.hideAll-column {
+    /* Adjustments to column with hide all buttons*/
+    th:last-child{
+    	padding-left : 5px;
+    }
+}
+
+#showAllButton{
+    height: 27px !important;
+}
+
+.modelName-row-heading{
+    padding-right: 5px;
+    text-align: right;
+    font-weight: bold;
+    font-size : 14px;
+    font-family : Roboto, sans-serif;
 }
 
 .scidash-materialui-field {
@@ -175,16 +282,26 @@ body {
     padding-left: 3px !important;
 }
 
-/* Autosuggest adjustments */
-span[role=menuitem]{
-    font-size: 13px !important;
-    min-height: 30px !important;
-    line-height: 30px !important;
+// /* Autosuggest adjustments */     IT REPLACES THE COMMENTED LINES BELOW
+.autosuggest span{
+  font-size: 13px !important;
+  min-height: 30px !important;
+  line-height: 30px !important;
 
-    div div {
-        padding: 0px 5px 0px 5px !important;
-    }
+  div div {
+      padding: 0px 5px 0px 5px !important;
+  }
 }
+// /* Autosuggest adjustments */
+// span[role=menuitem]{
+//     font-size: 13px !important;
+//     min-height: 30px !important;
+//     line-height: 30px !important;
+
+//     div div {
+//         padding: 0px 5px 0px 5px !important;
+//     }
+// }
 
 div[role=menu]{
     padding: 0px !important;
@@ -192,7 +309,31 @@ div[role=menu]{
 
 .suites-table{
     width: 90%;
+    margin:10px auto;
+}
+
+.modal-table{
+    width: auto;
     margin:0 auto;
+}
+
+.modal-table th {
+  height: 140px;
+  white-space: nowrap;
+  padding: 5px 10px;
+}
+
+.modal-table thead > tr {
+    height : 165px;
+}
+
+.modal-table th > div > span {
+    padding: 5px 10px;
+}
+
+.rotatedTitle {
+    width : 200px;
+    height : 200px;
 }
 
 .centered-modal {
@@ -210,11 +351,6 @@ div[role=menu]{
     overflow: visible;
 }
 
-.avg-score-heading {
-    word-wrap: break-word;
-    max-width: 150px;
-}
-
 .build-info-cell {
     width: 100px;
     max-width: 100px;
@@ -224,7 +360,7 @@ div[role=menu]{
 }
 
 .eye-icon {
-    margin: 4px 39px;
+    margin: 4px 15px;
     font-size: 25px;
     display: block;
     cursor: pointer;
@@ -239,4 +375,130 @@ div[role=menu]{
 }
 .model-url{
     word-wrap: break-word;
+}
+
+/**
+ * Tooltip Styles   The tooltip will OVERFLOW, so make sure to allow overflow in the parent!!!
+ */
+
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 5px;
+  margin-left: -80px;
+  padding: 7px;
+  width: 160px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  border-top: 5px solid #000;
+  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  opacity: 1;
+}
+
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-thumb {
+  width: 0.4em;
+  border-radius: 13px;
+  background-clip: padding-box;
+}
+
+.scrolling {
+    width: 100%;
+    height: 240px;
+    display: flex; 
+    flex-direction: row;
+    .scrolling2 {
+        flex: 1;
+        height: 100%;
+        margin-left: 15px;
+        margin-right: 15px;
+        // color: transparent;
+        // border: 1px solid black; //UNCOMMENT TO SEE LAYOUT
+        // border-radius: 25px;
+        position: relative;
+        .scrolling3 {
+            width: 98%;
+            height: 200px;
+            overflow-y: auto;
+            // border: 1px solid black;
+            border-radius: 25px;
+            color: rgba(0, 0, 0, 0.0);
+            
+        };
+    };
+};
+.scrolling2:hover .scrolling3 {
+    color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: color 1s ease-out;
+};
+.scrolling2:hover {
+    ::-webkit-scrollbar-thumb { 
+        visibility: visible;
+    };
+}
+
+.scrolling3::-webkit-scrollbar,
+.scrolling3::-webkit-scrollbar-thumb {
+  width: 26px;
+  border-radius: 13px;
+  background-clip: padding-box;
+  border: 10px solid transparent;
+}
+
+.scrolling3::-webkit-scrollbar-thumb { 
+    visibility: hidden;
+    background-color: rgba(0,0,0,0.01);
+    box-shadow: inset 0 0 0 10px;
 }
