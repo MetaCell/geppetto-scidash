@@ -198,6 +198,8 @@ export default class InitialStateService {
                                 this.initialState.user.userObject = response;
                                 onStateGenerated(this.initialState);
                             });
+                        } else {
+                            onStateGenerated(this.initialState);
                         }
                     });
 
