@@ -90,7 +90,7 @@ export default class EditModel extends React.Component {
             underlineStyle={{ borderBottom: "1px solid grey" }}
             onKeyPress={e => e.key === 'Enter' ? () => {} : null}
           />
-          
+
           <div style={styles.thirdLine.two}>
             <Chip	style={{ marginLeft: 4, marginTop: 4, float: "left" }}>A tag</Chip>
             <Chip style={{ marginLeft: 4, marginTop: 4, float: "left" }}>Another tag</Chip>
@@ -102,7 +102,7 @@ export default class EditModel extends React.Component {
           <h3>Model parameters</h3>
         </div>
 
-        <div style={styles.fifthLine.container}>	
+        <div style={styles.fifthLine.container}>
           <TextField
             disabled
             value="value"
@@ -113,21 +113,21 @@ export default class EditModel extends React.Component {
         </div>
 
         <div style={styles.actionsContainer}>
-          <RaisedButton 
+          <RaisedButton
             label="save"
-            style={styles.actionsButton} 
+            style={styles.actionsButton}
             onClick={() => activateEditModel()}
           />
-          
-          <RaisedButton 
+
+          <RaisedButton
             label="cancel"
-            style={styles.actionsButton} 
+            style={styles.actionsButton}
             onClick={() => activateEditModel()}
           />
         </div>
 
       </span>
-    )	
+    )
   }
 }
 
@@ -141,10 +141,10 @@ const styles = {
     two: { flex: 9, marginLeft: '15px' },
     three: { flex: 1, marginLeft: '15px', position: 'relative' },
   },
-	
+
   thirdLine: {
-    container: { 
-      width: '100%',   
+    container: {
+      width: '100%',
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'row',
@@ -158,6 +158,6 @@ const styles = {
   fifthLine:{
     container: { width: '100%', dysplay: 'flex', justifyContent: "flex-start", flexFlow: 'horizontal', alignItems: "center" },
     item: { marginRight: "15px", width: "200px" }
-  } 
-		
+  }
+
 }

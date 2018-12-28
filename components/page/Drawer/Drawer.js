@@ -5,11 +5,11 @@ import SvgIcon from 'material-ui/SvgIcon';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
-import { 
-  ScorsIcon, 
-  TestIcon, 
-  ModelsIcon, 
-  SettingsIcon, 
+import {
+  ScorsIcon,
+  TestIcon,
+  ModelsIcon,
+  SettingsIcon,
   SchedulingIcon
 } from "../../../assets/CustomIcons";
 import ScidashLogo from '../../../assets/scidash_logo.png';
@@ -37,32 +37,32 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
       >
         <img style={styles.logo} src={ScidashLogo} />
         <Divider />
-          <MenuItem 
+          <MenuItem
             id="hamMenuScores"
             primaryText="Scores"
             leftIcon={<SvgIcon>{ScorsIcon}</SvgIcon>}
             onClick={() => handleMenuClick(pagesService.SCORES_PAGE)}
           />
-          <MenuItem 
+          <MenuItem
             id="hamMenuTests"
             primaryText="Tests"
             onClick={() => handleMenuClick(pagesService.TESTS_PAGE)}
             leftIcon={<SvgIcon>{TestIcon}</SvgIcon>}
           />
-          <MenuItem 
+          <MenuItem
             id="hamMenuModels"
             primaryText="Models"
             onClick={() => handleMenuClick(pagesService.MODELS_PAGE)}
             leftIcon={<SvgIcon>{ModelsIcon}</SvgIcon>}
           />
-          <MenuItem 
+          <MenuItem
             id="hamMenuSettings"
             primaryText="Settings"
             leftIcon={<SvgIcon>{SettingsIcon}</SvgIcon>}
             onClick={() => handleMenuClick(pagesService.SETTINGS_PAGE)}
-            
+
           />
-          <MenuItem 
+          <MenuItem
             id="hamMenuScheduling"
             primaryText="Scheduling"
             leftIcon={<SvgIcon>{SchedulingIcon}</SvgIcon>}
@@ -71,7 +71,7 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
       </Drawer>
     </div>
   )
-  
+
 }
 
 const styles = {

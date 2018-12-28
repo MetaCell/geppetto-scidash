@@ -8,7 +8,7 @@ const styles = {
   },
   table: {
     display: "inline-block"
-  }, 
+  },
   tableFirstHeader: {
     float: "left", margin: "2px 10px 10px 0px"
   },
@@ -26,7 +26,7 @@ const styles = {
 const generateSVG = (svg, props) => (
   <SvgIcon {...props}>
     {svg}
-  </SvgIcon> 
+  </SvgIcon>
 )
 
 const getTableHeader = (tests) => (
@@ -46,9 +46,9 @@ const getRowsArray = (tests, models ) => { // check HERE if the test is compatib
   const compatibility = tests.map( test => test.id < 4 )
 
   const modelNames = models.map(model => `${model.name} (${model.meta})`)
-  
+
   return modelNames.map(title => [ title, ...compatibility ])
-  
+
 }
 
 const getTableCell = cellInfo => {
@@ -61,14 +61,14 @@ const getTableCell = cellInfo => {
   }
   else {
     return (
-      <span 
+      <span
         data-tooltip={ cellInfo.compatible
-          ? "Test compatible with model" 
+          ? "Test compatible with model"
           : "Test incompatible with model"
-        } 
+        }
       >
         {generateSVG(cellInfo ? OKicon : Xicon)}
-      </span> 
+      </span>
     )
   }
 }
@@ -89,7 +89,7 @@ export default ({ tests, models }) => {
   const tableHeaders = getTableHeader(tests)
   const rowsArray = getRowsArray(tests, models)
   const tableRows = getTableRow(rowsArray)
-  
+
   return (
     <div style={styles.tableContainer}>
       <table style={styles.table}>
@@ -97,9 +97,9 @@ export default ({ tests, models }) => {
           {tableHeaders}
           {tableRows}
         </tbody>
-      </table> 
+      </table>
   </div>
   )
 }
-  
+
 

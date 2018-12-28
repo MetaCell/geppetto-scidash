@@ -17,7 +17,7 @@ export default class Tests extends React.Component {
   render(){
     return (
       <div>
-        <IconButton 
+        <IconButton
           onClick={() => this.props.activateEditTest()}
           iconClassName="fa fa-plus"
           iconStyle={{ color: "white" }}
@@ -25,43 +25,43 @@ export default class Tests extends React.Component {
           style={{ float: "right", borderRadius: "40px", backgroundColor: brown600 }}
         />
 
-        <Griddle 
+        <Griddle
           data={fakeData.data}
           components={this.props.griddleComponents}
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
-          pageProperties={this.props.pageProperties} 
+          pageProperties={this.props.pageProperties}
         >
           <RowDefinition>
             <ColumnDefinition
               id="name"
               title="Name"
-              order={1} 
+              order={1}
             />
 
             <ColumnDefinition
               id="class"
               title="Class"
-              order={2} 
+              order={2}
             />
 
             <ColumnDefinition
               id="tags"
               customComponent={props => <CustomTagComponent {...props} {...this.props}/>}
               title="Tags"
-              order={3} 
+              order={3}
             />
 
             <ColumnDefinition
               id="owner"
               title="Owner"
-              order={4} 
+              order={4}
             />
-            
+
             <ColumnDefinition
               id="timestamp"
               title="Last edited"
-              order={5} 
+              order={5}
             />
 
             <ColumnDefinition

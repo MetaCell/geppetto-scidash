@@ -3,17 +3,17 @@ import {
     FILTERING_TESTS_FINISHED,
     DATE_FILTER_CHANGED,
     DATE_FILTER_CLEAR
-} from '../actions/creators/test-instances';
+} from '../actions/creators/scores';
 import {
     filteringTestsStarted,
     filteringTestsFinished,
     dateFilterChanged,
     dateFilterClear
-} from '../actions/test-instances';
+} from '../actions/scores';
 
 
-export default function scidashTestInstances(state = {}, action = null){
-    console.group("SCIDASH TEST INSTANCES REDUCER")
+export default function scidashScores(state = {}, action = null){
+    console.group("SCIDASH SCORES REDUCER")
 
     if (action !== null)
         console.log("ACTION DISPATCHED: ", action)

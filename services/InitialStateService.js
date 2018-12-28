@@ -1,12 +1,12 @@
 import React from 'react';
-import ScoreApiService from './api/ScoreApiService';
+import ScoresApiService from './api/ScoresApiService';
 import DateRangeApiService from './api/DateRangeApiService';
 import PagesService from './PagesService';
 import RaisedButton from 'material-ui/RaisedButton';
-import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter';
+import ScoresGriddleAdapter from '../shared/adapter/ScoresGriddleAdapter';
 import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
 import ScoreMatrixGriddleAdapter from '../shared/adapter/ScoreMatrixGriddleAdapter';
-import TestInstancesAutocompleteAdapter from '../shared/adapter/TestInstancesAutocompleteAdapter';
+import ScoresAutocompleteAdapter from '../shared/adapter/ScoresAutocompleteAdapter';
 import TestSuitesAutocompleteAdapter from '../shared/adapter/TestSuitesAutocompleteAdapter';
 import Helper from '../shared/Helper';
 import Config from '../shared/Config';
@@ -19,7 +19,7 @@ export default class InitialStateService {
         global: {
             activeView: new PagesService().getDefault()
         },
-        testInstances: {
+        scores: {
             data: [
                 {
                     name: " ",
@@ -112,7 +112,7 @@ export default class InitialStateService {
 
     loadScores(namespace){
         let filteringS = FilteringService.getInstance();
-        let service = new ScoreApiService();
+        let service = new ScoresApiService();
 
         let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key))
 
@@ -152,10 +152,10 @@ export default class InitialStateService {
         }).then(() => {
             this.loadScores(instancesNamespace).then((scores) => {
 
-                this.initialState.testInstances.data = new TestInstancesGriddleAdapter(scores)
+                this.initialState.scores.data = new ScoresGriddleAdapter(scores)
                     .getGriddleData();
 
-                this.initialState.testInstances.autoCompleteData = new TestInstancesAutocompleteAdapter(this.initialState.testInstances.data)
+                this.initialState.scores.autoCompleteData = new ScoresAutocompleteAdapter(this.initialState.scores.data)
                     .getAutocompleteData();
 
                 filteringS.setupFilter("with_suites", true, suiteNamespace);

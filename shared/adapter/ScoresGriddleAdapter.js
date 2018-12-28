@@ -1,7 +1,7 @@
 import GriddleAdapter from './GriddleAdapter';
 import InitialStateService from '../../services/InitialStateService';
 
-export default class TestInstancesAdapter extends GriddleAdapter{
+export default class ScoresAdapter extends GriddleAdapter{
 
     getGriddleData(){
 
@@ -50,7 +50,7 @@ export default class TestInstancesAdapter extends GriddleAdapter{
         if (scoreData.length == 0)
             scoreData = new InitialStateService()
                 .getInitialStateTemplate()
-                .testInstances
+                .scores
                 .data;
 
         return scoreData;

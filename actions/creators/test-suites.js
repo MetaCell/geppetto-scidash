@@ -1,4 +1,4 @@
-import ScoreApiService from "../../services/api/ScoreApiService";
+import ScoresApiService from "../../services/api/ScoresApiService";
 import FilteringService from "../../services/FilteringService";
 import Config from '../../shared/Config';
 
