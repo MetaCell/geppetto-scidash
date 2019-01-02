@@ -26,7 +26,7 @@ export default class Tests extends React.Component {
         />
 
         <Griddle
-          data={fakeData.data}
+          data={this.props.data}
           components={this.props.griddleComponents}
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
@@ -83,25 +83,4 @@ export default class Tests extends React.Component {
       </div>
     );
   }
-}
-
-
-const fakeData = {
-  data: [
-    { id: 1, name: "test1", class: "class1", tags: ["tag1", "tag2", "deprecated"], owner: "owner1", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 1, name: "test1", class: "class1", tags: ["tag1", "tag2", "deprecated"], owner: "owner1", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 2, name: "test2", class: "class2", tags: ["tag4", "deprecated", "tag6"], owner: "owner2", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 3, name: "test3", class: "class3", tags: ["tag7", "tag8", "tag9"], owner: "owner3", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: true },
-    { id: 4, name: "test4", class: "class4", tags: ["deprecated", "tag2", "tag1"], owner: "owner4", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 5, name: "test5", class: "class5", tags: ["tag5", "tag2", "tag3"], owner: "owner5", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: true },
-    { id: 6, name: "test6", class: "class6", tags: ["tag6", "deprecated", "tag3"], owner: "owner6", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false }
-  ],
-  autocomplete: {
-    name: Array(6).map((v, i) => "test" + i + 1),
-    tags: [...Array(6).map((v, i) => "tag" + i + 1), "deprecated"],
-    class: Array(6).map((v, i) => "class" + i + 1),
-    owner: Array(6).map((v, i) => "owner" + i + 1),
-    timestamp: [],
-    _timestamp: [],
-  },
 }
