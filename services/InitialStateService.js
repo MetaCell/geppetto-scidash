@@ -1,5 +1,6 @@
 import React from 'react';
 import ScoresApiService from './api/ScoresApiService';
+import UserApiService from './api/UserApiService';
 import DateRangeApiService from './api/DateRangeApiService';
 import PagesService from './PagesService';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -19,6 +20,10 @@ export default class InitialStateService {
     initialStateTemplate = {
         global: {
             activeView: new PagesService().getDefault()
+        },
+        user: {
+            isLogged: false,
+            userObject: {}
         },
         scores: {
             data: [
@@ -139,6 +144,12 @@ export default class InitialStateService {
         return service.getList(!keys.length > 0, namespace);
     }
 
+    loadUser(){
+        let service = new UserApiService();
+
+        return service.getUser();
+    }
+
     cleanUp(){
         FilteringService.getInstance().deleteFilter("with_suites");
     }
@@ -199,7 +210,19 @@ export default class InitialStateService {
 
                     this.cleanUp()
 
-                    onStateGenerated(this.initialState);
+                    this.loadUser().then((response) => {
+                        this.initialState.user.isLogged = response.ok;
+
+                        if (response.ok){
+                            response.json().then((response) => {
+                                this.initialState.user.userObject = response;
+                                onStateGenerated(this.initialState);
+                            });
+                        } else {
+                            onStateGenerated(this.initialState);
+                        }
+                    });
+
                 });
             });
         });
