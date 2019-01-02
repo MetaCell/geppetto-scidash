@@ -69,17 +69,28 @@ export default class Header extends React.Component {
                   <h3 style={{ marginLeft: "60px", marginTop: "15px", width: "200px" }}>{title}</h3>
                 </div>
                 <DrawerContainer/>
-                {activePage == pagesService.SCORES_PAGE ? 
                   <div id="headerLinks">
                     <div className="row">
+                    {activePage == pagesService.SCORES_PAGE ?
                       <div className="col-md-3 col-md-offset-4" style={this.props.buttonsStyle}>
                         <RaisedButton label="Tests View" primary={this.props.testsActive} onClick={this.props.openTestsView} />
                         <RaisedButton label="Suites View" primary={this.props.suitesActive} onClick={this.props.openSuitesView} />
                       </div>
+                  : null }
+
+                  { this.props.userInfo.isLogged ?
+                      <div className="col-md-3 auth-links">
+                        Logged as {this.props.userInfo.userObject.username}
+                        <a href="/auth/logout">Logout</a>
+                      </div>
+                   :
+                      <div className="col-md-3 auth-links">
+                        <a href="/auth/login">Login</a>
+                        <a href="/auth/sign-up">Sign-up</a>
+                      </div>
+                    }
                     </div>
                   </div>
-                  : null }
-                
             </div>
         )
     }
