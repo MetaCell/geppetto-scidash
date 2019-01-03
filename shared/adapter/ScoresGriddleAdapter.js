@@ -1,6 +1,7 @@
 import GriddleAdapter from './GriddleAdapter';
 import InitialStateService from '../../services/InitialStateService';
 
+
 export default class ScoresAdapter extends GriddleAdapter{
 
     getGriddleData(){
