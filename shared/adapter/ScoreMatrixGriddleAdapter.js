@@ -1,7 +1,7 @@
-import GriddleAdapter from './GriddleAdapter';
+import BaseAdapter from './BaseAdapter';
 import InitialStateService from '../../services/InitialStateService';
 
-export default class ScoreMatrixGriddleAdapter extends GriddleAdapter{
+export default class ScoreMatrixGriddleAdapter extends BaseAdapter{
 
     hiddenModels = []
     scoreMatrixList = {}
@@ -35,7 +35,7 @@ export default class ScoreMatrixGriddleAdapter extends GriddleAdapter{
     buildMatrix(){
         let suiteHashes = new Set();
 
-        for (let score of this.getScores()){
+        for (let score of this.getRawData()){
             suiteHashes.add(score.test_instance.test_suites[0].hash);
         }
 
@@ -49,7 +49,7 @@ export default class ScoreMatrixGriddleAdapter extends GriddleAdapter{
                     }
                 ]
             };
-            for (let score of this.getScores()){
+            for (let score of this.getRawData()){
                 if (hash != score.test_instance.test_suites[0].hash){
                     continue;
                 }

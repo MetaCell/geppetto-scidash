@@ -1,13 +1,13 @@
-import GriddleAdapter from './GriddleAdapter';
+import BaseAdapter from './BaseAdapter';
 import InitialStateService from '../../services/InitialStateService';
 
-export default class TestInstancesAdapter extends GriddleAdapter{
+export default class TestInstancesAdapter extends BaseAdapter{
 
     getGriddleData(){
 
         let scoreData = [];
 
-        for (let score of this.getScores()){
+        for (let score of this.getRawData()){
             var testSuite = null;
 
             if (score.test_instance.test_suites.length > 0){
