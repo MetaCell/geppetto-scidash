@@ -6,6 +6,7 @@ import DateRangeApiService from './api/DateRangeApiService';
 import PagesService from './PagesService';
 import RaisedButton from 'material-ui/RaisedButton';
 import ScoresGriddleAdapter from '../shared/adapter/ScoresGriddleAdapter';
+import TestInstancesGriddeAdapter from '../shared/adapter/TestInstancesGriddleAdapter.js';
 import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
 import ScoreMatrixGriddleAdapter from '../shared/adapter/ScoreMatrixGriddleAdapter';
 import ScoresAutocompleteAdapter from '../shared/adapter/ScoresAutocompleteAdapter';
@@ -153,6 +154,12 @@ export default class InitialStateService {
         return service.getUser();
     }
 
+    loadTests(){
+        let service = new TestInstancesApiService();
+
+        return service.getList();
+    }
+
     cleanUp(){
         FilteringService.getInstance().deleteFilter("with_suites");
     }
@@ -224,9 +231,16 @@ export default class InitialStateService {
                                     this.initialState.testInstances.data = new TestInstancesGriddeAdapter(tests)
                                         .getGriddleData();
 
-                                    onStateGenerated();
+                                    onStateGenerated(this.initialState);
                                 })
                             });
+                        } else {
+                            this.loadTests().then((tests) => {
+                                this.initialState.testInstances.data = new TestInstancesGriddeAdapter(tests)
+                                    .getGriddleData();
+
+                                onStateGenerated(this.initialState);
+                            })
                         }
                     });
 
