@@ -1,9 +1,9 @@
 import React from "react";
 import Griddle, {ColumnDefinition, RowDefinition, plugins} from 'griddle-react';
 import {Card, CardText} from 'material-ui/Card';
-import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
 import Helper from '../../shared/Helper';
+import { ShowAllHeading, HideRowCell, TitleHeader, ScoreCell,EnhancedWithRowData } from "./partials"
+import RaisedButton from 'material-ui/RaisedButton';
 
 export default class ScoreMatrix extends React.Component {
 
@@ -15,28 +15,9 @@ export default class ScoreMatrix extends React.Component {
         this.helper = new Helper();
     }
 
+    
     render(){
-        // FIXME: move to partials
-        const ScoreCell = ({value}) => {
-            return <div style={{
-                background: typeof value == "undefined" ? "white" : this.helper.getBackground(value.get("sort_key"), this.props.colorBlind),
-                color: "white",
-                padding: "8px",
-                margin : 0,
-                width: "auto",
-                textAlign: "center"
-            }}>{typeof value == "undefined" ? " ": value.get("sort_key").toFixed(2)}</div>;
-        }
-
-        const TitleHeader = ({title}) => <div className="scidash-tilted-titles-table-heading-cell-div">{title}</div>;
-
-        const HideRowCell = ({value}) => <i onClick={() => this.props.hideRow(value)} className="fa fa-eye-slash eye-icon" title="Hide row"></i>;
-
-        const ShowAllHeading = ({value}) => <RaisedButton id="show-all-button" style={ !this.props.hiddenModels.length ? {
-            display: "none"
-        } : {minWidth: '45px', width:'45px', maxHeight: '30px'}} onClick={this.props.showAllModels} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5 }}/>} title="Show all"/>;
-
-        const griddleComponents = {
+    	const GriddleComponents = { 
             Filter: () => null,
             PageDropdown: () => null,
             NoResults: () => <table className="model-table scidash-tilted-titles-table"><thead><tr><th><ShowAllHeading /></th></tr></thead></table>,
@@ -64,13 +45,13 @@ export default class ScoreMatrix extends React.Component {
                 <CardText>
                     <Griddle
                         data={this.props.scoreMatrixTableData}
-                        components={griddleComponents}
+                        components={GriddleComponents}
                         plugins={[plugins.LocalPlugin]}
                         styleConfig={this.props.styleConfig}
                         pageProperties={this.props.pageProperties} >
                         <RowDefinition>
                             {this.props.scoreMatrix.headings.map((heading, index) => {
-                                if (heading.title == "model_name"){
+                            	if (heading.title == "model_name"){
                                     return (<ColumnDefinition
                                                 id={heading.id}
                                                 key={index}
@@ -83,8 +64,8 @@ export default class ScoreMatrix extends React.Component {
                                                 key={index}
                                                 title={heading.title}
                                                 width="55px"
-                                                customComponent={HideRowCell}
-                                                customHeadingComponent={ShowAllHeading}
+                                                customComponent={(props) => <HideRowCell hideRow={this.props.hideRow}/>}
+                                                customHeadingComponent={(props) => <ShowAllHeading hiddenModels={this.props.hiddenModels} showAllModels={this.props.showAllModels}/>}
                                                 cssClassName="griddle-cell score-matrix-cell"
                                                 order={index + 1} />);
                                 } else {
@@ -94,7 +75,7 @@ export default class ScoreMatrix extends React.Component {
                                                 title={heading.title}
                                                 sortMethod={this.props.sortScore}
                                                 customHeadingComponent={TitleHeader}
-                                                customComponent={ScoreCell}
+                                                customComponent={EnhancedWithRowData(ScoreCell)}
                                                 cssClassName="griddle-cell score-matrix-cell"
                                                 order={index + 1} />);
                                 }
