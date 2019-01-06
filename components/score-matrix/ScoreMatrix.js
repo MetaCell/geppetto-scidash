@@ -37,7 +37,7 @@ export default class ScoreMatrix extends React.Component {
                 return null;
             }
         };
-
+    	
         return (
             <Card id="table-container-div" style={{
                     overflow: "scroll"
@@ -64,7 +64,7 @@ export default class ScoreMatrix extends React.Component {
                                                 key={index}
                                                 title={heading.title}
                                                 width="55px"
-                                                customComponent={(props) => <HideRowCell hideRow={this.props.hideRow}/>}
+                                                customComponent={({value}) => <HideRowCell valueScore={value} hideRow={this.props.hideRow}/>}
                                                 customHeadingComponent={(props) => <ShowAllHeading hiddenModels={this.props.hiddenModels} showAllModels={this.props.showAllModels}/>}
                                                 cssClassName="griddle-cell score-matrix-cell"
                                                 order={index + 1} />);
@@ -75,7 +75,7 @@ export default class ScoreMatrix extends React.Component {
                                                 title={heading.title}
                                                 sortMethod={this.props.sortScore}
                                                 customHeadingComponent={TitleHeader}
-                                                customComponent={EnhancedWithRowData(ScoreCell)}
+                                                customComponent={({value}) => <ScoreCell valueScore={value} colorBlind={this.props.colorBlind}/>}
                                                 cssClassName="griddle-cell score-matrix-cell"
                                                 order={index + 1} />);
                                 }
