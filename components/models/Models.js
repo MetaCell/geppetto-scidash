@@ -19,7 +19,7 @@ export default class Models extends React.Component {
     const { activateEditModel } = this.props;
     return (
       <div>
-        <IconButton 
+        <IconButton
           onClick={() => activateEditModel()}
           iconClassName="fa fa-plus"
           iconStyle={{ color: "white" }}
@@ -31,47 +31,47 @@ export default class Models extends React.Component {
           components={this.props.griddleComponents}
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
-          pageProperties={this.props.pageProperties} 
+          pageProperties={this.props.pageProperties}
         >
           <RowDefinition>
             <ColumnDefinition
               id="name"
               title="Name"
-              order={1} 
+              order={1}
             />
 
             <ColumnDefinition
               id="class"
               title="Class"
-              order={2} 
+              order={2}
             />
 
             <ColumnDefinition
               id="source"
               title="Source"
               customComponent={props => <a href={props.value} style={{color: "grey"}}><i className="fa fa-external-link"/></a>}
-              order={3} 
+              order={3}
             />
 
             <ColumnDefinition
               id="tags"
               customComponent={props => <CustomTagComponent {...props} {...this.props}/>}
               title="Tags"
-              order={4} 
+              order={4}
             />
 
             <ColumnDefinition
               id="owner"
               title="Owner"
-              order={5} 
+              order={5}
             />
-            
+
             <ColumnDefinition
               id="timestamp"
               title="Last edited"
-              order={6} 
+              order={6}
             />
-            
+
             <ColumnDefinition
               title=""
               id="block"

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import TestSuites from './TestSuites'
 import RaisedButton from 'material-ui/RaisedButton';
 import ScidashStorage from '../../shared/ScidashStorage';
-import ScoreApiService from '../../services/api/ScoreApiService';
 
 import {
     filteringSuitesStarted,

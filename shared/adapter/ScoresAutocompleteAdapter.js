@@ -1,7 +1,7 @@
 import BaseAdapter from './BaseAdapter';
 import InitialStateService from "../../services/InitialStateService";
 
-export default class TestInstancesAutocompleteAdapter extends BaseAdapter {
+export default class ScoresAutocompleteAdapter extends BaseAdapter {
 
     getAutocompleteData(){
 
@@ -29,7 +29,7 @@ export default class TestInstancesAutocompleteAdapter extends BaseAdapter {
         if (Object.keys(autoCompleteData).length == 0)
             autoCompleteData = new InitialStateService()
                 .getInitialState()
-                .testInstances
+                .scores
                 .autoCompleteData
 
         return autoCompleteData;

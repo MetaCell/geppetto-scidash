@@ -1,8 +1,7 @@
 import React from 'react';
-import TestInstancesContainer from '../../test-instances/TestInstancesContainer';
+import ScoresContainer from '../../scores/ScoresContainer';
 import TestSuitesContainer from '../../test-suites/TestSuitesContainer';
 import PagesService from '../../../services/PagesService';
-
 import Settings from '../../settings/Settings';
 import ModelsContainer from '../../models/ModelsContainer';
 import EditModelContainer from '../../model-edit/EditModelContainer';
@@ -19,11 +18,11 @@ export default class Content extends React.Component {
     }
 
     render() {
-        let pagesService = new PagesService()        
-        
+        let pagesService = new PagesService()
+
         if (this.props.activePage == pagesService.SCORES_PAGE && this.props.activeView == pagesService.TESTS_VIEW)
             return (
-                <TestInstancesContainer />
+                <ScoresContainer />
             )
 
         if (this.props.activePage == pagesService.SCORES_PAGE && this.props.activeView == pagesService.SUITES_VIEW)
@@ -35,22 +34,22 @@ export default class Content extends React.Component {
             return (
                 <EditModelContainer />
             )
-        
+
         if (this.props.activePage == pagesService.MODELS_PAGE)
             return (
                 <ModelsContainer />
             )
-        
+
         if (this.props.activePage == pagesService.TESTS_PAGE && this.props.editTestActive)
             return (
                 <EditTestContainer />
             )
-        
+
         if (this.props.activePage == pagesService.TESTS_PAGE)
             return (
                 <TestsContainer />
             )
-        
+
         if (this.props.activePage == pagesService.SETTINGS_PAGE)
             return (
                 <Settings/>

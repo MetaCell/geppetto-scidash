@@ -1,4 +1,4 @@
-import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter';
+import ScoresGriddleAdapter from '../shared/adapter/ScoresGriddleAdapter';
 import FilteringService from '../services/FilteringService';
 import Config from '../shared/Config';
 
@@ -17,7 +17,7 @@ export function filteringTestsStarted(state, action){
 
 export function filteringTestsFinished(state, action){
 
-    let adapter = new TestInstancesGriddleAdapter(action.scores)
+    let adapter = new ScoresGriddleAdapter(action.scores)
 
     $(".griddle-page-select").show()
 

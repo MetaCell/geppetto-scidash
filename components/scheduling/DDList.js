@@ -12,7 +12,7 @@ const styles = {
     position: 'relative', left: '20px', top: "9px", color: "black"
   },
   divider: {
-    marginTop: '12px' 
+    marginTop: '12px'
   }
 }
 
@@ -56,12 +56,12 @@ export default class DDList extends React.Component {
         this.setState({ testsBGC: brownColors.hover })
       }
       else if (type == "models" && this.state.dragging == "models") {
-        this.setState({ modelsBGC: blueColors.hover })  
+        this.setState({ modelsBGC: blueColors.hover })
       }
     }
     else if (action == "leave"){
       if (type == "tests" && this.state.dragging == "tests"){
-        this.setState({ testsBGC: brownColors.start })  
+        this.setState({ testsBGC: brownColors.start })
       }
       else if (type == "models" && this.state.dragging == "models") {
         this.setState({ modelsBGC: blueColors.start })
@@ -76,7 +76,7 @@ export default class DDList extends React.Component {
           <TextField value="search" />
           <div className="scrolling3">
             {data.map( dataItem => (
-              <Draggable 
+              <Draggable
                 key={dataItem.id}
                 data={dataItem.id}
                 type={dataItem.type}
@@ -102,7 +102,7 @@ export default class DDList extends React.Component {
           <Divider style={styles.divider} />
           <Droppable
             types={["tests"]}
-            className="scrolling3" 
+            className="scrolling3"
             onDrop={ dropData => onDrop(dropData) }
             onDragEnter={() => this.changeBGC("tests", "enter")}
             onDragLeave={() => this.changeBGC("tests", "leave")}
@@ -123,14 +123,14 @@ export default class DDList extends React.Component {
             ))}
           </Droppable>
           {this.state.dragging == "tests" ? <p style={{ textAlign: "center", marginTop: "-25px" }}>DROP HERE</p> : null}
-          
+
         </div>
         <div className="scrolling2">
-          <h3 style={styles.header} >Models</h3> 
+          <h3 style={styles.header} >Models</h3>
           <Divider style={styles.divider} />
           <Droppable
             types={["models"]}
-            className="scrolling3" 
+            className="scrolling3"
             onDrop={ dropData => onDrop(dropData) }
             onDragEnter={() => this.changeBGC("models", "enter")}
             onDragLeave={() => this.changeBGC("models", "leave")}
@@ -154,29 +154,29 @@ export default class DDList extends React.Component {
         </div>
 
       </div>
-    )  
+    )
   }
 }
 
 const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firstActionClass, firstAction, secondActionClass, secondAction }) => (
-  
+
     <div style={{display: 'flex', flexDirection: "row", justifyItems: "center", alignItems: "center", margin: "3px 8px 0px"}}>
       <span style={{width: "40px", height: "40px", borderRadius: "40px", backgroundColor: leftIconColor, display: "flex", alignItems:"center", justifyContent:"center"}}>
         <SvgIcon color={"white"} style={{backgroundColor: leftIconColor}}>{leftIconSVG}</SvgIcon>
       </span>
-      
+
       <span style={{flex: 1, marginLeft: "10px", display: "flex", flexDirection: "column", justifyContent: "space-around"}}>
         <p style={{fontSize: "14px", margin: "0", color: "black"}}>{primaryText}</p>
         <p style={{fontSize: "12px", margin: "0", color: "grey"}}>{secondaryText}</p>
       </span>
-      
-      <IconButton 
+
+      <IconButton
         iconStyle={{ color: grey500 }}
         onClick={() => firstAction()}
         iconClassName={firstActionClass}
       />
 
-      <IconButton 
+      <IconButton
         iconStyle={{ color: grey500 }}
         onClick={() => secondAction()}
         iconClassName={secondActionClass}
@@ -185,5 +185,5 @@ const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firs
 )
 
 
-        
-  
+
+

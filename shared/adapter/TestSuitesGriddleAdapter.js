@@ -69,7 +69,6 @@ export default class TestSuitesGriddleAdapter extends BaseAdapter{
         }
 
         if (list.length == 0){
-            console.log(list);
             list = new InitialStateService()
                 .getInitialStateTemplate()
                 .testSuites
