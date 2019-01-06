@@ -3,22 +3,22 @@ import FontIcon from 'material-ui/FontIcon';
 import Helper from "../../shared/Helper";
 import RaisedButton from 'material-ui/RaisedButton';
 
-const ScoreCell = ({valueScore, colorBlind}) => {
+const ScoreCell = ({rowData, colorBlind}) => {
 	let helper = new Helper();
     return <div style={{
-        background: typeof valueScore == "undefined" ? "white" : helper.getBackground(valueScore.get("sort_key"), colorBlind),
+        background: typeof rowData == "undefined" ? "white" : helper.getBackground(rowData.get("sort_key"), colorBlind),
         color: "white",
         padding: "8px",
         margin : 0,
         width: "auto",
         textAlign: "center"
-    }}>{typeof valueScore == "undefined" ? " ": valueScore.get("sort_key").toFixed(2)}</div>;
+    }}>{typeof rowData == "undefined" ? " ": rowData.get("sort_key").toFixed(2)}</div>;
 }
 
 const TitleHeader = ({title}) => <div className="scidash-tilted-titles-table-heading-cell-div">{title}</div>;
 
-const HideRowCell = ({valueScore, hideRow}) => {
-	return <i onClick={() => hideRow(valueScore)} className="fa fa-eye-slash eye-icon" title="Hide row"></i>;
+const HideRowCell = ({rowData, hideRow}) => {
+	return <i onClick={() => hideRow(rowData)} className="fa fa-eye-slash eye-icon" title="Hide row"></i>;
 };
 
 const ShowAllHeading = ({hiddenModels,showAllModels}) => <RaisedButton id="show-all-button" style={ !hiddenModels.length ? {
