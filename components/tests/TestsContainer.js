@@ -13,6 +13,7 @@ const mapStateToProps = state => {
               TableHeadingCell: 'scidash-table-heading-cell'
           }
       },
+      data: state.testInstances.data,
       griddleComponents: {
           Filter: () => null,
           SettingsToggle: () => null,
@@ -36,7 +37,7 @@ const mapStateToProps = state => {
       pageProperties: {
           currentPage: 1
       },
-      showLoading: state.testInstances.showLoading,
+      showLoading: state.scores.showLoading,
   };
 }
 

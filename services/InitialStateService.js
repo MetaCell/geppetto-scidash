@@ -1,25 +1,34 @@
 import React from 'react';
-import ScoreApiService from './api/ScoreApiService';
+import ScoresApiService from './api/ScoresApiService';
+import UserApiService from './api/UserApiService';
+import TestInstancesApiService from './api/TestInstancesApiService.js';
+import ModelsApiService from './api/ModelsApiService.js';
 import DateRangeApiService from './api/DateRangeApiService';
 import PagesService from './PagesService';
 import RaisedButton from 'material-ui/RaisedButton';
-import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter';
+import ScoresGriddleAdapter from '../shared/adapter/ScoresGriddleAdapter';
+import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter.js';
+import ModelsGriddleAdapter from '../shared/adapter/ModelsGriddleAdapter.js';
 import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
 import ScoreMatrixGriddleAdapter from '../shared/adapter/ScoreMatrixGriddleAdapter';
-import TestInstancesAutocompleteAdapter from '../shared/adapter/TestInstancesAutocompleteAdapter';
+import ScoresAutocompleteAdapter from '../shared/adapter/ScoresAutocompleteAdapter';
 import TestSuitesAutocompleteAdapter from '../shared/adapter/TestSuitesAutocompleteAdapter';
 import Helper from '../shared/Helper';
 import Config from '../shared/Config';
 import FilteringService from '../services/FilteringService';
 
-
+//FIXME: we should do this less fundamental
 export default class InitialStateService {
 
     initialStateTemplate = {
         global: {
             activeView: new PagesService().getDefault()
         },
-        testInstances: {
+        user: {
+            isLogged: false,
+            userObject: {}
+        },
+        scores: {
             data: [
                 {
                     name: " ",
@@ -79,6 +88,27 @@ export default class InitialStateService {
                 _timestamp: []
             }
         },
+        testInstances: {
+            data: [
+                {
+                    id: 0,
+                    name: " ",
+                    class: " ",
+                    tags: [" "],
+                    owner: " ",
+                    timestamp: " ",
+                    block: false
+                },
+            ],
+            autoCompleteData: {
+                name: [],
+                tags: [],
+                class: [],
+                owner: [],
+                timestamp: [],
+                _timestamp: [],
+            },
+        },
         header: {
             testsActive: true,
             suitesActive: false,
@@ -90,16 +120,28 @@ export default class InitialStateService {
             editModelActive: false,
         },
         scheduler: {
-          data: [
-            { type: 'tests', name: 'My first test', meta: 'Rheobase test', id: 0 }, 
-            { type: 'models', name: 'My first model', meta: 'Reduced model', id: 1 }, 
-            { type: 'tests', name: 'My second test', meta: 'VM test', id: 2 },
-            { type: 'models', name: 'My second model', meta: 'Reduced model', id: 3 }, 
-            { type: 'tests', name: 'My third test', meta: 'VM test', id: 4 }, 
-            { type: 'models', name: 'My third model', meta: 'Reduced model', id: 5 },
-          ],
-          tests: [],
-          models: []
+            data: [
+                { type: 'tests', name: 'My first test', meta: 'Rheobase test', id: 0 }, 
+                { type: 'models', name: 'My first model', meta: 'Reduced model', id: 1 }, 
+                { type: 'tests', name: 'My second test', meta: 'VM test', id: 2 },
+                { type: 'models', name: 'My second model', meta: 'Reduced model', id: 3 }, 
+                { type: 'tests', name: 'My third test', meta: 'VM test', id: 4 }, 
+                { type: 'models', name: 'My third model', meta: 'Reduced model', id: 5 },
+            ],
+            tests: [],
+            models: []
+        },
+        models: {
+            data: [
+                {
+                    name: " ",
+                    class: " ",
+                    source: " ",
+                    tags: [],
+                    owner: " ",
+                    timestamp: " "
+                }
+            ]
         }
     }
 
@@ -124,11 +166,29 @@ export default class InitialStateService {
 
     loadScores(namespace){
         let filteringS = FilteringService.getInstance();
-        let service = new ScoreApiService();
+        let service = new ScoresApiService();
 
         let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key))
 
         return service.getList(!keys.length > 0, namespace);
+    }
+
+    loadUser(){
+        let service = new UserApiService();
+
+        return service.getUser();
+    }
+
+    loadTests(){
+        let service = new TestInstancesApiService();
+
+        return service.getList();
+    }
+
+    loadModels(){
+        let service = new ModelsApiService();
+
+        return service.getList();
     }
 
     cleanUp(){
@@ -164,10 +224,10 @@ export default class InitialStateService {
         }).then(() => {
             this.loadScores(instancesNamespace).then((scores) => {
 
-                this.initialState.testInstances.data = new TestInstancesGriddleAdapter(scores)
+                this.initialState.scores.data = new ScoresGriddleAdapter(scores)
                     .getGriddleData();
 
-                this.initialState.testInstances.autoCompleteData = new TestInstancesAutocompleteAdapter(this.initialState.testInstances.data)
+                this.initialState.scores.autoCompleteData = new ScoresAutocompleteAdapter(this.initialState.scores.data)
                     .getAutocompleteData();
 
                 filteringS.setupFilter("with_suites", true, suiteNamespace);
@@ -191,7 +251,30 @@ export default class InitialStateService {
 
                     this.cleanUp()
 
-                    onStateGenerated(this.initialState);
+                    this.loadModels().then((models) => {
+                        this.initialState.models.data = new ModelsGriddleAdapter(models)
+                            .getGriddleData();
+
+                        this.loadTests().then((tests) => {
+                            this.initialState.testInstances.data = new TestInstancesGriddleAdapter(tests)
+                                .getGriddleData();
+
+                            this.loadUser().then((response) => {
+                                this.initialState.user.isLogged = response.ok;
+
+                                if (response.ok){
+                                    response.json().then((response) => {
+                                        this.initialState.user.userObject = response;
+
+                                        onStateGenerated(this.initialState);
+                                    });
+                                } else {
+                                    onStateGenerated(this.initialState);
+                                }
+                            });
+                        });
+                    });
+
                 });
             });
         });

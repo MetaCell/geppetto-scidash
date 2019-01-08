@@ -1,7 +1,8 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
+import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
-import Helper from '../../../shared/Helper';
+import ScreenShotHelper from '../../../shared/ScreenShotHelper';
 import ScoreMatrixContainer from '../../score-matrix/ScoreMatrixContainer';
 
 export default class ScidashSuiteNameLinkColumn extends React.Component {
@@ -13,6 +14,7 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
         this.state = {
             open: false
         };
+        this.screenShotHelper = new ScreenShotHelper();
     }
 
     openScoreMatrix(e){
@@ -32,10 +34,16 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
     render(){
         const actions = [
         <FlatButton
+            label="Save As Image"
+            primary={true}
+            icon={<FontIcon className="fa fa-camera"/>}
+            onClick={(e) => {this.screenShotHelper.takeScreenshot(e,"score_matrix_image",true)}}
+        />,
+        <FlatButton
             label="Close"
             primary={true}
             onClick={this.closeScoreMatrix}
-        />,
+        />
         ];
 
         return (

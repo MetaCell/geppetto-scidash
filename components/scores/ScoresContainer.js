@@ -1,22 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TestInstances from './TestInstances'
+import Scores from './Scores'
 import RaisedButton from 'material-ui/RaisedButton';
 import ScidashStorage from '../../shared/ScidashStorage';
-import ScoreApiService from '../../services/api/ScoreApiService';
 
 import {
     filteringTestsStarted
-} from '../../actions/creators/test-instances';
+} from '../../actions/creators/scores';
 
 import {
     dateFilterChanged,
     clearDateFilter
-} from '../../actions/creators/test-instances';
+} from '../../actions/creators/scores';
 
 const mapStateToProps = state => {
     return {
-        data: state.testInstances.data,
+        data: state.scores.data,
         colorBlind: state.header.colorBlind,
         styleConfig: {
             classNames: {
@@ -24,7 +23,7 @@ const mapStateToProps = state => {
                 TableHeadingCell: 'scidash-table-heading-cell'
             }
         },
-        autoCompleteData: state.testInstances.autoCompleteData,
+        autoCompleteData: state.scores.autoCompleteData,
         griddleComponents: {
             Filter: () => null,
             SettingsToggle: () => null,
@@ -48,8 +47,8 @@ const mapStateToProps = state => {
         pageProperties: {
             currentPage: 1
         },
-        showLoading: state.testInstances.showLoading,
-        dateFilterChanged: state.testInstances.dateFilterChanged,
+        showLoading: state.scores.showLoading,
+        dateFilterChanged: state.scores.dateFilterChanged,
     };
 }
 
@@ -105,10 +104,10 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-const TestInstancesContainer = connect(
+const ScoresContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(TestInstances)
+)(Scores)
 
 
-export default TestInstancesContainer;
+export default ScoresContainer;

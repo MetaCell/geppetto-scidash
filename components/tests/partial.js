@@ -24,31 +24,31 @@ export class CustomMenu extends Component {
       anchorEl: null
     }
   }
-		
+
   render () {
     const { anchorEl } = this.state;
     return (
       <span className="edit-clone-test">
         <FontIcon className="fa fa-lock" />
-        <IconButton 
+        <IconButton
           iconClassName="fa fa-ellipsis-v"
           onClick={e => this.setState({ anchorEl: e.currentTarget })}
         />
 
-        <Popover 
+        <Popover
           open={!!anchorEl}
           anchorEl={anchorEl}
           anchorOrigin={styles.anchorOrigin}
           targetOrigin={styles.targetOrigin}
           onRequestClose={() => this.setState({ anchorEl: null })}
-        >	
+        >
           <Menu>
-            <MenuItem 
-              primaryText="Edit" 
+            <MenuItem
+              primaryText="Edit"
               leftIcon={<FontIcon className="fa fa-pencil-square-o"/>}
             />
-            <MenuItem 
-              primaryText="Clone" 
+            <MenuItem
+              primaryText="Clone"
               leftIcon={<FontIcon className="fa fa-clone"/>}
             />
           </Menu>

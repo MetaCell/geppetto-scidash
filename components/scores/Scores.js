@@ -15,7 +15,7 @@ import {
 
 import Loader from "../loader/Loader";
 
-export default class TestInstances extends React.Component {
+export default class Scores extends React.Component {
 
     constructor(props, context){
         super(props, context);

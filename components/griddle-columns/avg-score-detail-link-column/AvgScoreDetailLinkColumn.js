@@ -1,9 +1,9 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
+import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import AvgScoreDetailsContainer from '../../avg-score-details/AvgScoreDetailsContainer';
-import Helper from '../../../shared/Helper';
 
 export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
     constructor(props, context){
@@ -33,10 +33,15 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
     render(){
         const actions = [
             <FlatButton
+            label="Save As Image"
+            primary={true}
+            icon={<FontIcon className="fa fa-camera"/>}
+            onClick={(e) => {this.props.takeScreenshot(e)}} />,
+            <FlatButton
             label="Close"
             primary={true}
             onClick={this.closeAvgScoreDetail}
-            />,
+            />
         ];
 
         return (

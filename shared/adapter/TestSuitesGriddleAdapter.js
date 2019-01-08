@@ -1,7 +1,7 @@
-import GriddleAdapter from './GriddleAdapter';
+import BaseAdapter from './BaseAdapter';
 import InitialStateService from '../../services/InitialStateService';
 
-export default class TestSuitesGriddleAdapter extends GriddleAdapter{
+export default class TestSuitesGriddleAdapter extends BaseAdapter{
 
     countAggregateScore(scores){
         let sum = 0;
@@ -28,7 +28,7 @@ export default class TestSuitesGriddleAdapter extends GriddleAdapter{
             timeZoneName: 'short'
         };
 
-        for (let score of this.getScores()){
+        for (let score of this.getRawData()){
             let suiteHash = score.test_instance.test_suites[0].hash;
             let suiteObject = score.test_instance.test_suites[0];
             let suiteTimestamp = score.test_instance.test_suites[0].timestamp;
@@ -69,7 +69,6 @@ export default class TestSuitesGriddleAdapter extends GriddleAdapter{
         }
 
         if (list.length == 0){
-            console.log(list);
             list = new InitialStateService()
                 .getInitialStateTemplate()
                 .testSuites

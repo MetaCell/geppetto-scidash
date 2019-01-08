@@ -30,6 +30,7 @@ const mapStateToProps = state => {
             left: 62,
             minWidth: 270
         },
+        userInfo: state.user,
         activePage: state.header.activePage,
         editModelActive: state.header.editModelActive,
         editTestActive: state.header.editTestActive

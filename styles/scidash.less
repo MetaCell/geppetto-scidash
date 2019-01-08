@@ -112,10 +112,10 @@ body {
   overflow: hidden!important;
   margin-top: 20px!important;
   margin-left: 10px!important;
-  border-radius: 25px!important; 
+  border-radius: 25px!important;
   > svg {
-    color: #757575!important; 
-    margin-top: -4px!important; 
+    color: #757575!important;
+    margin-top: -4px!important;
     margin-left: -4px!important;
   };
   &:hover {
@@ -128,12 +128,12 @@ body {
 }
 
 input:focus {
-  outline: none!important; 
+  outline: none!important;
   border: none!important;
   box-shadow: none!important;
 }
 input {
-  outline: none!important; 
+  outline: none!important;
   border: none!important;
   box-shadow: none!important;
 }
@@ -169,17 +169,15 @@ input {
     }
 }
 
-.scidash-tilted-titles-table{
+.scidash-tilted-titles-table {
     color: @secondary_color;
-    vertical-align:top;
-    text-align: left;
     .scidash-tilted-titles-table-heading-cell{
-        height:30px;
-        max-height: 30px;
-        max-width: 50px;
-        vertical-align: bottom;
-        white-space: nowrap;
-    }
+         	height:30px;
+         	max-height: 30px;
+         	max-width: 50px;
+         	vertical-align: bottom;
+         	white-space: nowrap;
+	}
     .filter-label {
         padding: 0px 10px;
         font-weight: normal;
@@ -188,9 +186,11 @@ input {
     tbody {
         font-size: 13px;
     }
+
     th{
         vertical-align:top;
     }
+
     .griddle-cell {
         border-top:1px solid #aaa;
     }
@@ -218,7 +218,7 @@ input {
 .hideAll-column {
     /* Adjustments to column with hide all buttons*/
     th:last-child{
-        padding-left : 5px;
+    	padding-left : 5px;
     }
 }
 
@@ -309,7 +309,7 @@ div[role=menu]{
 
 .suites-table{
     width: 90%;
-    margin:10 auto;
+    margin:10px auto;
 }
 
 .modal-table{
@@ -456,7 +456,7 @@ div[role=menu]{
 .scrolling {
     width: 100%;
     height: 240px;
-    display: flex; 
+    display: flex;
     flex-direction: row;
     .scrolling2 {
         flex: 1;
@@ -474,7 +474,7 @@ div[role=menu]{
             // border: 1px solid black;
             border-radius: 25px;
             color: rgba(0, 0, 0, 0.0);
-            
+
         };
     };
 };
@@ -484,7 +484,7 @@ div[role=menu]{
     transition: color 1s ease-out;
 };
 .scrolling2:hover {
-    ::-webkit-scrollbar-thumb { 
+    ::-webkit-scrollbar-thumb {
         visibility: visible;
     };
 }
@@ -497,8 +497,14 @@ div[role=menu]{
   border: 10px solid transparent;
 }
 
-.scrolling3::-webkit-scrollbar-thumb { 
+.scrolling3::-webkit-scrollbar-thumb {
     visibility: hidden;
     background-color: rgba(0,0,0,0.01);
     box-shadow: inset 0 0 0 10px;
+}
+
+.auth-links{
+    padding:10px;
+    position:absolute;
+    right:20px;
 }

@@ -43,7 +43,7 @@ export default class AvgScoreDetails extends React.Component {
 
         return (
             <div>
-                <Card>
+                <Card id="table-container-div">
                     <CardText style={{
                         overflowX: "scroll",
                     }}>

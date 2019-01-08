@@ -1,5 +1,5 @@
-export default function scidashTestInstances(state = {}, action){
-    console.group("SCIDASH TEST INSTANCES REDUCER")
+export default function scidashUser(state = {}, action){
+    console.group("SCIDASH USER REDUCER")
 
     if (action !== null)
         console.log("ACTION DISPATCHED: ", action)

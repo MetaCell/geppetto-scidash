@@ -24,7 +24,7 @@ export default class EditTest extends React.Component {
             floatingLabelText="Name of the model"
             underlineStyle={{ borderBottom: "1px solid grey" }}
           />
-          
+
           <SelectField
             style={styles.firstLine.two}
             underlineStyle={{color: "grey"}}
@@ -57,7 +57,7 @@ export default class EditTest extends React.Component {
             style={styles.thirdLine.one}
             underlineStyle={{ borderBottom: "1px solid grey" }}
             onKeyPress={e => e.key === 'Enter' ? () => {} : null}
-            
+
           />
           <div style={styles.thirdLine.two}>
             <Chip	style={{ marginLeft: 4, marginTop: 4, float: "left" }}>A tag</Chip>
@@ -65,12 +65,12 @@ export default class EditTest extends React.Component {
             <Chip style={{ marginLeft: 4, marginTop: 4, float: "left" }}>A third tag</Chip>
           </div>
         </div>
-      
+
         <div style={styles.fourthLine.container}>
 
           <div style={styles.fourthLine.column}>
             <h3>Observation source:</h3>
-            
+
             <SelectField
               value="2"
               onChange={e => {}}
@@ -81,7 +81,7 @@ export default class EditTest extends React.Component {
               <MenuItem value="1"><em>Option 1</em></MenuItem>
               <MenuItem value="2"><em>Option 2</em></MenuItem>
             </SelectField>
-            
+
             <TextField
               value="Neuron type"
               style={{ width: "100%" }}
@@ -136,12 +136,12 @@ export default class EditTest extends React.Component {
           </div>
         </div>
       <div style={styles.actionsContainer}>
-        <RaisedButton 
+        <RaisedButton
           label="save"
           style={styles.actionsButton}
           onClick={() => this.props.activateEditTest()}
         />
-        <RaisedButton 
+        <RaisedButton
           label="cancel"
           style={styles.actionsButton}
           onClick={() => this.props.activateEditTest()}
@@ -153,22 +153,22 @@ export default class EditTest extends React.Component {
 }
 
 const styles = {
-  actionsContainer: { 
-    width: "100%", 
-    display: 'flex', 
-    justifyContent: 'center', 
-    marginTop: '20px' 
+  actionsContainer: {
+    width: "100%",
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '20px'
   },
-  actionsButton: { 
-    width: '100px' 
+  actionsButton: {
+    width: '100px'
   },
   firstLine: {
-    container: { 
-      width: '100%', 
-      display: 'flex', 
-      flexFlow: 'horizontal', 
-      justifyContent: "space-around", 
-      alignItems: "center" 
+    container: {
+      width: '100%',
+      display: 'flex',
+      flexFlow: 'horizontal',
+      justifyContent: "space-around",
+      alignItems: "center"
     },
     one: { flex: 2 },
     two: { flex: 2, marginLeft: '25px' },
@@ -178,8 +178,8 @@ const styles = {
     one: { width: '100%' }
   },
   thirdLine: {
-    container: { 
-      width: '100%', 
+    container: {
+      width: '100%',
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center',
@@ -189,18 +189,18 @@ const styles = {
     two: { float: 'right', width: '79%' }
   },
   fourthLine: {
-    container: { 
-      width: '100%', 
-      display: "flex", 
-      flexFlow: 'horizontal', 
+    container: {
+      width: '100%',
+      display: "flex",
+      flexFlow: 'horizontal',
       alignItems: "stretch",
-      justifyContent: "space-around", 
+      justifyContent: "space-around",
     },
-    column: { 
-      flex: 1, 
+    column: {
+      flex: 1,
       margin: '20px',
       display: "flex",
-      flexFlow: 'column', 
+      flexFlow: 'column',
     },
   }
 }

@@ -16,8 +16,8 @@ import {
     HIDE_SETTINGS,
     TOGGLE_COLOR_BLIND,
     TOGGLE_DRAWER,
-    CHANGE_PAGE, 
-    ACTIVATE_EDIT_MODEL, 
+    CHANGE_PAGE,
+    ACTIVATE_EDIT_MODEL,
     ACTIVATE_EDIT_TEST
 } from '../actions/creators/header';
 import {
