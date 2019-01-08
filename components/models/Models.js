@@ -27,7 +27,7 @@ export default class Models extends React.Component {
           style={{ float: "right", borderRadius: "40px", backgroundColor: brown500 }}
         />
         <Griddle
-          data={fakeData.data}
+          data={this.props.data}
           components={this.props.griddleComponents}
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
@@ -79,32 +79,10 @@ export default class Models extends React.Component {
               customComponent={props => <CustomMenu {...props} {...this.props}/>}
               order={7}
             />
-
-            <ColumnDefinition
-              isMetadata
-              id="_timestamp"
-              title="_timestamp"
-            />
           </RowDefinition>
         </Griddle>
         {this.props.showLoading ? <Loader /> : ""}
       </div>
     );
   }
-}
-
-
-const fakeData = {
-  data: [ // fake data
-    { id: 1, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking", "Atag"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: true },
-    { id: 2, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 3, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 4, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: true },
-    { id: 5, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 6, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 6, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: true },
-    { id: 6, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking", "Another tag"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: true },
-    { id: 6, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking", "Atag"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 6, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking XXX", "Atag"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false }
-  ],
 }
