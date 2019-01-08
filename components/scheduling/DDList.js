@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import { Draggable, Droppable } from 'react-drag-and-drop';
 import { TestIcon, ModelsIcon } from '../../assets/CustomIcons';
-import { brown500, blue500, grey500, brown200, brown100, blue200, blue100 } from 'material-ui/styles/colors';
+import { brown500, blue500, grey400, grey600, brown200, brown100, blue200, blue100 } from 'material-ui/styles/colors';
 
 const styles = {
   header: {
@@ -171,14 +171,18 @@ const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firs
       </span>
 
       <IconButton
-        iconStyle={{ color: grey500 }}
+        style={{borderRadius: "40px"}}
+        iconStyle={{ color: grey600 }}
         onClick={() => firstAction()}
+        hoveredStyle={{ backgroundColor: grey400 }}
         iconClassName={firstActionClass}
       />
 
       <IconButton
-        iconStyle={{ color: grey500 }}
+        style={{borderRadius: "40px"}}
+        iconStyle={{ color: grey600 }}
         onClick={(id) => secondAction(id)}
+        hoveredStyle={{ backgroundColor: grey400 }}
         iconClassName={secondActionClass}
       />
     </div>
