@@ -3,18 +3,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 import TextField from 'material-ui/TextField';
 
-import DDList from './DDList';
+import DDListContainer from './DDListContainer';
 import CustomTable from './CustomTable';
-
-
-const draggableData = [ // fake
-  { type: 'tests', name: 'My first test', meta: 'Rheobase test', id: 0 },
-  { type: 'models', name: 'My first model', meta: 'Reduced model', id: 1 },
-  { type: 'tests', name: 'My second test', meta: 'VM test', id: 2 },
-  { type: 'models', name: 'My second model', meta: 'Reduced model', id: 3 },
-  { type: 'tests', name: 'My third test', meta: 'VM test', id: 4 },
-  { type: 'models', name: 'My third model', meta: 'Reduced model', id: 5 },
-]
 
 class Scheduling extends React.Component {
 
@@ -30,41 +20,21 @@ class Scheduling extends React.Component {
   }
 
   getItemByID(ids){
-    return draggableData.filter(item => ids.includes(item.id))
-  }
-
-  drop(dropData){
-    const { selectedTestIDs, selectedModelIDs } = this.state;
-    if (Object.keys(dropData).indexOf("tests") > -1) {
-      const index = parseInt(dropData.tests)
-      if (selectedTestIDs.indexOf(index) == -1) {
-        this.setState( oldState => ({ selectedTestIDs: [ ...oldState.selectedTestIDs, index] }) )
-      }
-    }
-    else {
-      const index = parseInt(dropData.models)
-      if (selectedModelIDs.indexOf(index) == -1) {
-        this.setState( oldState => ({ selectedModelIDs: [ ...oldState.selectedModelIDs, index] }) )
-      }
-    }
+    return this.props.data.filter(item => ids.includes(item.id))
   }
 
   render () {
-    const { saveSuites, suitesName, selectedTestIDs, selectedModelIDs } = this.state;
+    const { saveSuites, suitesName } = this.state;
+    const { tests, models } = this.props;
     return (
       <span>
-        <DDList
-          data={draggableData} // available tests and models
-          onDrop={dropData => this.drop(dropData)}
-          tests={this.getItemByID(selectedTestIDs)}   // selected tests
-          models={this.getItemByID(selectedModelIDs)} // selected models
-        />
-
-        {selectedTestIDs.length > 0 && selectedModelIDs.length > 0 ?
+        <DDListContainer/>
+        
+        {models.length > 0 && tests.length > 0 ?  
           <span>
             <CustomTable  //renders a table with compatibility between selected tests and models
-              tests={this.getItemByID(selectedTestIDs)}
-              models={this.getItemByID(selectedModelIDs)}
+              tests={this.getItemByID(tests)} 
+              models={this.getItemByID(models)} 
             />
             <div style={styles.saveContainer}>
               <RaisedButton >Run tests</RaisedButton>

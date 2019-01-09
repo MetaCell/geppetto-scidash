@@ -3,6 +3,9 @@ import Scheduling from './Scheduling';
 
 const mapStateToProps = state => {
   return {
+    data: state.scheduler.data,
+    tests: state.scheduler.tests,
+    models: state.scheduler.models
   };
 }
 
