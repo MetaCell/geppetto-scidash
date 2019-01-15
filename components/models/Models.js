@@ -2,6 +2,9 @@ import React from "react";
 import IconButton from 'material-ui/IconButton';
 import { brown500, brown400 } from 'material-ui/styles/colors';
 import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
+import FilterCellContainer from "../filter-cell/FilterCellContainer";
+import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
+import Config from "../../shared/Config";
 
 import Loader from "../loader/Loader";
 
@@ -37,12 +40,24 @@ export default class Models extends React.Component {
             <ColumnDefinition
               id="name"
               title="Name"
+              customHeadingComponent={(props) => <FilterCellContainer
+                    autoCompleteData={this.props.autoCompleteData}
+                    namespace={Config.modelInstancesNamespace}
+                    onFilterUpdate={this.props.onFilterUpdate}
+                    filterName="name"
+                    {...props} />}
               order={1}
             />
 
             <ColumnDefinition
               id="class"
               title="Class"
+              customHeadingComponent={(props) => <FilterCellContainer
+                    autoCompleteData={this.props.autoCompleteData}
+                    namespace={Config.modelInstancesNamespace}
+                    onFilterUpdate={this.props.onFilterUpdate}
+                    filterName="class_name"
+                    {...props} />}
               order={2}
             />
 
@@ -57,6 +72,12 @@ export default class Models extends React.Component {
               id="tags"
               customComponent={props => <CustomTagComponent {...props} {...this.props}/>}
               title="Tags"
+              customHeadingComponent={(props) => <FilterCellContainer
+                    autoCompleteData={this.props.autoCompleteData}
+                    namespace={Config.modelInstancesNamespace}
+                    onFilterUpdate={this.props.onFilterUpdate}
+                    filterName="tags"
+                    {...props} />}
               order={4}
             />
 
@@ -69,6 +90,13 @@ export default class Models extends React.Component {
             <ColumnDefinition
               id="timestamp"
               title="Last edited"
+              customHeadingComponent={(props) =>  <DateRangeCellContainer
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  namespace={Config.modelInstancesNamespace}
+                  dateFilterChanged={this.props.dateFilterChanged}
+                  onDateFilterClear={this.props.onDateFilterClear}
+                  {...props}
+                  />}
               order={6}
             />
 
