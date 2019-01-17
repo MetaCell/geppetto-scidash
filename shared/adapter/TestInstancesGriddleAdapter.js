@@ -1,4 +1,5 @@
 import BaseAdapter from './BaseAdapter';
+import InitialStateService from '../../services/InitialStateService.js';
 
 export default class TestInstancesGriddleAdapter extends BaseAdapter {
 
@@ -36,8 +37,6 @@ export default class TestInstancesGriddleAdapter extends BaseAdapter {
                 block: false
             });
         }
-
-        console.log(testsData);
 
         if (testsData.length == 0)
             testsData = new InitialStateService()

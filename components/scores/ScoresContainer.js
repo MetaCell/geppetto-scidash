@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ScidashStorage from '../../shared/ScidashStorage';
 
 import {
-    filteringTestsStarted
+    filteringScoresStarted
 } from '../../actions/creators/scores';
 
 import {
@@ -64,7 +64,7 @@ const mapDispatchToProps = dispatch => {
         }
 
         let f = (searchText, filterName, dispatch) => {
-            dispatch(filteringTestsStarted(
+            dispatch(filteringScoresStarted(
                 searchText,
                 filterName,
                 dispatch
