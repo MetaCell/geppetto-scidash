@@ -2,8 +2,8 @@ import ScoresApiService from "../../services/api/ScoresApiService";
 import FilteringService from "../../services/FilteringService";
 import Config from '../../shared/Config';
 
-export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
-export const FILTERING_TESTS_FINISHED = "FILTERING_TESTS_FINISHED";
+export const FILTERING_SCORES_STARTED = "FILTERING_SCORES_STARTED";
+export const FILTERING_SCORES_FINISHED = "FILTERING_SCORES_FINISHED";
 export const DATE_FILTER_CHANGED = "INSTANCES_DATE_FILTER_CHANGED";
 export const DATE_FILTER_CLEAR = "INSTANCES_DATE_FILTER_CLEAR";
 
@@ -21,14 +21,14 @@ export function clearDateFilter(filter, dispatch){
     };
 }
 
-export function filteringTestsFinished(scores){
+export function filteringScoresFinished(scores){
     return {
-        type: FILTERING_TESTS_FINISHED,
+        type: FILTERING_SCORES_FINISHED,
         scores
     };
 }
 
-export function filteringTestsStarted(searchText, filterName, dispatch){
+export function filteringScoresStarted(searchText, filterName, dispatch){
     let apiService = new ScoreApiService();
     let filteringService = FilteringService.getInstance();
 
@@ -46,11 +46,11 @@ export function filteringTestsStarted(searchText, filterName, dispatch){
         let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "/";
 
         window.history.pushState("", "", filterString);
-        dispatch(filteringTestsFinished(result))
+        dispatch(filteringScoresFinished(result))
 
     })
 
     return {
-        type: FILTERING_TESTS_STARTED
+        type: FILTERING_SCORES_STARTED
     }
 }

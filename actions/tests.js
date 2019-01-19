@@ -1,10 +1,10 @@
-import ScoresGriddleAdapter from '../shared/adapter/ScoresGriddleAdapter';
+import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter';
 import FilteringService from '../services/FilteringService';
 import Config from '../shared/Config';
 
 import $ from 'jquery';
 
-export function filteringScoresStarted(state, action){
+export function filteringTestsStarted(state, action){
 
     $(".griddle-page-select").hide()
 
@@ -15,9 +15,9 @@ export function filteringScoresStarted(state, action){
     return newState;
 }
 
-export function filteringScoresFinished(state, action){
+export function filteringTestsFinished(state, action){
 
-    let adapter = new ScoresGriddleAdapter(action.scores)
+    let adapter = new TestInstancesGriddleAdapter(action.models)
 
     $(".griddle-page-select").show()
 
@@ -39,9 +39,9 @@ export function dateFilterChanged(state, action){
 export function dateFilterClear(state, action){
     let filteringService = FilteringService.getInstance();
 
-    filteringService.restoreFromInitial(Config.instancesNamespace);
+    filteringService.restoreFromInitial(Config.modelInstancesNamespace);
 
-    for (let entry of Object.entries(filteringService.getFilters(Config.instancesNamespace))){
+    for (let entry of Object.entries(filteringService.getFilters(Config.testInstancesNamespace))){
         action.filter(entry[1], entry[0], action.dispatch, true)
     }
 
@@ -49,5 +49,4 @@ export function dateFilterClear(state, action){
         ...state,
         dateFilterChanged: false
     }
-
 }

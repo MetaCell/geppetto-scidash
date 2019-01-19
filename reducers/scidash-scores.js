@@ -1,12 +1,12 @@
 import {
-    FILTERING_TESTS_STARTED,
-    FILTERING_TESTS_FINISHED,
+    FILTERING_SCORES_STARTED,
+    FILTERING_SCORES_FINISHED,
     DATE_FILTER_CHANGED,
     DATE_FILTER_CLEAR
 } from '../actions/creators/scores';
 import {
-    filteringTestsStarted,
-    filteringTestsFinished,
+    filteringScoresStarted,
+    filteringScoresFinished,
     dateFilterChanged,
     dateFilterClear
 } from '../actions/scores';
@@ -31,14 +31,14 @@ export default function scidashScores(state = {}, action = null){
                 ...dateFilterChanged(state, action)
             }
             break;
-        case FILTERING_TESTS_STARTED:
+        case FILTERING_SCORES_STARTED:
             newState = {
-                ...filteringTestsStarted(state, action)
+                ...filteringScoresStarted(state, action)
             };
             break;
-        case FILTERING_TESTS_FINISHED:
+        case FILTERING_SCORES_FINISHED:
             newState = {
-                ...filteringTestsFinished(state, action)
+                ...filteringScoresFinished(state, action)
             };
             break;
         default:

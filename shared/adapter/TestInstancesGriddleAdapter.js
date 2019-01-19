@@ -1,4 +1,5 @@
 import BaseAdapter from './BaseAdapter';
+import InitialStateService from '../../services/InitialStateService.js';
 
 export default class TestInstancesGriddleAdapter extends BaseAdapter {
 

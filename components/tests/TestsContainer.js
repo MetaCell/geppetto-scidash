@@ -2,6 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import { activateEditTest } from "../../actions/creators/header";
+import ScidashStorage from '../../shared/ScidashStorage';
+
+import {
+    filteringTestsStarted
+} from '../../actions/creators/tests';
+
+import {
+    dateFilterChanged,
+    clearDateFilter
+} from '../../actions/creators/tests';
 
 import Tests from './Tests';
 
@@ -14,6 +24,7 @@ const mapStateToProps = state => {
           }
       },
       data: state.testInstances.data,
+      autoCompleteData: { name: [], class: [], tags: [] },
       griddleComponents: {
           Filter: () => null,
           SettingsToggle: () => null,
@@ -41,9 +52,43 @@ const mapStateToProps = state => {
   };
 }
 
-const mapDispatchToProps = dispatch => ({
-  activateEditTest: () => dispatch(activateEditTest())
-})
+const mapDispatchToProps = dispatch => {
+
+    let filter = (searchText, filterName, dispatch, reset = false) => {
+        let storage = new ScidashStorage();
+        let timeoutKey = 'lastFilterTimeoutId';
+
+        if (storage.getItem(timeoutKey)){
+            clearTimeout(storage.getItem(timeoutKey))
+            storage.setItem(timeoutKey, false)
+        }
+
+        let f = (searchText, filterName, dispatch) => {
+            dispatch(filteringTestsStarted(
+                searchText,
+                filterName,
+                dispatch
+            ));
+        }
+
+        if (/^timestamp_.*/.test(filterName) && !reset){
+            dispatch(dateFilterChanged());
+        }
+
+        let timeoutId = setTimeout(f, 200, searchText, filterName, dispatch);
+        storage.setItem(timeoutKey, timeoutId);
+    }
+    return {
+        onFilterUpdate: (searchText, filterName) =>  {
+            filter(searchText, filterName, dispatch)
+        },
+        onDateFilterClear: (event) => {
+            dispatch(clearDateFilter(filter, dispatch))
+        },
+
+        activateEditTest: () => dispatch(activateEditTest())
+    }
+}
 
 const TestsContainer = connect(
   mapStateToProps,
