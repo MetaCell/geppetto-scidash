@@ -27,7 +27,7 @@ export default class ModelsGriddleAdapter extends BaseAdapter {
                 class: model.model_class.class_name,
                 tags: model.tags.map((item) => item.name),
                 source: model.url,
-                owner: "?",
+                owner: model.owner.username,
                 timestamp: fullDate
             });
         }

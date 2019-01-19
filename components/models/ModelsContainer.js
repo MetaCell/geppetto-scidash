@@ -24,7 +24,7 @@ const mapStateToProps = state => {
           }
       },
       data: state.models.data,
-      autoCompleteData: { name: [], class: [], tags: [] },
+      autoCompleteData: { name: [], class: [], tags: [], owner: [] },
       griddleComponents: {
           Filter: () => null,
           SettingsToggle: () => null,
