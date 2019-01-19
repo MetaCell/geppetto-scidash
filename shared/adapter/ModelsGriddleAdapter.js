@@ -1,4 +1,5 @@
 import BaseAdapter from './BaseAdapter';
+import InitialStateService from '../../services/InitialStateService.js';
 
 export default class ModelsGriddleAdapter extends BaseAdapter {
 
@@ -22,7 +23,7 @@ export default class ModelsGriddleAdapter extends BaseAdapter {
             let fullDate = new Date(model.timestamp).toLocaleString('en-US', options);
 
             modelsData.push({
-                name: model.model_class.class_name,
+                name: model.name,
                 class: model.model_class.class_name,
                 tags: model.tags.map((item) => item.name),
                 source: model.url,
