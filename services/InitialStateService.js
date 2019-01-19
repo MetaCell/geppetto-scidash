@@ -2,11 +2,13 @@ import React from 'react';
 import ScoresApiService from './api/ScoresApiService';
 import UserApiService from './api/UserApiService';
 import TestInstancesApiService from './api/TestInstancesApiService.js';
+import ModelsApiService from './api/ModelsApiService.js';
 import DateRangeApiService from './api/DateRangeApiService';
 import PagesService from './PagesService';
 import RaisedButton from 'material-ui/RaisedButton';
 import ScoresGriddleAdapter from '../shared/adapter/ScoresGriddleAdapter';
-import TestInstancesGriddeAdapter from '../shared/adapter/TestInstancesGriddleAdapter.js';
+import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter.js';
+import ModelsGriddleAdapter from '../shared/adapter/ModelsGriddleAdapter.js';
 import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
 import ScoreMatrixGriddleAdapter from '../shared/adapter/ScoreMatrixGriddleAdapter';
 import ScoresAutocompleteAdapter from '../shared/adapter/ScoresAutocompleteAdapter';
@@ -14,7 +16,6 @@ import TestSuitesAutocompleteAdapter from '../shared/adapter/TestSuitesAutocompl
 import Helper from '../shared/Helper';
 import Config from '../shared/Config';
 import FilteringService from '../services/FilteringService';
-
 
 //FIXME: we should do this less fundamental
 export default class InitialStateService {
@@ -95,7 +96,7 @@ export default class InitialStateService {
                     class: " ",
                     tags: [" "],
                     owner: " ",
-                    timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+                    timestamp: " ",
                     block: false
                 },
             ],
@@ -117,6 +118,30 @@ export default class InitialStateService {
             activePage: new PagesService().getDefaultPage(),
             editModelActive: false,
             editModelActive: false,
+        },
+        scheduler: {
+            data: [
+                { type: 'tests', name: 'My first test', meta: 'Rheobase test', id: 0 }, 
+                { type: 'models', name: 'My first model', meta: 'Reduced model', id: 1 }, 
+                { type: 'tests', name: 'My second test', meta: 'VM test', id: 2 },
+                { type: 'models', name: 'My second model', meta: 'Reduced model', id: 3 }, 
+                { type: 'tests', name: 'My third test', meta: 'VM test', id: 4 }, 
+                { type: 'models', name: 'My third model', meta: 'Reduced model', id: 5 },
+            ],
+            tests: [],
+            models: []
+        },
+        models: {
+            data: [
+                {
+                    name: " ",
+                    class: " ",
+                    source: " ",
+                    tags: [],
+                    owner: " ",
+                    timestamp: " "
+                }
+            ]
         }
     }
 
@@ -156,6 +181,12 @@ export default class InitialStateService {
 
     loadTests(){
         let service = new TestInstancesApiService();
+
+        return service.getList();
+    }
+
+    loadModels(){
+        let service = new ModelsApiService();
 
         return service.getList();
     }
@@ -220,28 +251,28 @@ export default class InitialStateService {
 
                     this.cleanUp()
 
-                    this.loadUser().then((response) => {
-                        this.initialState.user.isLogged = response.ok;
+                    this.loadModels().then((models) => {
+                        this.initialState.models.data = new ModelsGriddleAdapter(models)
+                            .getGriddleData();
 
-                        if (response.ok){
-                            response.json().then((response) => {
-                                this.initialState.user.userObject = response;
+                        this.loadTests().then((tests) => {
+                            this.initialState.testInstances.data = new TestInstancesGriddleAdapter(tests)
+                                .getGriddleData();
 
-                                this.loadTests().then((tests) => {
-                                    this.initialState.testInstances.data = new TestInstancesGriddeAdapter(tests)
-                                        .getGriddleData();
+                            this.loadUser().then((response) => {
+                                this.initialState.user.isLogged = response.ok;
 
+                                if (response.ok){
+                                    response.json().then((response) => {
+                                        this.initialState.user.userObject = response;
+
+                                        onStateGenerated(this.initialState);
+                                    });
+                                } else {
                                     onStateGenerated(this.initialState);
-                                })
+                                }
                             });
-                        } else {
-                            this.loadTests().then((tests) => {
-                                this.initialState.testInstances.data = new TestInstancesGriddeAdapter(tests)
-                                    .getGriddleData();
-
-                                onStateGenerated(this.initialState);
-                            })
-                        }
+                        });
                     });
 
                 });

@@ -61,9 +61,9 @@ const getTableCell = cellInfo => {
   }
   else {
     return (
-      <span
-        data-tooltip={ cellInfo.compatible
-          ? "Test compatible with model"
+      <span 
+        data-tooltip={ cellInfo
+          ? "Test compatible with model" 
           : "Test incompatible with model"
         }
       >

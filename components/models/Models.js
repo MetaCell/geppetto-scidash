@@ -2,6 +2,9 @@ import React from "react";
 import IconButton from 'material-ui/IconButton';
 import { brown500, brown400 } from 'material-ui/styles/colors';
 import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
+import FilterCellContainer from "../filter-cell/FilterCellContainer";
+import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
+import Config from "../../shared/Config";
 
 import Loader from "../loader/Loader";
 
@@ -27,7 +30,7 @@ export default class Models extends React.Component {
           style={{ float: "right", borderRadius: "40px", backgroundColor: brown500 }}
         />
         <Griddle
-          data={fakeData.data}
+          data={this.props.data}
           components={this.props.griddleComponents}
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
@@ -37,12 +40,24 @@ export default class Models extends React.Component {
             <ColumnDefinition
               id="name"
               title="Name"
+              customHeadingComponent={(props) => <FilterCellContainer
+                    autoCompleteData={this.props.autoCompleteData}
+                    namespace={Config.modelInstancesNamespace}
+                    onFilterUpdate={this.props.onFilterUpdate}
+                    filterName="name"
+                    {...props} />}
               order={1}
             />
 
             <ColumnDefinition
               id="class"
               title="Class"
+              customHeadingComponent={(props) => <FilterCellContainer
+                    autoCompleteData={this.props.autoCompleteData}
+                    namespace={Config.modelInstancesNamespace}
+                    onFilterUpdate={this.props.onFilterUpdate}
+                    filterName="class_name"
+                    {...props} />}
               order={2}
             />
 
@@ -57,6 +72,12 @@ export default class Models extends React.Component {
               id="tags"
               customComponent={props => <CustomTagComponent {...props} {...this.props}/>}
               title="Tags"
+              customHeadingComponent={(props) => <FilterCellContainer
+                    autoCompleteData={this.props.autoCompleteData}
+                    namespace={Config.modelInstancesNamespace}
+                    onFilterUpdate={this.props.onFilterUpdate}
+                    filterName="tags"
+                    {...props} />}
               order={4}
             />
 
@@ -69,6 +90,13 @@ export default class Models extends React.Component {
             <ColumnDefinition
               id="timestamp"
               title="Last edited"
+              customHeadingComponent={(props) =>  <DateRangeCellContainer
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  namespace={Config.modelInstancesNamespace}
+                  dateFilterChanged={this.props.dateFilterChanged}
+                  onDateFilterClear={this.props.onDateFilterClear}
+                  {...props}
+                  />}
               order={6}
             />
 
@@ -79,32 +107,10 @@ export default class Models extends React.Component {
               customComponent={props => <CustomMenu {...props} {...this.props}/>}
               order={7}
             />
-
-            <ColumnDefinition
-              isMetadata
-              id="_timestamp"
-              title="_timestamp"
-            />
           </RowDefinition>
         </Griddle>
         {this.props.showLoading ? <Loader /> : ""}
       </div>
     );
   }
-}
-
-
-const fakeData = {
-  data: [ // fake data
-    { id: 1, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking", "Atag"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: true },
-    { id: 2, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 3, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 4, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: true },
-    { id: 5, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 6, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 6, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: true },
-    { id: 6, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking", "Another tag"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: true },
-    { id: 6, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking", "Atag"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false },
-    { id: 6, name: "Izhikievich", class: "Reduce Model", source: "www.google.com.ar", tags: ["HOCConverted", "Spiking XXX", "Atag"], owner: "Steve Martin", timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), block: false }
-  ],
 }

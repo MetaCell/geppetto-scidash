@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import { Draggable, Droppable } from 'react-drag-and-drop';
 import { TestIcon, ModelsIcon } from '../../assets/CustomIcons';
-import { brown500, blue500, grey500, brown200, brown100, blue200, blue100 } from 'material-ui/styles/colors';
+import { brown500, blue500, grey400, grey600, brown200, brown100, blue200, blue100 } from 'material-ui/styles/colors';
 
 const styles = {
   header: {
@@ -69,7 +69,7 @@ export default class DDList extends React.Component {
     }
   }
   render() {
-    const { data, tests, models, onDrop } = this.props;
+    const { data, tests, models, addTest, addModel, removeTest, removeModel, onDrop } = this.props;
     return (
       <div className="scrolling">
         <div className="scrolling2">
@@ -89,7 +89,7 @@ export default class DDList extends React.Component {
                   firstActionClass="fa fa-info"
                   secondActionClass="fa fa-chevron-right"
                   firstAction={() => { console.log("click info") }}
-                  secondAction={() => { console.log("click send right") }}
+                  secondAction={() => { dataItem.type == "tests" ? addTest(dataItem.id) : addModel(dataItem.id)} }
                   leftIconSVG={dataItem.type == "tests" ? TestIcon : ModelsIcon}
                   leftIconColor={dataItem.type == "tests" ? brown500 : blue500}
                 />
@@ -102,21 +102,21 @@ export default class DDList extends React.Component {
           <Divider style={styles.divider} />
           <Droppable
             types={["tests"]}
-            className="scrolling3"
-            onDrop={ dropData => onDrop(dropData) }
+            className="scrolling3" 
+            onDrop={ dropData => addTest(parseInt(dropData.tests)) }
             onDragEnter={() => this.changeBGC("tests", "enter")}
             onDragLeave={() => this.changeBGC("tests", "leave")}
             style={{ backgroundColor: this.state.testsBGC }}
           >
-            {tests.map(({ name, meta, type, id }) => (
+            {data.filter(item => tests.includes(item.id)).map(test => (
               <ListItem
-                key={id}
-                primaryText={name}
-                secondaryText={meta}
+                key={test.id}
+                primaryText={test.name}
+                secondaryText={test.meta}
                 firstActionClass="fa fa-info"
                 secondActionClass="fa fa-trash-o"
                 firstAction={() => { console.log("click info") }}
-                secondAction={() => { console.log("click delete") }}
+                secondAction={() => { removeTest(test.id) }}
                 leftIconColor={brown500}
                 leftIconSVG={TestIcon}
               />
@@ -130,21 +130,21 @@ export default class DDList extends React.Component {
           <Divider style={styles.divider} />
           <Droppable
             types={["models"]}
-            className="scrolling3"
-            onDrop={ dropData => onDrop(dropData) }
+            className="scrolling3" 
+            onDrop={ dropData => { addModel(parseInt(dropData.models)) }}
             onDragEnter={() => this.changeBGC("models", "enter")}
             onDragLeave={() => this.changeBGC("models", "leave")}
             style={{ backgroundColor: this.state.modelsBGC }}
           >
-            {models.map(({ name, meta, id }) => (
+            {data.filter(item => models.includes(item.id)).map(model => (
               <ListItem
-                key={id}
-                primaryText={name}
-                secondaryText={meta}
+                key={model.id}
+                primaryText={model.name}
+                secondaryText={model.meta}
                 firstActionClass="fa fa-info"
                 secondActionClass="fa fa-trash-o"
                 firstAction={() => { console.log("click info") }}
-                secondAction={() => { console.log("click delete") }}
+                secondAction={() => removeModel(model.id)}
                 leftIconColor={blue500}
                 leftIconSVG={ModelsIcon}
               />
@@ -171,14 +171,18 @@ const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firs
       </span>
 
       <IconButton
-        iconStyle={{ color: grey500 }}
+        style={{borderRadius: "40px"}}
+        iconStyle={{ color: grey600 }}
         onClick={() => firstAction()}
+        hoveredStyle={{ backgroundColor: grey400 }}
         iconClassName={firstActionClass}
       />
 
       <IconButton
-        iconStyle={{ color: grey500 }}
-        onClick={() => secondAction()}
+        style={{borderRadius: "40px"}}
+        iconStyle={{ color: grey600 }}
+        onClick={(id) => secondAction(id)}
+        hoveredStyle={{ backgroundColor: grey400 }}
         iconClassName={secondActionClass}
       />
     </div>
