@@ -1,1 +1,1 @@
-import InitialStateService from '../services/InitialStateService';
+import InitialStateService from "../services/InitialStateService";

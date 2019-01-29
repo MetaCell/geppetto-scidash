@@ -1,4 +1,4 @@
-import FilteringService from "../services/FilteringService";
+import FilteringService from "./FilteringService";
 
 
 export default class PagesService {
@@ -13,20 +13,20 @@ export default class PagesService {
 
     default = "";
 
-    constructor(){
-        this.default = this.TESTS_VIEW;
-        this.defaultPage = this.SCORES_PAGE;
+    constructor (){
+      this.default = this.TESTS_VIEW;
+      this.defaultPage = this.SCORES_PAGE;
     }
 
-    getAll(){
-        return [TESTS_VIEW, SUITES_VIEW];
+    getAll (){
+      return [this.TESTS_VIEW, this.SUITES_VIEW];
     }
 
-    getDefault(){
-        return this.default;
+    getDefault (){
+      return this.default;
     }
 
-    getDefaultPage(){
+    getDefaultPage (){
       return this.defaultPage;
     }
 }

@@ -1,282 +1,98 @@
-import React from 'react';
-import ScoresApiService from './api/ScoresApiService';
-import UserApiService from './api/UserApiService';
-import TestInstancesApiService from './api/TestInstancesApiService.js';
-import ModelsApiService from './api/ModelsApiService.js';
-import DateRangeApiService from './api/DateRangeApiService';
-import PagesService from './PagesService';
-import RaisedButton from 'material-ui/RaisedButton';
-import ScoresGriddleAdapter from '../shared/adapter/ScoresGriddleAdapter';
-import TestInstancesGriddleAdapter from '../shared/adapter/TestInstancesGriddleAdapter.js';
-import ModelsGriddleAdapter from '../shared/adapter/ModelsGriddleAdapter.js';
-import TestSuitesGriddleAdapter from '../shared/adapter/TestSuitesGriddleAdapter';
-import ScoreMatrixGriddleAdapter from '../shared/adapter/ScoreMatrixGriddleAdapter';
-import ScoresAutocompleteAdapter from '../shared/adapter/ScoresAutocompleteAdapter';
-import TestSuitesAutocompleteAdapter from '../shared/adapter/TestSuitesAutocompleteAdapter';
-import Helper from '../shared/Helper';
-import Config from '../shared/Config';
-import FilteringService from '../services/FilteringService';
+import Config from "../shared/Config";
+import DateRangeApiService from "./api/DateRangeApiService";
+import FilteringService from "./FilteringService";
+import GlobalInitialStateService from "./state/GlobalInitialStateService";
+import UserInitialStateService from "./state/UserInitialStateService";
+import ScoreInitialStateService from "./state/ScoreInitialStateService";
+import TestSuitesInitialStateService from "./state/TestSuitesInitialStateService";
+import TestInstancesInitialStateService from "./state/TestInstancesInitialStateService";
+import HeaderInitialStateService from "./state/HeaderInitialStateService";
+import ModelsInitialStateService from "./state/ModelsInitialStateService";
+import ModelClassInitialStateService from "./state/ModelClassInitialStateService";
+import ModelClassApiService from "./api/ModelClassApiService";
 
-//FIXME: we should do this less fundamental
 export default class InitialStateService {
 
     initialStateTemplate = {
-        global: {
-            activeView: new PagesService().getDefault()
-        },
-        user: {
-            isLogged: false,
-            userObject: {}
-        },
-        scores: {
-            data: [
-                {
-                    name: " ",
-                    score_type: " ",
-                    _sort_key: 0,
-                    score: {},
-                    test_class: " ",
-                    model: {},
-                    hostname: " ",
-                    build_info: " ",
-                    timestamp: " ",
-                    _timestamp: " ",
-                    template: true
-                }
-            ],
-            dateFilterChanged: false,
-            filters: {},
-            showLoading: false,
-            autoCompleteData: {
-                name: [],
-                score: [],
-                score_type: [],
-                _sort_key: [],
-                test_class: [],
-                model: [],
-                hostname: [],
-                owner: [],
-                build_info: [],
-                timestamp: [],
-                _timestamp: [],
-                template: true
-            }
-        },
-        testSuites: {
-            data: [
-                {
-                    suiteObject: " ",
-                    avgScore: [],
-                    testsCount: "",
-                    model: {},
-                    timestamp: " ",
-                    _timestamp: " "
-                }
-            ],
-            scoreMatrixTableDataList: {},
-            scoreMatrixList: {},
-            hiddenModels:[],
-            filters: {},
-            dateFilterChanged: false,
-            showLoading: false,
-            autoCompleteData: {
-                suiteObject: [],
-                avgScore: [],
-                testsCount: [],
-                model: [],
-                timestamp: [],
-                _timestamp: []
-            }
-        },
-        testInstances: {
-            data: [
-                {
-                    id: 0,
-                    name: " ",
-                    class: " ",
-                    tags: [" "],
-                    owner: " ",
-                    timestamp: " ",
-                    block: false
-                },
-            ],
-            autoCompleteData: {
-                name: [],
-                tags: [],
-                class: [],
-                owner: [],
-                timestamp: [],
-                _timestamp: [],
-            },
-        },
-        header: {
-            testsActive: true,
-            suitesActive: false,
-            showSettings: false,
-            colorBlind: false,
-            drawerActive: false,
-            activePage: new PagesService().getDefaultPage(),
-            editModelActive: false,
-            editModelActive: false,
-        },
-        scheduler: {
-            data: [
-                { type: 'tests', name: 'My first test', meta: 'Rheobase test', id: 0 }, 
-                { type: 'models', name: 'My first model', meta: 'Reduced model', id: 1 }, 
-                { type: 'tests', name: 'My second test', meta: 'VM test', id: 2 },
-                { type: 'models', name: 'My second model', meta: 'Reduced model', id: 3 }, 
-                { type: 'tests', name: 'My third test', meta: 'VM test', id: 4 }, 
-                { type: 'models', name: 'My third model', meta: 'Reduced model', id: 5 },
-            ],
-            tests: [],
-            models: []
-        },
-        models: {
-            data: [
-                {
-                    name: " ",
-                    class: " ",
-                    source: " ",
-                    tags: [],
-                    owner: " ",
-                    timestamp: " "
-                }
-            ]
-        }
+      global: new GlobalInitialStateService().getInitialStateTemplate(),
+      user: new UserInitialStateService().getInitialStateTemplate(),
+      scores: new ScoreInitialStateService().getInitialStateTemplate(),
+      testSuites: new TestSuitesInitialStateService().getInitialStateTemplate(),
+      testInstances: new TestInstancesInitialStateService().getInitialStateTemplate(),
+      header: new HeaderInitialStateService().getInitialStateTemplate(),
+      models: new ModelsInitialStateService().getInitialStateTemplate(),
+      modelClasses: new ModelClassInitialStateService().getInitialStateTemplate(),
+      scheduler: {
+        data: [
+          { type: "tests", name: "My first test", meta: "Rheobase test", id: 0 }, 
+          { type: "models", name: "My first model", meta: "Reduced model", id: 1 }, 
+          { type: "tests", name: "My second test", meta: "VM test", id: 2 },
+          { type: "models", name: "My second model", meta: "Reduced model", id: 3 }, 
+          { type: "tests", name: "My third test", meta: "VM test", id: 4 }, 
+          { type: "models", name: "My third model", meta: "Reduced model", id: 5 },
+        ],
+      }
     }
 
     initialState = null;
 
     static instance = null;
 
-    static getInstance(){
+    static getInstance (){
 
-        if (this.instance === null){
-            this.instance = new this();
-        }
+      if (this.instance === null){
+        this.instance = new this();
+      }
 
-        return this.instance;
+      return this.instance;
     }
 
-    countPeriod(){
-        let dateRangeService = new DateRangeApiService();
+    countPeriod (){
+      let dateRangeService = new DateRangeApiService();
 
-        return dateRangeService.getList(true);
+      return dateRangeService.getList(true);
     }
 
-    loadScores(namespace){
-        let filteringS = FilteringService.getInstance();
-        let service = new ScoresApiService();
-
-        let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key))
-
-        return service.getList(!keys.length > 0, namespace);
+    cleanUp (){
+      FilteringService.getInstance().deleteFilter("with_suites");
     }
 
-    loadUser(){
-        let service = new UserApiService();
-
-        return service.getUser();
+    getInitialStateTemplate (){
+      return this.initialStateTemplate;
     }
 
-    loadTests(){
-        let service = new TestInstancesApiService();
-
-        return service.getList();
+    getInitialState (){
+      return this.initialState === null ? this.getInitialStateTemplate() : this.initialState;
     }
 
-    loadModels(){
-        let service = new ModelsApiService();
+    async generateInitialState (){
+      this.initialState = this.getInitialState();
+      let filteringS = FilteringService.getInstance();
 
-        return service.getList();
-    }
+      let suiteNamespace = Config.suiteNamespace;
+      let instancesNamespace = Config.instancesNamespace;
 
-    cleanUp(){
-        FilteringService.getInstance().deleteFilter("with_suites");
-    }
+      const period = await this.countPeriod();
 
-    getInitialStateTemplate(){
-        return this.initialStateTemplate
-    }
+      for (let namespace of [suiteNamespace, instancesNamespace]){
+        filteringS.setupFilters({
+          timestamp_to: period.current_date,
+          timestamp_from: period.acceptable_period
+        }, namespace, true);
+      }
 
-    getInitialState(){
-        return this.initialState === null ? this.getInitialStateTemplate() : this.initialState;
-    }
+      filteringS.extractFiltersFromQueryString(location.search, instancesNamespace);
+      window.history.pushState("", "", "/?" + filteringS.stringifyFilters(filteringS.getFilters(instancesNamespace)));
 
-    generateInitialState(onStateGenerated){
-        this.initialState = this.getInitialState()
-        let filteringS = FilteringService.getInstance();
+      this.initialState.scores.data = await new ScoreInitialStateService().generateInitialState(); 
+      this.initialState.testSuites.data = await new TestSuitesInitialStateService().generateInitialState(); 
+      this.initialState.models.data = await new ModelsInitialStateService().generateInitialState(); 
+      this.initialState.testInstances.data = await new TestInstancesInitialStateService().generateInitialState(); 
+      this.initialState.modelClasses.data = await new ModelClassInitialStateService().generateInitialState();
+      this.initialState.global = new GlobalInitialStateService().getInitialStateTemplate();
+      this.initialState.header = new HeaderInitialStateService().getInitialStateTemplate();
+      this.initialState.user = new UserInitialStateService().getInitialStateTemplate();
 
-        let suiteNamespace = Config.suiteNamespace;
-        let instancesNamespace = Config.instancesNamespace;
-
-        this.countPeriod().then((result) => {
-            for (let namespace of [suiteNamespace, instancesNamespace]){
-                filteringS.setupFilters({
-                    timestamp_to: result.current_date,
-                    timestamp_from: result.acceptable_period
-                }, namespace, true);
-            }
-
-            filteringS.extractFiltersFromQueryString(location.search, instancesNamespace);
-            window.history.pushState("", "", "/?" + filteringS.stringifyFilters(filteringS.getFilters(instancesNamespace)));
-
-        }).then(() => {
-            this.loadScores(instancesNamespace).then((scores) => {
-
-                this.initialState.scores.data = new ScoresGriddleAdapter(scores)
-                    .getGriddleData();
-
-                this.initialState.scores.autoCompleteData = new ScoresAutocompleteAdapter(this.initialState.scores.data)
-                    .getAutocompleteData();
-
-                filteringS.setupFilter("with_suites", true, suiteNamespace);
-
-                this.loadScores(suiteNamespace).then((scores) => {
-
-                    this.initialState.testSuites.data = new TestSuitesGriddleAdapter(scores)
-                        .getGriddleData();
-
-                    this.initialState.testSuites.autoCompleteData = new TestSuitesAutocompleteAdapter(this.initialState.testSuites.data)
-                        .getAutocompleteData();
-
-                    let scoreMatrixAdapter = ScoreMatrixGriddleAdapter.getInstance(scores)
-
-                    this.initialState.testSuites.scoreMatrixTableDataList = scoreMatrixAdapter
-                        .setHiddenModels([])
-                        .getGriddleData()
-
-                    this.initialState.testSuites.scoreMatrixList = scoreMatrixAdapter
-                        .getScoreMatrix()
-
-                    this.cleanUp()
-
-                    this.loadModels().then((models) => {
-                        this.initialState.models.data = new ModelsGriddleAdapter(models)
-                            .getGriddleData();
-
-                        this.loadTests().then((tests) => {
-                            this.initialState.testInstances.data = new TestInstancesGriddleAdapter(tests)
-                                .getGriddleData();
-
-                            this.loadUser().then((response) => {
-                                this.initialState.user.isLogged = response.ok;
-
-                                if (response.ok){
-                                    response.json().then((response) => {
-                                        this.initialState.user.userObject = response;
-
-                                        onStateGenerated(this.initialState);
-                                    });
-                                } else {
-                                    onStateGenerated(this.initialState);
-                                }
-                            });
-                        });
-                    });
-
-                });
-            });
-        });
+      return this.initialState;
     }
 }

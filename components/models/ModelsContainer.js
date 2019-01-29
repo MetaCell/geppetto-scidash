@@ -1,8 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
-import { activateEditModel } from '../../actions/creators/header';
-import ScidashStorage from '../../shared/ScidashStorage';
+import React from "react";
+import { connect } from "react-redux";
+import RaisedButton from "material-ui/RaisedButton";
+import { toggleCreateModel } from "../../actions/creators/header";
+import ScidashStorage from "../../shared/ScidashStorage";
 
 import {
     filteringModelsStarted
@@ -52,48 +52,49 @@ const mapStateToProps = state => {
   };
 }
 
+
 const mapDispatchToProps = dispatch => {
 
-    let filter = (searchText, filterName, dispatch, reset = false) => {
-        let storage = new ScidashStorage();
-        let timeoutKey = 'lastFilterTimeoutId';
+  let filter = (searchText, filterName, dispatch, reset = false) => {
+    let storage = new ScidashStorage();
+    let timeoutKey = "lastFilterTimeoutId";
 
-        if (storage.getItem(timeoutKey)){
-            clearTimeout(storage.getItem(timeoutKey))
-            storage.setItem(timeoutKey, false)
-        }
-
-        let f = (searchText, filterName, dispatch) => {
-            dispatch(filteringModelsStarted(
-                searchText,
-                filterName,
-                dispatch
-            ));
-        }
-
-        if (/^timestamp_.*/.test(filterName) && !reset){
-            dispatch(dateFilterChanged());
-        }
-
-        let timeoutId = setTimeout(f, 200, searchText, filterName, dispatch);
-        storage.setItem(timeoutKey, timeoutId);
+    if (storage.getItem(timeoutKey)){
+      clearTimeout(storage.getItem(timeoutKey));
+      storage.setItem(timeoutKey, false);
     }
-    return {
-        onFilterUpdate: (searchText, filterName) =>  {
-            filter(searchText, filterName, dispatch)
-        },
-        onDateFilterClear: (event) => {
-            dispatch(clearDateFilter(filter, dispatch))
-        },
 
-        activateEditModel: () => dispatch(activateEditModel())
+    let f = (searchText, filterName, dispatch) => {
+      dispatch(filteringModelsStarted(
+        searchText,
+        filterName,
+        dispatch
+      ));
+    };
+
+    if (/^timestamp_.*/.test(filterName) && !reset){
+      dispatch(dateFilterChanged());
     }
-}
+
+    let timeoutId = setTimeout(f, 200, searchText, filterName, dispatch);
+    storage.setItem(timeoutKey, timeoutId);
+  };
+  return {
+    onFilterUpdate: (searchText, filterName) => {
+      filter(searchText, filterName, dispatch);
+    },
+    onDateFilterClear: event => {
+      dispatch(clearDateFilter(filter, dispatch));
+    },
+
+    toggleCreateModel: () => dispatch(toggleCreateModel())
+  };
+};
 
 const ModelsContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Models)
+)(Models);
 
 
 export default ModelsContainer;
