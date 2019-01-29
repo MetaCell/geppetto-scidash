@@ -1,5 +1,5 @@
-export default function scidashUser (state = {}, action){
-  console.group("SCIDASH USER REDUCER");
+export default function scidashModelClasses (state = {}, action){
+  console.group("SCIDASH MODEL CLASSES REDUCER");
 
   if (action !== null){
     console.log("ACTION DISPATCHED: ", action);

@@ -1,54 +1,61 @@
-import ModelsGriddleAdapter from '../shared/adapter/ModelsGriddleAdapter';
-import FilteringService from '../services/FilteringService';
-import Config from '../shared/Config';
+import $ from "jquery";
+import ModelsGriddleAdapter from "../shared/adapter/ModelsGriddleAdapter";
+import FilteringService from "../services/FilteringService";
+import Config from "../shared/Config";
 
-import $ from 'jquery';
 
-export function filteringModelsStarted(state, action){
+export function filteringModelsStarted (state, action){
 
-    $(".griddle-page-select").hide()
+  $(".griddle-page-select").hide();
 
-    let newState = {
-        ...state
-    };
+  let newState = {
+    ...state
+  };
 
-    return newState;
+  return newState;
 }
 
-export function filteringModelsFinished(state, action){
+export function filteringModelsFinished (state, action){
 
-    let adapter = new ModelsGriddleAdapter(action.models)
+  let adapter = new ModelsGriddleAdapter(action.models);
 
-    $(".griddle-page-select").show()
+  $(".griddle-page-select").show();
 
-    let newState = {
-        ...state,
-        data: adapter.getGriddleData()
-    }
+  let newState = {
+    ...state,
+    data: adapter.getGriddleData()
+  };
 
-    return newState;
+  return newState;
 }
 
-export function dateFilterChanged(state, action){
-    return {
-        ...state,
-        dateFilterChanged: true
-    };
+export function dateFilterChanged (state, action){
+  return {
+    ...state,
+    dateFilterChanged: true
+  };
 }
 
-export function dateFilterClear(state, action){
-    let filteringService = FilteringService.getInstance();
+export function dateFilterClear (state, action){
+  let filteringService = FilteringService.getInstance();
 
-    filteringService.restoreFromInitial(Config.modelInstancesNamespace);
+  filteringService.restoreFromInitial(Config.modelInstancesNamespace);
 
-    for (let entry of Object.entries(filteringService.getFilters(Config.modelInstancesNamespace))){
-        action.filter(entry[1], entry[0], action.dispatch, true)
-    }
+  for (let entry of Object.entries(filteringService.getFilters(Config.modelInstancesNamespace))){
+    action.filter(entry[1], entry[0], action.dispatch, true);
+  }
 
-    return {
-        ...state,
-        dateFilterChanged: false
-    }
+  return {
+    ...state,
+    dateFilterChanged: false
+  };
 
 }
 
+export function modelCreateFinished (state, action){
+  state.data.push(action.result);
+
+  return {
+    ...state
+  };
+}
