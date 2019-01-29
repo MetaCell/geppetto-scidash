@@ -1,59 +1,60 @@
-import ApiService from '../services/api/ApiService';
-import PagesService from '../services/PagesService';
+import ApiService from "../services/api/ApiService";
+import PagesService from "../services/PagesService";
 
-export function toggleSettings(headerState, action){
 
-    let newState = {
-        ...headerState,
-        showSettings: !headerState.showSettings
-    };
+export function toggleSettings (headerState, action){
 
-    return newState;
+  let newState = {
+    ...headerState,
+    showSettings: !headerState.showSettings
+  };
+
+  return newState;
 }
 
-export function hideSettings(headerState, action){
+export function hideSettings (headerState, action){
 
-    let newState = {
-        ...headerState,
-        showSettings: false
-    };
+  let newState = {
+    ...headerState,
+    showSettings: false
+  };
 
-    return newState;
+  return newState;
 }
 
-export function toggleColorBlind(headerState, action){
+export function toggleColorBlind (headerState, action){
 
-    let newState = {
-        ...headerState,
-        colorBlind: !headerState.colorBlind
-    };
+  let newState = {
+    ...headerState,
+    colorBlind: !headerState.colorBlind
+  };
 
-    return newState;
+  return newState;
 }
 
-export function toggleDrawer(headerState, action){
+export function toggleDrawer (headerState, action){
   const { drawerActive, ...others } = headerState;
 
-  return { ...others, drawerActive: !drawerActive }
+  return { ...others, drawerActive: !drawerActive };
 }
 
-export function changePage(headerState, action){
+export function changePage (headerState, action){
   return {
     ...headerState,
     activePage: action.page
-  }
+  };
 }
 
-export function activateEditModel(headerState, action){
+export function toggleCreateModel (headerState, action){
   return {
     ...headerState,
-    editModelActive: !headerState.editModelActive
-  }
+    createModelActive: !headerState.createModelActive
+  };
 }
 
-export function activateEditTest(headerState, action){
+export function activateEditTest (headerState, action){
   return {
     ...headerState,
     editTestActive: !headerState.editTestActive
-  }
+  };
 }

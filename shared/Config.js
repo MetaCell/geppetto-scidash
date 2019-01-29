@@ -1,8 +1,7 @@
 const INSTANCES_NAMESPACE = "instances";
 const SUITE_NAMESPACE = "suites";
-const TEST_INSTANCES_NAMESPACE = "testInstances"
-const MODEL_INSTANCES_NAMESPACE = "modelInstances"
-
+const TEST_INSTANCES_NAMESPACE = "testInstances";
+const MODEL_INSTANCES_NAMESPACE = "modelInstances";
 
 const Config = {};
 
@@ -13,7 +12,7 @@ Config["instancesNamespace"] = INSTANCES_NAMESPACE;
 Config["testInstancesNamespace"] = TEST_INSTANCES_NAMESPACE;
 Config["modelInstancesNamespace"] = MODEL_INSTANCES_NAMESPACE;
 
-Config["bannedFilters"] = {}
+Config["bannedFilters"] = {};
 
 Config.bannedFilters[SUITE_NAMESPACE] = [];
 Config.bannedFilters[MODEL_INSTANCES_NAMESPACE] = [];
