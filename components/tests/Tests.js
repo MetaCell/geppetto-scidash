@@ -77,6 +77,12 @@ export default class Tests extends React.Component {
             <ColumnDefinition
               id="owner"
               title="Owner"
+              customHeadingComponent={(props) => <FilterCellContainer
+                    autoCompleteData={this.props.autoCompleteData}
+                    namespace={Config.modelInstancesNamespace}
+                    onFilterUpdate={this.props.onFilterUpdate}
+                    filterName="owner"
+                    {...props} />}
               order={4}
             />
 

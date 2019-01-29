@@ -26,8 +26,8 @@ export default class TestInstancesGriddleAdapter extends BaseAdapter {
                 name: test.test_class.class_name,
                 class: test.test_class.class_name,
                 tags: test.tags.map((item) => item.name),
-                owner: "?",
                 timestamp: fullDate,
+                owner: test.owner.username,
                 _timestamp: test.timestamp,
                 block: false
             });
