@@ -9,40 +9,63 @@ import { brown500 } from 'material-ui/styles/colors';
 export default class EditTest extends React.Component {
   constructor (props, context) {
     super(props, context);
+
     this.state = {
-      selectedClass: '',
-    }
+      testClasses: props.testClasses,
+      model: props.model,
+      loading: false,
+      success: false,
+      newTag: null
+    };
+
+    this.toggleTestForm = props.toggleTestForm.bind(this);
+    this.updateModel = this.updateModel.bind(this);
+    this.onSave = props.onSave.bind(this);
+    this.onCancel = props.onCancel.bind(this);
+
+  }
+
+  updateModel (data){
+    let newModel = {};
+
+    newModel = {
+      ...this.state.model,
+      ...data
+    };
+
+    this.setState({
+      model: newModel
+    });
   }
 
   render() {
-    return (
-      <span>
+
+    return ( <span>
         <div style={styles.firstLine.container}>
           <TextField
-            value="test name"
+            value={this.state.model.name}
             style={styles.firstLine.one}
-            floatingLabelText="Name of the model"
+            floatingLabelText="Name of the test"
             underlineStyle={{ borderBottom: "1px solid grey" }}
           />
 
           <SelectField
             style={styles.firstLine.two}
             underlineStyle={{color: "grey"}}
-            value={this.state.selectedClass}
+            value={this.state.model.test_class.id}
             floatingLabelText="Select test class"
             underlineStyle={{ borderBottom: "1px solid grey" }}
             onChange={( event, index, value ) => this.setState({ selectedClass: value })}
           >
-            <MenuItem value="None"><em>None</em></MenuItem>
-            <MenuItem value={1} primaryText="Option 1" label="Option 1" />
-            <MenuItem value={2} primaryText="Option 2" label="Option 2" />
-            <MenuItem value={3} primaryText="option 3" label="Option 3" />
+
+              <MenuItem value={0}><em>None</em></MenuItem>
+              {this.state.testClasses.map(klass => <MenuItem value={klass.id} key={klass.id} primaryText={klass.class_name} label={klass.class_name} /> )}
           </SelectField>
         </div>
 
         <div style={styles.secondLine.container}>
           <TextField
-            value="a description of the model"
+            value={this.state.model.description}
             style={styles.secondLine.one}
             floatingLabelText="Test description"
             underlineStyle={{ borderBottom: "1px solid grey" }}
@@ -51,18 +74,16 @@ export default class EditTest extends React.Component {
 
         <div style={styles.thirdLine.container}>
           <TextField
-            value="new_tag"
-            onChange={() => null}
+            value=""
+            onChange={(e, value) => { this.setState({ newTag: value }); }}
             floatingLabelText="Add tags"
             style={styles.thirdLine.one}
             underlineStyle={{ borderBottom: "1px solid grey" }}
-            onKeyPress={e => e.key === 'Enter' ? () => {} : null}
-
+            onKeyPress={e => e.key === "Enter" ? this.updateModel({ tags: [...this.state.model.tags, this.state.newTag] }) : null}
           />
           <div style={styles.thirdLine.two}>
-            <Chip	style={{ marginLeft: 4, marginTop: 4, float: "left" }}>A tag</Chip>
-            <Chip style={{ marginLeft: 4, marginTop: 4, float: "left" }}>Another tag</Chip>
-            <Chip style={{ marginLeft: 4, marginTop: 4, float: "left" }}>A third tag</Chip>
+            {/* eslint-disable-next-line react/no-array-index-key */}
+            {this.state.model.tags.map((tag, i) => <Chip style={{ marginLeft: 4, marginTop: 4, float: "left" }} key={`${tag}-${i}`}>{tag}</Chip> )}
           </div>
         </div>
 
@@ -147,8 +168,8 @@ export default class EditTest extends React.Component {
           onClick={() => this.props.activateEditTest()}
         />
       </div>
-    </span>
-    )
+    </span>);
+
   }
 }
 
