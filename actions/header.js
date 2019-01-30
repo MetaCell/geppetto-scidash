@@ -52,9 +52,9 @@ export function toggleCreateModel (headerState, action){
   };
 }
 
-export function activateEditTest (headerState, action){
+export function toggleCreateTest (headerState, action){
   return {
     ...headerState,
-    editTestActive: !headerState.editTestActive
+    createTestActive: !headerState.createTestActive
   };
 }

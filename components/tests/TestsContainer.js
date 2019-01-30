@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
-import { activateEditTest } from "../../actions/creators/header";
+import { toggleCreateTest } from "../../actions/creators/header";
 import ScidashStorage from '../../shared/ScidashStorage';
 
 import {
@@ -86,7 +86,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(clearDateFilter(filter, dispatch))
         },
 
-        activateEditTest: () => dispatch(activateEditTest())
+        toggleCreateTest: () => dispatch(toggleCreateTest())
     }
 }
 

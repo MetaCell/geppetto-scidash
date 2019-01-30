@@ -1,5 +1,5 @@
 import React from "react";
-import TestForm from "../model-form/TestForm";
+import TestForm from "../test-form/TestForm";
 
 const TestCreate = ({ model, testClasses, toggleTestForm, onSave, onCancel }) => (<TestForm
   modelClasses={testClasses}

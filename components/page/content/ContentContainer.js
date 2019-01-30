@@ -5,7 +5,7 @@ const mapStateToProps = state => ({
   activeView: state.global.activeView,
   activePage: state.header.activePage,
   createModelActive: state.header.createModelActive,
-  editTestActive: state.header.editTestActive
+  createTestActive: state.header.createTestActive
 });
 
 const mapDispatchToProps = () => ({

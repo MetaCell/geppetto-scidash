@@ -4,7 +4,7 @@ export const TOGGLE_DRAWER = "TOGGLE_DRAWER";
 export const TOGGLE_COLOR_BLIND = "TOGGLE_COLOR_BLIND";
 export const CHANGE_PAGE = "CHANGE_PAGE";
 export const TOGGLE_CREATE_MODEL = "TOGGLE_EDIT_MODEL";
-export const ACTIVATE_EDIT_TEST = "ACTIVATE_EDIT_TEST";
+export const TOGGLE_CREATE_TEST = "TOGGLE_CREATE_TEST";
 
 
 export function toggleSettings (){
@@ -38,9 +38,9 @@ export function changePage (page){
   };
 }
 
-export function activateEditTest (){
+export function toggleCreateTest(){
   return {
-    type: ACTIVATE_EDIT_TEST,
+    type: TOGGLE_CREATE_TEST,
   };
 }
 
