@@ -12,7 +12,8 @@ export default class HeaderInitialStateService extends BaseInitialStateService {
       drawerActive: false,
       activePage: new PagesService().getDefaultPage(),
       editModelActive: false,
-      createModelActive: false
+      createModelActive: false,
+      createTestActive: false
     }
 
 }

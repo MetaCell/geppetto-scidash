@@ -9,7 +9,7 @@ import TestInstancesInitialStateService from "./state/TestInstancesInitialStateS
 import HeaderInitialStateService from "./state/HeaderInitialStateService";
 import ModelsInitialStateService from "./state/ModelsInitialStateService";
 import ModelClassInitialStateService from "./state/ModelClassInitialStateService";
-import ModelClassApiService from "./api/ModelClassApiService";
+import TestClassInitialStateService from "./state/TestClassInitialStateService";
 
 export default class InitialStateService {
 
@@ -22,13 +22,14 @@ export default class InitialStateService {
       header: new HeaderInitialStateService().getInitialStateTemplate(),
       models: new ModelsInitialStateService().getInitialStateTemplate(),
       modelClasses: new ModelClassInitialStateService().getInitialStateTemplate(),
+      testClasses: new TestClassInitialStateService().getInitialStateTemplate(),
       scheduler: {
         data: [
-          { type: "tests", name: "My first test", meta: "Rheobase test", id: 0 }, 
-          { type: "models", name: "My first model", meta: "Reduced model", id: 1 }, 
+          { type: "tests", name: "My first test", meta: "Rheobase test", id: 0 },
+          { type: "models", name: "My first model", meta: "Reduced model", id: 1 },
           { type: "tests", name: "My second test", meta: "VM test", id: 2 },
-          { type: "models", name: "My second model", meta: "Reduced model", id: 3 }, 
-          { type: "tests", name: "My third test", meta: "VM test", id: 4 }, 
+          { type: "models", name: "My second model", meta: "Reduced model", id: 3 },
+          { type: "tests", name: "My third test", meta: "VM test", id: 4 },
           { type: "models", name: "My third model", meta: "Reduced model", id: 5 },
         ],
       }
@@ -84,11 +85,12 @@ export default class InitialStateService {
       filteringS.extractFiltersFromQueryString(location.search, instancesNamespace);
       window.history.pushState("", "", "/?" + filteringS.stringifyFilters(filteringS.getFilters(instancesNamespace)));
 
-      this.initialState.scores.data = await new ScoreInitialStateService().generateInitialState(); 
-      this.initialState.testSuites.data = await new TestSuitesInitialStateService().generateInitialState(); 
-      this.initialState.models.data = await new ModelsInitialStateService().generateInitialState(); 
-      this.initialState.testInstances.data = await new TestInstancesInitialStateService().generateInitialState(); 
+      this.initialState.scores.data = await new ScoreInitialStateService().generateInitialState();
+      this.initialState.testSuites.data = await new TestSuitesInitialStateService().generateInitialState();
+      this.initialState.models.data = await new ModelsInitialStateService().generateInitialState();
+      this.initialState.testInstances.data = await new TestInstancesInitialStateService().generateInitialState();
       this.initialState.modelClasses.data = await new ModelClassInitialStateService().generateInitialState();
+      this.initialState.testClasses.data = await new TestClassInitialStateService().generateInitialState();
       this.initialState.global = new GlobalInitialStateService().getInitialStateTemplate();
       this.initialState.header = new HeaderInitialStateService().getInitialStateTemplate();
       this.initialState.user = new UserInitialStateService().getInitialStateTemplate();

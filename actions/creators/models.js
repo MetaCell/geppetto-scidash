@@ -54,7 +54,7 @@ export function filteringModelsStarted (searchText, filterName, dispatch){
 
 function modelCreateFinished (result, dispatch){
   dispatch(toggleCreateModel());
-  
+
   return {
     type: MODEL_CREATE_FINISHED,
     result
