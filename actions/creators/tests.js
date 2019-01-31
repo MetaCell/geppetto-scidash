@@ -2,6 +2,7 @@ import TestInstancesApiService from "../../services/api/TestInstancesApiService"
 import FilteringService from "../../services/FilteringService";
 import Config from "../../shared/Config";
 import { toggleCreateTest } from "./header";
+import Helper from "../../shared/Helper";
 
 export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
 export const FILTERING_TESTS_FINISHED = "FILTERING_TESTS_FINISHED";
@@ -61,7 +62,7 @@ function testCreateFinished (result, dispatch){
   };
 }
 
-export function modelCreateStarted (model, dispatch){
+export function testCreateStarted (model, dispatch){
   let apiService = new TestInstancesApiService();
   let copiedModel = Object.assign({}, model);
   copiedModel.hash_id = new Helper().generateHashId(copiedModel);

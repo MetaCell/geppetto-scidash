@@ -4,7 +4,7 @@ import TestInstance from "../../models/TestInstance";
 import { toggleCreateTest } from "../../actions/creators/header";
 import { testCreateStarted } from "../../actions/creators/tests";
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   model: new TestInstance(),
   testClasses: state.testClasses.data
 });
@@ -21,4 +21,3 @@ const TestCreateContainer = connect(
 )(TestCreate);
 
 export default TestCreateContainer;
-

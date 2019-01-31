@@ -9,7 +9,7 @@ import TestInstancesInitialStateService from "./state/TestInstancesInitialStateS
 import HeaderInitialStateService from "./state/HeaderInitialStateService";
 import ModelsInitialStateService from "./state/ModelsInitialStateService";
 import ModelClassInitialStateService from "./state/ModelClassInitialStateService";
-import ModelClassApiService from "./api/ModelClassApiService";
+import TestClassInitialStateService from "./state/TestClassInitialStateService";
 
 export default class InitialStateService {
 
@@ -22,6 +22,7 @@ export default class InitialStateService {
       header: new HeaderInitialStateService().getInitialStateTemplate(),
       models: new ModelsInitialStateService().getInitialStateTemplate(),
       modelClasses: new ModelClassInitialStateService().getInitialStateTemplate(),
+      testClasses: new TestClassInitialStateService().getInitialStateTemplate(),
       scheduler: {
         data: [
           { type: "tests", name: "My first test", meta: "Rheobase test", id: 0 },
@@ -89,6 +90,7 @@ export default class InitialStateService {
       this.initialState.models.data = await new ModelsInitialStateService().generateInitialState();
       this.initialState.testInstances.data = await new TestInstancesInitialStateService().generateInitialState();
       this.initialState.modelClasses.data = await new ModelClassInitialStateService().generateInitialState();
+      this.initialState.testClasses.data = await new TestClassInitialStateService().generateInitialState();
       this.initialState.global = new GlobalInitialStateService().getInitialStateTemplate();
       this.initialState.header = new HeaderInitialStateService().getInitialStateTemplate();
       this.initialState.user = new UserInitialStateService().getInitialStateTemplate();

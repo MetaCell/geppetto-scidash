@@ -1,29 +1,28 @@
 class AdapterException {
 
-    message = '';
+    message = "";
 
-    constructor(message){
-        this.message = message;
+    constructor (message){
+      this.message = message;
     }
 }
 
-
 export default class BaseAdapter {
 
-    constructor(rawData){
-        this.rawData = rawData;
-        return this;
-    }
+  constructor (rawData){
+    this.rawData = rawData;
+    return this;
+  }
 
-    getRawData(){
-        return this.rawData;
-    }
+  getRawData (){
+    return this.rawData;
+  }
 
-    getGriddleData(){
-        return this.getRawData();
-    }
+  getGriddleData (){
+    return this.getRawData();
+  }
 
-    getAutocompleteData(){
-      return this.getRawData();
+  getAutocompleteData (){
+    return this.getRawData();
   }
 }

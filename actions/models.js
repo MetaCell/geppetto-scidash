@@ -53,7 +53,13 @@ export function dateFilterClear (state, action){
 }
 
 export function modelCreateFinished (state, action){
-  state.data.push(action.result);
+  let resultArray = [action.result];
+  let adopted = new ModelsGriddleAdapter(resultArray).getGriddleData();
+
+  state.data = [
+    ...state.data,
+    ...adopted
+  ];
 
   return {
     ...state

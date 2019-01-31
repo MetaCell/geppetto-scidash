@@ -5,6 +5,7 @@ import scidashScores from "./scidash-scores";
 import scidashTestInstances from "./scidash-test-instances";
 import scidashModels from "./scidash-models";
 import scidashModelClasses from "./scidash-model-classes";
+import scidashTestClasses from "./scidash-test-classes";
 import scidashUser from "./scidash-user";
 import scidashTestSuites from "./scidash-test-suites";
 import scidashScheduler from "./scidash-scheduler";
@@ -18,7 +19,8 @@ const scidashApp = combineReducers({
   testInstances: scidashTestInstances,
   scheduler: scidashScheduler,
   models: scidashModels,
-  modelClasses: scidashModelClasses
+  modelClasses: scidashModelClasses,
+  testClasses: scidashTestClasses
 });
 
 export default scidashApp;
