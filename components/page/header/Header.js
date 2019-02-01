@@ -27,7 +27,7 @@ export default class Header extends React.Component {
   }
 
   render () {
-    const { activePage, editTestActive, createModelActive } = this.props;
+    const { activePage, createTestActive, createModelActive } = this.props;
     const pagesService = new PagesService();
 
     if (this.props.showSettings)
@@ -36,7 +36,7 @@ export default class Header extends React.Component {
     {this.props.settingsPopupStyle["display"] = "none";}
     let title = "";
     if (activePage == pagesService.TESTS_PAGE) {
-      if (editTestActive) {
+      if (createTestActive) {
         title = "New Test";
       }
       else {
