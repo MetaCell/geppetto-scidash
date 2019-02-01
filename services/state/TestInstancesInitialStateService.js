@@ -1,6 +1,7 @@
 import BaseInitialStateService from "./BaseInitialStateService";
 import TestInstancesApiService from "../api/TestInstancesApiService";
 import TestInstancesGriddleAdapter from "../../shared/adapter/TestInstancesGriddleAdapter";
+import TestInstancesAutocompleteAdapter from "../../shared/adapter/TestInstancesAutocompleteAdapter";
 
 
 export default class TestInstancesInitialStateService extends BaseInitialStateService {
@@ -21,8 +22,7 @@ export default class TestInstancesInitialStateService extends BaseInitialStateSe
         tags: [],
         class: [],
         owner: [],
-        timestamp: [],
-        _timestamp: [],
+        timestamp: []
       },
     }
 
@@ -34,7 +34,12 @@ export default class TestInstancesInitialStateService extends BaseInitialStateSe
 
     async generateInitialState (){
       const tests = await this.loadTests();
-      return new TestInstancesGriddleAdapter(tests)
+      let initialState = this.getInitialStateTemplate();
+      initialState.data = new TestInstancesGriddleAdapter(tests)
         .getGriddleData();
+      initialState.autoCompleteData = new TestInstancesAutocompleteAdapter(initialState.data)
+        .getAutocompleteData();
+      return initialState;
     }
+
 }

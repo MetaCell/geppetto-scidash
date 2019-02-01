@@ -2,6 +2,7 @@ import BaseInitialStateService from "./BaseInitialStateService";
 import FilteringService from "../FilteringService";
 import ScoresApiService from "../api/ScoresApiService";
 import TestSuitesGriddleAdapter from "../../shared/adapter/TestSuitesGriddleAdapter";
+import TestSuitesAutocompleteAdapter from "../../shared/adapter/TestSuitesAutocompleteAdapter";
 import Config from "../../shared/Config";
 
 export default class TestSuitesInitialStateService extends BaseInitialStateService {
@@ -45,7 +46,12 @@ export default class TestSuitesInitialStateService extends BaseInitialStateServi
 
     async generateInitialState (){
       const scores = await this.loadScores();
-      return await new TestSuitesGriddleAdapter(scores)
+      let initialState = this.getInitialStateTemplate();
+      initialState.data = new TestSuitesGriddleAdapter(scores)
         .getGriddleData();
+      initialState.autoCompleteData = new TestSuitesAutocompleteAdapter(initialState.data)
+        .getAutocompleteData();
+      return initialState;
     }
+
 }

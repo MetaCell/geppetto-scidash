@@ -85,10 +85,10 @@ export default class InitialStateService {
       filteringS.extractFiltersFromQueryString(location.search, instancesNamespace);
       window.history.pushState("", "", "/?" + filteringS.stringifyFilters(filteringS.getFilters(instancesNamespace)));
 
-      this.initialState.scores.data = await new ScoreInitialStateService().generateInitialState();
-      this.initialState.testSuites.data = await new TestSuitesInitialStateService().generateInitialState();
-      this.initialState.models.data = await new ModelsInitialStateService().generateInitialState();
-      this.initialState.testInstances.data = await new TestInstancesInitialStateService().generateInitialState();
+      this.initialState.scores = await new ScoreInitialStateService().generateInitialState();
+      this.initialState.testSuites = await new TestSuitesInitialStateService().generateInitialState();
+      this.initialState.models = await new ModelsInitialStateService().generateInitialState();
+      this.initialState.testInstances = await new TestInstancesInitialStateService().generateInitialState();
       this.initialState.modelClasses.data = await new ModelClassInitialStateService().generateInitialState();
       this.initialState.testClasses.data = await new TestClassInitialStateService().generateInitialState();
       this.initialState.global = new GlobalInitialStateService().getInitialStateTemplate();

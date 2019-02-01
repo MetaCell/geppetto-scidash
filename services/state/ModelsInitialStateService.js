@@ -1,5 +1,6 @@
 import BaseInitialStateService from "./BaseInitialStateService";
 import ModelsGriddleAdapter from "../../shared/adapter/ModelsGriddleAdapter";
+import ModelsAutocompleteAdapter from "../../shared/adapter/ModelsAutocompleteAdapter";
 import ModelsApiService from "../api/ModelsApiService";
 
 export default class ModelsInitialStateService extends BaseInitialStateService {
@@ -14,7 +15,10 @@ export default class ModelsInitialStateService extends BaseInitialStateService {
           owner: " ",
           timestamp: " "
         }
-      ]
+      ],
+      autoCompleteData:{
+        name: [], class: [], tags: [], owner: [] 
+      }
     }
 
     loadModels (){
@@ -22,9 +26,14 @@ export default class ModelsInitialStateService extends BaseInitialStateService {
       return service.getList();
     }
 
-    async generateInitialState () {
+    async generateInitialState (){
       const models = await this.loadModels();
-      return new ModelsGriddleAdapter(models)
+      let initialState = this.getInitialStateTemplate();
+      initialState.data = new ModelsGriddleAdapter(models)
         .getGriddleData();
+      initialState.autoCompleteData = new ModelsAutocompleteAdapter(initialState.data)
+        .getAutocompleteData();
+      return initialState;
     }
+
 }

@@ -2,6 +2,7 @@ import BaseInitialStateService from "./BaseInitialStateService";
 import FilteringService from "../FilteringService";
 import ScoresApiService from "../api/ScoresApiService";
 import ScoresGriddleAdapter from "../../shared/adapter/ScoresGriddleAdapter";
+import ScoresAutocompleteAdapter from "../../shared/adapter/ScoresAutocompleteAdapter";
 import Config from "../../shared/Config";
 
 
@@ -24,7 +25,6 @@ export default class ScoreInitialStateService extends BaseInitialStateService {
         }
       ],
       dateFilterChanged: false,
-      filters: {},
       showLoading: false,
       autoCompleteData: {
         name: [],
@@ -54,8 +54,12 @@ export default class ScoreInitialStateService extends BaseInitialStateService {
 
     async generateInitialState (){
       const scores = await this.loadScores();
-      return new ScoresGriddleAdapter(scores)
+      let initialState = this.getInitialStateTemplate();
+      initialState.data = new ScoresGriddleAdapter(scores)
         .getGriddleData();
+      initialState.autoCompleteData = new ScoresAutocompleteAdapter(initialState.data)
+        .getAutocompleteData();
+      return initialState;
     }
 
 }

@@ -20,7 +20,7 @@ const mapStateToProps = state => ({
     }
   },
   data: state.testInstances.data,
-  autoCompleteData: { name: [], class: [], tags: [], owner: [] },
+  autoCompleteData: state.testInstances.autoCompleteData,
   griddleComponents: {
     Filter: () => null,
     SettingsToggle: () => null,
