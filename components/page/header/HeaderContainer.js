@@ -32,7 +32,7 @@ const mapStateToProps = state => ({
   userInfo: state.user,
   activePage: state.header.activePage,
   createModelActive: state.header.createModelActive,
-  editTestActive: state.header.editTestActive
+  createTestActive: state.header.createTestActive
 });
 
 const mapDispatchToProps = dispatch => ({
