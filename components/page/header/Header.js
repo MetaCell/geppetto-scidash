@@ -30,10 +30,11 @@ export default class Header extends React.Component {
     const { activePage, createTestActive, createModelActive } = this.props;
     const pagesService = new PagesService();
 
-    if (this.props.showSettings)
-    {this.props.settingsPopupStyle["display"] = "block";}
-    else
-    {this.props.settingsPopupStyle["display"] = "none";}
+    if (this.props.showSettings) {
+      this.props.settingsPopupStyle["display"] = "block";
+    } else {
+      this.props.settingsPopupStyle["display"] = "none";
+    }
     let title = "";
     if (activePage == pagesService.TESTS_PAGE) {
       if (createTestActive) {
@@ -68,12 +69,6 @@ export default class Header extends React.Component {
         <DrawerContainer />
         <div id="headerLinks">
           <div className="row">
-            {activePage == pagesService.SCORES_PAGE ?
-              <div className="col-md-3 col-md-offset-4" style={this.props.buttonsStyle}>
-                <RaisedButton label="Tests View" primary={this.props.testsActive} onClick={this.props.openTestsView} />
-                <RaisedButton label="Suites View" primary={this.props.suitesActive} onClick={this.props.openSuitesView} />
-              </div>
-              : null }
 
             { this.props.userInfo.isLogged ?
               <div className="col-md-3 auth-links">

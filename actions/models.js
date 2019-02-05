@@ -2,6 +2,7 @@ import $ from "jquery";
 import ModelsGriddleAdapter from "../shared/adapter/ModelsGriddleAdapter";
 import FilteringService from "../services/FilteringService";
 import Config from "../shared/Config";
+import ApiService from "../services/api/ApiService";
 
 
 export function filteringModelsStarted (state, action){
@@ -55,6 +56,9 @@ export function dateFilterClear (state, action){
 export function modelCreateFinished (state, action){
   let resultArray = [action.result];
   let adopted = new ModelsGriddleAdapter(resultArray).getGriddleData();
+
+  let apiService = new ApiService();
+  apiService.clearCache(apiService.storage);
 
   state.data = [
     ...state.data,

@@ -36,14 +36,21 @@ export function filteringModelsStarted (searchText, filterName, dispatch){
   let apiService = new ModelsApiService();
   let filteringService = FilteringService.getInstance();
 
-  if (searchText.length > 0)
-  {filteringService.setupFilter(filterName, searchText, Config.modelInstancesNamespace);}
-  else
-  {filteringService.deleteFilter(filterName, Config.modelInstancesNamespace);}
+  if (searchText.length > 0) {
+    filteringService.setupFilter(filterName, searchText, Config.modelInstancesNamespace);
+  }
+  else {
+    filteringService.deleteFilter(filterName, Config.modelInstancesNamespace);
+  }
 
   filteringService.deleteFilter("with_suites");
 
   apiService.getList(false, Config.modelInstancesNamespace).then(result => {
+
+    let filters = filteringService.getFilters(Config.modelInstancesNamespace);
+    let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "/";
+    window.history.pushState("", "", filterString);
+
     dispatch(filteringModelsFinished(result));
   });
 

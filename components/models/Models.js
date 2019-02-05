@@ -84,12 +84,13 @@ export default class Models extends React.Component {
             <ColumnDefinition
               id="owner"
               title="Owner"
-              customHeadingComponent={(props) => <FilterCellContainer
-                    autoCompleteData={this.props.autoCompleteData}
-                    namespace={Config.modelInstancesNamespace}
-                    onFilterUpdate={this.props.onFilterUpdate}
-                    filterName="owner"
-                    {...props} />}
+              customHeadingComponent={props => (<FilterCellContainer
+                autoCompleteData={this.props.autoCompleteData}
+                namespace={Config.modelInstancesNamespace}
+                onFilterUpdate={this.props.onFilterUpdate}
+                filterName="owner"
+                {...props}
+              />)}
               order={5}
             />
 

@@ -20,13 +20,13 @@ export default class Content extends React.Component {
   render () {
     let pagesService = new PagesService();
 
-    if (this.props.activePage == pagesService.SCORES_PAGE && this.props.activeView == pagesService.TESTS_VIEW) {
+    if (this.props.activePage == pagesService.SCORES_PAGE) {
       return (
         <ScoresContainer />
       );
     }
 
-    if (this.props.activePage == pagesService.SCORES_PAGE && this.props.activeView == pagesService.SUITES_VIEW) {
+    if (this.props.activePage == pagesService.SUITES_PAGE) {
       return (
         <TestSuitesContainer />
       );

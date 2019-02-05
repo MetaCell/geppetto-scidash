@@ -1,53 +1,53 @@
-import ScoresGriddleAdapter from '../shared/adapter/ScoresGriddleAdapter';
-import FilteringService from '../services/FilteringService';
-import Config from '../shared/Config';
+import $ from "jquery";
+import ScoresGriddleAdapter from "../shared/adapter/ScoresGriddleAdapter";
+import FilteringService from "../services/FilteringService";
+import Config from "../shared/Config";
 
-import $ from 'jquery';
 
-export function filteringScoresStarted(state, action){
+export function filteringScoresStarted (state, action){
 
-    $(".griddle-page-select").hide()
+  $(".griddle-page-select").hide();
 
-    let newState = {
-        ...state
-    };
+  let newState = {
+    ...state
+  };
 
-    return newState;
+  return newState;
 }
 
-export function filteringScoresFinished(state, action){
+export function filteringScoresFinished (state, action){
 
-    let adapter = new ScoresGriddleAdapter(action.scores)
+  let adapter = new ScoresGriddleAdapter(action.scores);
 
-    $(".griddle-page-select").show()
+  $(".griddle-page-select").show();
 
-    let newState = {
-        ...state,
-        data: adapter.getGriddleData()
-    }
+  let newState = {
+    ...state,
+    data: adapter.getGriddleData()
+  };
 
-    return newState;
+  return newState;
 }
 
-export function dateFilterChanged(state, action){
-    return {
-        ...state,
-        dateFilterChanged: true
-    };
+export function dateFilterChanged (state, action){
+  return {
+    ...state,
+    dateFilterChanged: true
+  };
 }
 
-export function dateFilterClear(state, action){
-    let filteringService = FilteringService.getInstance();
+export function dateFilterClear (state, action){
+  let filteringService = FilteringService.getInstance();
 
-    filteringService.restoreFromInitial(Config.instancesNamespace);
+  filteringService.restoreFromInitial(Config.scoresNamespace);
 
-    for (let entry of Object.entries(filteringService.getFilters(Config.instancesNamespace))){
-        action.filter(entry[1], entry[0], action.dispatch, true)
-    }
+  for (let entry of Object.entries(filteringService.getFilters(Config.scoresNamespace))){
+    action.filter(entry[1], entry[0], action.dispatch, true);
+  }
 
-    return {
-        ...state,
-        dateFilterChanged: false
-    }
+  return {
+    ...state,
+    dateFilterChanged: false
+  };
 
 }

@@ -45,7 +45,7 @@ export default class ScoreInitialStateService extends BaseInitialStateService {
     loadScores (){
       let filteringS = FilteringService.getInstance();
       let service = new ScoresApiService();
-      let namespace = Config.instancesNamespace;
+      let namespace = Config.scoresNamespace;
 
       let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key));
 

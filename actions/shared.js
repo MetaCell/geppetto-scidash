@@ -17,7 +17,7 @@ export function openTestsView (state, action, type){
     };
   } else if (type == "global") {
     let service = new FilteringService();
-    let filters = service.getFilters(Config.instancesNamespace);
+    let filters = service.getFilters(Config.scoresNamespace);
     let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "/";
 
     window.history.pushState("", "", filterString);

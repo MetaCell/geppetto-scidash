@@ -52,7 +52,7 @@ export default class Tests extends React.Component {
               title="Class"
               customHeadingComponent={props => (<FilterCellContainer
                 autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.modelInstancesNamespace}
+                namespace={Config.testInstancesNamespace}
                 onFilterUpdate={this.props.onFilterUpdate}
                 filterName="class_name"
                 {...props}
@@ -66,7 +66,7 @@ export default class Tests extends React.Component {
               title="Tags"
               customHeadingComponent={props => (<FilterCellContainer
                 autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.modelInstancesNamespace}
+                namespace={Config.testInstancesNamespace}
                 onFilterUpdate={this.props.onFilterUpdate}
                 filterName="tags"
                 {...props}
@@ -79,7 +79,7 @@ export default class Tests extends React.Component {
               title="Owner"
               customHeadingComponent={props => (<FilterCellContainer
                 autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.modelInstancesNamespace}
+                namespace={Config.testInstancesNamespace}
                 onFilterUpdate={this.props.onFilterUpdate}
                 filterName="owner"
                 {...props}
@@ -92,7 +92,7 @@ export default class Tests extends React.Component {
               title="Last edited"
               customHeadingComponent={props => (<DateRangeCellContainer
                 onFilterUpdate={this.props.onFilterUpdate}
-                namespace={Config.modelInstancesNamespace}
+                namespace={Config.tesmodeltInstancesNamespace}
                 dateFilterChanged={this.props.dateFilterChanged}
                 onDateFilterClear={this.props.onDateFilterClear}
                 {...props}
