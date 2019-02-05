@@ -43,20 +43,20 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
         <MenuItem
           id="hamMenuScores"
           primaryText="Scores"
-          leftIcon={<i className="fa fa-star-half-o drawer-icon" ariaHidden="true" />}
+          leftIcon={<i className="fa fa-star-half-o drawer-icon" />}
           onClick={() => handleMenuClick(pagesService.SCORES_PAGE)}
         />
         <MenuItem
           id="hamMenuSuites"
           primaryText="Suites"
-          leftIcon={<i className="fa fa-suitcase drawer-icon" ariaHidden="true" />}
+          leftIcon={<i className="fa fa-suitcase drawer-icon" />}
           onClick={() => handleMenuClick(pagesService.SUITES_PAGE)}
         />
         <MenuItem
           id="hamMenuTests"
           primaryText="Tests"
           onClick={() => handleMenuClick(pagesService.TESTS_PAGE)}
-          leftIcon={<i className="fa fa-laptop drawer-icon" ariaHidden="true" />}
+          leftIcon={<i className="fa fa-laptop drawer-icon" />}
         />
         <MenuItem
           id="hamMenuModels"
@@ -67,14 +67,14 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
         <MenuItem
           id="hamMenuSettings"
           primaryText="Settings"
-          leftIcon={<i className="fa fa-cogs drawer-icon" ariaHidden="true" />}
+          leftIcon={<i className="fa fa-cogs drawer-icon" />}
           onClick={() => handleMenuClick(pagesService.SETTINGS_PAGE)}
 
         />
         <MenuItem
           id="hamMenuScheduling"
           primaryText="Scheduling"
-          leftIcon={<i className="fa fa-calendar drawer-icon" ariaHidden="true" />}
+          leftIcon={<i className="fa fa-calendar drawer-icon" />}
           onClick={() => handleMenuClick(pagesService.SCHEDULING_PAGE)}
         />
       </Drawer>
