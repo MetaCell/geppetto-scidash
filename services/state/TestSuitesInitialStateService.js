@@ -36,7 +36,7 @@ export default class TestSuitesInitialStateService extends BaseInitialStateServi
     loadScores (){
       let filteringS = FilteringService.getInstance();
       let service = new ScoresApiService();
-      let namespace = Config.suiteNamespace;
+      let namespace = Config.suitesNamespace;
       filteringS.setupFilter("with_suites", true, namespace);
 
       let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key));

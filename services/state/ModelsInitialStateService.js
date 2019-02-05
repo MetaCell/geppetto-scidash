@@ -2,6 +2,8 @@ import BaseInitialStateService from "./BaseInitialStateService";
 import ModelsGriddleAdapter from "../../shared/adapter/ModelsGriddleAdapter";
 import ModelsAutocompleteAdapter from "../../shared/adapter/ModelsAutocompleteAdapter";
 import ModelsApiService from "../api/ModelsApiService";
+import FilteringService from "../FilteringService";
+import Config from "../../shared/Config";
 
 export default class ModelsInitialStateService extends BaseInitialStateService {
 
@@ -22,8 +24,13 @@ export default class ModelsInitialStateService extends BaseInitialStateService {
     }
 
     loadModels (){
+      let filteringS = FilteringService.getInstance();
       let service = new ModelsApiService();
-      return service.getList();
+      let namespace = Config.modelInstancesNamespace;
+
+      let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key));
+
+      return service.getList(keys, namespace);
     }
 
     async generateInitialState (){

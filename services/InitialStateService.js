@@ -70,20 +70,20 @@ export default class InitialStateService {
       this.initialState = this.getInitialState();
       let filteringS = FilteringService.getInstance();
 
-      let suiteNamespace = Config.suiteNamespace;
-      let instancesNamespace = Config.instancesNamespace;
+      let suitesNamespace = Config.suitesNamespace;
+      let scoresNamespace = Config.scoresNamespace;
 
       const period = await this.countPeriod();
 
-      for (let namespace of [suiteNamespace, instancesNamespace]){
+      for (let namespace of [suitesNamespace, scoresNamespace]){
         filteringS.setupFilters({
           timestamp_to: period.current_date,
           timestamp_from: period.acceptable_period
         }, namespace, true);
       }
 
-      filteringS.extractFiltersFromQueryString(location.search, instancesNamespace);
-      window.history.pushState("", "", "/?" + filteringS.stringifyFilters(filteringS.getFilters(instancesNamespace)));
+      filteringS.extractFiltersFromQueryString(location.search, scoresNamespace);
+      window.history.pushState("", "", "/?" + filteringS.stringifyFilters(filteringS.getFilters(scoresNamespace)));
 
       this.initialState.scores = await new ScoreInitialStateService().generateInitialState();
       this.initialState.testSuites = await new TestSuitesInitialStateService().generateInitialState();

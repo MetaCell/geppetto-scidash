@@ -44,6 +44,11 @@ export function filteringTestsStarted (searchText, filterName, dispatch){
 
 
   apiService.getList(false, Config.testInstancesNamespace).then(result => {
+
+    let filters = filteringService.getFilters(Config.testInstancesNamespace);
+    let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "/";
+    window.history.pushState("", "", filterString);
+
     dispatch(filteringTestsFinished(result));
   });
 
