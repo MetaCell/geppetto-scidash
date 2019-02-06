@@ -4,10 +4,6 @@ import {
   toggleSettings,
   hideSettings,
 } from "../../../actions/creators/header";
-import {
-  openSuitesView,
-  openTestsView
-} from "../../../actions/creators/shared";
 
 const mapStateToProps = state => ({
   ...state.header,
@@ -45,13 +41,6 @@ const mapDispatchToProps = dispatch => ({
     if (wrapperSettings && !wrapperSettings.contains(event.target) && settingsDisplaying) {
       dispatch(hideSettings());
     }
-  },
-  openTestsView: () => {
-    dispatch(openTestsView());
-  },
-
-  openSuitesView: () => {
-    dispatch(openSuitesView());
   }
 });
 
