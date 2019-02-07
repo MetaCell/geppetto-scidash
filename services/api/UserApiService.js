@@ -5,16 +5,19 @@ export default class UserApiService extends ApiService {
 
     endpoint = "/api/users/"
 
-    buildUrl(arg){
-        return `${this.endpoint}${arg}/`
+    buildUrl (arg){
+      return `${this.endpoint}${arg}/`;
     }
 
-    checkIsLogged(){
-        return fetch(this.buildUrl('is-logged'));
+    async checkIsLogged (){
+      let response = await fetch(this.buildUrl("is-logged"));
+
+      return response.ok;
     }
 
-    getUser(){
-        return fetch(this.buildUrl('me'));
+    async getUser (){
+      let response = await fetch(this.buildUrl("me"));
+
+      return response.json();
     }
 }
-

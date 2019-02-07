@@ -91,10 +91,10 @@ export default class InitialStateService {
       this.initialState.testInstances = await new TestInstancesInitialStateService().generateInitialState();
       this.initialState.modelClasses.data = await new ModelClassInitialStateService().generateInitialState();
       this.initialState.testClasses.data = await new TestClassInitialStateService().generateInitialState();
+      this.initialState.user = await new UserInitialStateService().generateInitialState();
       this.initialState.global = new GlobalInitialStateService().getInitialStateTemplate();
       this.initialState.header = new HeaderInitialStateService().getInitialStateTemplate();
-      this.initialState.user = new UserInitialStateService().getInitialStateTemplate();
-
+      
       return this.initialState;
     }
 }

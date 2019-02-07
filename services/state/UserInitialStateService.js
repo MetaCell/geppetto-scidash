@@ -8,13 +8,13 @@ export default class UserInitialStateService extends BaseInitialStateService {
       userObject: {}
     }
 
-    loadUser (){
-      let service = new UserApiService();
-
-      return service.getUser();
-    }
-
     async generateInitialState (){
-      return this.loadUser();
+      let service = new UserApiService();
+      let initialState = this.getInitialStateTemplate();
+
+      initialState.isLogged = await service.checkIsLogged();
+      initialState.userObject = await service.getUser();
+
+      return initialState;
     }
 }
