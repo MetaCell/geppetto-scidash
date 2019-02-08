@@ -1,10 +1,9 @@
-import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import Checkbox from 'material-ui/Checkbox';
-import TextField from 'material-ui/TextField';
-
-import DDListContainer from './DDListContainer';
-import CustomTable from './CustomTable';
+import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
+import Checkbox from "material-ui/Checkbox";
+import TextField from "material-ui/TextField";
+import DDListContainer from "./DDListContainer";
+import CustomTable from "./CustomTable";
 
 class Scheduling extends React.Component {
 
@@ -12,15 +11,13 @@ class Scheduling extends React.Component {
     super(props, context);
     this.state = {
       saveSuites: false,
-      selectedTestIDs: [0],
-      selectedModelIDs: [1],
       suitesName: `Suites_${new Date().toJSON().slice(0, 19)}`.replace(/[-:]/g, "_") // a default date set to today
-    }
+    };
 
   }
 
-  getItemByID(ids){
-    return this.props.data.filter(item => ids.includes(item.id))
+  getItemByID (ids){
+    return this.props.data.filter(item => ids.includes(item.id));
   }
 
   render () {
@@ -28,16 +25,16 @@ class Scheduling extends React.Component {
     const { tests, models } = this.props;
     return (
       <span>
-        <DDListContainer/>
+        <DDListContainer />
         
         {models.length > 0 && tests.length > 0 ?  
           <span>
-            <CustomTable  //renders a table with compatibility between selected tests and models
+            <CustomTable // renders a table with compatibility between selected tests and models
               tests={this.getItemByID(tests)} 
               models={this.getItemByID(models)} 
             />
             <div style={styles.saveContainer}>
-              <RaisedButton >Run tests</RaisedButton>
+              <RaisedButton>Run tests</RaisedButton>
               {saveSuites ?
                 <span style={styles.saveSubContainer}>
                   <TextField
@@ -46,7 +43,7 @@ class Scheduling extends React.Component {
                     placeholder='Name the suites'
                     floatingLabelText="Enter a name"
                     onChange={e => this.setState({ suitesName: e.target.value })}
-                    onKeyPress={e => e.key === 'Enter' ? ()=>{} : null}
+                    onKeyPress={e => e.key === "Enter" ? () => {} : null}
                   />
                 </span>
                 : null
@@ -64,29 +61,29 @@ class Scheduling extends React.Component {
           : null
         }
       </span>
-    )
+    );
   }
 }
 
-export default Scheduling
+export default Scheduling;
 
 const styles = {
   saveContainer: {
-    textAlign: 'center',
-    marginTop: '35px',
-    position: 'relative'
+    textAlign: "center",
+    marginTop: "35px",
+    position: "relative"
   },
   saveSubContainer: {
-    position: 'absolute',
-    marginLeft: '0px',
-    marginTop: '-26px'
+    position: "absolute",
+    marginLeft: "0px",
+    marginTop: "-26px"
   },
   saveButton: {
-    display: 'inline-block'
+    display: "inline-block"
   },
   saveRoot: {
-    marginLeft: '10px',
-    width: '200px'
+    marginLeft: "10px",
+    width: "200px"
   },
   checkboxContainer: {
     marginLeft: "auto",

@@ -6,7 +6,7 @@ import SelectField from "material-ui/SelectField";
 import RaisedButton from "material-ui/RaisedButton";
 
 
-export default class TestCreate extends React.Component {
+export default class TestForm extends React.Component {
   constructor (props, context) {
     super(props, context);
 
@@ -70,6 +70,7 @@ export default class TestCreate extends React.Component {
 
         <div style={styles.secondLine.container}>
           <TextField
+            onChange={(e, value) => this.updateModel({ "description": value })}
             value={this.state.model.description}
             style={styles.secondLine.one}
             floatingLabelText="Test description"

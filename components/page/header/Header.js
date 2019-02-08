@@ -1,5 +1,4 @@
 import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
 import DrawerContainer from "../Drawer/DrawerContainer";
 import PagesService from "../../../services/PagesService";
 
@@ -9,9 +8,6 @@ export default class Header extends React.Component {
     super(props, context);
 
     this.props = props;
-    this.wrapperSettings = null;
-
-    this.wrapSettingsRef = this.wrapSettingsRef.bind(this);
   }
 
   componentWillMount (){
@@ -22,20 +18,12 @@ export default class Header extends React.Component {
     document.removeEventListener("mousedown", event => this.props.handleClickOutsideSettings(this.wrapperSettings, event, this.props.showSettings));
   }
 
-  wrapSettingsRef (node){
-    this.wrapperSettings = node;
-  }
-
   render () {
     const { activePage, createTestActive, createModelActive } = this.props;
     const pagesService = new PagesService();
 
-    if (this.props.showSettings) {
-      this.props.settingsPopupStyle["display"] = "block";
-    } else {
-      this.props.settingsPopupStyle["display"] = "none";
-    }
     let title = "";
+
     if (activePage == pagesService.TESTS_PAGE) {
       if (createTestActive) {
         title = "New Test";
@@ -49,11 +37,14 @@ export default class Header extends React.Component {
         title = "New Model";
       }
       else {
-        title = "Model";
+        title = "Models";
       }
     }
     else if (activePage == pagesService.SCORES_PAGE){
-      title = "Scores";
+      title = "Test scores";
+    }
+    else if (activePage == pagesService.SUITES_PAGE){
+      title = "Suite scores";
     }
     else if (activePage == pagesService.SETTINGS_PAGE){
       title = "Settings";

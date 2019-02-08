@@ -24,6 +24,8 @@ export default class InitialStateService {
       modelClasses: new ModelClassInitialStateService().getInitialStateTemplate(),
       testClasses: new TestClassInitialStateService().getInitialStateTemplate(),
       scheduler: {
+        tests: [0],
+        models: [1],
         data: [
           { type: "tests", name: "My first test", meta: "Rheobase test", id: 0 },
           { type: "models", name: "My first model", meta: "Reduced model", id: 1 },

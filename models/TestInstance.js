@@ -13,6 +13,7 @@ export default class TestInstance extends BaseModel {
     "std": 2
   });
   timestamp = new Date();
+  description = "";
 
   constructor (data) {
     super(data);
