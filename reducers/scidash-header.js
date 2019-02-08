@@ -1,11 +1,11 @@
-import { 
+import {
   toggleSettings,
   hideSettings,
   toggleColorBlind,
   toggleDrawer,
   changePage,
   toggleCreateModel,
-  activateEditTest,
+  toggleCreateTest,
 } from "../actions/header";
 import {
   openTestsView,
@@ -18,7 +18,7 @@ import {
   TOGGLE_DRAWER,
   CHANGE_PAGE,
   TOGGLE_CREATE_MODEL,
-  ACTIVATE_EDIT_TEST,
+  TOGGLE_CREATE_TEST
 } from "../actions/creators/header";
 import {
   OPEN_SUITES_VIEW,
@@ -71,9 +71,9 @@ export default function scidashHeader (state = {}, action){
       ...changePage(state, action)
     };
     break;
-  case ACTIVATE_EDIT_TEST:
+  case TOGGLE_CREATE_TEST:
     newState = {
-      ...activateEditTest(state, action)
+      ...toggleCreateTest(state, action)
     };
     break;
   case TOGGLE_CREATE_MODEL:

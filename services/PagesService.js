@@ -1,11 +1,9 @@
-import FilteringService from "./FilteringService";
 
 
 export default class PagesService {
 
-    TESTS_VIEW = "instances";
-    SUITES_VIEW = "suites";
     SCORES_PAGE = "SCORES_PAGE";
+    SUITES_PAGE = "SUITES_PAGE";
     TESTS_PAGE = "TESTS_PAGE";
     MODELS_PAGE = "MODELS_PAGE";
     SETTINGS_PAGE = "SETTINGS_PAGE";
@@ -14,16 +12,7 @@ export default class PagesService {
     default = "";
 
     constructor (){
-      this.default = this.TESTS_VIEW;
       this.defaultPage = this.SCORES_PAGE;
-    }
-
-    getAll (){
-      return [this.TESTS_VIEW, this.SUITES_VIEW];
-    }
-
-    getDefault (){
-      return this.default;
     }
 
     getDefaultPage (){

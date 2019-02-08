@@ -11,8 +11,9 @@ export default class FilteringService {
     static instance = null;
 
     static getInstance (){
-      if (this.instance === null)
-      {this.instance = new FilteringService();}
+      if (this.instance === null) {
+        this.instance = new FilteringService();
+      }
 
       return this.instance;
     }
@@ -21,7 +22,8 @@ export default class FilteringService {
       this.extractFromStorage();
     }
 
-    setupFilter (key, value, namespace = "", initial = false){
+    setupFilter (key, value, namespace = Config.scoresNamespace, initial = false){
+      console.log(namespace);
 
       if (Config.bannedFilters[namespace].includes(key)){
         console.warn(`${key} is banned for namespace '${namespace}'`);
@@ -30,15 +32,14 @@ export default class FilteringService {
 
       if (namespace){
 
-        if (initial)
-        {this.initialFilters[`${namespace}${Config.namespaceDivider}${key}`] = value;}
-
+        if (initial) {
+          this.initialFilters[`${namespace}${Config.namespaceDivider}${key}`] = value;
+        }
         this.filters[`${namespace}${Config.namespaceDivider}${key}`] = value;
       } else {
-
-        if (initial)
-        {this.initialFilters[key] = value;}
-
+        if (initial) {
+          this.initialFilters[key] = value;
+        }
         this.filters[key] = value;
       }
 
@@ -53,9 +54,7 @@ export default class FilteringService {
           this.filters[key] = this.initialFilters[key];
         }
       }
-
       return this;
-
     }
 
     setupFilters (filters = {}, namespace = null, initial = false){
@@ -190,8 +189,9 @@ export default class FilteringService {
 
     clearFiltersByNamespace (namespace){
       for (let key of Object.keys(this.filters)){
-        if (this.matchNamespace(key, namespace))
-        {this.deleteFilter(this.cutNamespace(key), namespace);}
+        if (this.matchNamespace(key, namespace)) {
+          this.deleteFilter(this.cutNamespace(key), namespace);
+        }
       }
 
       return this;
@@ -208,8 +208,9 @@ export default class FilteringService {
       let key = initial ? "initialFilters" : "filters";
       this.filters = JSON.parse(this.storage.getItem(key));
 
-      if (this.filters === null)
-      {this.filters = {};}
+      if (this.filters === null) {
+        this.filters = {};
+      }
 
       return this;
     }

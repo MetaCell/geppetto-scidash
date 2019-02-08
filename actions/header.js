@@ -1,5 +1,7 @@
 import ApiService from "../services/api/ApiService";
 import PagesService from "../services/PagesService";
+import Config from "../shared/Config";
+import FilteringService from "../services/FilteringService";
 
 
 export function toggleSettings (headerState, action){
@@ -39,6 +41,13 @@ export function toggleDrawer (headerState, action){
 }
 
 export function changePage (headerState, action){
+  let namespace = Config.pageNamespaceMap[action.page];
+  let service = new FilteringService();
+  let filters = service.getFilters(namespace);
+  let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "/";
+
+  window.history.pushState("", "", filterString);
+
   return {
     ...headerState,
     activePage: action.page
@@ -52,9 +61,9 @@ export function toggleCreateModel (headerState, action){
   };
 }
 
-export function activateEditTest (headerState, action){
+export function toggleCreateTest (headerState, action){
   return {
     ...headerState,
-    editTestActive: !headerState.editTestActive
+    createTestActive: !headerState.createTestActive
   };
 }

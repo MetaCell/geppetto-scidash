@@ -6,7 +6,7 @@ import Settings from "../../settings/Settings";
 import ModelsContainer from "../../models/ModelsContainer";
 import ModelCreateContainer from "../../model-create/ModelCreateContainer";
 import TestsContainer from "../../tests/TestsContainer";
-import EditTestContainer from "../../test-edit/EditTestContainer";
+import TestCreateContainer from "../../test-create/TestCreateContainer";
 import SchedulingContainer from "../../scheduling/SchedulingContainer";
 
 export default class Content extends React.Component {
@@ -20,13 +20,13 @@ export default class Content extends React.Component {
   render () {
     let pagesService = new PagesService();
 
-    if (this.props.activePage == pagesService.SCORES_PAGE && this.props.activeView == pagesService.TESTS_VIEW) {
+    if (this.props.activePage == pagesService.SCORES_PAGE) {
       return (
         <ScoresContainer />
       );
     }
 
-    if (this.props.activePage == pagesService.SCORES_PAGE && this.props.activeView == pagesService.SUITES_VIEW) {
+    if (this.props.activePage == pagesService.SUITES_PAGE) {
       return (
         <TestSuitesContainer />
       );
@@ -44,9 +44,9 @@ export default class Content extends React.Component {
       );
     }
 
-    if (this.props.activePage == pagesService.TESTS_PAGE && this.props.editTestActive) {
+    if (this.props.activePage == pagesService.TESTS_PAGE && this.props.createTestActive) {
       return (
-        <EditTestContainer />
+        <TestCreateContainer />
       );
     }
 
