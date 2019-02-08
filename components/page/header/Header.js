@@ -83,8 +83,12 @@ export default class Header extends React.Component {
               </div>
               :
               <div className="col-md-3 auth-links">
-                <a href="/auth/login">Login</a>
-                <a href="/auth/sign-up">Sign-up</a>
+              	<RaisedButton href="/auth/login" className="loginButton" label="Login" style={{
+                    marginRight: "10px"
+                }}/>
+              	<RaisedButton href="/auth/sign-up" className="signUpButton" label="Sign-Up" style={{
+                    marginRight: "10px"
+                }}/>
               </div>
             }
           </div>
