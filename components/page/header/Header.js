@@ -79,14 +79,16 @@ export default class Header extends React.Component {
               <div className="col-md-3 auth-links">
                         Logged as 
                 {" " + this.props.userInfo.userObject.username}
-                <a href="/auth/logout">Logout</a>
+                <RaisedButton href="/auth/logout" className="userButton logoutButton" label="Logout" style={{
+                    marginRight: "10px"
+                }}/>
               </div>
               :
               <div className="col-md-3 auth-links">
-              	<RaisedButton href="/auth/login" className="loginButton" label="Login" style={{
+              	<RaisedButton href="/auth/login" className="userButton loginButton" label="Login" style={{
                     marginRight: "10px"
                 }}/>
-              	<RaisedButton href="/auth/sign-up" className="signUpButton" label="Sign-Up" style={{
+              	<RaisedButton href="/auth/sign-up" className="userButton signUpButton" label="Sign-Up" style={{
                     marginRight: "10px"
                 }}/>
               </div>
