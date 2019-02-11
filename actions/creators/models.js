@@ -4,7 +4,6 @@ import Config from "../../shared/Config";
 import Helper from "../../shared/Helper";
 import { changePage } from "./header";
 import PagesService from "../../services/PagesService";
-import { whenMapDispatchToPropsIsObject } from "../../../../build/main.bundle";
 
 export const FILTERING_MODELS_STARTED = "FILTERING_MODELS_STARTED";
 export const FILTERING_MODELS_FINISHED = "FILTERING_MODELS_FINISHED";
