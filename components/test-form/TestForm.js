@@ -20,12 +20,10 @@ export default class TestForm extends React.Component {
     this.updateModel = this.updateModel.bind(this);
     this.onSave = props.onSave.bind(this);
     this.onCancel = props.onCancel.bind(this);
-
   }
 
   updateModel (data) {
     let newModel = {};
-
     newModel = {
       ...this.state.model,
       ...data
@@ -51,10 +49,12 @@ export default class TestForm extends React.Component {
 
           <SelectField
             style={styles.firstLine.two}
-            underlineStyle={{ color: "grey" }}
+            iconStyle={styles.firstLine.icon}
             value={this.state.model.test_class.id}
             floatingLabelText="Select test class"
-            onChange={(e, value) => {
+            floatingLabelFixed={false}
+            underlineStyle={{ borderBottom: "1px solid grey" }}
+            onChange={(e, key, value) => {
               for (let klass of this.state.testClasses){
                 if (klass.id == value){
                   this.updateModel({ "test_class": klass });
@@ -63,8 +63,8 @@ export default class TestForm extends React.Component {
             }}
           >
 
-            <MenuItem value={0}><em>None</em></MenuItem>
-            {this.state.testClasses.map(klass => <MenuItem value={klass.id} key={klass.id} primaryText={klass.class_name} label={klass.class_name} />)}
+            {/* eslint-disable-next-line react/no-array-index-key */}
+            {this.state.testClasses.map((klass, index) => <MenuItem value={klass.id} key={index} primaryText={klass.class_name} label={klass.class_name} />)}
           </SelectField>
         </div>
 
@@ -200,6 +200,7 @@ const styles = {
     },
     one: { flex: 2 },
     two: { flex: 2, marginLeft: "25px" },
+    icon: { background: "#000", padding: "2px", width: "28px", height: "28px" }
   },
   secondLine: {
     container: { width: "100%", marginTop: 12 },
