@@ -1,4 +1,5 @@
 import React from "react";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import ScoresContainer from "../../scores/ScoresContainer";
 import TestSuitesContainer from "../../test-suites/TestSuitesContainer";
 import PagesService from "../../../services/PagesService";
@@ -17,7 +18,7 @@ export default class Content extends React.Component {
     this.props = props;
   }
 
-  render () {
+  renderOld () {
     let pagesService = new PagesService();
 
     if (this.props.activePage == pagesService.SCORES_PAGE) {
@@ -67,5 +68,18 @@ export default class Content extends React.Component {
         <SchedulingContainer />
       );
     }
+  }
+
+  render (){
+    let pagesService = new PagesService();
+
+    return (
+      <Router>
+        <Switch>
+          <Route exact path={pagesService.SCORES_PAGE} component={ScoresContainer} />
+          <Route path={pagesService.SUITES_PAGE} component={TestSuitesContainer} />
+        </Switch>
+      </Router>
+    );
   }
 }

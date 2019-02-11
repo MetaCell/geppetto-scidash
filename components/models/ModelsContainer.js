@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
-import { toggleCreateModel } from "../../actions/creators/header";
+import { changePage } from "../../actions/creators/header";
 import ScidashStorage from "../../shared/ScidashStorage";
 import {
   filteringModelsStarted,
@@ -10,6 +10,7 @@ import {
 } from "../../actions/creators/models";
 
 import Models from "./Models";
+import PagesService from "../../services/PagesService";
 
 const mapStateToProps = state => ({
   styleConfig: {
@@ -83,6 +84,9 @@ const mapDispatchToProps = dispatch => {
     let timeoutId = setTimeout(f, 200, searchText, filterName, dispatch);
     storage.setItem(timeoutKey, timeoutId);
   };
+
+  let pagesService = new PagesService();
+
   return {
     onFilterUpdate: (searchText, filterName) => {
       filter(searchText, filterName, dispatch);
@@ -91,7 +95,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(clearDateFilter(filter, dispatch));
     },
 
-    toggleCreateModel: () => dispatch(toggleCreateModel())
+    toggleCreateModel: () => dispatch(changePage(pagesService.MODELS_CREATE_PAGE, dispatch))
   };
 };
 

@@ -2,12 +2,14 @@
 
 export default class PagesService {
 
-    SCORES_PAGE = "SCORES_PAGE";
-    SUITES_PAGE = "SUITES_PAGE";
-    TESTS_PAGE = "TESTS_PAGE";
-    MODELS_PAGE = "MODELS_PAGE";
-    SETTINGS_PAGE = "SETTINGS_PAGE";
-    SCHEDULING_PAGE = "SCHEDULLING_PAGE";
+    SCORES_PAGE = "/";
+    SUITES_PAGE = "/suite-scores/";
+    TESTS_PAGE = "/test-instances/";
+    TESTS_CREATE_PAGE = "/test-instances/create/";
+    MODELS_PAGE = "/model-instances/";
+    MODELS_CREATE_PAGE = "/model-instances/create/";
+    SETTINGS_PAGE = "/settings/";
+    SCHEDULING_PAGE = "/scheduling/";
 
     default = "";
 

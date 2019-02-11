@@ -10,10 +10,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  downloadModelFromUrl: () => console.log("Downloading"),
-  toggleModelForm: () => dispatch(toggleCreateModel()),
   onSave: model => dispatch(modelCreateStarted(model, dispatch)),
-  onCancel: () => dispatch(toggleCreateModel())
+  onCancel: () => dispatch(new PagesService().MODELS_PAGE)
 });
 
 const ModelCreateContainer = connect(
