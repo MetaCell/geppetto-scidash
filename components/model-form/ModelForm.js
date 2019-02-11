@@ -20,8 +20,6 @@ export default class ModelForm extends React.Component {
       newTag: null
     };
 
-    this.downloadModelFromUrl = props.downloadModelFromUrl.bind(this);
-    this.toggleModelForm = props.toggleModelForm.bind(this);
     this.updateModel = this.updateModel.bind(this);
     this.onSave = props.onSave.bind(this);
     this.onCancel = props.onCancel.bind(this);
@@ -58,7 +56,6 @@ export default class ModelForm extends React.Component {
               className="url"
               floatingLabelText="Source URL"
               underlineStyle={{ borderBottom: "1px solid grey" }}
-              onKeyPress={this.downloadModelFromUrl}
               onChange={(event, value) => this.updateModel({ url: value })}
             />
             <span className="icons">
@@ -127,7 +124,7 @@ export default class ModelForm extends React.Component {
           <RaisedButton
             label="cancel"
             className="actions-button"
-            onClick={() => this.onCancel(this.state.model)}
+            onClick={() => this.onCancel()}
           />
         </div>
       </span>

@@ -85,7 +85,7 @@ export default class InitialStateService {
       }
 
       filteringS.extractFiltersFromQueryString(location.search, scoresNamespace);
-      window.history.pushState("", "", "/?" + filteringS.stringifyFilters(filteringS.getFilters(scoresNamespace)));
+      window.history.pushState("", "", `${location.pathname}?` + filteringS.stringifyFilters(filteringS.getFilters(scoresNamespace)));
 
       this.initialState.scores = await new ScoreInitialStateService().generateInitialState();
       this.initialState.testSuites = await new TestSuitesInitialStateService().generateInitialState();

@@ -1,4 +1,7 @@
+import { push } from "connected-react-router";
+
 export const TOGGLE_SETTINGS = "TOGGLE_SETTINGS";
+
 export const HIDE_SETTINGS = "HIDE_SETTINGS";
 export const TOGGLE_DRAWER = "TOGGLE_DRAWER";
 export const TOGGLE_COLOR_BLIND = "TOGGLE_COLOR_BLIND";
@@ -31,21 +34,11 @@ export function toggleDrawer (){
   };
 }
 
-export function changePage (page){
+export function changePage (page, dispatch){
+  dispatch(push(page));
+
   return {
     type: CHANGE_PAGE,
     page
-  };
-}
-
-export function toggleCreateTest(){
-  return {
-    type: TOGGLE_CREATE_TEST,
-  };
-}
-
-export function toggleCreateModel (){
-  return {
-    type: TOGGLE_CREATE_MODEL,
   };
 }

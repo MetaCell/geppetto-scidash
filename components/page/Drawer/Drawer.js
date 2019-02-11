@@ -9,10 +9,12 @@ import PagesService from "../../../services/PagesService";
 
 export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelActive, editTestActive }) => {
   const pagesService = new PagesService();
+
   const handleMenuClick = page => {
     changePage(page);
     toggleDrawer();
   };
+
   return (
     <div>
       <IconButton

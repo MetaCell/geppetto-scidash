@@ -14,11 +14,6 @@ import {
 } from "../actions/tests";
 
 export default function scidashTestInstances (state = {}, action){
-  console.group("SCIDASH TEST INSTANCES REDUCER");
-
-  if (action !== null)
-  {console.log("ACTION DISPATCHED: ", action);}
-
   let newState = null;
 
   switch (action.type){
@@ -53,9 +48,6 @@ export default function scidashTestInstances (state = {}, action){
     };
     break;
   }
-
-  console.log("Current state: ", newState);
-  console.groupEnd();
 
   return newState;
 }

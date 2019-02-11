@@ -27,13 +27,7 @@ import {
 
 
 export default function scidashHeader (state = {}, action){
-  console.group("SCIDASH HEADER REDUCER");
-
-  if (action !== null)
-  {console.log("ACTION DISPATCHED: ", action);}
-
   let newState = null;
-
 
   switch (action.type){
   case TOGGLE_SETTINGS:
@@ -87,9 +81,6 @@ export default function scidashHeader (state = {}, action){
     };
     break;
   }
-
-  console.log("Current state: ", newState);
-  console.groupEnd();
 
   return newState;
 }
