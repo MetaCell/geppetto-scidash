@@ -4,6 +4,7 @@ import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 import SelectField from "material-ui/SelectField";
 import RaisedButton from "material-ui/RaisedButton";
+import ObservationsForm from "./ObservationsForm";
 
 
 export default class TestForm extends React.Component {
@@ -126,17 +127,13 @@ export default class TestForm extends React.Component {
 
           <div style={styles.fourthLine.column}>
             <h3>Observation values:</h3>
-            <TextField
-              value={22}
-              style={{ width: "100%" }}
-              floatingLabelText="A parameter"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
-            />
-            <TextField
-              value={33}
-              style={{ width: "100%" }}
-              floatingLabelText="A parameter"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
+            <ObservationsForm
+              schema={this.state.model.test_class.observation_schema}
+              onChange={observation => {
+                this.updateModel({
+                  "observation": observation
+                });
+              }}
             />
           </div>
 

@@ -3,6 +3,7 @@ import FilteringService from "../../services/FilteringService";
 import Config from "../../shared/Config";
 import { changePage } from "./header";
 import Helper from "../../shared/Helper";
+import PagesService from "../../services/PagesService";
 
 export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
 export const FILTERING_TESTS_FINISHED = "FILTERING_TESTS_FINISHED";
