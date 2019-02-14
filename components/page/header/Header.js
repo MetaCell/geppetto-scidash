@@ -3,11 +3,11 @@ import RaisedButton from "material-ui/RaisedButton";
 import FontIcon from "material-ui/FontIcon";
 import DrawerContainer from "../Drawer/DrawerContainer";
 import PagesService from "../../../services/PagesService";
-import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
-import Download from 'material-ui/svg-icons/file/file-download';
-
+import Popover from 'material-ui/Popover';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import {List, ListItem} from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
 
 export default class Header extends React.Component {
 
@@ -88,6 +88,10 @@ export default class Header extends React.Component {
       title = "Scheduling";
     }
     
+    var userinitial 
+    if (this.props.userInfo.userObject.username!=undefined) {
+        userinitial = this.props.userInfo.userObject.username.split('')[0];
+    }
     return (
       <div id="header">
         <div id="scidash-logo">
@@ -99,27 +103,39 @@ export default class Header extends React.Component {
 
             { this.props.userInfo.isLogged && this.props.userInfo.userObject.username!=undefined?
               <div className="col-md-3 auth-links">
-                <RaisedButton className="userButton loggedButton" 
-                	label={this.props.userInfo.userObject.username.chartAt(0)}
-                	onTouchTap={this.handleTouchTap}
-                	style={{
-                		marginRight: "10px"
-                }}><FontIcon className={"fa fa-user loggedIcon"}></FontIcon></RaisedButton>
-                <RaisedButton href="/auth/logout" className="userButton logoutButton" label="Logout" style={{
-                    marginRight: "10px"
-                }}/>
-                <Popover
-                open={this.state.open}
-                anchorEl={this.state.anchorEl}
-                anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-                targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                onRequestClose={this.handleRequestClose}
-              >
-                <Menu>
-                  <MenuItem primaryText={this.props.userInfo.userObject.username} />
-                  <MenuItem primaryText="Logout" leftIcon={<Download />} />
-                </Menu>
-              </Popover>
+                <RaisedButton className="userButton loggedButton" label={userinitial}
+                	onTouchTap={this.handleTouchTap} style={{marginRight: "10px"}}>
+                	<FontIcon className={"fa fa-user loggedIcon"}/>
+                </RaisedButton>
+                <RaisedButton href="/auth/logout" className="userButton logoutButton" label="Logout" style={{marginRight: "10px"}}/>
+                	<Popover open={this.state.open} anchorEl={this.state.anchorEl}
+                		anchorOrigin={{horizontal: 'left', vertical: 'bottom'}} 
+                        targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                		onRequestClose={this.handleRequestClose} style={{marginTop: "10px"}} > 
+                	   <Card>
+			                <CardHeader
+			                  title={this.props.userInfo.userObject.username}
+			                  subtitle={this.props.userInfo.userObject.email}
+			                  avatar={<Avatar>{userinitial}</Avatar>}
+			                  actAsExpander={true}
+			                  showExpandableButton={true}
+			                />
+			                <CardActions>
+			                  <FlatButton label="Reset Password" href="/auth/password-reset" style={{border: "2px solid lightgrey"}} />
+			                  <FlatButton label="Logout" href="/auth/logout" style={{border: "2px solid lightgrey"}} />
+			                </CardActions>
+			                <CardText expandable={true}>
+			                	<List>
+			                		<ListItem primaryText={<span>Name:</span>} 
+			                				secondaryText= {this.props.userInfo.userObject.first_name} />
+			                		<ListItem primaryText="Date Joined" 
+			                				secondaryText= {this.props.userInfo.userObject.date_joined} />
+			                		<ListItem primaryText="Last Login" 
+			                				secondaryText= {this.props.userInfo.userObject.last_login} />
+			                	</List>
+			                </CardText>
+		               </Card>
+		            </Popover>
               </div>
               :
               <div className="col-md-3 auth-links">
