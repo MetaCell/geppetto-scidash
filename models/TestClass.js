@@ -6,5 +6,6 @@ export default class TestClass extends BaseModel {
     url = "";
     class_name = "";
     observation_schema = ""
+    test_parameters_schema = "";
 
 }

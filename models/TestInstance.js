@@ -8,10 +8,8 @@ export default class TestInstance extends BaseModel {
   hash_id = "";
   tags = [];
   name = "";
-  observation = JSON.stringify({
-    "mean": 1,
-    "std": 2
-  });
+  observation = "";
+  params = "";
   timestamp = new Date();
   description = "";
 
