@@ -88,9 +88,15 @@ export default class Header extends React.Component {
       title = "Scheduling";
     }
     
-    var userinitial 
+    var userinitial, dateJoined, lastLogin; 
     if (this.props.userInfo.userObject.username!=undefined) {
         userinitial = this.props.userInfo.userObject.username.split('')[0];
+    }
+    if (this.props.userInfo.userObject.date_joined!=undefined) {
+        dateJoined = this.props.userInfo.userObject.date_joined.split('T')[0];
+    }
+    if (this.props.userInfo.userObject.last_login!=undefined) {
+        lastLogin = this.props.userInfo.userObject.last_login.split('T')[0];
     }
     return (
       <div id="header">
@@ -103,11 +109,12 @@ export default class Header extends React.Component {
 
             { this.props.userInfo.isLogged && this.props.userInfo.userObject.username!=undefined?
               <div className="col-md-3 auth-links">
-                <RaisedButton className="userButton loggedButton" label={userinitial}
-                	onTouchTap={this.handleTouchTap} style={{marginRight: "10px"}}>
-                	<FontIcon className={"fa fa-user loggedIcon"}/>
+                <RaisedButton className="userButton" label={userinitial} 
+                    buttonStyle={{ borderRadius: 50 ,backgroundColor : "blue"}}
+                	onTouchTap={this.handleTouchTap} 
+                    style={{marginRight: "10px",borderRadius:50,float : "right"}}>
+                   <FontIcon className={"fa fa-user loggedIcon"}/>
                 </RaisedButton>
-                <RaisedButton href="/auth/logout" className="userButton logoutButton" label="Logout" style={{marginRight: "10px"}}/>
                 	<Popover open={this.state.open} anchorEl={this.state.anchorEl}
                 		anchorOrigin={{horizontal: 'left', vertical: 'bottom'}} 
                         targetOrigin={{horizontal: 'left', vertical: 'top'}}
@@ -125,13 +132,13 @@ export default class Header extends React.Component {
 			                  <FlatButton label="Logout" href="/auth/logout" style={{border: "2px solid lightgrey"}} />
 			                </CardActions>
 			                <CardText expandable={true}>
-			                	<List>
-			                		<ListItem primaryText={<span>Name:</span>} 
+			                	<List style={{textAlign : "center"}}>
+			                		<ListItem primaryText="Name" 
 			                				secondaryText= {this.props.userInfo.userObject.first_name} />
 			                		<ListItem primaryText="Date Joined" 
-			                				secondaryText= {this.props.userInfo.userObject.date_joined} />
+			                				secondaryText= {dateJoined} />
 			                		<ListItem primaryText="Last Login" 
-			                				secondaryText= {this.props.userInfo.userObject.last_login} />
+			                				secondaryText= {lastLogin} />
 			                	</List>
 			                </CardText>
 		               </Card>
