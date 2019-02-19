@@ -88,15 +88,25 @@ export default class Header extends React.Component {
       title = "Scheduling";
     }
     
-    var userinitial, dateJoined, lastLogin; 
+    var userinitial, dateJoined, lastLogin;
+    var options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            timeZone: 'UTC',
+            timeZoneName: 'short'
+        };
     if (this.props.userInfo.userObject.username!=undefined) {
         userinitial = this.props.userInfo.userObject.username.split('')[0];
     }
     if (this.props.userInfo.userObject.date_joined!=undefined) {
-        dateJoined = this.props.userInfo.userObject.date_joined.split('T')[0];
+        dateJoined = new Date(this.props.userInfo.userObject.date_joined).toLocaleString('en-US', options);
     }
     if (this.props.userInfo.userObject.last_login!=undefined) {
-        lastLogin = this.props.userInfo.userObject.last_login.split('T')[0];
+        lastLogin = new Date(this.props.userInfo.userObject.last_login).toLocaleString('en-US', options);
     }
     return (
       <div id="header">
