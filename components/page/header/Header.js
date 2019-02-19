@@ -115,34 +115,33 @@ export default class Header extends React.Component {
                     style={{marginRight: "10px",borderRadius:50,float : "right"}}>
                    <FontIcon className={"fa fa-user loggedIcon"}/>
                 </RaisedButton>
-                	<Popover open={this.state.open} anchorEl={this.state.anchorEl}
-                		anchorOrigin={{horizontal: 'left', vertical: 'bottom'}} 
-                        targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                		onRequestClose={this.handleRequestClose} style={{marginTop: "10px"}} > 
-                	   <Card>
-			                <CardHeader
-			                  title={this.props.userInfo.userObject.username}
-			                  subtitle={this.props.userInfo.userObject.email}
-			                  avatar={<Avatar>{userinitial}</Avatar>}
-			                  actAsExpander={true}
-			                  showExpandableButton={true}
-			                />
-			                <CardActions>
-			                  <FlatButton label="Reset Password" href="/auth/password-reset" style={{border: "2px solid lightgrey"}} />
-			                  <FlatButton label="Logout" href="/auth/logout" style={{border: "2px solid lightgrey"}} />
-			                </CardActions>
-			                <CardText expandable={true}>
-			                	<List style={{textAlign : "center"}}>
-			                		<ListItem primaryText="Name" 
-			                				secondaryText= {this.props.userInfo.userObject.first_name} />
-			                		<ListItem primaryText="Date Joined" 
-			                				secondaryText= {dateJoined} />
-			                		<ListItem primaryText="Last Login" 
-			                				secondaryText= {lastLogin} />
-			                	</List>
-			                </CardText>
-		               </Card>
-		            </Popover>
+                <Popover open={this.state.open} anchorEl={this.state.anchorEl}
+                	anchorOrigin={{horizontal: 'left', vertical: 'bottom'}} 
+                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                    onRequestClose={this.handleRequestClose} style={{marginTop: "10px"}} > 
+                <Card>
+			        <CardHeader
+			            title={this.props.userInfo.userObject.username}
+			            subtitle={this.props.userInfo.userObject.email}
+			            avatar={<Avatar>{userinitial}</Avatar>}
+			            actAsExpander={true}
+			            showExpandableButton={true}/>
+			        <CardActions>
+			            <FlatButton label="Reset Password" href="/auth/password-reset" style={{border: "2px solid lightgrey"}} />
+			            <FlatButton label="Logout" href="/auth/logout" style={{border: "2px solid lightgrey"}} />
+			            </CardActions>
+			            <CardText expandable={true}>
+			          	<List style={{textAlign : "center"}}>
+			                <ListItem primaryText="Name" 
+			                    secondaryText= {this.props.userInfo.userObject.first_name} />
+			                <ListItem primaryText="Date Joined" 
+			                	secondaryText= {dateJoined} />
+			                <ListItem primaryText="Last Login" 
+			                	secondaryText= {lastLogin} />
+			             </List>
+			         </CardText>
+		         </Card>
+		         </Popover>
               </div>
               :
               <div className="col-md-3 auth-links">
