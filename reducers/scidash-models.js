@@ -14,11 +14,6 @@ import {
 } from "../actions/models";
 
 export default function scidashModels (state = {}, action){
-  console.group("SCIDASH MODELS REDUCER");
-
-  if (action !== null) {
-    console.log("ACTION DISPATCHED: ", action);
-  }
 
   let newState = null;
 
@@ -54,9 +49,6 @@ export default function scidashModels (state = {}, action){
     };
     break;
   }
-
-  console.log("Current state: ", newState);
-  console.groupEnd();
 
   return newState;
 }

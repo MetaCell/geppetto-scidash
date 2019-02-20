@@ -1,8 +1,9 @@
 import TestInstancesApiService from "../../services/api/TestInstancesApiService";
 import FilteringService from "../../services/FilteringService";
 import Config from "../../shared/Config";
-import { toggleCreateTest } from "./header";
+import { changePage } from "./header";
 import Helper from "../../shared/Helper";
+import PagesService from "../../services/PagesService";
 
 export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
 export const FILTERING_TESTS_FINISHED = "FILTERING_TESTS_FINISHED";
@@ -59,7 +60,7 @@ export function filteringTestsStarted (searchText, filterName, dispatch){
 
 
 function testCreateFinished (result, dispatch){
-  dispatch(toggleCreateTest());
+  dispatch(changePage(new PagesService().TESTS_PAGE, dispatch));
 
   return {
     type: TEST_CREATE_FINISHED,

@@ -44,7 +44,7 @@ export function changePage (headerState, action){
   let namespace = Config.pageNamespaceMap[action.page];
   let service = new FilteringService();
   let filters = service.getFilters(namespace);
-  let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "/";
+  let filterString = Object.keys(filters).length ? location.pathname + "?" + service.stringifyFilters(filters) : location.pathname;
 
   window.history.pushState("", "", filterString);
 

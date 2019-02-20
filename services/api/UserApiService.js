@@ -10,7 +10,8 @@ export default class UserApiService extends ApiService {
     }
 
     async checkIsLogged (){
-      let response = await fetch(this.buildUrl("is-logged"));
+      // FIXME: change to 'is-logged request'
+      let response = await fetch(this.buildUrl("me"));
 
       return response.ok;
     }

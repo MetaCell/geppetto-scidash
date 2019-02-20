@@ -1,18 +1,30 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-
-
+import { applyMiddleware, compose, createStore } from "redux";
+import { createBrowserHistory } from "history";
+import { connectRouter, routerMiddleware, ConnectedRouter } from "connected-react-router";
+import { Switch, Route } from "react-router-dom";
+import logger from "redux-logger";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
 import { grey500, blueGrey900, brown500 } from "material-ui/styles/colors";
 import injectTapEventPlugin from "react-tap-event-plugin";
-import ScidashContainer from "./components/scidash/ScidashContainer";
 import InitialStateService from "./services/InitialStateService";
 import Loader from "./components/loader/Loader";
+import PagesService from "./services/PagesService";
+import HeaderContainer from "./components/page/header/HeaderContainer";
+import FooterContainer from "./components/page/footer/FooterContainer";
 
 // Needed for onTouchTap
 import scidashApp from "./reducers/scidash-app";
+import ScoresContainer from "./components/scores/ScoresContainer";
+import TestSuitesContainer from "./components/test-suites/TestSuitesContainer";
+import ModelsContainer from "./components/models/ModelsContainer";
+import TestsContainer from "./components/tests/TestsContainer";
+import Settings from "./components/settings/Settings";
+import SchedulingContainer from "./components/scheduling/SchedulingContainer";
+import TestCreateContainer from "./components/test-create/TestCreateContainer";
+import ModelCreateContainer from "./components/model-create/ModelCreateContainer";
 
 injectTapEventPlugin();
 
@@ -43,13 +55,25 @@ export default class App extends React.Component {
     this.state = {
       store: null
     };
+
+    this.history = createBrowserHistory();
+    this.pagesService = new PagesService();
   }
 
   componentDidMount () {
 
     InitialStateService.getInstance().generateInitialState().then(initialState => {
       this.setState({
-        store: createStore(scidashApp, initialState)
+        store: createStore(
+          connectRouter(this.history)(scidashApp),
+          initialState,
+          compose(
+            applyMiddleware(
+              routerMiddleware(this.history),
+              logger
+            )
+          )
+        )
       });
     });
 
@@ -65,7 +89,28 @@ export default class App extends React.Component {
       return (
         <MuiThemeProvider muiTheme={theme}>
           <Provider store={this.state.store}>
-            <ScidashContainer />
+            <ConnectedRouter history={this.history}>
+              <div className="mainContainer">
+                <HeaderContainer />
+                <div className="midContainer">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <Switch>
+                        <Route path={this.pagesService.SCORES_PAGE} component={ScoresContainer} exact />
+                        <Route path={this.pagesService.SUITES_PAGE} component={TestSuitesContainer} exact />
+                        <Route path={this.pagesService.TESTS_PAGE} component={TestsContainer} exact />
+                        <Route path={this.pagesService.TESTS_CREATE_PAGE} component={TestCreateContainer} exact />
+                        <Route path={this.pagesService.MODELS_PAGE} component={ModelsContainer} exact />
+                        <Route path={this.pagesService.MODELS_CREATE_PAGE} component={ModelCreateContainer} exact />
+                        <Route path={this.pagesService.SETTINGS_PAGE} component={Settings} exact />
+                        <Route path={this.pagesService.SCHEDULING_PAGE} component={SchedulingContainer} exact />
+                      </Switch>
+                    </div>
+                  </div>
+                </div>
+                <FooterContainer />
+              </div>
+            </ConnectedRouter>
           </Provider>
         </MuiThemeProvider>
       );

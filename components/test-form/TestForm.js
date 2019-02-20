@@ -4,9 +4,10 @@ import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 import SelectField from "material-ui/SelectField";
 import RaisedButton from "material-ui/RaisedButton";
+import ParamsForm from "./ParamsForm";
 
 
-export default class TestCreate extends React.Component {
+export default class TestForm extends React.Component {
   constructor (props, context) {
     super(props, context);
 
@@ -20,12 +21,10 @@ export default class TestCreate extends React.Component {
     this.updateModel = this.updateModel.bind(this);
     this.onSave = props.onSave.bind(this);
     this.onCancel = props.onCancel.bind(this);
-
   }
 
   updateModel (data) {
     let newModel = {};
-
     newModel = {
       ...this.state.model,
       ...data
@@ -51,10 +50,12 @@ export default class TestCreate extends React.Component {
 
           <SelectField
             style={styles.firstLine.two}
-            underlineStyle={{ color: "grey" }}
+            iconStyle={styles.firstLine.icon}
             value={this.state.model.test_class.id}
             floatingLabelText="Select test class"
-            onChange={(e, value) => {
+            floatingLabelFixed={false}
+            underlineStyle={{ borderBottom: "1px solid grey" }}
+            onChange={(e, key, value) => {
               for (let klass of this.state.testClasses){
                 if (klass.id == value){
                   this.updateModel({ "test_class": klass });
@@ -63,13 +64,14 @@ export default class TestCreate extends React.Component {
             }}
           >
 
-            <MenuItem value={0}><em>None</em></MenuItem>
-            {this.state.testClasses.map(klass => <MenuItem value={klass.id} key={klass.id} primaryText={klass.class_name} label={klass.class_name} />)}
+            {/* eslint-disable-next-line react/no-array-index-key */}
+            {this.state.testClasses.map((klass, index) => <MenuItem value={klass.id} key={index} primaryText={klass.class_name} label={klass.class_name} />)}
           </SelectField>
         </div>
 
         <div style={styles.secondLine.container}>
           <TextField
+            onChange={(e, value) => this.updateModel({ "description": value })}
             value={this.state.model.description}
             style={styles.secondLine.one}
             floatingLabelText="Test description"
@@ -125,39 +127,25 @@ export default class TestCreate extends React.Component {
 
           <div style={styles.fourthLine.column}>
             <h3>Observation values:</h3>
-            <TextField
-              value={22}
-              style={{ width: "100%" }}
-              floatingLabelText="A parameter"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
-            />
-            <TextField
-              value={33}
-              style={{ width: "100%" }}
-              floatingLabelText="A parameter"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
+            <ParamsForm
+              schema={this.state.model.test_class.observation_schema}
+              onChange={observation => {
+                this.updateModel({
+                  observation
+                });
+              }}
             />
           </div>
 
           <div style={styles.fourthLine.column}>
             <h3>Test parameters:</h3>
-            <TextField
-              value="1000 ms"
-              style={{ width: "100%" }}
-              floatingLabelText="Enter the type of neuron"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
-            />
-            <TextField
-              value="0.25 ms"
-              style={{ width: "100%" }}
-              floatingLabelText="Enter the type of neuron"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
-            />
-            <TextField
-              value="IClamp"
-              style={{ width: "100%" }}
-              floatingLabelText="Enter the type of neuron"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
+            <ParamsForm
+              schema={this.state.model.test_class.test_parameters_schema}
+              onChange={params => {
+                this.updateModel({
+                  params
+                });
+              }}
             />
           </div>
         </div>
@@ -199,6 +187,7 @@ const styles = {
     },
     one: { flex: 2 },
     two: { flex: 2, marginLeft: "25px" },
+    icon: { background: "#000", padding: "2px", width: "28px", height: "28px" }
   },
   secondLine: {
     container: { width: "100%", marginTop: 12 },

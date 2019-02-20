@@ -20,8 +20,6 @@ export default class ModelForm extends React.Component {
       newTag: null
     };
 
-    this.downloadModelFromUrl = props.downloadModelFromUrl.bind(this);
-    this.toggleModelForm = props.toggleModelForm.bind(this);
     this.updateModel = this.updateModel.bind(this);
     this.onSave = props.onSave.bind(this);
     this.onCancel = props.onCancel.bind(this);
@@ -58,7 +56,6 @@ export default class ModelForm extends React.Component {
               className="url"
               floatingLabelText="Source URL"
               underlineStyle={{ borderBottom: "1px solid grey" }}
-              onKeyPress={this.downloadModelFromUrl}
               onChange={(event, value) => this.updateModel({ url: value })}
             />
             <span className="icons">
@@ -72,9 +69,10 @@ export default class ModelForm extends React.Component {
           <div className="container">
             <SelectField
               floatingLabelText="Select class"
+              iconStyle={{ background: "#000", padding: "2px", width: "28px", height: "28px" }}
               value={this.state.model.model_class.id}
               underlineStyle={{ borderBottom: "1px solid grey" }}
-              onChange={(event, value) => {
+              onChange={(event, key, value) => {
                 for (let klass of this.state.modelClasses){
                   if (klass.id == value){
                     this.updateModel({ "model_class": klass });
@@ -82,7 +80,6 @@ export default class ModelForm extends React.Component {
                 }
               }}
             >
-              <MenuItem value={0}><em>None</em></MenuItem>
               {this.state.modelClasses.map(klass => <MenuItem value={klass.id} key={klass.id} primaryText={klass.class_name} label={klass.class_name} /> )}
             </SelectField>
 
@@ -127,7 +124,7 @@ export default class ModelForm extends React.Component {
           <RaisedButton
             label="cancel"
             className="actions-button"
-            onClick={() => this.onCancel(this.state.model)}
+            onClick={() => this.onCancel()}
           />
         </div>
       </span>

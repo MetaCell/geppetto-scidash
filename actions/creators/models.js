@@ -2,7 +2,8 @@ import ModelsApiService from "../../services/api/ModelsApiService";
 import FilteringService from "../../services/FilteringService";
 import Config from "../../shared/Config";
 import Helper from "../../shared/Helper";
-import { toggleCreateModel } from "./header";
+import { changePage } from "./header";
+import PagesService from "../../services/PagesService";
 
 export const FILTERING_MODELS_STARTED = "FILTERING_MODELS_STARTED";
 export const FILTERING_MODELS_FINISHED = "FILTERING_MODELS_FINISHED";
@@ -60,7 +61,7 @@ export function filteringModelsStarted (searchText, filterName, dispatch){
 }
 
 function modelCreateFinished (result, dispatch){
-  dispatch(toggleCreateModel());
+  dispatch(changePage(new PagesService().MODELS_PAGE, dispatch));
 
   return {
     type: MODEL_CREATE_FINISHED,

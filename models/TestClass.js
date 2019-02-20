@@ -1,10 +1,11 @@
 import BaseModel from "./BaseModel";
 
-export default class ModelClass extends BaseModel {
+export default class TestClass extends BaseModel {
 
-    id = 0;
+    id = null;
     url = "";
     class_name = "";
+    observation_schema = ""
+    test_parameters_schema = "";
 
 }
-

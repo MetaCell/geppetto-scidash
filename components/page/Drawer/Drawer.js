@@ -1,29 +1,20 @@
 import React from "react";
 import Drawer from "material-ui/Drawer";
 import Divider from "material-ui/Divider";
-import SvgIcon from "material-ui/SvgIcon";
 import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
 import NavigationMenu from "material-ui/svg-icons/navigation/menu";
-
-// FIXME: switch to font-awesome
-import {
-  ScoresIcon,
-  SuitesIcon,
-  TestIcon,
-  ModelsIcon,
-  SettingsIcon,
-  SchedulingIcon
-} from "../../../assets/CustomIcons";
 import ScidashLogo from "../../../assets/scidash_logo.png";
 import PagesService from "../../../services/PagesService";
 
 export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelActive, editTestActive }) => {
   const pagesService = new PagesService();
+
   const handleMenuClick = page => {
     changePage(page);
     toggleDrawer();
   };
+
   return (
     <div>
       <IconButton
@@ -42,13 +33,13 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
         <Divider />
         <MenuItem
           id="hamMenuScores"
-          primaryText="Scores"
+          primaryText="Test scores"
           leftIcon={<i className="fa fa-star-half-o drawer-icon" />}
           onClick={() => handleMenuClick(pagesService.SCORES_PAGE)}
         />
         <MenuItem
           id="hamMenuSuites"
-          primaryText="Suites"
+          primaryText="Suite scores"
           leftIcon={<i className="fa fa-suitcase drawer-icon" />}
           onClick={() => handleMenuClick(pagesService.SUITES_PAGE)}
         />

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
-import { toggleCreateTest } from "../../actions/creators/header";
+import { changePage } from "../../actions/creators/header";
 import ScidashStorage from "../../shared/ScidashStorage";
 
 import {
@@ -11,6 +11,7 @@ import {
 } from "../../actions/creators/tests";
 
 import Tests from "./Tests";
+import PagesService from "../../services/PagesService";
 
 const mapStateToProps = state => ({
   styleConfig: {
@@ -83,6 +84,8 @@ const mapDispatchToProps = dispatch => {
     let timeoutId = setTimeout(f, 200, searchText, filterName, dispatch);
     storage.setItem(timeoutKey, timeoutId);
   };
+  let pagesService = new PagesService();
+
   return {
     onFilterUpdate: (searchText, filterName) => {
       filter(searchText, filterName, dispatch);
@@ -91,7 +94,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(clearDateFilter(filter, dispatch));
     },
 
-    toggleCreateTest: () => dispatch(toggleCreateTest())
+    toggleCreateTest: () => dispatch(changePage(pagesService.TESTS_CREATE_PAGE, dispatch))
   };
 };
 

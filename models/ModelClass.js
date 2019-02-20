@@ -3,7 +3,7 @@ import Capability from "./Capability";
 
 export default class ModelClass extends BaseModel {
 
-    id = 0;
+    id = null;
     url = "";
     capabilities = [];
     class_name = "";
