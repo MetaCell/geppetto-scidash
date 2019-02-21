@@ -32,7 +32,6 @@ export default class Header extends React.Component {
   }
   
   handleTouchTap(event){
-	    // This prevents ghost click.
 	    event.preventDefault();
 
 	    this.setState({
@@ -111,7 +110,7 @@ export default class Header extends React.Component {
         <div id="headerLinks">
           <div className="row">
 
-            { this.props.userInfo.isLogged && this.props.userInfo.userObject.username!=undefined?
+            { this.props.userInfo.isLogged?
               <div className="col-md-3 auth-links">
                 <RaisedButton className="userButton" label={userinitial} 
                     buttonStyle={{ borderRadius: 50 ,backgroundColor : "blue"}}
