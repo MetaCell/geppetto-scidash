@@ -7,22 +7,48 @@ import SelectField from "material-ui/SelectField";
 import RaisedButton from "material-ui/RaisedButton";
 import CircularProgress from "material-ui/CircularProgress";
 import { OKicon } from "../../assets/CustomIcons";
+import ModelClassApiService from "../../services/api/ModelClassApiService";
+import FilteringService from "../../services/FilteringService";
+import Config from "../../shared/Config";
 
 export default class ModelForm extends React.Component {
   constructor (props, context) {
     super(props, context);
 
     this.state = {
-      modelClasses: props.modelClasses,
+      modelClasses: [],
       model: props.model,
       loading: false,
       success: false,
       newTag: null
     };
 
+
+    this.checkUrl = this.checkUrl.bind(this);
     this.updateModel = this.updateModel.bind(this);
     this.onSave = props.onSave.bind(this);
     this.onCancel = props.onCancel.bind(this);
+  }
+
+  async checkUrl (url){
+    this.setState({
+      loading: true
+    });
+
+    let service = new ModelClassApiService();
+    let filteringService = FilteringService.getInstance();
+
+    filteringService.setupFilter("model_url", url, Config.modelCreateNamespace);
+
+    let response = await service.getList(false, Config.modelCreateNamespace);
+    
+    this.setState({
+      modelClasses: response
+    });
+
+    this.setState({
+      loading: false
+    });
   }
 
   updateModel (data){
@@ -56,7 +82,13 @@ export default class ModelForm extends React.Component {
               className="url"
               floatingLabelText="Source URL"
               underlineStyle={{ borderBottom: "1px solid grey" }}
-              onChange={(event, value) => this.updateModel({ url: value })}
+              onChange={
+                (event, value) => {
+                  this.updateModel({ url: value });
+                  this.checkUrl(value);
+                } 
+              }
+
             />
             <span className="icons">
               {this.state.success ? <SvgIcon>{OKicon}</SvgIcon> : null}
@@ -70,6 +102,7 @@ export default class ModelForm extends React.Component {
             <SelectField
               floatingLabelText="Select class"
               iconStyle={{ background: "#000", padding: "2px", width: "28px", height: "28px" }}
+              disabled={this.state.modelClasses.length == 0}
               value={this.state.model.model_class.id}
               underlineStyle={{ borderBottom: "1px solid grey" }}
               onChange={(event, key, value) => {
