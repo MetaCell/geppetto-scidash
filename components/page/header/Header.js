@@ -1,13 +1,26 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
+import FlatButton from 'material-ui/FlatButton';
+import FontIcon from "material-ui/FontIcon";
 import DrawerContainer from "../Drawer/DrawerContainer";
 import PagesService from "../../../services/PagesService";
+import Popover from 'material-ui/Popover';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {List, ListItem} from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
 
 export default class Header extends React.Component {
 
   constructor (props, context){
     super(props, context);
-
+    this.state = {
+    	open: false,
+    };
     this.props = props;
+    this.wrapperSettings = null;
+
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
   }
 
   componentWillMount (){
@@ -16,6 +29,21 @@ export default class Header extends React.Component {
 
   componentWillUnmount (){
     document.removeEventListener("mousedown", event => this.props.handleClickOutsideSettings(this.wrapperSettings, event, this.props.showSettings));
+  }
+  
+  handleTouchTap(event){
+	    event.preventDefault();
+
+	    this.setState({
+	      open: true,
+	      anchorEl: event.currentTarget,
+	    });
+  }
+
+  handleRequestClose(){
+	    this.setState({
+	      open: false,
+	    });
   }
 
   render () {
@@ -52,6 +80,27 @@ export default class Header extends React.Component {
     else if (activePage == pagesService.SCHEDULING_PAGE){
       title = "Scheduling";
     }
+    
+    var userinitial, dateJoined, lastLogin;
+    var options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            timeZone: 'UTC',
+            timeZoneName: 'short'
+        };
+    if (this.props.userInfo.userObject.username!=undefined) {
+        userinitial = this.props.userInfo.userObject.username.split('')[0];
+    }
+    if (this.props.userInfo.userObject.date_joined!=undefined) {
+        dateJoined = new Date(this.props.userInfo.userObject.date_joined).toLocaleString('en-US', options);
+    }
+    if (this.props.userInfo.userObject.last_login!=undefined) {
+        lastLogin = new Date(this.props.userInfo.userObject.last_login).toLocaleString('en-US', options);
+    }
     return (
       <div id="header">
         <div id="scidash-logo">
@@ -61,16 +110,50 @@ export default class Header extends React.Component {
         <div id="headerLinks">
           <div className="row">
 
-            { this.props.userInfo.isLogged ?
+            { this.props.userInfo.isLogged?
               <div className="col-md-3 auth-links">
-                        Logged as 
-                {" " + this.props.userInfo.userObject.username}
-                <a href="/auth/logout">Logout</a>
+                <RaisedButton className="userButton" label={userinitial} 
+                    buttonStyle={{ borderRadius: 50 ,backgroundColor : "blue"}}
+                	onTouchTap={this.handleTouchTap} 
+                    style={{marginRight: "10px",borderRadius:50,float : "right"}}>
+                   <FontIcon className={"fa fa-user loggedIcon"}/>
+                </RaisedButton>
+                <Popover open={this.state.open} anchorEl={this.state.anchorEl}
+                	anchorOrigin={{horizontal: 'left', vertical: 'bottom'}} 
+                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                    onRequestClose={this.handleRequestClose} style={{marginTop: "10px"}} > 
+                <Card>
+			        <CardHeader
+			            title={this.props.userInfo.userObject.username}
+			            subtitle={this.props.userInfo.userObject.email}
+			            avatar={<Avatar>{userinitial}</Avatar>}
+			            actAsExpander={true}
+			            showExpandableButton={true}/>
+			        <CardActions>
+			            <FlatButton label="Reset Password" href="/auth/password-reset" style={{border: "2px solid lightgrey"}} />
+			            <FlatButton label="Logout" href="/auth/logout" style={{border: "2px solid lightgrey"}} />
+			            </CardActions>
+			            <CardText expandable={true}>
+			          	<List style={{textAlign : "center"}}>
+			                <ListItem primaryText="Name" 
+			                    secondaryText= {this.props.userInfo.userObject.first_name} />
+			                <ListItem primaryText="Date Joined" 
+			                	secondaryText= {dateJoined} />
+			                <ListItem primaryText="Last Login" 
+			                	secondaryText= {lastLogin} />
+			             </List>
+			         </CardText>
+		         </Card>
+		         </Popover>
               </div>
               :
               <div className="col-md-3 auth-links">
-                <a href="/auth/login">Login</a>
-                <a href="/auth/sign-up">Sign-up</a>
+              	<RaisedButton href="/auth/login" className="userButton loginButton" label="Login" style={{
+                    marginRight: "10px"
+                }}/>
+              	<RaisedButton href="/auth/sign-up" className="userButton signUpButton" label="Sign-Up" style={{
+                    marginRight: "10px"
+                }}/>
               </div>
             }
           </div>
