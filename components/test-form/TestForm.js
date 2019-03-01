@@ -17,7 +17,6 @@ export default class TestForm extends React.Component {
       newTag: ""
     };
 
-    this.toggleTestForm = props.toggleTestForm.bind(this);
     this.updateModel = this.updateModel.bind(this);
     this.onSave = props.onSave.bind(this);
     this.onCancel = props.onCancel.bind(this);
@@ -95,36 +94,6 @@ export default class TestForm extends React.Component {
         </div>
 
         <div style={styles.fourthLine.container}>
-
-          <div style={styles.fourthLine.column}>
-            <h3>Observation source:</h3>
-
-            <SelectField
-              value="2"
-              onChange={e => { }}
-              floatingLabelText="Select observer"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
-            >
-              <MenuItem value="0"><em>None</em></MenuItem>
-              <MenuItem value="1"><em>Option 1</em></MenuItem>
-              <MenuItem value="2"><em>Option 2</em></MenuItem>
-            </SelectField>
-
-            <TextField
-              value="Neuron type"
-              style={{ width: "100%" }}
-              floatingLabelText="Enter the type of neuron"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
-            />
-
-            <TextField
-              value="enter an url"
-              style={{ width: "100%" }}
-              floatingLabelText="Enter the URL for the model"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
-            />
-          </div>
-
           <div style={styles.fourthLine.column}>
             <h3>Observation values:</h3>
             <ParamsForm
@@ -158,7 +127,7 @@ export default class TestForm extends React.Component {
           <RaisedButton
             label="cancel"
             style={styles.actionsButton}
-            onClick={() => this.props.toggleTestForm()}
+            onClick={() => this.props.onCancel()}
           />
         </div>
       </span>
