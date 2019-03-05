@@ -8,4 +8,14 @@ export default class TestClass extends BaseModel {
     observation_schema = ""
     test_parameters_schema = "";
 
+    constructor (data) {
+      super(data);
+
+      if (!data) {
+        return;
+      }
+
+      Object.assign(this, data);
+    }
+
 }
