@@ -4,7 +4,8 @@ import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 import SelectField from "material-ui/SelectField";
 import RaisedButton from "material-ui/RaisedButton";
-import ParamsForm from "./ParamsForm";
+import ParamsFormset from "./ParamsFormset";
+import TestInstance from "../../models/TestInstance";
 
 
 export default class TestForm extends React.Component {
@@ -14,7 +15,8 @@ export default class TestForm extends React.Component {
     this.state = {
       testClasses: props.testClasses,
       model: props.model,
-      newTag: ""
+      newTag: "",
+      validationFailed: false
     };
 
     this.updateModel = this.updateModel.bind(this);
@@ -30,14 +32,20 @@ export default class TestForm extends React.Component {
     };
 
     this.setState({
-      model: newModel
-    });
+      model: new TestInstance(newModel)
+    }, () => console.log(this.state.model));
   }
 
   render () {
 
     return (
       <span>
+        { this.state.model.errors.length > 0 && 
+          <span style={{ color: "red" }}>
+            {/* eslint-disable-next-line react/no-array-index-key */}
+            {this.state.model.errors.map((value, index) => <p key={index}>{value}</p>)}
+          </span>
+        }
         <div style={styles.firstLine.container}>
           <TextField
             value={this.state.model.name}
@@ -55,8 +63,8 @@ export default class TestForm extends React.Component {
             floatingLabelFixed={false}
             underlineStyle={{ borderBottom: "1px solid grey" }}
             onChange={(e, key, value) => {
-              for (let klass of this.state.testClasses){
-                if (klass.id == value){
+              for (let klass of this.state.testClasses) {
+                if (klass.id == value) {
                   this.updateModel({ "test_class": klass });
                 }
               }
@@ -96,7 +104,7 @@ export default class TestForm extends React.Component {
         <div style={styles.fourthLine.container}>
           <div style={styles.fourthLine.column}>
             <h3>Observation values:</h3>
-            <ParamsForm
+            <ParamsFormset
               schema={this.state.model.test_class.observation_schema}
               onChange={observation => {
                 this.updateModel({
@@ -108,7 +116,7 @@ export default class TestForm extends React.Component {
 
           <div style={styles.fourthLine.column}>
             <h3>Test parameters:</h3>
-            <ParamsForm
+            <ParamsFormset
               schema={this.state.model.test_class.test_parameters_schema}
               onChange={params => {
                 this.updateModel({
@@ -122,7 +130,15 @@ export default class TestForm extends React.Component {
           <RaisedButton
             label="save"
             style={styles.actionsButton}
-            onClick={() => this.props.onSave(this.state.model)}
+            onClick={() => {
+              if (this.state.model.validate()) {
+                this.props.onSave(this.state.model);
+              } else {
+                this.setState({
+                  validationFailed: true
+                });
+              }
+            }}
           />
           <RaisedButton
             label="cancel"

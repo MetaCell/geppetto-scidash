@@ -53,8 +53,8 @@ export default class ParamsTable extends React.Component {
     this.state.params.map(item => {
       let object = eval(item);
       tableData.push({
-        name: item,
-        value: object.getInitialValue(),
+        name: item.replace("Model.neuroml.", ""),
+        value: object.getInitialValue().toFixed(6),
         unit: object.getUnit()
       });
     });
@@ -160,7 +160,7 @@ export default class ParamsTable extends React.Component {
             id="name"
           />
           <ColumnDefinition
-            title="Initial Value"
+            title="Value"
             id="value"
           />
           <ColumnDefinition
