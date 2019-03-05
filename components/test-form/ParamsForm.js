@@ -2,6 +2,7 @@ import React from "react";
 import TextField from "material-ui/TextField";
 import _ from "underscore";
 
+const empty = {};
 
 export default class ParamsForm extends React.Component {
 
@@ -9,7 +10,9 @@ export default class ParamsForm extends React.Component {
     super(props, context);
 
     this.props = props;
-    this.state = this.transformSchemaToModel();
+    this.state = {
+      model: this.transformSchemaToModel()
+    };
 
     this.onChange = props.onChange.bind(this);
   }
@@ -17,7 +20,13 @@ export default class ParamsForm extends React.Component {
   componentDidUpdate (prevProps, prevState, snapshot) {
     if (!_.isEqual(this.props.schema, prevProps.schema)) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(this.transformSchemaToModel());
+      this.setState({
+        model: {}
+      }, () => {
+        this.setState({
+          model: this.transformSchemaToModel()
+        });
+      });
     }
   }
 
@@ -31,16 +40,20 @@ export default class ParamsForm extends React.Component {
   }
 
   updateForm (key, newValue) {
+    let model = this.state.model;
     this.setState({
-      [key]: newValue
-    }, () => this.onChange(this.state));
+      model: {
+        ...model,
+        [key]: newValue
+      }
+    }, () => this.onChange(this.state.model));
   }
 
   render () {
     return (
       <span>
-        {Object.keys(this.state).map((key, index) => (<TextField
-          value={this.state[key]}
+        {Object.keys(this.state.model).map((key, index) => (<TextField
+          value={this.state.model[key]}
           key={key}
           onChange={(e, newValue) => this.updateForm(key, newValue)}
           style={{ width: "100%" }}
@@ -49,6 +62,5 @@ export default class ParamsForm extends React.Component {
         />))}
       </span>
     );
-
   }
 }

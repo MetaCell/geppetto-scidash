@@ -4,7 +4,7 @@ import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 import SelectField from "material-ui/SelectField";
 import RaisedButton from "material-ui/RaisedButton";
-import ParamsForm from "./ParamsForm";
+import ParamsFormset from "./ParamsFormset";
 
 
 export default class TestForm extends React.Component {
@@ -31,7 +31,7 @@ export default class TestForm extends React.Component {
 
     this.setState({
       model: newModel
-    });
+    }, () => console.log(this.state.model));
   }
 
   render () {
@@ -96,7 +96,7 @@ export default class TestForm extends React.Component {
         <div style={styles.fourthLine.container}>
           <div style={styles.fourthLine.column}>
             <h3>Observation values:</h3>
-            <ParamsForm
+            <ParamsFormset
               schema={this.state.model.test_class.observation_schema}
               onChange={observation => {
                 this.updateModel({
@@ -108,7 +108,7 @@ export default class TestForm extends React.Component {
 
           <div style={styles.fourthLine.column}>
             <h3>Test parameters:</h3>
-            <ParamsForm
+            <ParamsFormset
               schema={this.state.model.test_class.test_parameters_schema}
               onChange={params => {
                 this.updateModel({
