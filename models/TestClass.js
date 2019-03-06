@@ -2,20 +2,20 @@ import BaseModel from "./BaseModel";
 
 export default class TestClass extends BaseModel {
 
-    id = null;
-    url = "";
-    class_name = "";
-    observation_schema = ""
-    test_parameters_schema = "";
+  constructor (data){
+    super(data);
 
-    constructor (data) {
-      super(data);
+    this.id = 0;
+    this.url = "";
+    this.class_name = "";
+    this.observation_schema = {};
+    this.test_parameters_schema = {};
 
-      if (!data) {
-        return;
-      }
-
-      Object.assign(this, data);
+    if (!data){
+      return;
     }
+
+    Object.assign(this, data);
+  }
 
 }

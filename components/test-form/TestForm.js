@@ -26,30 +26,30 @@ export default class TestForm extends React.Component {
 
   updateModel (data) {
     let newModel = {};
+
     newModel = {
       ...this.state.model,
       ...data
     };
 
+    newModel = new TestInstance(newModel);
+
     this.setState({
-      model: new TestInstance(newModel)
-    }, () => console.log(this.state.model));
+      model: newModel
+    });
   }
 
   render () {
 
     return (
       <span>
-        { this.state.model.errors.length > 0 && 
-          <span style={{ color: "red" }}>
-            {/* eslint-disable-next-line react/no-array-index-key */}
-            {this.state.model.errors.map((value, index) => <p key={index}>{value}</p>)}
-          </span>
-        }
         <div style={styles.firstLine.container}>
           <TextField
             value={this.state.model.name}
             onChange={(e, value) => this.updateModel({ "name": value })}
+            errorText={
+              "name" in this.state.model.errors ? this.state.model.errors["name"] : ""
+            }
             style={styles.firstLine.one}
             floatingLabelText="Name of the test"
             underlineStyle={{ borderBottom: "1px solid grey" }}
@@ -104,6 +104,11 @@ export default class TestForm extends React.Component {
         <div style={styles.fourthLine.container}>
           <div style={styles.fourthLine.column}>
             <h3>Observation values:</h3>
+            <p style={{ color: "red" }}>
+              {
+                "observation" in this.state.model.errors ? this.state.model.errors["observation"] : ""
+              }
+            </p>
             <ParamsFormset
               schema={this.state.model.test_class.observation_schema}
               onChange={observation => {
@@ -116,6 +121,11 @@ export default class TestForm extends React.Component {
 
           <div style={styles.fourthLine.column}>
             <h3>Test parameters:</h3>
+            <p style={{ color: "red" }}>
+              {
+                "params" in this.state.model.errors ? this.state.model.errors["params"] : ""
+              }
+            </p>
             <ParamsFormset
               schema={this.state.model.test_class.test_parameters_schema}
               onChange={params => {

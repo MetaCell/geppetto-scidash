@@ -4,41 +4,54 @@ import Validator from "../shared/Validator";
 
 export default class TestInstance extends BaseModel {
 
-  id = 0;
-  test_class = new TestClass();
-  hash_id = "";
-  tags = [];
-  name = "";
-  observation = "";
-  params = "";
-  timestamp = new Date();
-  description = "";
-
-  rules = {
-    name: [Validator.required],
-    observation: [Validator.required, Validator.everyNumber],
-    params: [Validator.required, Validator.everyNumber],
-  }
-
-  validationMessages = {
-    "required-name": "Name is required",
-    "required-observation": "Observation is required",
-    "everyNumber-observation": "Every member of observation should be a number",
-    "required-params": "Params is required",
-    "everyNumber-params": "Every member of params should be a number"
-  }
-
-  constructor (data) {
+  constructor (data){
     super(data);
 
-    if (!data) {
+    this.id = 0;
+    this.test_class = new TestClass();
+    this.hash_id = "";
+    this.tags = [];
+    this.name = "";
+    this.observation = {};
+    this.params = {};
+    this.timestamp = new Date();
+    this.description = "";
+
+    this.rules = {
+      name: [Validator.required],
+      observation: [Validator.requiredAll],
+      params: [Validator.requiredAll],
+    };
+
+    this.validationMessages = {
+      "required-name": "Name is required",
+      "requiredAll-observation": "Missed observations :info",
+      "requiredAll-params": "Missed parameters :info",
+    };
+
+
+    if (!data){
       return;
     }
 
     Object.assign(this, data);
 
-    if (data) {
-      this.test_class = new TestClass(data.test_class);
+    this.test_class = new TestClass(data.test_class);
+
+    let schema = Array.isArray(this.test_class.observation_schema) ? 
+      this.test_class.observation_schema[0] : this.test_class.observation_schema;
+
+    if (!Object.keys(this.observation).length){
+      for (let key of Object.keys(schema)){
+        this.observation[key] = "";
+      }
     }
+
+    if (!Object.keys(this.params).length){
+      for (let key of Object.keys(this.test_class.test_parameters_schema)){
+        this.params[key] = "";
+      }
+    }
+
   }
 }

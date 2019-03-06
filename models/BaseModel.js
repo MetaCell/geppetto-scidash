@@ -1,34 +1,33 @@
 export default class BaseModel {
 
-  rules = {}
-  validationMessages = {}
-  errors = []
-
-  constructor (data) {
-
-    if (!data) {
-      return;
-    }
-
-    Object.assign(this, data);
-
+  constructor (data){
+    this.rules = {};
+    this.validationMessages = {};
+    this.errors = {};
   }
 
   validate () {
-    this.errors = [];
+    this.errors = {};
 
-    for (let field in this.rules){
+    for (let field of Object.keys(this.rules)) {
       for (let method of this.rules[field]){
-        if (!method(this, field)){
+        let result = method(this, field);
+        if (!result.success){
           if (!(`${method.name}-${field}` in this.validationMessages)) {
-            this.errors.push(`${method.name}-${field}`);
+            this.errors = {
+              ...this.errors,
+              [field]: `${method.name}`
+            };
           } else {
-            this.errors.push(this.validationMessages[`${method.name}-${field}`]);
+            this.errors = {
+              ...this.errors,
+              [field] : this.validationMessages[`${method.name}-${field}`].replace(":info", result.additionalInfo)
+            };
           }
         }
       }
     }
 
-    return !this.errors.length > 0;
+    return !Object.entries(this.errors).length > 0;
   }
 }

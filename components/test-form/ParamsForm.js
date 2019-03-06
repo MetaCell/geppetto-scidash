@@ -2,8 +2,6 @@ import React from "react";
 import TextField from "material-ui/TextField";
 import _ from "underscore";
 
-const empty = {};
-
 export default class ParamsForm extends React.Component {
 
   constructor (props, context) {
@@ -19,13 +17,14 @@ export default class ParamsForm extends React.Component {
 
   componentDidUpdate (prevProps, prevState, snapshot) {
     if (!_.isEqual(this.props.schema, prevProps.schema)) {
+      console.log(this.props.schema);
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         model: {}
       }, () => {
         this.setState({
           model: this.transformSchemaToModel()
-        });
+        }, () => this.onChange(this.state.model));
       });
     }
   }
@@ -34,7 +33,7 @@ export default class ParamsForm extends React.Component {
     let result = {};
     for (let key of Object.keys(this.props.schema)) {
       result[key] = "";
-    }
+    } 
 
     return result;
   }
@@ -55,6 +54,7 @@ export default class ParamsForm extends React.Component {
         {Object.keys(this.state.model).map((key, index) => (<TextField
           value={this.state.model[key]}
           key={key}
+          type="number"
           onChange={(e, newValue) => this.updateForm(key, newValue)}
           style={{ width: "100%" }}
           floatingLabelText={key}
