@@ -9,7 +9,8 @@ export default class ParamsForm extends React.Component {
 
     this.props = props;
     this.state = {
-      model: this.transformSchemaToModel()
+      model: this.transformSchemaToModel(),
+      unitsMap: this.props.unitsMap
     };
 
     this.onChange = props.onChange.bind(this);
@@ -17,13 +18,14 @@ export default class ParamsForm extends React.Component {
 
   componentDidUpdate (prevProps, prevState, snapshot) {
     if (!_.isEqual(this.props.schema, prevProps.schema)) {
-      console.log(this.props.schema);
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
-        model: {}
+        model: {},
+        unitsMap: {}
       }, () => {
         this.setState({
-          model: this.transformSchemaToModel()
+          model: this.transformSchemaToModel(),
+          unitsMap: this.props.unitsMap
         }, () => this.onChange(this.state.model));
       });
     }
@@ -57,7 +59,7 @@ export default class ParamsForm extends React.Component {
           type="number"
           onChange={(e, newValue) => this.updateForm(key, newValue)}
           style={{ width: "100%" }}
-          floatingLabelText={key}
+          floatingLabelText={`${key} (${this.state.unitsMap[key]})`}
           underlineStyle={{ borderBottom: "1px solid grey" }}
         />))}
       </span>

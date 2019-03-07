@@ -15,8 +15,7 @@ export default class TestForm extends React.Component {
     this.state = {
       testClasses: props.testClasses,
       model: props.model,
-      newTag: "",
-      validationFailed: false
+      newTag: ""
     };
 
     this.updateModel = this.updateModel.bind(this);
@@ -103,7 +102,9 @@ export default class TestForm extends React.Component {
 
         <div style={styles.fourthLine.container}>
           <div style={styles.fourthLine.column}>
-            <h3>Observation values:</h3>
+            <h3>
+              Observation values:
+            </h3>
             <p style={{ color: "red" }}>
               {
                 "observation" in this.state.model.errors ? this.state.model.errors["observation"] : ""
@@ -111,6 +112,7 @@ export default class TestForm extends React.Component {
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.observation_schema}
+              unitsMap={this.state.model.getObservationUnitsMap()}
               onChange={observation => {
                 this.updateModel({
                   observation
@@ -128,6 +130,7 @@ export default class TestForm extends React.Component {
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.test_parameters_schema}
+              unitsMap={this.state.model.getParamsUnitsMap()}
               onChange={params => {
                 this.updateModel({
                   params
@@ -143,10 +146,6 @@ export default class TestForm extends React.Component {
             onClick={() => {
               if (this.state.model.validate()) {
                 this.props.onSave(this.state.model);
-              } else {
-                this.setState({
-                  validationFailed: true
-                });
               }
             }}
           />

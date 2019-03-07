@@ -12,6 +12,7 @@ export default class ParamsFormset extends React.Component {
 
     this.state = {
       schemaList: [{}],
+      unitsMap: this.props.unitsMap,
       choosedForm: 0
     };
 
@@ -34,7 +35,7 @@ export default class ParamsFormset extends React.Component {
       if (!Array.isArray(this.props.schema)){
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
-          schemaList: [this.props.schema]
+          schemaList: [this.props.schema],
         });
       } else {
         // eslint-disable-next-line react/no-did-update-set-state
@@ -42,6 +43,10 @@ export default class ParamsFormset extends React.Component {
           schemaList: this.props.schema
         });
       }
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        unitsMap: this.props.unitsMap
+      });
     }
   }
 
@@ -71,6 +76,7 @@ export default class ParamsFormset extends React.Component {
         }
 
         <ParamsForm
+          unitsMap={this.state.unitsMap}
           schema={this.state.schemaList[this.state.choosedForm]}
           onChange={this.props.onChange}
         />

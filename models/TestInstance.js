@@ -1,6 +1,7 @@
 import BaseModel from "./BaseModel";
 import TestClass from "./TestClass";
 import Validator from "../shared/Validator";
+import Config from "../shared/Config";
 
 export default class TestInstance extends BaseModel {
 
@@ -54,4 +55,45 @@ export default class TestInstance extends BaseModel {
     }
 
   }
+
+  getObservationUnitsMap (){
+    let map = {};
+    let mergedSchemas = {};
+
+    if (Array.isArray(this.test_class.observation_schema)){
+      for (let schema of this.test_class.observation_schema){
+        mergedSchemas = {
+          ...mergedSchemas,
+          ...schema
+        };
+      }
+    } else {
+      mergedSchemas = {
+        ...this.test_class.observation_schema
+      };
+    }
+
+    for (let key of Object.keys(mergedSchemas)){
+      if (mergedSchemas[key].units) {
+        map[key] = this.test_class.units;
+      } else {
+        map[key] = "-"; 
+      }
+    }
+    
+    return map;
+  }
+
+  getParamsUnitsMap (){
+    let map = {};
+
+    for (let key of Object.keys(this.test_class.test_parameters_schema)){
+      map[key] = Config.testParametersUnitsMap[
+        this.test_class.test_parameters_schema[key].type
+      ];
+    }
+    
+    return map;
+  }
+
 }
