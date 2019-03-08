@@ -44,4 +44,13 @@ Config.bannedFilters[TEST_INSTANCES_NAMESPACE] = ["with_suites"];
 Config.bannedFilters[SCHEDULING_NAMESPACE] = ["with_suites"];
 Config.bannedFilters[SETTINGS_NAMESPACE] = ["with_suites"];
 
+
+Config["testParametersUnitsMap"] = {
+  time: "s", voltage: "V", current: "A"
+};
+
+Config["errorStatuses"] = [
+  400, 500
+];
+
 export default Config;

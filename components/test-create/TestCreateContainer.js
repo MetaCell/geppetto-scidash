@@ -7,7 +7,8 @@ import PagesService from "../../services/PagesService";
 
 const mapStateToProps = state => ({
   model: new TestInstance(),
-  testClasses: state.testClasses.data
+  testClasses: state.testClasses.data,
+  errors: state.global.errors
 });
 
 const mapDispatchToProps = dispatch => ({
