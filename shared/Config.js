@@ -49,4 +49,8 @@ Config["testParametersUnitsMap"] = {
   time: "s", voltage: "V", current: "A"
 };
 
+Config["errorStatuses"] = [
+  400, 500
+];
+
 export default Config;

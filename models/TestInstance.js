@@ -75,7 +75,7 @@ export default class TestInstance extends BaseModel {
 
     for (let key of Object.keys(mergedSchemas)){
       if (mergedSchemas[key].units) {
-        map[key] = this.test_class.units;
+        map[key] = this.test_class.units_name;
       } else {
         map[key] = "-"; 
       }

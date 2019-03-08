@@ -8,7 +8,7 @@ export default class TestClass extends BaseModel {
     this.id = 0;
     this.url = "";
     this.class_name = "";
-    this.units = "";
+    this.units_name = "";
     this.observation_schema = {};
     this.test_parameters_schema = {};
 

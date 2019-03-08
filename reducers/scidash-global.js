@@ -7,6 +7,13 @@ import {
   OPEN_TESTS_VIEW
 } from "../actions/creators/shared";
 
+import {
+  error
+} from "../actions/global";
+import {
+  ERROR
+} from "../actions/creators/global";
+
 export default function scidashGlobal (state = {}, action){
   let newState = null;
 
@@ -19,6 +26,11 @@ export default function scidashGlobal (state = {}, action){
   case OPEN_TESTS_VIEW:
     newState = {
       ...openTestsView(state, action, "global")
+    };
+    break;
+  case ERROR:
+    newState = {
+      ...error(state, action)
     };
     break;
   default:

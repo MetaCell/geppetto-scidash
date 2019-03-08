@@ -15,6 +15,7 @@ export default class TestForm extends React.Component {
     this.state = {
       testClasses: props.testClasses,
       model: props.model,
+      validationFailed: false,
       newTag: ""
     };
 
@@ -39,7 +40,6 @@ export default class TestForm extends React.Component {
   }
 
   render () {
-
     return (
       <span>
         <div style={styles.firstLine.container}>
@@ -146,6 +146,10 @@ export default class TestForm extends React.Component {
             onClick={() => {
               if (this.state.model.validate()) {
                 this.props.onSave(this.state.model);
+              } else {
+                this.setState({
+                  validationFailed: true
+                });
               }
             }}
           />
