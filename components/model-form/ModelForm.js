@@ -8,7 +8,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import CircularProgress from "material-ui/CircularProgress";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
-import { OKicon } from "../../assets/CustomIcons";
+import { OKicon, Xicon } from "../../assets/CustomIcons";
 import ModelClassApiService from "../../services/api/ModelClassApiService";
 import FilteringService from "../../services/FilteringService";
 import Config from "../../shared/Config";
@@ -24,6 +24,8 @@ export default class ModelForm extends React.Component {
       model: props.model,
       loadingClasses: false,
       successClasses: false,
+      // FIXME: redundant, delete this, and operate with successClasses
+      failClasses: false,
       loadingParams: false,
       successParams: false,
       paramsDisabled: true,
@@ -57,6 +59,10 @@ export default class ModelForm extends React.Component {
     if (responseClasses.length > 0){
       this.setState({
         successClasses: true
+      });
+    } else {
+      this.setState({
+        failClasses: true
       });
     }
 
@@ -123,7 +129,8 @@ export default class ModelForm extends React.Component {
 
             />
             <span className="icons">
-              {this.state.successClasses ? <SvgIcon>{OKicon}</SvgIcon> : null}
+              {this.state.successClasses ? <SvgIcon style={{ color: "green" }}>{OKicon}</SvgIcon> : null}
+              {this.state.failClasses ? <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon> : null}
               {this.state.loadingClasses ? <CircularProgress size={36} /> : null}
             </span>
           </div>
@@ -180,7 +187,7 @@ export default class ModelForm extends React.Component {
           />
 
           <span className="icons">
-            {this.state.successParams ? <SvgIcon>{OKicon}</SvgIcon> : null}
+            {this.state.successParams ? <SvgIcon style={{ color: "green" }}>{OKicon}</SvgIcon> : null}
             {this.state.loadingParams ? <CircularProgress size={36} /> : null}
           </span>
 
