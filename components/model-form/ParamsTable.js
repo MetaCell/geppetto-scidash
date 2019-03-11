@@ -49,12 +49,14 @@ export default class ParamsTable extends React.Component {
 
   convertToParamsTableData () {
     let tableData = [];
+    console.log(GEPPETTO.ModelFactory);
 
     this.state.params.map(item => {
       let object = eval(item);
+      let sixDecimalValue = object.getInitialValue().toString().match(/^-?\d+(?:.\d{0,6})?/)[0];
       tableData.push({
         name: item.replace("Model.neuroml.", ""),
-        value: object.getInitialValue().toFixed(6),
+        value: sixDecimalValue,
         unit: object.getUnit()
       });
     });

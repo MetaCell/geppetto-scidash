@@ -47,26 +47,22 @@ export default class Header extends React.Component {
   }
 
   render () {
-    const { activePage, createTestActive, createModelActive } = this.props;
+    const { activePage } = this.props;
     const pagesService = new PagesService();
 
     let title = "";
 
     if (activePage == pagesService.TESTS_PAGE) {
-      if (createTestActive) {
-        title = "New Test";
-      }
-      else {
-        title = "Tests";
-      }
-    }
+      title = "Tests";
+    } 
+    else if (activePage == pagesService.TESTS_CREATE_PAGE){
+      title = "New test";
+    } 
     else if (activePage == pagesService.MODELS_PAGE) {
-      if (createModelActive) {
-        title = "New Model";
-      }
-      else {
-        title = "Models";
-      }
+      title = "Models";
+    }
+    else if (activePage == pagesService.MODELS_CREATE_PAGE) {
+      title = "New model";
     }
     else if (activePage == pagesService.SCORES_PAGE) {
       title = "Test scores";

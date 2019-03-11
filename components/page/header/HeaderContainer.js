@@ -5,8 +5,7 @@ import {
   hideSettings,
 } from "../../../actions/creators/header";
 
-const mapStateToProps = state => ({
-  ...state.header,
+const mapStateToProps = state => ({ ...state.header,
   headerLinksStyle: {
     position: "fixed",
     top: 25,
@@ -26,9 +25,7 @@ const mapStateToProps = state => ({
     minWidth: 270
   },
   userInfo: state.user,
-  activePage: state.header.activePage,
-  createModelActive: state.header.createModelActive,
-  createTestActive: state.header.createTestActive
+  activePage: state.header.activePage
 });
 
 const mapDispatchToProps = dispatch => ({
