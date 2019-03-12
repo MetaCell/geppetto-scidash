@@ -22,9 +22,7 @@ export default class FilteringService {
       this.extractFromStorage();
     }
 
-    setupFilter (key, value, namespace = Config.scoresNamespace, initial = false){
-      console.log(namespace);
-
+    setupFilter (key, value, namespace = Config.scoresNamespace, initial = false, writeToStorage = true){
       if (Config.bannedFilters[namespace].includes(key)){
         console.warn(`${key} is banned for namespace '${namespace}'`);
         return this;
@@ -43,7 +41,9 @@ export default class FilteringService {
         this.filters[key] = value;
       }
 
-      this.writeToStorage();
+      if (writeToStorage){
+        this.writeToStorage();
+      }
 
       return this;
     }

@@ -2,7 +2,17 @@ import BaseModel from "./BaseModel";
 
 export default class Capability extends BaseModel {
 
-   id = 0;
-   class_name = "";
+  constructor (data){
+    super(data);
+
+    this.id = 0;
+    this.class_name = "";
+
+    if (!data){
+      return;
+    }
+
+    Object.assign(this, data);
+  }
 
 }

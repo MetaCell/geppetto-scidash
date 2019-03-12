@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React from "react";
 import Chip from "material-ui/Chip";
 import SvgIcon from "material-ui/SvgIcon";
@@ -14,6 +15,7 @@ import FilteringService from "../../services/FilteringService";
 import Config from "../../shared/Config";
 import ModelParametersApiService from "../../services/api/ModelParametersApiService";
 import ParamsTable from "./ParamsTable";
+import ModelInstance from "../../models/ModelInstance";
 
 export default class ModelForm extends React.Component {
   constructor (props, context) {
@@ -26,11 +28,13 @@ export default class ModelForm extends React.Component {
       successClasses: false,
       // FIXME: redundant, delete this, and operate with successClasses
       failClasses: false,
+      paramsErrors: [],
       loadingParams: false,
       successParams: false,
       paramsDisabled: true,
       newTag: null,
-      modelParamsOpen: false
+      modelParamsOpen: false,
+      validationFailed: false
     };
 
 
@@ -42,17 +46,20 @@ export default class ModelForm extends React.Component {
   }
 
   async checkUrl (url){
+
     this.setState({
       loadingClasses: true,
       successClasses: false,
-      successParams: false
+      successParams: false,
+      failClasses: false,
+      paramsErrors: []
     });
 
     let classService = new ModelClassApiService();
     let paramsService = new ModelParametersApiService();
     let filteringService = FilteringService.getInstance();
 
-    filteringService.setupFilter("model_url", url, Config.modelCreateNamespace);
+    filteringService.setupFilter("model_url", url, Config.modelCreateNamespace, false, false);
 
     let responseClasses = await classService.getList(false, Config.modelCreateNamespace);
 
@@ -71,15 +78,27 @@ export default class ModelForm extends React.Component {
       modelClasses: responseClasses,
       loadingParams: true
     });
-
+    
     let responseParams = await paramsService.getList(false, Config.modelCreateNamespace);
-    this.processModel(JSON.parse(responseParams.data));
 
-    this.setState({
-      loadingParams: false,
-      successParams: true,
-      paramsDisabled: false
-    });
+    if (responseParams.failed){
+      this.setState({
+        paramsErrors: [responseParams.message]
+      });
+      this.setState({
+        loadingParams: false,
+        successParams: false,
+        paramsDisabled: true
+      });
+    } else {
+      this.processModel(JSON.parse(responseParams.data));
+      this.setState({
+        loadingParams: false,
+        successParams: true,
+        paramsDisabled: false
+      });
+    }
+
 
   }
 
@@ -89,17 +108,22 @@ export default class ModelForm extends React.Component {
     return this;
   }
 
-  updateModel (data){
+  updateModel (data, callback){
     let newModel = {};
+    if (!callback){
+      callback = () => {};
+    }
 
     newModel = {
       ...this.state.model,
       ...data
     };
 
+    newModel = new ModelInstance(newModel);
+
     this.setState({
       model: newModel
-    });
+    }, () => callback());
   }
 
   render () {
@@ -111,6 +135,9 @@ export default class ModelForm extends React.Component {
             <TextField
               value={this.state.model.name}
               className="model-name"
+              errorText={
+                "name" in this.state.model.errors ? this.state.model.errors["name"] : ""
+              }
               floatingLabelText="Name of the model"
               underlineStyle={{ borderBottom: "1px solid grey" }}
               onChange={(event, value) => this.updateModel({ name: value })}
@@ -119,14 +146,25 @@ export default class ModelForm extends React.Component {
               value={this.state.model.url}
               className="url"
               floatingLabelText="Source URL"
+              errorText={
+                "url" in this.state.model.errors ? this.state.model.errors["url"] : ""
+              }
               underlineStyle={{ borderBottom: "1px solid grey" }}
               onChange={
                 (event, value) => {
-                  this.updateModel({ url: value });
-                  this.checkUrl(value);
+                  this.updateModel({ url: value }, () => {
+                    if (!this.state.model.validate()){
+                      if ("url" in this.state.model.errors){
+                        this.setState({
+                          validationFailed: true
+                        });
+                      } else {
+                        this.checkUrl(value);
+                      }
+                    }
+                  });
                 } 
               }
-
             />
             <span className="icons">
               {this.state.successClasses ? <SvgIcon style={{ color: "green" }}>{OKicon}</SvgIcon> : null}
@@ -146,6 +184,8 @@ export default class ModelForm extends React.Component {
               underlineStyle={{ borderBottom: "1px solid grey" }}
               onChange={(event, key, value) => {
                 for (let klass of this.state.modelClasses){
+                  console.log(value);
+                  console.log(klass);
                   if (klass.id == value){
                     this.updateModel({ "model_class": klass });
                   }
@@ -172,6 +212,8 @@ export default class ModelForm extends React.Component {
 
         <div className="fourth-line">
           <h3>Model parameters</h3>
+          {/* eslint-disable-next-line react/no-array-index-key */}
+          {this.state.paramsErrors.map((value, index) => <p key={index} style={{ color: "red" }}>{value}</p> )}
         </div>
 
         <div className="fifth-line">
@@ -188,6 +230,7 @@ export default class ModelForm extends React.Component {
 
           <span className="icons">
             {this.state.successParams ? <SvgIcon style={{ color: "green" }}>{OKicon}</SvgIcon> : null}
+            {this.state.paramsErrors.length > 0 ? <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon> : null}
             {this.state.loadingParams ? <CircularProgress size={36} /> : null}
           </span>
 
@@ -214,8 +257,20 @@ export default class ModelForm extends React.Component {
         <div className="actions-container">
           <RaisedButton
             label="save"
+            disabled={this.state.loadingParams || this.state.loadingClasses}
             className="actions-button"
-            onClick={() => this.onSave(this.state.model)}
+            onClick={() => {
+              if (this.state.model.validate() && !this.state.loadingParams) {
+                this.setState({
+                  validationFailed: false
+                });
+                this.onSave(this.state.model);
+              } else {
+                this.setState({
+                  validationFailed: true
+                });
+              }
+            }}
           />
 
           <RaisedButton

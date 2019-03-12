@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React from "react";
 import Chip from "material-ui/Chip";
 import MenuItem from "material-ui/MenuItem";
@@ -145,6 +146,9 @@ export default class TestForm extends React.Component {
             style={styles.actionsButton}
             onClick={() => {
               if (this.state.model.validate()) {
+                this.setState({
+                  validationFailed: false
+                });
                 this.props.onSave(this.state.model);
               } else {
                 this.setState({
