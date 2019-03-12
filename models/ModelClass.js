@@ -3,19 +3,25 @@ import Capability from "./Capability";
 
 export default class ModelClass extends BaseModel {
 
-    id = null;
-    url = "";
-    capabilities = [];
-    class_name = "";
+  constructor (data) {
+    super(data);
 
-    constructor (data) {
-      super(data);
+    this.id = null;
+    this.url = "";
+    this.capabilities = [];
+    this.class_name = "";
 
-      const rawCapabilities = this.capabilities;
-      this.capabilities = [];
-
-      for (const capability of rawCapabilities) {
-        this.capabilities.push(new Capability(capability));
-      }
+    if (!data){
+      return;
     }
+
+    Object.assign(this, data);
+
+    const rawCapabilities = this.capabilities;
+    this.capabilities = [];
+
+    for (const capability of rawCapabilities) {
+      this.capabilities.push(new Capability(capability));
+    }
+  }
 }

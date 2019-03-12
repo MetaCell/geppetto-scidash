@@ -2,8 +2,6 @@ import React from "react";
 import TextField from "material-ui/TextField";
 import _ from "underscore";
 
-const empty = {};
-
 export default class ParamsForm extends React.Component {
 
   constructor (props, context) {
@@ -11,7 +9,8 @@ export default class ParamsForm extends React.Component {
 
     this.props = props;
     this.state = {
-      model: this.transformSchemaToModel()
+      model: this.transformSchemaToModel(),
+      unitsMap: this.props.unitsMap
     };
 
     this.onChange = props.onChange.bind(this);
@@ -21,11 +20,13 @@ export default class ParamsForm extends React.Component {
     if (!_.isEqual(this.props.schema, prevProps.schema)) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
-        model: {}
+        model: {},
+        unitsMap: {}
       }, () => {
         this.setState({
-          model: this.transformSchemaToModel()
-        });
+          model: this.transformSchemaToModel(),
+          unitsMap: this.props.unitsMap
+        }, () => this.onChange(this.state.model));
       });
     }
   }
@@ -34,7 +35,7 @@ export default class ParamsForm extends React.Component {
     let result = {};
     for (let key of Object.keys(this.props.schema)) {
       result[key] = "";
-    }
+    } 
 
     return result;
   }
@@ -55,9 +56,10 @@ export default class ParamsForm extends React.Component {
         {Object.keys(this.state.model).map((key, index) => (<TextField
           value={this.state.model[key]}
           key={key}
+          type="number"
           onChange={(e, newValue) => this.updateForm(key, newValue)}
           style={{ width: "100%" }}
-          floatingLabelText={key}
+          floatingLabelText={`${key} (${this.state.unitsMap[key]})`}
           underlineStyle={{ borderBottom: "1px solid grey" }}
         />))}
       </span>

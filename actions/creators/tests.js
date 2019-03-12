@@ -4,6 +4,7 @@ import Config from "../../shared/Config";
 import { changePage } from "./header";
 import Helper from "../../shared/Helper";
 import PagesService from "../../services/PagesService";
+import { error, clearErrors } from "./global";
 
 export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
 export const FILTERING_TESTS_FINISHED = "FILTERING_TESTS_FINISHED";
@@ -69,6 +70,8 @@ function testCreateFinished (result, dispatch){
 }
 
 export function testCreateStarted (model, dispatch){
+  dispatch(clearErrors());
+
   let apiService = new TestInstancesApiService();
   let copiedModel = Object.assign({}, model);
   copiedModel.hash_id = new Helper().generateHashId(copiedModel);
@@ -84,12 +87,23 @@ export function testCreateStarted (model, dispatch){
   }
 
   copiedModel.tags = tagObjects;
+  let responseCode = 0;
 
-  apiService.create(copiedModel).then(result => result.json()).then(result => {
-    dispatch(testCreateFinished(result, dispatch));
+  apiService.create(copiedModel).then(result => {
+
+    responseCode = result.status;
+
+    result.json().then(result => {
+      if (Config.errorStatuses.includes(responseCode)) {
+        dispatch(error("Backend error: " + JSON.stringify(result))); 
+      } else {
+        dispatch(testCreateFinished(result, dispatch));
+      }
+    });
   });
-
+  
   return {
     type: TEST_CREATE_STARTED
   };
+
 }

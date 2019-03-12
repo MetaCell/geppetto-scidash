@@ -1,17 +1,18 @@
 import { connect } from "react-redux";
 import ModelCreate from "./ModelCreate";
 import ModelInstance from "../../models/ModelInstance";
-import { toggleCreateModel } from "../../actions/creators/header";
 import { modelCreateStarted } from "../../actions/creators/models";
+import { changePage } from "../../actions/header";
+import PagesService from "../../services/PagesService";
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   model: new ModelInstance(),
   modelClasses: state.modelClasses.data
 });
 
 const mapDispatchToProps = dispatch => ({
   onSave: model => dispatch(modelCreateStarted(model, dispatch)),
-  onCancel: () => dispatch(new PagesService().MODELS_PAGE)
+  onCancel: () => dispatch(changePage(new PagesService().MODELS_PAGE))
 });
 
 const ModelCreateContainer = connect(

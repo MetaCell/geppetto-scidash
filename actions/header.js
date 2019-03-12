@@ -1,5 +1,3 @@
-import ApiService from "../services/api/ApiService";
-import PagesService from "../services/PagesService";
 import Config from "../shared/Config";
 import FilteringService from "../services/FilteringService";
 

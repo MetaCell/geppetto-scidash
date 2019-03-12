@@ -8,10 +8,17 @@ export default class HeaderInitialStateService extends BaseInitialStateService {
       showSettings: false,
       colorBlind: false,
       drawerActive: false,
-      activePage: new PagesService().getDefaultPage(),
-      editModelActive: false,
-      createModelActive: false,
-      createTestActive: false
+      activePage: new PagesService().getDefaultPage()
+    }
+
+
+    generateInitialState (){
+      let activePage = window.location.pathname;
+
+      return {
+        ...this.getInitialStateTemplate(),
+        activePage
+      };
     }
 
 }
