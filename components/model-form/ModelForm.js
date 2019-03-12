@@ -184,8 +184,6 @@ export default class ModelForm extends React.Component {
               underlineStyle={{ borderBottom: "1px solid grey" }}
               onChange={(event, key, value) => {
                 for (let klass of this.state.modelClasses){
-                  console.log(value);
-                  console.log(klass);
                   if (klass.id == value){
                     this.updateModel({ "model_class": klass });
                   }
