@@ -5,7 +5,7 @@ export default class TestClass extends BaseModel {
   constructor (data){
     super(data);
 
-    this.id = 0;
+    this.id = null;
     this.url = "";
     this.class_name = "";
     this.units_name = "";

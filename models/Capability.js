@@ -5,7 +5,7 @@ export default class Capability extends BaseModel {
   constructor (data){
     super(data);
 
-    this.id = 0;
+    this.id = null;
     this.class_name = "";
 
     if (!data){

@@ -8,7 +8,7 @@ export default class ModelInstance extends BaseModel {
   constructor (data){
     super(data);
 
-    this.id = 0;
+    this.id = null;
     this.model_class = new ModelClass();
     this.hash_id = "";
     this.tags = [];
@@ -21,13 +21,15 @@ export default class ModelInstance extends BaseModel {
 
     this.rules = {
       name: [Validator.required],
-      url: [Validator.required, Validator.url]
+      url: [Validator.required, Validator.url],
+      model_class: [Validator.idNotNull]
     };
 
     this.validationMessages = {
       "required-name": "Name is required",
       "url-url": "Url is not valid",
-      "required-url": "Url is required"
+      "required-url": "Url is required",
+      "idNotNull-model_class": "You have to choose model class"
     };
 
     if (!data){

@@ -8,7 +8,7 @@ export default class TestInstance extends BaseModel {
   constructor (data){
     super(data);
 
-    this.id = 0;
+    this.id = null;
     this.test_class = new TestClass();
     this.hash_id = "";
     this.tags = [];
