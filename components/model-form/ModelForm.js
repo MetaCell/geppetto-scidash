@@ -45,6 +45,15 @@ export default class ModelForm extends React.Component {
     this.modelFactory = GEPPETTO.ModelFactory;
   }
 
+  getModelClassError (){
+    let errors = [];
+
+    errors.push("model_class" in this.state.model.errors ? this.state.model.errors["model_class"] : "");
+    errors.push(this.state.failClasses ? " / No compatible class found for this model" : "");
+
+    return errors;
+  }
+
   async checkUrl (url){
 
     this.setState({
@@ -178,9 +187,7 @@ export default class ModelForm extends React.Component {
           <div className="container">
             <SelectField
               floatingLabelText="Select class"
-              errorText={
-                "model_class" in this.state.model.errors ? this.state.model.errors["model_class"] : ""
-              }
+              errorText={this.getModelClassError().map(value => value)}
               iconStyle={{ background: "#000", padding: "2px", width: "28px", height: "28px" }}
               disabled={this.state.modelClasses.length == 0}
               value={this.state.model.model_class.id}
