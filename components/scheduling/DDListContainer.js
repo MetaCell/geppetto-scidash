@@ -3,16 +3,19 @@ import DDList from "./DDList";
 import * as actions from "../../actions/creators/scheduler";
 
 const mapStateToProps = state => ({
-  data: state.scheduler.data,
-  tests: state.scheduler.tests,
-  models: state.scheduler.models,
+  data: [
+    ...state.models.data,
+    ...state.testInstances.data
+  ],
+  choosedTests: state.scheduler.choosedTests,
+  choosedModels: state.scheduler.choosedModels
 });
 
 const mapDispatchToProps = dispatch => ({
-  addTest: id => dispatch(actions.addTestToScheduler(id)),
-  addModel: id => dispatch(actions.addModelToScheduler(id)),
-  removeTest: id => dispatch(actions.removeTestFromScheduler(id)),
-  removeModel: id => dispatch(actions.removeModelFromScheduler(id)),
+  addTest: testID => dispatch(actions.addTestToScheduler(testID)),
+  addModel: modelID => dispatch(actions.addModelToScheduler(modelID)),
+  removeTest: testID => dispatch(actions.removeTestFromScheduler(testID)),
+  removeModel: modelID => dispatch(actions.removeModelFromScheduler(modelID)),
 });
 
 export default connect(
