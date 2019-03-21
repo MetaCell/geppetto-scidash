@@ -17,6 +17,13 @@ const required = guineaPig => {
   return response;
 };
 
+const idNotNull = guineaPig => {
+  let response = Object.assign({}, responseTemplate);
+  response.success = typeof guineaPig.id != "undefined" && guineaPig.id !== null;
+
+  return response;
+};
+
 const url = guineaPig => {
   let response = Object.assign({}, responseTemplate);
   let pattern = new RegExp("^(https?:\\/\\/)?" + // protocol
@@ -36,6 +43,8 @@ const Validator = {
   required: (model, key) => required(model[key]),
 
   number: (model, key) => number(model[key]),
+  
+  idNotNull: (model, key) => idNotNull(model[key]),
 
   requiredAll: (model, key) => {
     if (Object.entries(model[key]).length == 0){

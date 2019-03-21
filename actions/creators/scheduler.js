@@ -3,30 +3,30 @@ export const ADD_MODEL_TO_SCHEDULER = "ADD_MODEL_TO_SCHEDULER";
 export const REMOVE_TEST_FROM_SCHEDULER = "REMOVE_TEST_FROM_SCHEDULER";
 export const REMOVE_MODEL_FROM_SCHEDULER = "REMOVE_MODEL_FROM_SCHEDULER";
 
-export function addTestToScheduler (id){
+export function addTestToScheduler (testID){
   return {
     type: ADD_TEST_TO_SCHEDULER,
-    id
+    testID
   };
 }
 
-export function removeTestFromScheduler (id){
+export function removeTestFromScheduler (testID){
   return {
     type: REMOVE_TEST_FROM_SCHEDULER,
-    id
+    testID
   };
 }
 
-export function addModelToScheduler (id){
+export function addModelToScheduler (modelID){
   return {
     type: ADD_MODEL_TO_SCHEDULER,
-    id
+    modelID
   };
 }
 
-export function removeModelFromScheduler (id){
+export function removeModelFromScheduler (modelID){
   return {
     type: REMOVE_MODEL_FROM_SCHEDULER,
-    id
+    modelID
   };
 }
