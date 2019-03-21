@@ -3,12 +3,13 @@ import RaisedButton from "material-ui/RaisedButton";
 import Checkbox from "material-ui/Checkbox";
 import TextField from "material-ui/TextField";
 import DDListContainer from "./DDListContainer";
-import CustomTable from "./CustomTable";
+import CompatibilityTable from "./CompatibilityTable";
 
 class Scheduling extends React.Component {
 
   constructor (props, context) {
     super(props, context);
+
     this.state = {
       saveSuites: false,
       suitesName: `Suites_${new Date().toJSON().slice(0, 19)}`.replace(/[-:]/g, "_") // a default date set to today
@@ -17,21 +18,23 @@ class Scheduling extends React.Component {
   }
 
   getItemByID (ids){
-    return this.props.data.filter(item => ids.includes(item.id));
+    return this.props.data.filter(item => ids.includes(item.scheduler_id));
   }
 
   render () {
     const { saveSuites, suitesName } = this.state;
-    const { tests, models } = this.props;
+
+    const { choosedTests, choosedModels } = this.props;
+
     return (
       <span>
         <DDListContainer />
         
-        {models.length > 0 && tests.length > 0 ?  
+        {choosedModels.length > 0 && choosedTests.length > 0 ?  
           <span>
-            <CustomTable // renders a table with compatibility between selected tests and models
-              tests={this.getItemByID(tests)} 
-              models={this.getItemByID(models)} 
+            <CompatibilityTable // renders a table with compatibility between selected tests and models
+              tests={this.getItemByID(choosedTests)} 
+              models={this.getItemByID(choosedModels)} 
             />
             <div style={styles.saveContainer}>
               <RaisedButton>Run tests</RaisedButton>

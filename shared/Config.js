@@ -31,8 +31,8 @@ Config["scoresNamespace"] = SCORES_NAMESPACE;
 Config["testInstancesNamespace"] = TEST_INSTANCES_NAMESPACE;
 Config["modelInstancesNamespace"] = MODEL_INSTANCES_NAMESPACE;
 Config["modelCreateNamespace"] = MODEL_CREATE_NAMESPACE;
-Config["settings"] = SETTINGS_NAMESPACE;
-Config["scheduling"] = SCHEDULING_NAMESPACE;
+Config["settingsNamespace"] = SETTINGS_NAMESPACE;
+Config["schedulingNamespace"] = SCHEDULING_NAMESPACE;
 
 Config["bannedFilters"] = {};
 

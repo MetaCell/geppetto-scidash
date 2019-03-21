@@ -2,9 +2,12 @@ import { connect } from "react-redux";
 import Scheduling from "./Scheduling";
 
 const mapStateToProps = state => ({
-  data: state.scheduler.data,
-  tests: state.scheduler.tests,
-  models: state.scheduler.models
+  data: [
+    ...state.models.data,
+    ...state.testInstances.data
+  ],
+  choosedTests: state.scheduler.choosedTests,
+  choosedModels: state.scheduler.choosedModels
 });
 
 const mapDispatchToProps = dispatch => ({

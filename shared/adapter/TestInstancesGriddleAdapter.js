@@ -23,6 +23,8 @@ export default class TestInstancesGriddleAdapter extends BaseAdapter {
       let fullDate = new Date(test.timestamp).toLocaleString("en-US", options);
 
       testsData.push({
+        id: test.id,
+        scheduler_id: `${test.id}-test`,
         name: test.name,
         class: test.test_class.class_name,
         tags: test.tags.map(item => item.name),
