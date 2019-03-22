@@ -57,6 +57,11 @@ export default class ParamsForm extends React.Component {
           value={this.state.model[key]}
           key={key}
           type="number"
+          onKeyDown={(e, value) => {
+            if (e.keyCode === 69){
+              e.preventDefault();
+            }
+          }}
           onChange={(e, newValue) => this.updateForm(key, newValue)}
           style={{ width: "100%" }}
           floatingLabelText={`${key} (${this.state.unitsMap[key]})`}
