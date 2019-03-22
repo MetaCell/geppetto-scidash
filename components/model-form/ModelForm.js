@@ -183,7 +183,6 @@ export default class ModelForm extends React.Component {
                 "model_class" in this.state.model.errors ? this.state.model.errors["model_class"] : ""
               }
               iconStyle={{ background: "#000", padding: "2px", width: "28px", height: "28px" }}
-              disabled={this.state.modelClasses.length == 0}
               value={this.state.model.model_class.id}
               underlineStyle={{ borderBottom: "1px solid grey" }}
           	  dropDownMenuProps={{
