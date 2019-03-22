@@ -56,13 +56,12 @@ export default class TestForm extends React.Component {
           />
 
           <SelectField
-            id="selectField"
+            id="testFormSelectClass"
             style={styles.firstLine.two}
             iconStyle={styles.firstLine.icon}
             value={this.state.model.test_class.id}
             floatingLabelText="Select test class"
             floatingLabelFixed={false}
-            canAutoPosition={true}
             underlineStyle={{ borderBottom: "1px solid grey" }}
           	dropDownMenuProps={{
           		 menuStyle:{

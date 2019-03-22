@@ -177,6 +177,7 @@ export default class ModelForm extends React.Component {
         <div className="second-line">
           <div className="container">
             <SelectField
+              id="modelFormSelectClass"
               floatingLabelText="Select class"
               errorText={
                 "model_class" in this.state.model.errors ? this.state.model.errors["model_class"] : ""
