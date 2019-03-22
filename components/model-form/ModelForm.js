@@ -185,6 +185,16 @@ export default class ModelForm extends React.Component {
               disabled={this.state.modelClasses.length == 0}
               value={this.state.model.model_class.id}
               underlineStyle={{ borderBottom: "1px solid grey" }}
+          	  dropDownMenuProps={{
+          		 menuStyle:{
+          			 border: "1px solid black",
+          			 backgroundColor: '#f5f1f1'
+                 },
+                 anchorOrigin:{
+                	 vertical:"center",
+                	 horizontal:"left"
+                  }
+              }}
               onChange={(event, key, value) => {
                 for (let klass of this.state.modelClasses){
                   if (klass.id == value){
