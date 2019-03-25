@@ -56,12 +56,23 @@ export default class TestForm extends React.Component {
           />
 
           <SelectField
+            id="testFormSelectClass"
             style={styles.firstLine.two}
             iconStyle={styles.firstLine.icon}
             value={this.state.model.test_class.id}
             floatingLabelText="Select test class"
             floatingLabelFixed={false}
             underlineStyle={{ borderBottom: "1px solid grey" }}
+          	dropDownMenuProps={{
+          		 menuStyle:{
+          			 border: "1px solid black",
+          			 backgroundColor: '#f5f1f1'
+                 },
+                 anchorOrigin:{
+                	 vertical:"center",
+                	 horizontal:"left"
+                  }
+            }}
             onChange={(e, key, value) => {
               for (let klass of this.state.testClasses) {
                 if (klass.id == value) {

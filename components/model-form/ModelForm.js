@@ -186,12 +186,22 @@ export default class ModelForm extends React.Component {
         <div className="second-line">
           <div className="container">
             <SelectField
+              id="modelFormSelectClass"
               floatingLabelText="Select class"
               errorText={this.getModelClassError().map(value => value)}
               iconStyle={{ background: "#000", padding: "2px", width: "28px", height: "28px" }}
-              disabled={this.state.modelClasses.length == 0}
               value={this.state.model.model_class.id}
               underlineStyle={{ borderBottom: "1px solid grey" }}
+          	  dropDownMenuProps={{
+          		 menuStyle:{
+          			 border: "1px solid black",
+          			 backgroundColor: '#f5f1f1'
+                 },
+                 anchorOrigin:{
+                	 vertical:"center",
+                	 horizontal:"left"
+                  }
+              }}
               onChange={(event, key, value) => {
                 for (let klass of this.state.modelClasses){
                   if (klass.id == value){
