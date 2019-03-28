@@ -88,6 +88,7 @@ export default class CompatibilityTable extends React.Component {
 
   getTableHeader (tests) {
     tests.shift();
+
     return (
       <tr>
         <th key="Models"><p style={this.state.styles.tableFirstHeader}>Models</p></th>
@@ -100,6 +101,7 @@ export default class CompatibilityTable extends React.Component {
         ))}
       </tr>
     );
+
   }
 
 
@@ -110,16 +112,18 @@ export default class CompatibilityTable extends React.Component {
       models: this.state.models.map(model => model.id)
     };
 
-    this.getCompatibilityMatrix(preparedData).then(result => result.json()).then(result => {
-      this.setState({
-        csvTable: result.compatibility
+    this.getCompatibilityMatrix(preparedData)
+      .then(result => result.json())
+      .then(result => {
+        this.setState({
+          csvTable: result.compatibility
+        });
       });
-    });
-
   }
 
   getTableRow (rowsArray) {
     rowsArray.pop();
+
     return rowsArray.map(row => (
       <tr key={row[0]}>
         {row.map((el, i) => (
@@ -129,11 +133,11 @@ export default class CompatibilityTable extends React.Component {
         ))}
       </tr>
     ));
+
   }
 
   async getCompatibilityMatrix (modelsVsTests) {
     let service = new CompatibilityApiService();
-
     let result = await service.create(modelsVsTests);
 
     return result;

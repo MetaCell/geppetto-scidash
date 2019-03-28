@@ -22,11 +22,12 @@ export default class ModelForm extends React.Component {
     super(props, context);
 
     this.state = {
+      params: [],
+      stateVariables: [],
       modelClasses: [],
       model: props.model,
       loadingClasses: false,
       successClasses: false,
-      // FIXME: redundant, delete this, and operate with successClasses
       failClasses: false,
       paramsErrors: [],
       loadingParams: false,
@@ -87,7 +88,7 @@ export default class ModelForm extends React.Component {
       modelClasses: responseClasses,
       loadingParams: true
     });
-    
+
     let responseParams = await paramsService.getList(false, Config.modelCreateNamespace);
 
     if (responseParams.failed){
@@ -111,16 +112,50 @@ export default class ModelForm extends React.Component {
 
   }
 
+  retrieveStateVariables () {
+    this.setState({
+      stateVariables: GEPPETTO.ModelFactory.getAllPotentialInstancesOfMetaType("StateVariableType")
+    });
+  }
+
+  retrieveParams () {
+    this.setState({
+      params: GEPPETTO.ModelFactory.getAllPotentialInstancesOfMetaType("ParameterType")
+    });
+  }
+
+
   processModel (model){
     GEPPETTO.Manager.loadModel(JSON.parse(model.geppetto_model_loaded));
+
+    this.retrieveStateVariables();
+    this.retrieveParams();
+
+    this.updateModel({
+      "run_params": {
+        "stateVariables": this.state.stateVariables,
+        "params": this.state.params.map(value => {
+          let object = eval(value);
+          let sixDecimalValue = object.getInitialValue().toString().match(/^-?\d+(?:.\d{0,6})?/)[0];
+
+          let result = {
+            name: value,
+            value: sixDecimalValue,
+            unit: object.getUnit()
+          };
+
+          return result;
+        })
+      }
+    });
 
     return this;
   }
 
-  updateModel (data, callback){
+  updateModel (data, callback) {
     let newModel = {};
-    if (!callback){
-      callback = () => {};
+    if (!callback) {
+      callback = () => { };
     }
 
     newModel = {
@@ -162,8 +197,8 @@ export default class ModelForm extends React.Component {
               onChange={
                 (event, value) => {
                   this.updateModel({ url: value }, () => {
-                    if (!this.state.model.validate()){
-                      if ("url" in this.state.model.errors){
+                    if (!this.state.model.validate()) {
+                      if ("url" in this.state.model.errors) {
                         this.setState({
                           validationFailed: true
                         });
@@ -172,7 +207,7 @@ export default class ModelForm extends React.Component {
                       }
                     }
                   });
-                } 
+                }
               }
             />
             <span className="icons">
@@ -192,25 +227,25 @@ export default class ModelForm extends React.Component {
               iconStyle={{ background: "#000", padding: "2px", width: "28px", height: "28px" }}
               value={this.state.model.model_class.id}
               underlineStyle={{ borderBottom: "1px solid grey" }}
-          	  dropDownMenuProps={{
+              dropDownMenuProps={{
           		 menuStyle:{
           			 border: "1px solid black",
-          			 backgroundColor: '#f5f1f1'
-                 },
-                 anchorOrigin:{
+          			 backgroundColor: "#f5f1f1"
+                },
+                anchorOrigin:{
                 	 vertical:"center",
                 	 horizontal:"left"
-                  }
+                }
               }}
               onChange={(event, key, value) => {
-                for (let klass of this.state.modelClasses){
-                  if (klass.id == value){
+                for (let klass of this.state.modelClasses) {
+                  if (klass.id == value) {
                     this.updateModel({ "model_class": klass });
                   }
                 }
               }}
             >
-              {this.state.modelClasses.map(klass => <MenuItem value={klass.id} key={klass.id} primaryText={klass.class_name} label={klass.class_name} /> )}
+              {this.state.modelClasses.map(klass => <MenuItem value={klass.id} key={klass.id} primaryText={klass.class_name} label={klass.class_name} />)}
             </SelectField>
 
             <TextField
@@ -223,7 +258,7 @@ export default class ModelForm extends React.Component {
 
             <div className="tags">
               {/* eslint-disable-next-line react/no-array-index-key */}
-              {this.state.model.tags.map((tag, i) => <Chip style={{ marginLeft: 4, marginTop: 4, float: "left" }} key={`${tag}-${i}`}>{tag}</Chip> )}
+              {this.state.model.tags.map((tag, i) => <Chip style={{ marginLeft: 4, marginTop: 4, float: "left" }} key={`${tag}-${i}`}>{tag}</Chip>)}
             </div>
           </div>
         </div>
@@ -231,7 +266,7 @@ export default class ModelForm extends React.Component {
         <div className="fourth-line">
           <h3>Model parameters</h3>
           {/* eslint-disable-next-line react/no-array-index-key */}
-          {this.state.paramsErrors.map((value, index) => <p key={index} style={{ color: "red" }}>{value}</p> )}
+          {this.state.paramsErrors.map((value, index) => <p key={index} style={{ color: "red" }}>{value}</p>)}
         </div>
 
         <div className="fifth-line">
@@ -240,8 +275,8 @@ export default class ModelForm extends React.Component {
             disabled={this.state.paramsDisabled}
             className="actions-button"
             style={{
-              padding:"0px",
-              margin:"10px 0 0 0"
+              padding: "0px",
+              margin: "10px 0 0 0"
             }}
             onClick={() => this.setState({ modelParamsOpen: true })}
           />
@@ -268,7 +303,10 @@ export default class ModelForm extends React.Component {
             contentClassName="centered-modal"
             open={this.state.modelParamsOpen}
           >
-            <ParamsTable /> 
+            <ParamsTable
+              stateVariables={this.state.stateVariables}
+              params={this.state.params}
+            />
           </Dialog>
         </div>
 

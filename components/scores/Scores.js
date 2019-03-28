@@ -126,6 +126,11 @@ export default class Scores extends React.Component {
               } order={9}
             />
             <ColumnDefinition
+              id="status"
+              title="Status"
+              order={10}
+            />
+            <ColumnDefinition
               id="timestamp"
               sortMethod={this.sortTimestamp}
               title="Timestamp"
@@ -138,7 +143,7 @@ export default class Scores extends React.Component {
                 onDateFilterClear={this.props.onDateFilterClear}
                 {...props}
               />)
-              } order={10}
+              } order={11}
             />
             <ColumnDefinition
               isMetadata="true"

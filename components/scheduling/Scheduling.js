@@ -4,6 +4,7 @@ import Checkbox from "material-ui/Checkbox";
 import TextField from "material-ui/TextField";
 import DDListContainer from "./DDListContainer";
 import CompatibilityTable from "./CompatibilityTable";
+import SchedulingApiService from "../../services/api/SchedulingApiService";
 
 class Scheduling extends React.Component {
 
@@ -19,6 +20,12 @@ class Scheduling extends React.Component {
 
   getItemByID (ids){
     return this.props.data.filter(item => ids.includes(item.scheduler_id));
+  }
+
+  async scheduleTests (matrix){
+    let schedulingService = new SchedulingApiService();
+
+    let result = await schedulingService.create(matrix);
   }
 
   render () {
@@ -37,7 +44,14 @@ class Scheduling extends React.Component {
               models={this.getItemByID(choosedModels)} 
             />
             <div style={styles.saveContainer}>
-              <RaisedButton>Run tests</RaisedButton>
+              <RaisedButton
+                onClick={() => this.scheduleTests({
+                  "tests": this.getItemByID(choosedTests),
+                  "models": this.getItemByID(choosedModels)
+                })}
+              >
+                Run tests
+              </RaisedButton>
               {saveSuites ?
                 <span style={styles.saveSubContainer}>
                   <TextField

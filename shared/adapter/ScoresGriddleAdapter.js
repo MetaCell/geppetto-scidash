@@ -1,5 +1,6 @@
 import BaseAdapter from "./BaseAdapter";
 import InitialStateService from "../../services/InitialStateService";
+import Config from "../Config";
 
 export default class ScoresGriddleAdapter extends BaseAdapter {
 
@@ -40,6 +41,7 @@ export default class ScoresGriddleAdapter extends BaseAdapter {
         test_class: score.test_instance.test_class.class_name,
         model: score.model_instance,
         hostname: score.test_instance.hostname,
+        status: Config.scoreStatusMap[score.status],
         owner: score.owner.username,
         build_info: score.test_instance.build_info,
         timestamp: { full: fullDate, short: shortDate },

@@ -76,7 +76,7 @@ export default class Helper {
   generateHashId (model){
     let saltedName = `${model.name}_${this.generateId(2000, 100000)}`;
 
-    let hash = this.generateHash(saltedName);
+    let hash = Math.abs(this.generateHash(saltedName));
     let id = this.generateId(1000000, 9999999);
 
     return `${hash}_${id}`;
