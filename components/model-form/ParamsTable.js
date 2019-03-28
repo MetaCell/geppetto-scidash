@@ -5,9 +5,10 @@ import FlatButton from "material-ui/FlatButton";
 export default class ParamsTable extends React.Component {
   constructor (props, context) {
     super(props, context);
+
     this.state = {
-      stateVariables: [],
-      params: [],
+      stateVariables: props.stateVariables,
+      params: props.params,
       stateVariablesTableData: [],
       paramsTableData: [],
       stateVariablesOpen: true,
@@ -16,21 +17,9 @@ export default class ParamsTable extends React.Component {
 
   }
 
-  componentDidMount () {
-    this.retrieveStateVariables();
-    this.retrieveParams();
-  }
-
-  retrieveStateVariables () {
-    this.setState({
-      stateVariables: GEPPETTO.ModelFactory.getAllPotentialInstancesOfMetaType("StateVariableType")
-    }, () => { this.convertToStateVariablesTableData(); });
-  }
-
-  retrieveParams () {
-    this.setState({
-      params: GEPPETTO.ModelFactory.getAllPotentialInstancesOfMetaType("ParameterType")
-    }, () => { this.convertToParamsTableData(); });
+  componentDidMount (){
+    this.convertToStateVariablesTableData();
+    this.convertToParamsTableData();
   }
 
   convertToStateVariablesTableData () {
@@ -49,11 +38,12 @@ export default class ParamsTable extends React.Component {
 
   convertToParamsTableData () {
     let tableData = [];
-    console.log(GEPPETTO.ModelFactory);
 
     this.state.params.map(item => {
+
       let object = eval(item);
       let sixDecimalValue = object.getInitialValue().toString().match(/^-?\d+(?:.\d{0,6})?/)[0];
+
       tableData.push({
         name: item.replace("Model.neuroml.", ""),
         value: sixDecimalValue,
@@ -68,7 +58,7 @@ export default class ParamsTable extends React.Component {
 
   render () {
 
-    const ParamsLayout = ({ Table, Pagination, Filter, SettingsWrapper }) => (
+    const ParamsLayout = ({ Table, Pagination, Filter, _SettingsWrapper }) => (
       <div>
         <Filter />
         <Table />
@@ -76,7 +66,7 @@ export default class ParamsTable extends React.Component {
       </div>
     );
 
-    const StateVariablesLayout = ({ Table, Pagination, Filter, SettingsWrapper }) => (
+    const StateVariablesLayout = ({ Table, Pagination, Filter, _SettingsWrapper }) => (
       <div>
         <Filter />
         <Table />
