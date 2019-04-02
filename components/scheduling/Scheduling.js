@@ -52,20 +52,20 @@ class Scheduling extends React.Component {
               >
                 Run tests
               </RaisedButton>
-              {saveSuites ?
-                <span style={styles.saveSubContainer}>
-                  <TextField
-                    value={suitesName}
-                    style={styles.saveRoot}
-                    placeholder='Name the suites'
-                    floatingLabelText="Enter a name"
-                    onChange={e => this.setState({ suitesName: e.target.value })}
-                    onKeyPress={e => e.key === "Enter" ? () => {} : null}
-                  />
-                </span>
-                : null
-              }
             </div>
+            {saveSuites ?
+              <div style={styles.saveSubContainer}>
+                <TextField
+                  value={suitesName}
+                  style={styles.saveRoot}
+                  placeholder='Name the suites'
+                  floatingLabelText="Enter a name"
+                  onChange={e => this.setState({ suitesName: e.target.value })}
+                  onKeyPress={e => e.key === "Enter" ? () => {} : null}
+                />
+              </div>
+              : null
+              }
             <div style={styles.checkboxContainer}>
               <Checkbox
                 checked={saveSuites}
@@ -91,9 +91,9 @@ const styles = {
     position: "relative"
   },
   saveSubContainer: {
-    position: "absolute",
-    marginLeft: "0px",
-    marginTop: "-26px"
+    textAlign: "center",
+    marginTop: "0px",
+    position: "relative"
   },
   saveButton: {
     display: "inline-block"
@@ -105,10 +105,12 @@ const styles = {
   checkboxContainer: {
     marginLeft: "auto",
     marginRight: "auto",
+    paddingLeft: "-20px",
+    paddingTop: "15px",
     textAlign: "center",
     width: "160px"
   },
   checkbox: {
-    marginLeft: "20px"
+    marginLeft: "5px"
   }
 };
