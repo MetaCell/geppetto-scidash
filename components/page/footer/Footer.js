@@ -13,7 +13,7 @@ export default class Footer extends React.Component {
                     <a href='https://neuroml-db.org/' target="_blank">NeuroML-DB</a>
                 </div>
                 <div id="footerDate">
-                    &copy; 2017-2018 SciDash / Arizona State University<sup>®</sup>
+                    &copy; 2017-2019 SciDash / Arizona State University<sup>®</sup>
                 </div>
             </div>
         );
