@@ -39,7 +39,7 @@ export default class TestInstance extends BaseModel {
 
     this.test_class = new TestClass(data.test_class);
 
-    let schema = Array.isArray(this.test_class.observation_schema) ? 
+    let schema = Array.isArray(this.test_class.observation_schema) ?
       this.test_class.observation_schema[0] : this.test_class.observation_schema;
 
     if (!Object.keys(this.observation).length){
@@ -64,7 +64,7 @@ export default class TestInstance extends BaseModel {
       for (let schema of this.test_class.observation_schema){
         mergedSchemas = {
           ...mergedSchemas,
-          ...schema
+          ...schema[1]
         };
       }
     } else {
@@ -77,10 +77,10 @@ export default class TestInstance extends BaseModel {
       if (mergedSchemas[key].units) {
         map[key] = this.test_class.units_name;
       } else {
-        map[key] = "-"; 
+        map[key] = "-";
       }
     }
-    
+
     return map;
   }
 
@@ -92,7 +92,7 @@ export default class TestInstance extends BaseModel {
         this.test_class.test_parameters_schema[key].type
       ];
     }
-    
+
     return map;
   }
 

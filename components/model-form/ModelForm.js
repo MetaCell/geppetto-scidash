@@ -222,6 +222,10 @@ export default class ModelForm extends React.Component {
           <div className="container">
             <SelectField
               id="modelFormSelectClass"
+              labelStyle={{
+                position: "relative",
+                top: "-10px"
+              }}
               floatingLabelText="Select class"
               errorText={this.getModelClassError().map(value => value)}
               iconStyle={{ background: "#000", padding: "2px", width: "28px", height: "28px" }}

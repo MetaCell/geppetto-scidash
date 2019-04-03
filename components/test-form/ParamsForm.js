@@ -31,12 +31,21 @@ export default class ParamsForm extends React.Component {
     }
   }
 
-  transformSchemaToModel () {
-    let result = {};
-    for (let key of Object.keys(this.props.schema)) {
-      result[key] = "";
-    } 
+  transformSchemaToModel() {
+    let schema = {}
 
+    if (Array.isArray(this.props.schema)) {
+      schema = this.props.schema[1]
+    } else {
+      if (typeof this.props.schema != "undefined"){
+        schema = this.props.schema
+      }
+    }
+
+    let result = {};
+    for (let key of Object.keys(schema)) {
+      result[key] = "";
+    }
     return result;
   }
 
