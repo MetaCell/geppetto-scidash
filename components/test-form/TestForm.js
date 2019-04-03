@@ -57,6 +57,10 @@ export default class TestForm extends React.Component {
 
           <SelectField
             id="testFormSelectClass"
+            labelStyle={{
+              position: "relative",
+              top: "-10px"
+            }}
             style={styles.firstLine.two}
             iconStyle={styles.firstLine.icon}
             value={this.state.model.test_class.id}
