@@ -68,7 +68,7 @@ export default class CompatibilityTable extends React.Component {
     if (cellInfo == "TBD" || cellInfo == "N/A"){
       return (
         <span
-          data-tooltip={cellInfo
+          data-tooltip={cellInfo == "TBD"
             ? "Test compatible with model"
             : "Test incompatible with model"
           }
@@ -144,7 +144,7 @@ export default class CompatibilityTable extends React.Component {
   }
 
   render () {
-    let rows = this.state.csvTable.split("/");
+    let rows = this.state.csvTable.split(";");
 
     let csvHeader = rows.shift();
     let tableHeader = this.getTableHeader(csvHeader.split("|"));
