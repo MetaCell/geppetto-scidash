@@ -35,7 +35,7 @@ export default class ModelForm extends React.Component {
       loadingParams: false,
       successParams: false,
       paramsDisabled: true,
-      newTag: null,
+      newTag: "",
       modelParamsOpen: false,
       validationFailed: false
     };
@@ -127,6 +127,7 @@ export default class ModelForm extends React.Component {
   addTag(newTag) {
     if(!this.state.model.tags.includes(newTag)) {
       this.updateModel({ tags: [...this.state.model.tags, newTag] });
+      this.setState({newTag: ""});
     }
   }
 
@@ -267,6 +268,7 @@ export default class ModelForm extends React.Component {
             </SelectField>
 
             <TextField
+              value={this.state.newTag}
               onChange={(e, value) => { this.setState({ newTag: value }); }}
               className="new-tag"
               floatingLabelText="Add a new tag"

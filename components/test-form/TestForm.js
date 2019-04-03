@@ -55,6 +55,7 @@ export default class TestForm extends React.Component {
   addTag(newTag) {
     if(!this.state.model.tags.includes(newTag)) {
       this.updateModel({ tags: [...this.state.model.tags, newTag] });
+      this.setState({newTag: ""});
     }
   }
 
