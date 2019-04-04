@@ -4,10 +4,12 @@ import RaisedButton from "material-ui/RaisedButton";
 import { changePage } from "../../actions/creators/header";
 import ScidashStorage from "../../shared/ScidashStorage";
 
+
 import {
   filteringTestsStarted,
   dateFilterChanged,
-  clearDateFilter
+  clearDateFilter,
+  cloneTest
 } from "../../actions/creators/tests";
 
 import Tests from "./Tests";
@@ -93,7 +95,7 @@ const mapDispatchToProps = dispatch => {
     onDateFilterClear: event => {
       dispatch(clearDateFilter(filter, dispatch));
     },
-
+    clone: testId => dispatch(cloneTest(testId, dispatch)),
     toggleCreateTest: () => dispatch(changePage(pagesService.TESTS_CREATE_PAGE, dispatch))
   };
 };

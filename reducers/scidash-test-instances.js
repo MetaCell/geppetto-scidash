@@ -3,14 +3,16 @@ import {
   FILTERING_TESTS_FINISHED,
   DATE_FILTER_CHANGED,
   DATE_FILTER_CLEAR,
-  TEST_CREATE_FINISHED
+  TEST_CREATE_FINISHED,
+  TEST_CLONE_FINISHED
 } from "../actions/creators/tests";
 import {
   filteringTestsStarted,
   filteringTestsFinished,
   dateFilterChanged,
   dateFilterClear,
-  testCreateFinished
+  testCreateFinished,
+  testCloneFinished
 } from "../actions/tests";
 
 export default function scidashTestInstances (state = {}, action){
@@ -40,6 +42,11 @@ export default function scidashTestInstances (state = {}, action){
   case TEST_CREATE_FINISHED:
     newState = {
       ...testCreateFinished(state, action)
+    };
+    break;
+  case TEST_CLONE_FINISHED:
+    newState = {
+      ...testCloneFinished(state, action)
     };
     break;
   default:

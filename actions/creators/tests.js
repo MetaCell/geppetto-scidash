@@ -5,6 +5,8 @@ import { changePage } from "./header";
 import Helper from "../../shared/Helper";
 import PagesService from "../../services/PagesService";
 import { error, clearErrors } from "./global";
+import TestCloneApiService from "../../services/api/TestCloneApiService";
+import TestInstance from "../../models/TestInstance";
 
 export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
 export const FILTERING_TESTS_FINISHED = "FILTERING_TESTS_FINISHED";
@@ -12,6 +14,8 @@ export const DATE_FILTER_CHANGED = "TESTS_DATE_FILTER_CHANGED";
 export const DATE_FILTER_CLEAR = "TESTS_DATE_FILTER_CLEAR";
 export const TEST_CREATE_STARTED = "TEST_CREATE_STARTED";
 export const TEST_CREATE_FINISHED = "TEST_CREATE_FINISHED";
+export const TEST_CLONE_STARTED = "TEST_CLONE_STARTED";
+export const TEST_CLONE_FINISHED = "TEST_CLONE_FINISHED";
 
 export function dateFilterChanged (){
   return {
@@ -95,15 +99,37 @@ export function testCreateStarted (model, dispatch){
 
     result.json().then(result => {
       if (Config.errorStatuses.includes(responseCode)) {
-        dispatch(error("Backend error: " + JSON.stringify(result))); 
+        dispatch(error("Backend error: " + JSON.stringify(result)));
       } else {
         dispatch(testCreateFinished(result, dispatch));
       }
     });
   });
-  
+
   return {
     type: TEST_CREATE_STARTED
+  };
+
+}
+
+export function cloneTestFinished (model){
+  return {
+    type: TEST_CLONE_FINISHED,
+    model
+  };
+
+}
+
+export function cloneTest (testId, dispatch){
+  let apiService = new TestCloneApiService().setId(testId);
+
+  apiService.getList(false, Config.testInstancesNamespace)
+    .then(result => {
+      dispatch(cloneTestFinished(new TestInstance(result)));
+    });
+
+  return {
+    type: TEST_CLONE_STARTED
   };
 
 }
