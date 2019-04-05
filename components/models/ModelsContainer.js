@@ -6,7 +6,8 @@ import ScidashStorage from "../../shared/ScidashStorage";
 import {
   filteringModelsStarted,
   dateFilterChanged,
-  clearDateFilter
+  clearDateFilter,
+  cloneModel
 } from "../../actions/creators/models";
 
 import Models from "./Models";
@@ -94,7 +95,7 @@ const mapDispatchToProps = dispatch => {
     onDateFilterClear: event => {
       dispatch(clearDateFilter(filter, dispatch));
     },
-
+    clone: modelId => dispatch(cloneModel(modelId, dispatch)),
     toggleCreateModel: () => dispatch(changePage(pagesService.MODELS_CREATE_PAGE, dispatch))
   };
 };

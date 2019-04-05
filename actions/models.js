@@ -69,3 +69,20 @@ export function modelCreateFinished (state, action){
     ...state
   };
 }
+
+export function modelCloneFinished (state, action){
+  let resultArray = [action.model];
+  let adopted = new ModelsGriddleAdapter(resultArray).getGriddleData();
+
+  let apiService = new ApiService();
+  apiService.clearCache(apiService.storage);
+
+  state.data = [
+    ...state.data,
+    ...adopted
+  ];
+
+  return {
+    ...state
+  };
+}

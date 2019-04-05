@@ -3,14 +3,16 @@ import {
   FILTERING_MODELS_FINISHED,
   DATE_FILTER_CHANGED,
   DATE_FILTER_CLEAR,
-  MODEL_CREATE_FINISHED
+  MODEL_CREATE_FINISHED,
+  MODEL_CLONE_FINISHED
 } from "../actions/creators/models";
 import {
   filteringModelsStarted,
   filteringModelsFinished,
   dateFilterChanged,
   dateFilterClear,
-  modelCreateFinished
+  modelCreateFinished,
+  modelCloneFinished
 } from "../actions/models";
 
 export default function scidashModels (state = {}, action){
@@ -41,6 +43,11 @@ export default function scidashModels (state = {}, action){
   case MODEL_CREATE_FINISHED:
     newState = {
       ...modelCreateFinished(state, action)
+    };
+    break;
+  case MODEL_CLONE_FINISHED:
+    newState = {
+      ...modelCloneFinished(state, action)
     };
     break;
   default:
