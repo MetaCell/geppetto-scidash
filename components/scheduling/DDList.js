@@ -6,6 +6,7 @@ import IconButton from "material-ui/IconButton";
 import { Draggable, Droppable } from "react-drag-and-drop";
 import { brown500, blue500, grey400, grey600, brown200, brown100, blue200, blue100 } from "material-ui/styles/colors";
 import { TestIcon, ModelsIcon } from "../../assets/CustomIcons";
+import InfoDialog from '../info-dialog/InfoDialog';
 
 const styles = {
   header: {
@@ -37,8 +38,13 @@ export default class DDList extends React.Component {
       testsBGC: "none",
       modelsBGC: "none",
       dragging: false,
-      searchable: ""
+      searchable: "",
+      dialogOpened: false
     };
+
+    this.closeDialog = this.closeDialog.bind(this);
+
+    this.infoDialog = undefined;
   }
 
   changeBGC (type, action) {
@@ -77,6 +83,16 @@ export default class DDList extends React.Component {
     return re.test(item.name);
   }
 
+  openDialog(instance) {
+    this.infoDialog = <InfoDialog instance={instance} closeDialog={this.closeDialog} dialogOpened={true}/>
+    this.setState({dialogOpened: true});
+  }
+
+  closeDialog() {
+    this.infoDialog = undefined;
+    this.setState({dialogOpened: false});
+  }
+
   render () {
     const { data, choosedTests, choosedModels, addTest, addModel, removeTest, removeModel, onDrop } = this.props;
 
@@ -103,7 +119,7 @@ export default class DDList extends React.Component {
                   secondaryText={dataItem.class}
                   firstActionClass="fa fa-info"
                   secondActionClass="fa fa-chevron-right"
-                  firstAction={() => { console.log("click info"); }}
+                  firstAction={() => { this.openDialog(dataItem); }}
                   secondAction={() => { !dataItem.source ? addTest(dataItem.scheduler_id) : addModel(dataItem.scheduler_id);}}
                   leftIconSVG={!dataItem.source ? TestIcon : ModelsIcon}
                   leftIconColor={!dataItem.source ? brown500 : blue500}
@@ -130,7 +146,7 @@ export default class DDList extends React.Component {
                 secondaryText={test.class}
                 firstActionClass="fa fa-info"
                 secondActionClass="fa fa-trash-o"
-                firstAction={() => { console.log("click info"); }}
+                firstAction={() => { this.openDialog(test); }}
                 secondAction={() => { removeTest(test.scheduler_id); }}
                 leftIconColor={brown500}
                 leftIconSVG={TestIcon}
@@ -158,7 +174,7 @@ export default class DDList extends React.Component {
                 secondaryText={model.class}
                 firstActionClass="fa fa-info"
                 secondActionClass="fa fa-trash-o"
-                firstAction={() => { console.log("click info"); }}
+                firstAction={() => { this.openDialog(model); }}
                 secondAction={() => removeModel(model.scheduler_id)}
                 leftIconColor={blue500}
                 leftIconSVG={ModelsIcon}
@@ -167,7 +183,7 @@ export default class DDList extends React.Component {
           </Droppable>
           {this.state.dragging == "models" ? <p style={{ textAlign: "center", marginTop: "-25px" }}>DROP HERE</p> : null}
         </div>
-
+        {this.infoDialog}
       </div>
     );
   }
