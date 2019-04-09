@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import Menu from "material-ui/Menu";
-import Chip from "material-ui/Chip";
-import Popover from "material-ui/Popover";
-import FontIcon from "material-ui/FontIcon";
-import MenuItem from "material-ui/MenuItem";
-import IconButton from "material-ui/IconButton";
+import Menu from 'material-ui/Menu';
+import Chip from 'material-ui/Chip';
+import Popover from 'material-ui/Popover';
+import FontIcon from 'material-ui/FontIcon';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import {red400, brown500} from 'material-ui/styles/colors';
 
 const styles = {
   anchorOrigin: {
@@ -62,6 +63,6 @@ export class CustomMenu extends Component {
 
 export const CustomTagComponent = ({ value }) => (
   <span className="chips">
-    {value.map((tag, i) => <Chip containerElement="span" key={i}>{tag}</Chip>)}
+    {value.map((tag, i) => <Chip backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500} containerElement="span" key={i}>{tag}</Chip>)}
   </span>
 );

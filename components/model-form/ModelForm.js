@@ -16,6 +16,8 @@ import Config from "../../shared/Config";
 import ModelParametersApiService from "../../services/api/ModelParametersApiService";
 import ParamsTable from "./ParamsTable";
 import ModelInstance from "../../models/ModelInstance";
+import {red400, brown500} from 'material-ui/styles/colors';
+
 
 export default class ModelForm extends React.Component {
   constructor (props, context) {
@@ -33,7 +35,7 @@ export default class ModelForm extends React.Component {
       loadingParams: false,
       successParams: false,
       paramsDisabled: true,
-      newTag: null,
+      newTag: "",
       modelParamsOpen: false,
       validationFailed: false
     };
@@ -44,6 +46,8 @@ export default class ModelForm extends React.Component {
     this.onSave = props.onSave.bind(this);
     this.onCancel = props.onCancel.bind(this);
     this.modelFactory = GEPPETTO.ModelFactory;
+    this.deleteTag = this.deleteTag.bind(this);
+    this.addTag = this.addTag.bind(this);
   }
 
   getModelClassError (){
@@ -108,8 +112,23 @@ export default class ModelForm extends React.Component {
         paramsDisabled: false
       });
     }
+  }
 
+  deleteTag(tag) {
+    let { model } = this.state;
+    for(var i = 0; i < model.tags.length; i++) {
+      if(model.tags[i] === tag) {
+        model.tags.splice(i, 1);
+      }
+    }
+    this.updateModel({ tags: [...model.tags] });
+  }
 
+  addTag(newTag) {
+    if(!this.state.model.tags.includes(newTag)) {
+      this.updateModel({ tags: [...this.state.model.tags, newTag] });
+      this.setState({newTag: ""});
+    }
   }
 
   retrieveStateVariables () {
@@ -232,13 +251,13 @@ export default class ModelForm extends React.Component {
               value={this.state.model.model_class.id}
               underlineStyle={{ borderBottom: "1px solid grey" }}
               dropDownMenuProps={{
-          		 menuStyle:{
-          			 border: "1px solid black",
-          			 backgroundColor: "#f5f1f1"
+                menuStyle: {
+                  border: "1px solid black",
+                  backgroundColor: "#f5f1f1"
                 },
-                anchorOrigin:{
-                	 vertical:"center",
-                	 horizontal:"left"
+                anchorOrigin: {
+                  vertical: "center",
+                  horizontal: "left"
                 }
               }}
               onChange={(event, key, value) => {
@@ -253,16 +272,25 @@ export default class ModelForm extends React.Component {
             </SelectField>
 
             <TextField
+              value={this.state.newTag}
               onChange={(e, value) => { this.setState({ newTag: value }); }}
               className="new-tag"
               floatingLabelText="Add a new tag"
               underlineStyle={{ borderBottom: "1px solid grey" }}
-              onKeyPress={e => e.key === "Enter" ? this.updateModel({ tags: [...this.state.model.tags, this.state.newTag] }) : null}
+              onKeyPress={e => e.key === "Enter" ? this.addTag(this.state.newTag.toLowerCase()) : null}
             />
 
             <div className="tags">
               {/* eslint-disable-next-line react/no-array-index-key */}
-              {this.state.model.tags.map((tag, i) => <Chip style={{ marginLeft: 4, marginTop: 4, float: "left" }} key={`${tag}-${i}`}>{tag}</Chip>)}
+              {this.state.model.tags.map((tag, i) => 
+                  <Chip
+                    backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
+                    style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
+                    key={`${tag}-${i}`}
+                    onRequestDelete={() => this.deleteTag(tag)}>
+                      {tag}
+                  </Chip>
+              )}
             </div>
           </div>
         </div>
