@@ -51,11 +51,15 @@ export default class ParamsFormset extends React.Component {
   }
 
   render () {
-
     return (
       <span>
-        {this.state.schemaList.length > 1 && 
+        {this.state.schemaList.length > 1 &&
           <SelectField
+            id="testFormSelectClass"
+            labelStyle={{
+              position: "relative",
+              top: "-10px"
+            }}
             style={styles.firstLine.two}
             iconStyle={styles.firstLine.icon}
             value={this.state.choosedForm}
@@ -68,9 +72,9 @@ export default class ParamsFormset extends React.Component {
             floatingLabelFixed={false}
             underlineStyle={{ borderBottom: "1px solid grey" }}
           >
-            {this.state.schemaList.map((value, index) => 
+            {this.state.schemaList.map((value, index) =>
             // eslint-disable-next-line react/no-array-index-key
-              <MenuItem label={`Schema #${index + 1}`} primaryText={`Schema #${index + 1}`} value={index} key={index} />
+              <MenuItem label={`${value[0]}`} primaryText={`${value[0]}`} value={index} key={index} />
             )}
           </SelectField>
         }

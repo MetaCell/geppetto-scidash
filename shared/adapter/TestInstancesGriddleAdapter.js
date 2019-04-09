@@ -31,7 +31,10 @@ export default class TestInstancesGriddleAdapter extends BaseAdapter {
         timestamp: fullDate,
         owner: test.owner.username,
         _timestamp: test.timestamp,
-        block: false
+        block: {
+          isBlocked: false,
+          testId: test.id
+        }
       });
     }
 
