@@ -32,6 +32,10 @@ export default class CompatibilityTable extends React.Component {
         tableFirstBody: {
           borderBottom: "1px solid grey"
         },
+        tableModelName: {
+          borderBottom: "1px solid grey",
+          textAlign: "left"
+        },
         tableBody: {
           float: "left", margin: "8px 10px 8px 0px"
         },
@@ -126,11 +130,18 @@ export default class CompatibilityTable extends React.Component {
 
     return rowsArray.map(row => (
       <tr key={row[0]}>
-        {row.map((el, i) => (
-          <td key={i} style={this.state.styles.tableFirstBody}>
-            {this.getTableCell(el)}
-          </td>
-        ))}
+        {row.map((el, i) => {
+          if(i === 0) {
+            return (
+              <td key={i} style={this.state.styles.tableModelName}>
+                {this.getTableCell(el)}
+              </td>);
+          } else { return (
+            <td key={i} style={this.state.styles.tableFirstBody}>
+              {this.getTableCell(el)}
+            </td>);
+          }
+        })}
       </tr>
     ));
 
