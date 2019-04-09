@@ -4,6 +4,8 @@ import Config from "../../shared/Config";
 import Helper from "../../shared/Helper";
 import { changePage } from "./header";
 import PagesService from "../../services/PagesService";
+import ModelInstance from "../../models/ModelInstance";
+import ModelCloneApiService from "../../services/api/ModelCloneApiService";
 
 export const FILTERING_MODELS_STARTED = "FILTERING_MODELS_STARTED";
 export const FILTERING_MODELS_FINISHED = "FILTERING_MODELS_FINISHED";
@@ -11,6 +13,8 @@ export const DATE_FILTER_CHANGED = "MODELS_DATE_FILTER_CHANGED";
 export const DATE_FILTER_CLEAR = "MODELS_DATE_FILTER_CLEAR";
 export const MODEL_CREATE_STARTED = "MODEL_CREATE_STARTED";
 export const MODEL_CREATE_FINISHED = "MODEL_CREATE_FINISHED";
+export const MODEL_CLONE_STARTED = "MODEL_CLONE_STARTED";
+export const MODEL_CLONE_FINISHED = "MODEL_CLONE_FINISHED";
 
 export function dateFilterChanged (){
   return {
@@ -93,4 +97,26 @@ export function modelCreateStarted (model, dispatch){
   return {
     type: MODEL_CREATE_STARTED
   };
+}
+
+export function cloneModelFinished (model){
+  return {
+    type: MODEL_CLONE_FINISHED,
+    model
+  };
+
+}
+
+export function cloneModel (testId, dispatch){
+  let apiService = new ModelCloneApiService().setId(testId);
+
+  apiService.getList(false, Config.modelInstancesNamespace)
+    .then(result => {
+      dispatch(cloneModelFinished(new ModelInstance(result)));
+    });
+
+  return {
+    type: MODEL_CLONE_STARTED
+  };
+
 }

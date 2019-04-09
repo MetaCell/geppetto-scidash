@@ -30,7 +30,11 @@ export default class ModelsGriddleAdapter extends BaseAdapter {
         tags: model.tags.map(item => item.name),
         source: model.url,
         owner: model.owner.username,
-        timestamp: fullDate
+        timestamp: fullDate,
+        block: {
+          isBlocked: false,
+          modelId: model.id
+        }
       });
     }
 

@@ -7,23 +7,24 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import {red400, brown500} from 'material-ui/styles/colors';
 
+
 const styles = {
   anchorOrigin: {
-    vertical: 'center',
-    horizontal: 'left',
+    vertical: "center",
+    horizontal: "left",
   },
   targetOrigin: {
-    vertical: 'center',
-    horizontal: 'right',
+    vertical: "center",
+    horizontal: "right",
   },
-}
+};
 
 export class CustomMenu extends Component {
   constructor (props) {
     super(props);
     this.state = {
       anchorEl: null
-    }
+    };
   }
 
   render () {
@@ -46,16 +47,17 @@ export class CustomMenu extends Component {
           <Menu>
             <MenuItem
               primaryText="Edit"
-              leftIcon={<FontIcon className="fa fa-pencil-square-o"/>}
+              leftIcon={<FontIcon className="fa fa-pencil-square-o" />}
             />
             <MenuItem
               primaryText="Clone"
-              leftIcon={<FontIcon className="fa fa-clone"/>}
+              onClick={() => this.props.clone(this.props.value.get("modelId"))}
+              leftIcon={<FontIcon className="fa fa-clone" />}
             />
           </Menu>
         </Popover>
       </span>
-    )
+    );
   }
 }
 
@@ -63,4 +65,4 @@ export const CustomTagComponent = ({ value }) => (
   <span className="chips">
     {value.map((tag, i) => <Chip backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500} containerElement="span" key={i}>{tag}</Chip>)}
   </span>
-)
+);
