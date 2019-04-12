@@ -7,6 +7,8 @@ const MODEL_INSTANCES_NAMESPACE = "modelInstances";
 const SETTINGS_NAMESPACE = "settings";
 const SCHEDULING_NAMESPACE = "scheduling";
 const MODEL_CREATE_NAMESPACE = "modelCreate";
+const MODEL_EDIT_NAMESPACE = "modelEdit";
+const TEST_EDIT_NAMESPACE = "testEdit";
 
 const Config = {};
 
@@ -22,6 +24,8 @@ Config.pageNamespaceMap[pagesService.TESTS_PAGE] = TEST_INSTANCES_NAMESPACE;
 Config.pageNamespaceMap[pagesService.TESTS_CREATE_PAGE] = TEST_INSTANCES_NAMESPACE;
 Config.pageNamespaceMap[pagesService.SETTINGS_PAGE] = SETTINGS_NAMESPACE;
 Config.pageNamespaceMap[pagesService.SCHEDULING_PAGE] = SCHEDULING_NAMESPACE;
+Config.pageNamespaceMap[pagesService.MODELS_EDIT_PAGE] = MODEL_EDIT_NAMESPACE;
+Config.pageNamespaceMap[pagesService.TESTS_EDIT_PAGE] = TEST_EDIT_NAMESPACE;
 
 
 Config["cachableFilters"] = ["timestamp_from", "timestamp_to", "with_suites"];
@@ -33,6 +37,8 @@ Config["modelInstancesNamespace"] = MODEL_INSTANCES_NAMESPACE;
 Config["modelCreateNamespace"] = MODEL_CREATE_NAMESPACE;
 Config["settingsNamespace"] = SETTINGS_NAMESPACE;
 Config["schedulingNamespace"] = SCHEDULING_NAMESPACE;
+Config["modelEditNamespace"] = MODEL_EDIT_NAMESPACE;
+Config["testEditNamespace"] = TEST_EDIT_NAMESPACE;
 
 Config["bannedFilters"] = {};
 
@@ -43,6 +49,8 @@ Config.bannedFilters[SCORES_NAMESPACE] = ["with_suites"];
 Config.bannedFilters[TEST_INSTANCES_NAMESPACE] = ["with_suites"];
 Config.bannedFilters[SCHEDULING_NAMESPACE] = ["with_suites"];
 Config.bannedFilters[SETTINGS_NAMESPACE] = ["with_suites"];
+Config.bannedFilters[MODEL_EDIT_NAMESPACE] = ["with_suites"];
+Config.bannedFilters[TEST_EDIT_NAMESPACE] = ["with_suites"];
 
 
 Config["testParametersUnitsMap"] = {
