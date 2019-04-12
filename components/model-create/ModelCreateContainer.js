@@ -6,18 +6,19 @@ import { changePage } from "../../actions/creators/header";
 import PagesService from "../../services/PagesService";
 
 const mapStateToProps = state => ({
-  model: new ModelInstance(),
-  modelClasses: state.modelClasses.data
+    model: new ModelInstance(),
+    modelClasses: state.modelClasses.data,
+    actionType: "create"
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSave: model => dispatch(modelCreateStarted(model, dispatch)),
-  onCancel: () => dispatch(changePage(new PagesService().MODELS_PAGE, dispatch))
+    onSave: model => dispatch(modelCreateStarted(model, dispatch)),
+    onCancel: () => dispatch(changePage(new PagesService().MODELS_PAGE, dispatch))
 });
 
 const ModelCreateContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(ModelCreate);
 
 export default ModelCreateContainer;

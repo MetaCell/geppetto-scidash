@@ -8,7 +8,8 @@ import PagesService from "../../services/PagesService";
 const mapStateToProps = state => ({
   model: new TestInstance(),
   testClasses: state.testClasses.data,
-  errors: state.global.errors
+  errors: state.global.errors,
+  actionType: "create"
 });
 
 const mapDispatchToProps = dispatch => ({
