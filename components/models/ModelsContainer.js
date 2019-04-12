@@ -1,13 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
-import { changePage } from "../../actions/creators/header";
+import { changePage, changePageWithParams } from "../../actions/creators/header";
 import ScidashStorage from "../../shared/ScidashStorage";
 import {
   filteringModelsStarted,
   dateFilterChanged,
   clearDateFilter,
-  cloneModel
+  cloneModel,
+  startEditModel
 } from "../../actions/creators/models";
 
 import Models from "./Models";
@@ -96,6 +97,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(clearDateFilter(filter, dispatch));
     },
     clone: modelId => dispatch(cloneModel(modelId, dispatch)),
+    edit: modelId => dispatch(startEditModel(modelId, dispatch)),
     toggleCreateModel: () => dispatch(changePage(pagesService.MODELS_CREATE_PAGE, dispatch))
   };
 };

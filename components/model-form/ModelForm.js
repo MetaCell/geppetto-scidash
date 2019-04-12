@@ -53,7 +53,8 @@ export default class ModelForm extends React.Component {
   getModelClassError (){
     let errors = [];
 
-    errors.push("model_class" in this.state.model.errors ? this.state.model.errors["model_class"] : "");
+    if(this.state.model.errors !== undefined)
+      errors.push("model_class" in this.state.model.errors ? this.state.model.errors["model_class"] : "");
     errors.push(this.state.failClasses ? " / No compatible class found for this model" : "");
 
     return errors;
@@ -199,7 +200,7 @@ export default class ModelForm extends React.Component {
               value={this.state.model.name}
               className="model-name"
               errorText={
-                "name" in this.state.model.errors ? this.state.model.errors["name"] : ""
+                (this.state.model.errors !== undefined && "name" in this.state.model.errors) ? this.state.model.errors["name"] : ""
               }
               floatingLabelText="Name of the model"
               underlineStyle={{ borderBottom: "1px solid grey" }}
@@ -210,14 +211,14 @@ export default class ModelForm extends React.Component {
               className="url"
               floatingLabelText="Source URL"
               errorText={
-                "url" in this.state.model.errors ? this.state.model.errors["url"] : ""
+                (this.state.model.errors !== undefined && "url" in this.state.model.errors) ? this.state.model.errors["url"] : ""
               }
               underlineStyle={{ borderBottom: "1px solid grey" }}
               onChange={
                 (event, value) => {
                   this.updateModel({ url: value }, () => {
                     if (!this.state.model.validate()) {
-                      if ("url" in this.state.model.errors) {
+                      if (this.state.model.errors !== undefined && "url" in this.state.model.errors) {
                         this.setState({
                           validationFailed: true
                         });
@@ -344,7 +345,7 @@ export default class ModelForm extends React.Component {
 
         <div className="actions-container">
           <RaisedButton
-            label="save"
+            label={this.props.actionType === "edit" ? "edit" : "save"}
             disabled={this.state.loadingParams || this.state.loadingClasses}
             className="actions-button"
             onClick={() => {

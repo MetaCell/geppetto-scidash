@@ -67,7 +67,7 @@ export default class TestForm extends React.Component {
             value={this.state.model.name}
             onChange={(e, value) => this.updateModel({ "name": value })}
             errorText={
-              "name" in this.state.model.errors ? this.state.model.errors["name"] : ""
+              (this.state.model.errors !== undefined && "name" in this.state.model.errors) ? this.state.model.errors["name"] : ""
             }
             style={styles.firstLine.one}
             floatingLabelText="Name of the test"
@@ -149,12 +149,12 @@ export default class TestForm extends React.Component {
             </h3>
             <p style={{ color: "red" }}>
               {
-                "observation" in this.state.model.errors ? this.state.model.errors["observation"] : ""
+                (this.state.model.errors !== undefined && "observation" in this.state.model.errors) ? this.state.model.errors["observation"] : ""
               }
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.observation_schema}
-              unitsMap={this.state.model.getObservationUnitsMap()}
+              unitsMap={ (typeof this.state.model.getObservationUnitsMap !== "undefined") ? this.state.model.getObservationUnitsMap() : this.state.model.test_class.observation }
               onChange={observation => {
                 this.updateModel({
                   observation
@@ -167,12 +167,12 @@ export default class TestForm extends React.Component {
             <h3>Test parameters:</h3>
             <p style={{ color: "red" }}>
               {
-                "params" in this.state.model.errors ? this.state.model.errors["params"] : ""
+                (this.state.model.errors !== undefined && "params" in this.state.model.errors) ? this.state.model.errors["params"] : ""
               }
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.test_parameters_schema}
-              unitsMap={this.state.model.getParamsUnitsMap()}
+              unitsMap={ (typeof this.state.model.getParamsUnitsMap !== "undefined") ? this.state.model.getParamsUnitsMap() : this.state.model.params }
               onChange={params => {
                 this.updateModel({
                   params
@@ -183,7 +183,7 @@ export default class TestForm extends React.Component {
         </div>
         <div style={styles.actionsContainer}>
           <RaisedButton
-            label="save"
+            label={this.props.actionType === "edit" ? "edit" : "save"}
             style={styles.actionsButton}
             onClick={() => {
               if (this.state.model.validate()) {
