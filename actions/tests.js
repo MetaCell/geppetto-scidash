@@ -85,3 +85,21 @@ export function testCloneFinished (state, action){
     ...state
   };
 }
+
+
+export function testEditFinished (state, action){
+  let resultArray = [action.model];
+  let adopted = new TestInstancesGriddleAdapter(resultArray).getGriddleData();
+
+  let apiService = new ApiService();
+  apiService.clearCache(apiService.storage);
+
+  state.data = [
+    ...state.data,
+    ...adopted
+  ];
+
+  return {
+    ...state
+  };
+}
