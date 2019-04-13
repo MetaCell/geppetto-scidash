@@ -15,7 +15,7 @@ export function addTestToScheduler (schedulerState, action){
 export function removeTestFromScheduler (schedulerState, action){
 
   let tests = schedulerState.choosedTests.filter(testID => testID != action.testID);
-  
+
   return {
     ...schedulerState,
     choosedTests: tests
@@ -38,7 +38,7 @@ export function addModelToScheduler (schedulerState, action){
 
 export function removeModelFromScheduler (schedulerState, action){
   let models = schedulerState.choosedModels.filter(modelID => modelID != action.modelID);
-  
+
   return {
     ...schedulerState,
     choosedModels: models
