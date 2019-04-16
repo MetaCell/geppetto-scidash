@@ -1,11 +1,12 @@
 import { connect } from "react-redux";
 import TestCreate from "./TestEdit";
+import TestInstance from "../../models/TestInstance";
 import { editTest } from "../../actions/creators/tests";
 import { changePage } from "../../actions/creators/header";
 import PagesService from "../../services/PagesService";
 
 const mapStateToProps = state => ({
-  model: state.router.location.state.test,
+  model: new TestInstance(state.router.location.state.test),
   testClasses: state.testClasses.data,
   errors: state.global.errors,
   actionType: "edit"
