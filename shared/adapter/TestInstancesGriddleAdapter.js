@@ -1,6 +1,8 @@
 import BaseAdapter from "./BaseAdapter";
 import InitialStateService from "../../services/InitialStateService";
 
+const LOCKED = "l";
+
 export default class TestInstancesGriddleAdapter extends BaseAdapter {
 
   getGriddleData (){
@@ -32,7 +34,7 @@ export default class TestInstancesGriddleAdapter extends BaseAdapter {
         owner: test.owner.username,
         _timestamp: test.timestamp,
         block: {
-          isBlocked: false,
+          isBlocked: test.status == LOCKED,
           testId: test.id
         }
       });
