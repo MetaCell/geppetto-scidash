@@ -143,6 +143,18 @@ export default class ModelForm extends React.Component {
     });
   }
 
+  retrieveWatchedVariables (stateVariables){
+    let result = [];
+    for (let _var of stateVariables){
+      let slice = _var.slice(-2);
+
+      if (slice == ".v"){
+        result.push(_var);
+      }
+    }
+
+    return result;
+  }
 
   processModel (model){
     GEPPETTO.Manager.loadModel(JSON.parse(model.geppetto_model_loaded));
@@ -153,6 +165,9 @@ export default class ModelForm extends React.Component {
     this.updateModel({
       "run_params": {
         "stateVariables": this.state.stateVariables,
+        "watchedVariables": this.retrieveWatchedVariables(
+          this.state.stateVariables
+        ),
         "params": this.state.params.map(value => {
           let object = eval(value);
           let sixDecimalValue = object.getInitialValue().toString().match(/^-?\d+(?:.\d{0,6})?/)[0];
