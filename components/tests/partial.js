@@ -63,7 +63,7 @@ export class CustomMenu extends Component {
   }
 }
 
-export const CustomTagComponent = ({ value }) => (
+export const CustomTagComponent =({ value }) => (
   <span className="chips">
     {value.map((tag, i) => <Chip backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500} containerElement="span" key={i}>{tag}</Chip>)}
   </span>
