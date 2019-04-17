@@ -7,6 +7,7 @@ import SelectField from "material-ui/SelectField";
 import RaisedButton from "material-ui/RaisedButton";
 import ParamsFormset from "./ParamsFormset";
 import TestInstance from "../../models/TestInstance";
+import Helper from '../../shared/Helper';
 import {red400, brown500} from 'material-ui/styles/colors';
 
 export default class TestForm extends React.Component {
@@ -19,6 +20,8 @@ export default class TestForm extends React.Component {
       validationFailed: false,
       newTag: ""
     };
+
+    this.helper = new Helper();
 
     this.updateModel = this.updateModel.bind(this);
     this.onSave = props.onSave.bind(this);
@@ -131,14 +134,26 @@ export default class TestForm extends React.Component {
           />
           <div style={styles.thirdLine.two}>
             {/* eslint-disable-next-line react/no-array-index-key */}
-            {this.state.model.tags.map((tag, i) => 
-              <Chip 
-                backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
-                style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
-                key={`${tag}-${i}`}
-                onRequestDelete={() => this.deleteTag(tag)}>
-                  {tag}
-              </Chip>)}
+            {this.state.model.tags.map(function(tag, i) { 
+              if (typeof(tag.name) !== 'undefined') {
+                return (<Chip 
+                  backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
+                  style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
+                  key={`${tag.name}-${i}`}
+                  onRequestDelete={() => this.deleteTag(tag)}>
+                    {tag.name.toString()}
+                </Chip>);
+              } else {
+                return (<Chip 
+                  backgroundColor={(tag.toLowerCase() === "deprecated") ? red400 : brown500}
+                  style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
+                  key={`${tag}-${i}`}
+                  onRequestDelete={() => this.deleteTag(tag)}>
+                    {tag}
+                </Chip>);
+              }
+              
+            })}
           </div>
         </div>
 
@@ -154,12 +169,13 @@ export default class TestForm extends React.Component {
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.observation_schema}
-              unitsMap={ (typeof this.state.model.getObservationUnitsMap !== "undefined") ? this.state.model.getObservationUnitsMap() : this.state.model.test_class.observation }
+              unitsMap={ this.state.model.getObservationUnitsMap() }
               onChange={observation => {
                 this.updateModel({
                   observation
                 });
               }}
+              model={this.props.actionType === "edit" ? this.state.model.observation : undefined}
             />
           </div>
 
@@ -172,12 +188,13 @@ export default class TestForm extends React.Component {
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.test_parameters_schema}
-              unitsMap={ (typeof this.state.model.getParamsUnitsMap !== "undefined") ? this.state.model.getParamsUnitsMap() : this.state.model.params }
+              unitsMap={ this.state.model.getParamsUnitsMap() }
               onChange={params => {
                 this.updateModel({
                   params
                 });
               }}
+              model={this.props.actionType === "edit" ? this.state.model.params : undefined}
             />
           </div>
         </div>

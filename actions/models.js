@@ -61,8 +61,8 @@ export function modelCreateFinished (state, action){
   apiService.clearCache(apiService.storage);
 
   state.data = [
-    ...state.data,
-    ...adopted
+    ...adopted,
+    ...state.data
   ];
 
   return {
@@ -95,8 +95,8 @@ export function modelEditFinished (state, action){
   apiService.clearCache(apiService.storage);
 
   var index = undefined;
-  for(let i = 0; i < state.data.lenght; i++) {
-    if(state.data[i] === adopted.id) {
+  for(let i = 0; i < state.data.length; i++) {
+    if(state.data[i].id === adopted[0].id) {
       index = i;
       break;
     }

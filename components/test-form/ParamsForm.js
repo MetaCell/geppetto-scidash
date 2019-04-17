@@ -9,7 +9,7 @@ export default class ParamsForm extends React.Component {
 
     this.props = props;
     this.state = {
-      model: this.transformSchemaToModel(),
+      model: (this.props.model === undefined) ? this.transformSchemaToModel() : this.props.model,
       unitsMap: this.props.unitsMap
     };
 
@@ -24,7 +24,7 @@ export default class ParamsForm extends React.Component {
         unitsMap: {}
       }, () => {
         this.setState({
-          model: this.transformSchemaToModel(),
+          model: (this.props.model === undefined) ? this.transformSchemaToModel() : this.props.model,
           unitsMap: this.props.unitsMap
         }, () => this.onChange(this.state.model));
       });
@@ -62,7 +62,7 @@ export default class ParamsForm extends React.Component {
   render () {
     return (
       <span>
-        {Object.keys(this.state.model).map((key, index) => (<TextField
+        {Object.keys(this.state.model).map(function(key, index) { return (<TextField
           value={this.state.model[key]}
           key={key}
           type="number"
@@ -75,7 +75,8 @@ export default class ParamsForm extends React.Component {
           style={{ width: "100%" }}
           floatingLabelText={`${key} (${this.state.unitsMap[key]})`}
           underlineStyle={{ borderBottom: "1px solid grey" }}
-        />))}
+        />)}.bind(this) 
+        )}
       </span>
     );
   }
