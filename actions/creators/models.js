@@ -132,7 +132,7 @@ export function startEditModel (modelId, dispatch){
 
   let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key));
 
-  apiService.getModelId(modelId, keys, namespace).then(result => {
+  apiService.getInstanceId(modelId, keys, namespace).then(result => {
     let _tags = result.tags;
     result.tags = [];
     _tags.map((tag, i) => result.tags.push(tag.name));

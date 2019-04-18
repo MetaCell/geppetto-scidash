@@ -283,15 +283,26 @@ export default class ModelForm extends React.Component {
 
             <div className="tags">
               {/* eslint-disable-next-line react/no-array-index-key */}
-              {this.state.model.tags.map((tag, i) => 
-                  <Chip
-                    backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
-                    style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
-                    key={`${tag}-${i}`}
-                    onRequestDelete={() => this.deleteTag(tag)}>
-                      {tag}
-                  </Chip>
-              )}
+              {this.state.model.tags.map(function(tag, i) { 
+              if (typeof(tag.name) !== 'undefined') {
+                return (<Chip 
+                  backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
+                  style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
+                  key={`${tag.name}-${i}`}
+                  onRequestDelete={() => this.deleteTag(tag)}>
+                    {tag.name.toString()}
+                </Chip>);
+              } else {
+                return (<Chip 
+                  backgroundColor={(tag.toLowerCase() === "deprecated") ? red400 : brown500}
+                  style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
+                  key={`${tag}-${i}`}
+                  onRequestDelete={() => this.deleteTag(tag)}>
+                    {tag}
+                </Chip>);
+              }
+              
+            }.bind(this))}
             </div>
           </div>
         </div>

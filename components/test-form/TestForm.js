@@ -153,7 +153,7 @@ export default class TestForm extends React.Component {
                 </Chip>);
               }
               
-            })}
+            }.bind(this))}
           </div>
         </div>
 
