@@ -154,7 +154,7 @@ export default class ModelForm extends React.Component {
         ...this.state.model.run_params,
         watchedVariables: this.state.model.run_params.watchedVariables
       }
-    }, () => console.log(this.state.model));
+    });
   }
 
   removeChecked (variable){
@@ -165,7 +165,7 @@ export default class ModelForm extends React.Component {
           el => el != variable
         )
       }
-    }, () => console.log(this.state.model));
+    });
   }
 
   processModel (model){

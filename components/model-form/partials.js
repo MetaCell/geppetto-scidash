@@ -8,12 +8,12 @@ export const rowDataSelector = (state, { griddleKey }) => state
   .find(rowMap => rowMap.get("griddleKey") === griddleKey)
   .toJSON();
 
-export const enhancedWithRowData = (onCheck, onUncheck, watchedVariables) => {console.log(watchedVariables); return connect((state, props) => ({
+export const enhancedWithRowData = (onCheck, onUncheck, watchedVariables) => connect((state, props) => ({
   rowData: rowDataSelector(state, props),
   onCheck,
   onUncheck,
   watchedVariables
-}));};
+}));
 
 export class ChooseVarComponent extends React.Component{
 
@@ -21,27 +21,28 @@ export class ChooseVarComponent extends React.Component{
     super(props);
 
     this.state = {
-      watchedVariables: props.watchedVariables
+      toggled: true
     };
-
-    console.log(this.state.watchedVariables);
 
     this.onToggle = this.onToggle.bind(this);
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
-    if (!_.isEqual(this.props.watchedVariables, prevProps.watchedVariables)) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        watchedVariables: this.props.watchedVariables
-      });
-    }
+  componentDidMount (){
+    this.setState({
+      toggled: this.props.watchedVariables.includes(this.props.rowData.name)
+    });
   }
 
   onToggle (ev, isInputChecked){
     if (isInputChecked){
       this.props.onCheck(this.props.rowData.name);
+      this.setState({
+        toggled: true
+      });
     } else {
+      this.setState({
+        toggled: false
+      });
       this.props.onUncheck(this.props.rowData.name);
     }
   }
@@ -51,7 +52,7 @@ export class ChooseVarComponent extends React.Component{
       <div>
         <Toggle
           toggled={
-            this.state.watchedVariables.includes(this.props.rowData.name)
+            this.state.toggled
           }
           onToggle={this.onToggle}
         />

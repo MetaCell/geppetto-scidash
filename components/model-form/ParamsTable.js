@@ -25,16 +25,6 @@ export default class ParamsTable extends React.Component {
     this.convertToParamsTableData();
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
-    if (!_.isEqual(this.props.watchedVariables, prevProps.watchedVariables)) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        watchedVariables: this.props.watchedVariables
-      });
-    }
-  }
-
-
   convertToStateVariablesTableData () {
     let tableData = [];
 
@@ -70,7 +60,6 @@ export default class ParamsTable extends React.Component {
   }
 
   render () {
-    console.log(this.state.watchedVariables);
     const ParamsLayout = ({ Table, Pagination, Filter, _SettingsWrapper }) => (
       <div>
         <Filter />
