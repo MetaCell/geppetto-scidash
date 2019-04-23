@@ -1,6 +1,8 @@
 import React from "react";
 import Griddle, { RowDefinition, ColumnDefinition, plugins } from "griddle-react";
+import _ from "underscore";
 import FlatButton from "material-ui/FlatButton";
+import { enhancedWithRowData, ChooseVarComponent } from "./partials";
 
 export default class ParamsTable extends React.Component {
   constructor (props, context) {
@@ -8,6 +10,7 @@ export default class ParamsTable extends React.Component {
 
     this.state = {
       stateVariables: props.stateVariables,
+      watchedVariables: props.watchedVariables,
       params: props.params,
       stateVariablesTableData: [],
       paramsTableData: [],
@@ -57,7 +60,6 @@ export default class ParamsTable extends React.Component {
   }
 
   render () {
-
     const ParamsLayout = ({ Table, Pagination, Filter, _SettingsWrapper }) => (
       <div>
         <Filter />
@@ -74,7 +76,7 @@ export default class ParamsTable extends React.Component {
       </div>
     );
 
-    const paginationButtons = { 
+    const paginationButtons = {
       NextButton: props => {
         if (props.hasNext) {
           return (
@@ -104,7 +106,7 @@ export default class ParamsTable extends React.Component {
       }
     };
 
-    const stateVariablesTable = ( 
+    let stateVariablesTable = (
       <Griddle
         data={this.state.stateVariablesTableData}
         plugins={[plugins.LocalPlugin]}
@@ -115,7 +117,7 @@ export default class ParamsTable extends React.Component {
             Filter: "scidash-table-filter"
           }
         }}
-        // FIXME: a bit ugly, merge into 1 const
+        // TODO: a bit ugly, merge into 1 const
         components={{
           Layout: StateVariablesLayout,
           ...paginationButtons
@@ -126,11 +128,21 @@ export default class ParamsTable extends React.Component {
             title="Name"
             id="name"
           />
+          <ColumnDefinition
+            title="Choose"
+            customComponent={enhancedWithRowData(
+              this.props.onCheck,
+              this.props.onUncheck,
+              this.state.watchedVariables
+            )(
+              ChooseVarComponent
+            )}
+          />
         </RowDefinition>
       </Griddle>
     );
 
-    const paramsTable = (
+    let paramsTable = (
       <Griddle
         plugins={[plugins.LocalPlugin]}
         styleConfig={{

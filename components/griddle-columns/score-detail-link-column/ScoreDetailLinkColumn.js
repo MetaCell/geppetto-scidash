@@ -1,3 +1,7 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
@@ -66,7 +70,7 @@ export default class ScoreDetailLinkColumn extends React.Component {
               color: "white"
             }}
           >
-            {this.props.score}
+            {this.props.score || "N/A"}
           </a>
           <Dialog
             actions={actions}

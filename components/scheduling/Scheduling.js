@@ -5,6 +5,8 @@ import TextField from "material-ui/TextField";
 import DDListContainer from "./DDListContainer";
 import CompatibilityTable from "./CompatibilityTable";
 import SchedulingApiService from "../../services/api/SchedulingApiService";
+import Loader from "../loader/Loader";
+
 
 class Scheduling extends React.Component {
 
@@ -13,8 +15,12 @@ class Scheduling extends React.Component {
 
     this.state = {
       saveSuites: false,
+      compatible: {},
+      showLoading: false,
       suitesName: `Suites_${new Date().toJSON().slice(0, 19)}`.replace(/[-:]/g, "_") // a default date set to today
     };
+
+    this.saveCompatible = this.saveCompatible.bind(this);
 
   }
 
@@ -23,9 +29,54 @@ class Scheduling extends React.Component {
   }
 
   async scheduleTests (matrix){
+    this.setState({
+      showLoading: true
+    });
+
     let schedulingService = new SchedulingApiService();
 
     let result = await schedulingService.create(matrix);
+
+    this.setState({
+      showLoading: false
+    });
+
+    return result;
+  }
+
+  saveCompatible (csvMatrix){
+    let result = {};
+    let rows = csvMatrix.split(";");
+
+    let header = rows.shift();
+    header = header.split("|");
+    header.shift();
+    rows.pop();
+
+    for (let row of rows){
+
+      row = row.split("|");
+      let modelName = row.shift();
+      let modelId = modelName.split("#")[1];
+
+      result[modelId] = [];
+
+      for (const [index, test] of header.entries()){
+        let testId = test.split("#")[1];
+
+        if (row[index] == "TBD"){
+          result[modelId].push(parseInt(testId));
+        }
+
+      }
+    }
+
+    this.setState({
+      compatible: result
+    }, () => console.log(this.state.compatible));
+
+    return result;
+
   }
 
   render () {
@@ -36,19 +87,17 @@ class Scheduling extends React.Component {
     return (
       <span>
         <DDListContainer />
-        
-        {choosedModels.length > 0 && choosedTests.length > 0 ?  
+
+        {choosedModels.length > 0 && choosedTests.length > 0 ?
           <span>
             <CompatibilityTable // renders a table with compatibility between selected tests and models
-              tests={this.getItemByID(choosedTests)} 
-              models={this.getItemByID(choosedModels)} 
+              tests={this.getItemByID(choosedTests)}
+              models={this.getItemByID(choosedModels)}
+              onFinish={this.saveCompatible}
             />
             <div style={styles.saveContainer}>
               <RaisedButton
-                onClick={() => this.scheduleTests({
-                  "tests": this.getItemByID(choosedTests),
-                  "models": this.getItemByID(choosedModels)
-                })}
+                onClick={() => this.scheduleTests(this.state.compatible)}
               >
                 Run tests
               </RaisedButton>
@@ -65,7 +114,7 @@ class Scheduling extends React.Component {
                 />
               </div>
               : null
-              }
+            }
             <div style={styles.checkboxContainer}>
               <Checkbox
                 checked={saveSuites}
@@ -77,6 +126,7 @@ class Scheduling extends React.Component {
           </span>
           : null
         }
+        {this.state.showLoading ? <Loader /> : ""}
       </span>
     );
   }

@@ -4,6 +4,7 @@ import SvgIcon from "material-ui/SvgIcon";
 import _ from "underscore";
 import { OKicon, Xicon } from "../../assets/CustomIcons";
 import CompatibilityApiService from "../../services/api/CompatibilityApiService";
+import Loader from "../loader/Loader";
 
 
 export default class CompatibilityTable extends React.Component {
@@ -14,6 +15,7 @@ export default class CompatibilityTable extends React.Component {
 
     this.state = {
       tests: props.tests,
+      showLoading: false,
       models: props.models,
       csvTable: "",
       styles: {
@@ -42,7 +44,7 @@ export default class CompatibilityTable extends React.Component {
       }
     };
 
-    this.getCsvCompatibilityTable();
+    this.onFinish = this.props.onFinish;
 
     this.compatibilityIcon = (svg, props) => (
       <SvgIcon {...props}>
@@ -50,6 +52,10 @@ export default class CompatibilityTable extends React.Component {
       </SvgIcon>
     );
 
+  }
+
+  componentDidMount (){
+    this.getCsvCompatibilityTable();
   }
 
   componentDidUpdate (prevProps, _prevState, _snapshot) {
@@ -121,7 +127,7 @@ export default class CompatibilityTable extends React.Component {
       .then(result => {
         this.setState({
           csvTable: result.compatibility
-        });
+        }, () => this.onFinish(result.compatibility));
       });
   }
 
@@ -131,15 +137,18 @@ export default class CompatibilityTable extends React.Component {
     return rowsArray.map(row => (
       <tr key={row[0]}>
         {row.map((el, i) => {
-          if(i === 0) {
+          if (i === 0) {
             return (
               <td key={i} style={this.state.styles.tableModelName}>
                 {this.getTableCell(el)}
-              </td>);
-          } else { return (
-            <td key={i} style={this.state.styles.tableFirstBody}>
-              {this.getTableCell(el)}
-            </td>);
+              </td>
+            );
+          } else {
+            return (
+              <td key={i} style={this.state.styles.tableFirstBody}>
+                {this.getTableCell(el)}
+              </td>
+            );
           }
         })}
       </tr>
@@ -148,8 +157,15 @@ export default class CompatibilityTable extends React.Component {
   }
 
   async getCompatibilityMatrix (modelsVsTests) {
+    this.setState({
+      showLoading: true
+    });
     let service = new CompatibilityApiService();
     let result = await service.create(modelsVsTests);
+
+    this.setState({
+      showLoading: false
+    });
 
     return result;
   }
@@ -169,6 +185,7 @@ export default class CompatibilityTable extends React.Component {
             {tableRows}
           </tbody>
         </table>
+        {this.state.showLoading ? <Loader /> : ""}
       </div>
     );
   }

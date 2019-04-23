@@ -9,6 +9,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import CircularProgress from "material-ui/CircularProgress";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
+import { red400, brown500 } from "material-ui/styles/colors";
 import { OKicon, Xicon } from "../../assets/CustomIcons";
 import ModelClassApiService from "../../services/api/ModelClassApiService";
 import FilteringService from "../../services/FilteringService";
@@ -16,7 +17,6 @@ import Config from "../../shared/Config";
 import ModelParametersApiService from "../../services/api/ModelParametersApiService";
 import ParamsTable from "./ParamsTable";
 import ModelInstance from "../../models/ModelInstance";
-import {red400, brown500} from 'material-ui/styles/colors';
 
 
 export default class ModelForm extends React.Component {
@@ -42,6 +42,8 @@ export default class ModelForm extends React.Component {
 
 
     this.checkUrl = this.checkUrl.bind(this);
+    this.saveChecked = this.saveChecked.bind(this);
+    this.removeChecked = this.removeChecked.bind(this);
     this.updateModel = this.updateModel.bind(this);
     this.onSave = props.onSave.bind(this);
     this.onCancel = props.onCancel.bind(this);
@@ -115,20 +117,20 @@ export default class ModelForm extends React.Component {
     }
   }
 
-  deleteTag(tag) {
+  deleteTag (tag) {
     let { model } = this.state;
-    for(var i = 0; i < model.tags.length; i++) {
-      if(model.tags[i] === tag) {
+    for (let i = 0; i < model.tags.length; i++) {
+      if (model.tags[i] === tag) {
         model.tags.splice(i, 1);
       }
     }
     this.updateModel({ tags: [...model.tags] });
   }
 
-  addTag(newTag) {
-    if(!this.state.model.tags.includes(newTag)) {
+  addTag (newTag) {
+    if (!this.state.model.tags.includes(newTag)) {
       this.updateModel({ tags: [...this.state.model.tags, newTag] });
-      this.setState({newTag: ""});
+      this.setState({ newTag: "" });
     }
   }
 
@@ -145,6 +147,28 @@ export default class ModelForm extends React.Component {
   }
 
 
+  saveChecked (variable){
+    this.state.model.run_params.watchedVariables.push(variable);
+
+    this.updateModel({
+      run_params:{
+        ...this.state.model.run_params,
+        watchedVariables: this.state.model.run_params.watchedVariables
+      }
+    });
+  }
+
+  removeChecked (variable){
+    this.updateModel({
+      run_params:{
+        ...this.state.model.run_params,
+        watchedVariables: this.state.model.run_params.watchedVariables.filter(
+          el => el != variable
+        )
+      }
+    });
+  }
+
   processModel (model){
     GEPPETTO.Manager.loadModel(JSON.parse(model.geppetto_model_loaded));
 
@@ -154,6 +178,7 @@ export default class ModelForm extends React.Component {
     this.updateModel({
       "run_params": {
         "stateVariables": this.state.stateVariables,
+        "watchedVariables": this.state.stateVariables,
         "params": this.state.params.map(value => {
           let object = eval(value);
           let sixDecimalValue = object.getInitialValue().toString().match(/^-?\d+(?:.\d{0,6})?/)[0];
@@ -349,7 +374,10 @@ export default class ModelForm extends React.Component {
           >
             <ParamsTable
               stateVariables={this.state.stateVariables}
+              watchedVariables={this.state.model.run_params.watchedVariables}
               params={this.state.params}
+              onCheck={this.saveChecked}
+              onUncheck={this.removeChecked}
             />
           </Dialog>
         </div>
