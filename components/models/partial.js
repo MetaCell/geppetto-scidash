@@ -47,6 +47,7 @@ export class CustomMenu extends Component {
           <Menu>
             <MenuItem
               primaryText="Edit"
+              onClick={() => this.props.edit(this.props.value.get("modelId"))}
               leftIcon={<FontIcon className="fa fa-pencil-square-o" />}
             />
             <MenuItem

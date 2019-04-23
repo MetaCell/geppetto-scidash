@@ -61,8 +61,8 @@ export function modelCreateFinished (state, action){
   apiService.clearCache(apiService.storage);
 
   state.data = [
-    ...state.data,
-    ...adopted
+    ...adopted,
+    ...state.data
   ];
 
   return {
@@ -78,9 +78,42 @@ export function modelCloneFinished (state, action){
   apiService.clearCache(apiService.storage);
 
   state.data = [
-    ...state.data,
-    ...adopted
+    ...adopted,
+    ...state.data
   ];
+
+  return {
+    ...state
+  };
+}
+
+export function modelEditFinished (state, action){
+  let resultArray = [action.result];
+  let adopted = new ModelsGriddleAdapter(resultArray).getGriddleData();
+
+  let apiService = new ApiService();
+  apiService.clearCache(apiService.storage);
+
+  var index = undefined;
+  for(let i = 0; i < state.data.length; i++) {
+    if(state.data[i].id === adopted[0].id) {
+      index = i;
+      break;
+    }
+  }
+
+  if(index === undefined) {
+    state.data = [
+      ...adopted,
+      ...state.data
+    ];
+  } else {
+    state.data = [
+      ...adopted,
+      ...state.data.slice(0, index),
+      ...state.data.slice(index + 1)
+    ];
+  }
 
   return {
     ...state

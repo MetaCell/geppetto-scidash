@@ -1,24 +1,24 @@
 import { connect } from "react-redux";
-import ModelCreate from "./ModelCreate";
+import ModelEdit from "./ModelEdit";
 import ModelInstance from "../../models/ModelInstance";
-import { modelCreateStarted } from "../../actions/creators/models";
+import { editModel } from "../../actions/creators/models";
 import { changePage } from "../../actions/creators/header";
 import PagesService from "../../services/PagesService";
 
 const mapStateToProps = state => ({
-    model: new ModelInstance(),
+    model: new ModelInstance(state.router.location.state.model),
     modelClasses: state.modelClasses.data,
-    actionType: "create"
+    actionType: "edit"
 });
 
 const mapDispatchToProps = dispatch => ({
-    onSave: model => dispatch(modelCreateStarted(model, dispatch)),
+    onSave: model => dispatch(editModel(model, dispatch)),
     onCancel: () => dispatch(changePage(new PagesService().MODELS_PAGE, dispatch))
 });
 
-const ModelCreateContainer = connect(
+const ModelEditContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(ModelCreate);
+)(ModelEdit);
 
-export default ModelCreateContainer;
+export default ModelEditContainer;

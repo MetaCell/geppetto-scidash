@@ -2,10 +2,11 @@ import ModelsApiService from "../../services/api/ModelsApiService";
 import FilteringService from "../../services/FilteringService";
 import Config from "../../shared/Config";
 import Helper from "../../shared/Helper";
-import { changePage } from "./header";
+import { changePage, changePageWithParams } from "./header";
 import PagesService from "../../services/PagesService";
 import ModelInstance from "../../models/ModelInstance";
 import ModelCloneApiService from "../../services/api/ModelCloneApiService";
+import ModelEditApiService from "../../services/api/ModelEditApiService";
 
 export const FILTERING_MODELS_STARTED = "FILTERING_MODELS_STARTED";
 export const FILTERING_MODELS_FINISHED = "FILTERING_MODELS_FINISHED";
@@ -15,6 +16,9 @@ export const MODEL_CREATE_STARTED = "MODEL_CREATE_STARTED";
 export const MODEL_CREATE_FINISHED = "MODEL_CREATE_FINISHED";
 export const MODEL_CLONE_STARTED = "MODEL_CLONE_STARTED";
 export const MODEL_CLONE_FINISHED = "MODEL_CLONE_FINISHED";
+export const MODEL_EDIT_REDIRECT = "MODEL_EDIT_REDIRECT";
+export const MODEL_EDIT_STARTED = "MODEL_EDIT_STARTED";
+export const MODEL_EDIT_FINISHED = "MODEL_EDIT_FINISHED";
 
 export function dateFilterChanged (){
   return {
@@ -119,4 +123,57 @@ export function cloneModel (testId, dispatch){
     type: MODEL_CLONE_STARTED
   };
 
+}
+
+export function startEditModel (modelId, dispatch){
+  let filteringS = FilteringService.getInstance();
+  let apiService = new ModelsApiService();
+  let namespace = Config.modelInstancesNamespace;
+
+  let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key));
+
+  apiService.getInstanceId(modelId, keys, namespace).then(result => {
+    let _tags = result.tags;
+    result.tags = [];
+    _tags.map((tag, i) => result.tags.push(tag.name));
+    dispatch(changePageWithParams(new PagesService().MODELS_EDIT_PAGE, {'model': result}, dispatch))
+  });
+
+  return {
+    type: MODEL_EDIT_REDIRECT
+  };
+}
+
+export function editModel (model, dispatch){
+  let apiService = new ModelEditApiService().setId(model.id);
+
+  let d = new Date();
+  model.timestamp = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+  let tagObjects = [];
+
+  for (let tag of model.tags){
+    tagObjects.push({
+      name: tag
+    });
+  }
+
+  model.tags = tagObjects;
+
+  apiService.update(model).then(result => result.json()).then(result => {
+    dispatch(editModelFinished(result, dispatch));
+  });
+
+  return {
+    type: MODEL_EDIT_STARTED
+  };
+
+}
+
+export function editModelFinished (result, dispatch){
+  dispatch(changePage(new PagesService().MODELS_PAGE, dispatch));
+
+  return {
+    type: MODEL_EDIT_FINISHED,
+    result
+  };
 }

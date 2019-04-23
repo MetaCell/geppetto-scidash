@@ -9,7 +9,8 @@ import {
   filteringTestsStarted,
   dateFilterChanged,
   clearDateFilter,
-  cloneTest
+  cloneTest,
+  startEditTest
 } from "../../actions/creators/tests";
 
 import Tests from "./Tests";
@@ -96,6 +97,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(clearDateFilter(filter, dispatch));
     },
     clone: testId => dispatch(cloneTest(testId, dispatch)),
+    edit: testId => dispatch(startEditTest(testId, dispatch)),
     toggleCreateTest: () => dispatch(changePage(pagesService.TESTS_CREATE_PAGE, dispatch))
   };
 };

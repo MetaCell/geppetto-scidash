@@ -10,6 +10,8 @@ export default class PagesService {
     MODELS_CREATE_PAGE = "/model-instances/create/";
     SETTINGS_PAGE = "/settings/";
     SCHEDULING_PAGE = "/scheduling/";
+    MODELS_EDIT_PAGE = "/model-instances/edit/";
+    TESTS_EDIT_PAGE = "/test-instances/edit/";
 
     default = "";
 

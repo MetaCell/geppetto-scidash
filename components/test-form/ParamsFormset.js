@@ -83,6 +83,7 @@ export default class ParamsFormset extends React.Component {
           unitsMap={this.state.unitsMap}
           schema={this.state.schemaList[this.state.choosedForm]}
           onChange={this.props.onChange}
+          model={this.props.model}
         />
 
       </span>

@@ -25,6 +25,8 @@ import Settings from "./components/settings/Settings";
 import SchedulingContainer from "./components/scheduling/SchedulingContainer";
 import TestCreateContainer from "./components/test-create/TestCreateContainer";
 import ModelCreateContainer from "./components/model-create/ModelCreateContainer";
+import ModelEditContainer from "./components/model-edit/ModelEditContainer";
+import TestEditContainer from "./components/test-edit/TestEditContainer";
 
 injectTapEventPlugin();
 
@@ -104,6 +106,8 @@ export default class App extends React.Component {
                         <Route path={this.pagesService.MODELS_CREATE_PAGE} component={ModelCreateContainer} exact />
                         <Route path={this.pagesService.SETTINGS_PAGE} component={Settings} exact />
                         <Route path={this.pagesService.SCHEDULING_PAGE} component={SchedulingContainer} exact />
+                        <Route path={this.pagesService.MODELS_EDIT_PAGE} component={ModelEditContainer} exact />
+                        <Route path={this.pagesService.TESTS_EDIT_PAGE} component={TestEditContainer} exact />
                       </Switch>
                     </div>
                   </div>

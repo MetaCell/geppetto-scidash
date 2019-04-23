@@ -7,6 +7,7 @@ import SelectField from "material-ui/SelectField";
 import RaisedButton from "material-ui/RaisedButton";
 import ParamsFormset from "./ParamsFormset";
 import TestInstance from "../../models/TestInstance";
+import Helper from '../../shared/Helper';
 import {red400, brown500} from 'material-ui/styles/colors';
 
 export default class TestForm extends React.Component {
@@ -19,6 +20,8 @@ export default class TestForm extends React.Component {
       validationFailed: false,
       newTag: ""
     };
+
+    this.helper = new Helper();
 
     this.updateModel = this.updateModel.bind(this);
     this.onSave = props.onSave.bind(this);
@@ -67,7 +70,7 @@ export default class TestForm extends React.Component {
             value={this.state.model.name}
             onChange={(e, value) => this.updateModel({ "name": value })}
             errorText={
-              "name" in this.state.model.errors ? this.state.model.errors["name"] : ""
+              (this.state.model.errors !== undefined && "name" in this.state.model.errors) ? this.state.model.errors["name"] : ""
             }
             style={styles.firstLine.one}
             floatingLabelText="Name of the test"
@@ -131,14 +134,26 @@ export default class TestForm extends React.Component {
           />
           <div style={styles.thirdLine.two}>
             {/* eslint-disable-next-line react/no-array-index-key */}
-            {this.state.model.tags.map((tag, i) => 
-              <Chip 
-                backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
-                style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
-                key={`${tag}-${i}`}
-                onRequestDelete={() => this.deleteTag(tag)}>
-                  {tag}
-              </Chip>)}
+            {this.state.model.tags.map(function(tag, i) { 
+              if (typeof(tag.name) !== 'undefined') {
+                return (<Chip 
+                  backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
+                  style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
+                  key={`${tag.name}-${i}`}
+                  onRequestDelete={() => this.deleteTag(tag)}>
+                    {tag.name.toString()}
+                </Chip>);
+              } else {
+                return (<Chip 
+                  backgroundColor={(tag.toLowerCase() === "deprecated") ? red400 : brown500}
+                  style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
+                  key={`${tag}-${i}`}
+                  onRequestDelete={() => this.deleteTag(tag)}>
+                    {tag}
+                </Chip>);
+              }
+              
+            }.bind(this))}
           </div>
         </div>
 
@@ -149,17 +164,18 @@ export default class TestForm extends React.Component {
             </h3>
             <p style={{ color: "red" }}>
               {
-                "observation" in this.state.model.errors ? this.state.model.errors["observation"] : ""
+                (this.state.model.errors !== undefined && "observation" in this.state.model.errors) ? this.state.model.errors["observation"] : ""
               }
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.observation_schema}
-              unitsMap={this.state.model.getObservationUnitsMap()}
+              unitsMap={ this.state.model.getObservationUnitsMap() }
               onChange={observation => {
                 this.updateModel({
                   observation
                 });
               }}
+              model={this.props.actionType === "edit" ? this.state.model.observation : undefined}
             />
           </div>
 
@@ -167,23 +183,24 @@ export default class TestForm extends React.Component {
             <h3>Test parameters:</h3>
             <p style={{ color: "red" }}>
               {
-                "params" in this.state.model.errors ? this.state.model.errors["params"] : ""
+                (this.state.model.errors !== undefined && "params" in this.state.model.errors) ? this.state.model.errors["params"] : ""
               }
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.test_parameters_schema}
-              unitsMap={this.state.model.getParamsUnitsMap()}
+              unitsMap={ this.state.model.getParamsUnitsMap() }
               onChange={params => {
                 this.updateModel({
                   params
                 });
               }}
+              model={this.props.actionType === "edit" ? this.state.model.params : undefined}
             />
           </div>
         </div>
         <div style={styles.actionsContainer}>
           <RaisedButton
-            label="save"
+            label={this.props.actionType === "edit" ? "edit" : "save"}
             style={styles.actionsButton}
             onClick={() => {
               if (this.state.model.validate()) {

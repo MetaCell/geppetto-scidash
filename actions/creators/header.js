@@ -8,6 +8,7 @@ export const TOGGLE_COLOR_BLIND = "TOGGLE_COLOR_BLIND";
 export const CHANGE_PAGE = "CHANGE_PAGE";
 export const TOGGLE_CREATE_MODEL = "TOGGLE_EDIT_MODEL";
 export const TOGGLE_CREATE_TEST = "TOGGLE_CREATE_TEST";
+export const CHANGE_PAGE_WITH_PARAMS = "CHANGE_PAGE_WITH_PARAMS";
 
 
 export function toggleSettings (){
@@ -39,6 +40,18 @@ export function changePage (page, dispatch){
 
   return {
     type: CHANGE_PAGE,
+    page
+  };
+}
+
+export function changePageWithParams (page, params, dispatch){
+  dispatch(push({
+    pathname: page,
+    state: params
+  }));
+
+  return {
+    type: CHANGE_PAGE_WITH_PARAMS,
     page
   };
 }

@@ -1,11 +1,12 @@
 import TestInstancesApiService from "../../services/api/TestInstancesApiService";
 import FilteringService from "../../services/FilteringService";
 import Config from "../../shared/Config";
-import { changePage } from "./header";
+import { changePage, changePageWithParams } from "./header";
 import Helper from "../../shared/Helper";
 import PagesService from "../../services/PagesService";
 import { error, clearErrors } from "./global";
 import TestCloneApiService from "../../services/api/TestCloneApiService";
+import TestEditApiService from "../../services/api/TestEditApiService";
 import TestInstance from "../../models/TestInstance";
 
 export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
@@ -16,6 +17,9 @@ export const TEST_CREATE_STARTED = "TEST_CREATE_STARTED";
 export const TEST_CREATE_FINISHED = "TEST_CREATE_FINISHED";
 export const TEST_CLONE_STARTED = "TEST_CLONE_STARTED";
 export const TEST_CLONE_FINISHED = "TEST_CLONE_FINISHED";
+export const TEST_EDIT_REDIRECT = "TEST_EDIT_REDIRECT";
+export const TEST_EDIT_STARTED = "TEST_EDIT_STARTED";
+export const TEST_EDIT_FINISHED = "TEST_EDIT_FINISHED";
 
 export function dateFilterChanged (){
   return {
@@ -132,4 +136,57 @@ export function cloneTest (testId, dispatch){
     type: TEST_CLONE_STARTED
   };
 
+}
+
+export function startEditTest (testId, dispatch){
+  let filteringS = FilteringService.getInstance();
+  let apiService = new TestInstancesApiService();
+  let namespace = Config.testInstancesNamespace;
+
+  let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key));
+
+  apiService.getInstanceId(testId, keys, namespace).then(result => {
+    let _tags = result.tags;
+    result.tags = [];
+    _tags.map((tag, i) => result.tags.push(tag.name));
+    dispatch(changePageWithParams(new PagesService().TESTS_EDIT_PAGE, {'test': result}, dispatch))
+  });
+
+  return {
+    type: TEST_EDIT_REDIRECT
+  };
+}
+
+export function editTest (test, dispatch){
+  let apiService = new TestEditApiService().setId(test.id);
+
+  let d = new Date();
+  test.timestamp = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+  let tagObjects = [];
+
+  for (let tag of test.tags){
+    tagObjects.push({
+      name: tag
+    });
+  }
+
+  test.tags = tagObjects;
+
+  apiService.update(test).then(result => result.json()).then(result => {
+    dispatch(editTestFinished(result, dispatch));
+  });
+
+  return {
+    type: TEST_EDIT_STARTED
+  };
+
+}
+
+export function editTestFinished (result, dispatch){
+  dispatch(changePage(new PagesService().TESTS_PAGE, dispatch));
+
+  return {
+    type: TEST_EDIT_FINISHED,
+    result
+  };
 }
