@@ -6,7 +6,6 @@ import { changePage, changePageWithParams } from "./header";
 import PagesService from "../../services/PagesService";
 import ModelInstance from "../../models/ModelInstance";
 import ModelCloneApiService from "../../services/api/ModelCloneApiService";
-import ModelEditApiService from "../../services/api/ModelEditApiService";
 
 export const FILTERING_MODELS_STARTED = "FILTERING_MODELS_STARTED";
 export const FILTERING_MODELS_FINISHED = "FILTERING_MODELS_FINISHED";
@@ -145,7 +144,7 @@ export function startEditModel (modelId, dispatch){
 }
 
 export function editModel (model, dispatch){
-  let apiService = new ModelEditApiService().setId(model.id);
+  let apiService = new ModelsApiService().setId(model.id);
 
   let d = new Date();
   model.timestamp = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
