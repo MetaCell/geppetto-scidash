@@ -32,11 +32,23 @@ const mapStateToProps = (state, ownProps) => {
 
   let background = helper.getBackground(sortKey, ownProps.colorBlind);
 
+  let scoreType = null;
+
+  if (ownProps.score.get("score_type") == ""){
+    if (ownProps.score.get("score_class") == null){
+      scoreType = ownProps.score.get("score_type");
+    } else {
+      scoreType = ownProps.score.get("score_class").get("class_name");
+    }
+  } else {
+    scoreType = ownProps.score.get("score_type");
+  }
+
   return {
     scoreClassName: helper.noneIfEmptyString(ownProps.score.get("test_instance").get("test_class").get("class_name")),
     testClassName: helper.noneIfEmptyString(ownProps.score.get("test_instance").get("test_class").get("class_name")),
     score: score,
-    scoreType: ownProps.score.get("score_type") || ownProps.score.get("score_class").get("class_name"),
+    scoreType: scoreType,
     hostname: helper.noneIfEmptyString(ownProps.score.get("hostname")),
     buildInfo: helper.parseBuildInfo(ownProps.score.get("test_instance").get("build_info")),
     timestamp: timestamp,

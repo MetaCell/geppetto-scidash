@@ -38,7 +38,7 @@ export default class ParamsForm extends React.Component {
       schema = this.props.schema[1]
     } else {
       if (typeof this.props.schema != "undefined"){
-        schema = this.props.schema
+        schema = this.props.schema;
       }
     }
 
