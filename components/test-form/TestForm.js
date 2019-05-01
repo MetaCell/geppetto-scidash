@@ -200,7 +200,7 @@ export default class TestForm extends React.Component {
         </div>
         <div style={styles.actionsContainer}>
           <RaisedButton
-            label={this.props.actionType === "edit" ? "edit" : "save"}
+            label={"save"}
             style={styles.actionsButton}
             onClick={() => {
               if (this.state.model.validate()) {

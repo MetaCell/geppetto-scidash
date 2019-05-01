@@ -384,7 +384,7 @@ export default class ModelForm extends React.Component {
 
         <div className="actions-container">
           <RaisedButton
-            label={this.props.actionType === "edit" ? "edit" : "save"}
+            label={"save"}
             disabled={this.state.loadingParams || this.state.loadingClasses}
             className="actions-button"
             onClick={() => {

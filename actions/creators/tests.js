@@ -6,7 +6,6 @@ import Helper from "../../shared/Helper";
 import PagesService from "../../services/PagesService";
 import { error, clearErrors } from "./global";
 import TestCloneApiService from "../../services/api/TestCloneApiService";
-import TestEditApiService from "../../services/api/TestEditApiService";
 import TestInstance from "../../models/TestInstance";
 
 export const FILTERING_TESTS_STARTED = "FILTERING_TESTS_STARTED";
@@ -158,7 +157,7 @@ export function startEditTest (testId, dispatch){
 }
 
 export function editTest (test, dispatch){
-  let apiService = new TestEditApiService().setId(test.id);
+  let apiService = new TestInstancesApiService().setId(test.id);
 
   let d = new Date();
   test.timestamp = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();

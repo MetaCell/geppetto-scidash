@@ -77,8 +77,9 @@ export default class InfoDialog extends React.Component {
                             </p>
                             <p><strong>Tags: </strong>
                             <span style={{display: "flex"}}>
-                                {instanceTags.map((tag, i) =>
+                                {instanceTags === "None" ? undefined : instanceTags.map((tag, i) =>
                                     <Chip
+                                        containerElement={'span'}
                                         backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
                                         style={{ marginTop: 6, marginBottom: 0}}
                                         key={`${tag}-${i}`}>
