@@ -75,6 +75,8 @@ export default class ApiService {
         throw new ApiServiceException("I need a data for creation, model is empty");
       }
 
+      this.storage.clear();
+
       return fetch(this.endpoint, {
         method: "POST",
         headers: {
@@ -95,6 +97,8 @@ export default class ApiService {
         throw new ApiServiceException("I need a data for creation, model is empty");
       }
 
+      this.storage.clear();
+
       return fetch(this.endpoint, {
         method: "PUT",
         headers: {
@@ -106,34 +110,34 @@ export default class ApiService {
     }
 
 
-    getInstanceId(id = null, cache = false, namespace = "") {
+    getInstanceId (id = null, cache = false, namespace = "") {
       let filteringS = FilteringService.getInstance();
 
       if (this.endpoint === null) {
-          throw new ApiServiceException("You should define API endpoint");
+        throw new ApiServiceException("You should define API endpoint");
       }
 
       if (id === null || id === undefined) {
-          throw new ApiServiceException("A valid ID should be provided");
+        throw new ApiServiceException("A valid ID should be provided");
       }
 
       let queryPath = this.endpoint + id + "/?format=json";
 
       if (this.storage.getItem(queryPath) && cache) {
-          return new Promise(resolve => {
-              resolve(this.getFromCache(queryPath));
-          });
+        return new Promise(resolve => {
+          resolve(this.getFromCache(queryPath));
+        });
       }
 
       let request = fetch(queryPath).then(result => result.json());
 
       if (cache) {
-          return request.then(result => {
-              this.saveToCache(queryPath, result);
-              return result;
-          });
+        return request.then(result => {
+          this.saveToCache(queryPath, result);
+          return result;
+        });
       } else {
-          return request;
+        return request;
       }
-  }
+    }
 }
