@@ -75,7 +75,7 @@ export default class ApiService {
         throw new ApiServiceException("I need a data for creation, model is empty");
       }
 
-      this.storage.clear();
+      this.clearCache(this.storage);
 
       return fetch(this.endpoint, {
         method: "POST",
@@ -97,7 +97,7 @@ export default class ApiService {
         throw new ApiServiceException("I need a data for creation, model is empty");
       }
 
-      this.storage.clear();
+      this.clearCache(this.storage);
 
       return fetch(this.endpoint, {
         method: "PUT",
