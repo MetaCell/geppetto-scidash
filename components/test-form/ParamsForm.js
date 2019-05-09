@@ -75,6 +75,7 @@ export default class ParamsForm extends React.Component {
           style={{ width: "100%" }}
           floatingLabelText={`${key} (${this.state.unitsMap[key]})`}
           underlineStyle={{ borderBottom: "1px solid grey" }}
+          disabled={this.props.disabled}
         />)}.bind(this) 
         )}
       </span>

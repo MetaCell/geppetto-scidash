@@ -8,11 +8,12 @@ export const rowDataSelector = (state, { griddleKey }) => state
   .find(rowMap => rowMap.get("griddleKey") === griddleKey)
   .toJSON();
 
-export const enhancedWithRowData = (onCheck, onUncheck, watchedVariables) => connect((state, props) => ({
+export const enhancedWithRowData = (onCheck, onUncheck, watchedVariables, disabled) => connect((state, props) => ({
   rowData: rowDataSelector(state, props),
   onCheck,
   onUncheck,
-  watchedVariables
+  watchedVariables,
+  disabled
 }));
 
 export class ChooseVarComponent extends React.Component{
@@ -55,6 +56,7 @@ export class ChooseVarComponent extends React.Component{
             this.state.toggled
           }
           onToggle={this.onToggle}
+          disabled={this.props.disabled}
         />
       </div>
     );

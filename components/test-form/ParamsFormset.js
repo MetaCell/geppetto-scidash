@@ -71,6 +71,7 @@ export default class ParamsFormset extends React.Component {
             floatingLabelText="Select observation schema"
             floatingLabelFixed={false}
             underlineStyle={{ borderBottom: "1px solid grey" }}
+            disabled={this.props.disabled}
           >
             {this.state.schemaList.map((value, index) =>
             // eslint-disable-next-line react/no-array-index-key
@@ -84,6 +85,7 @@ export default class ParamsFormset extends React.Component {
           schema={this.state.schemaList[this.state.choosedForm]}
           onChange={this.props.onChange}
           model={this.props.model}
+          disabled={this.props.disabled}
         />
 
       </span>
