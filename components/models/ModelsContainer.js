@@ -57,6 +57,7 @@ const mapStateToProps = state => ({
     currentPage: 1
   },
   showLoading: state.scores.showLoading,
+  user: state.user,
 });
 
 
@@ -98,7 +99,8 @@ const mapDispatchToProps = dispatch => {
     },
     clone: modelId => dispatch(cloneModel(modelId, dispatch)),
     edit: modelId => dispatch(startEditModel(modelId, dispatch)),
-    toggleCreateModel: () => dispatch(changePage(pagesService.MODELS_CREATE_PAGE, dispatch))
+    toggleCreateModel: () => dispatch(changePage(pagesService.MODELS_CREATE_PAGE, dispatch)),
+    notLoggedRedirect: () => dispatch(changePage(pagesService.SCORES_PAGE, dispatch))
   };
 };
 

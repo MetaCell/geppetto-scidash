@@ -30,6 +30,9 @@ export class CustomMenu extends Component {
   }
 
   isBlocked() {
+    if(this.props.value === undefined) {
+      return false
+    }
     if(this.props.value.get("isBlocked")) {
       return true;
     }
