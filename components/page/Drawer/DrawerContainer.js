@@ -6,6 +6,7 @@ import { toggleDrawer, changePage } from "../../../actions/creators/header";
 
 const mapStateToProps = state => ({
   drawerActive: state.header.drawerActive,
+  userLogged: state.user.isLogged,
 });
 
 const mapDispatchToProps = dispatch => ({

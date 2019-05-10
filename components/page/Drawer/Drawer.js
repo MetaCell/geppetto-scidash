@@ -7,13 +7,21 @@ import NavigationMenu from "material-ui/svg-icons/navigation/menu";
 import ScidashLogo from "../../../assets/scidash_logo.png";
 import PagesService from "../../../services/PagesService";
 
-export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelActive, editTestActive }) => {
+export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelActive, editTestActive, userLogged }) => {
   const pagesService = new PagesService();
 
   const handleMenuClick = page => {
     changePage(page);
     toggleDrawer();
   };
+
+  const handleClickUserLogged = page => {
+    if(userLogged) {
+      handleMenuClick(page);
+    } else {
+      handleMenuClick(pagesService.SCORES_PAGE);
+    }
+  }
 
   return (
     <div>
@@ -42,18 +50,21 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
           primaryText="Suite scores"
           leftIcon={<i className="fa fa-suitcase drawer-icon" />}
           onClick={() => handleMenuClick(pagesService.SUITES_PAGE)}
+          disabled={!userLogged}
         />
         <MenuItem
           id="hamMenuTests"
           primaryText="Tests"
           onClick={() => handleMenuClick(pagesService.TESTS_PAGE)}
           leftIcon={<i className="fa fa-laptop drawer-icon" />}
+          disabled={!userLogged}
         />
         <MenuItem
           id="hamMenuModels"
           primaryText="Models"
           onClick={() => handleMenuClick(pagesService.MODELS_PAGE)}
           leftIcon={<i id="gpt-3dshow" className="gpt-3dshow drawer-icon" />}
+          disabled={!userLogged}
         />
         <MenuItem
           id="hamMenuSettings"
@@ -67,6 +78,7 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
           primaryText="Scheduling"
           leftIcon={<i className="fa fa-calendar drawer-icon" />}
           onClick={() => handleMenuClick(pagesService.SCHEDULING_PAGE)}
+          disabled={!userLogged}
         />
       </Drawer>
     </div>
