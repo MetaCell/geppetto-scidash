@@ -21,6 +21,13 @@ export default class Scores extends React.Component {
     super(props, context);
 
     this.props = props;
+    this.username = this.props.user.isLogged ? this.props.user.userObject.username : "";
+  }
+
+  componentWillMount() {
+    if(this.props.user.isLogged) {
+      this.props.onFilterUpdate(this.username, "owner");
+    }
   }
 
   render () {
@@ -108,6 +115,7 @@ export default class Scores extends React.Component {
                 namespace={Config.instancesNamespace}
                 onFilterUpdate={this.props.onFilterUpdate}
                 filterName="owner"
+                value={this.username}
                 {...props}
               />)
               } order={8}

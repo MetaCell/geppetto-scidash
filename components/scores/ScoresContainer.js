@@ -55,6 +55,7 @@ const mapStateToProps = state => ({
   },
   showLoading: state.scores.showLoading,
   dateFilterChanged: state.scores.dateFilterChanged,
+  user: state.user,
 });
 
 const mapDispatchToProps = dispatch => {
