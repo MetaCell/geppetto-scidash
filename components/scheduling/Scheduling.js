@@ -79,6 +79,12 @@ class Scheduling extends React.Component {
 
   }
 
+  componentWillMount() {
+    if(!this.props.user.isLogged) {
+      this.props.notLoggedRedirect()
+    }
+  }
+
   render () {
     const { saveSuites, suitesName } = this.state;
 

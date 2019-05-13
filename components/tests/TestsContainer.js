@@ -15,6 +15,7 @@ import {
 
 import Tests from "./Tests";
 import PagesService from "../../services/PagesService";
+import { ActionVerifiedUser } from "material-ui/svg-icons";
 
 const mapStateToProps = state => ({
   styleConfig: {
@@ -59,6 +60,7 @@ const mapStateToProps = state => ({
     currentPage: 1
   },
   showLoading: state.scores.showLoading,
+  user: state.user,
 });
 
 const mapDispatchToProps = dispatch => {
@@ -98,7 +100,8 @@ const mapDispatchToProps = dispatch => {
     },
     clone: testId => dispatch(cloneTest(testId, dispatch)),
     edit: testId => dispatch(startEditTest(testId, dispatch)),
-    toggleCreateTest: () => dispatch(changePage(pagesService.TESTS_CREATE_PAGE, dispatch))
+    toggleCreateTest: () => dispatch(changePage(pagesService.TESTS_CREATE_PAGE, dispatch)),
+    notLoggedRedirect: () => dispatch(changePage(pagesService.SCORES_PAGE, dispatch))
   };
 };
 

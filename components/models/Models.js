@@ -13,6 +13,16 @@ export default class Models extends React.Component {
   constructor (props, context){
     super(props, context);
     this.props = props;
+
+    this.username = this.props.user.isLogged ? this.props.user.userObject.username : "";
+  }
+
+  componentWillMount() {
+    if(this.props.user.isLogged) {
+      this.props.onFilterUpdate(this.username, "owner");
+    } else {
+      this.props.notLoggedRedirect()
+    }
   }
 
   render (){
@@ -89,6 +99,7 @@ export default class Models extends React.Component {
                 namespace={Config.modelInstancesNamespace}
                 onFilterUpdate={this.props.onFilterUpdate}
                 filterName="owner"
+                value={this.username}
                 {...props}
               />)}
               order={5}
