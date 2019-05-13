@@ -43,7 +43,7 @@ const Validator = {
   required: (model, key) => required(model[key]),
 
   number: (model, key) => number(model[key]),
-  
+
   idNotNull: (model, key) => idNotNull(model[key]),
 
   requiredAll: (model, key) => {

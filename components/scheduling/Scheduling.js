@@ -35,6 +35,8 @@ class Scheduling extends React.Component {
 
     let schedulingService = new SchedulingApiService();
 
+    schedulingService.clearCache(schedulingService.storage);
+
     let result = await schedulingService.create(matrix);
 
     this.setState({
