@@ -18,7 +18,8 @@ export default class TestForm extends React.Component {
       testClasses: props.testClasses,
       model: props.model,
       validationFailed: false,
-      newTag: ""
+      newTag: "",
+      isBlocked: false
     };
 
     this.helper = new Helper();
@@ -28,6 +29,7 @@ export default class TestForm extends React.Component {
     this.onCancel = props.onCancel.bind(this);
     this.deleteTag = this.deleteTag.bind(this);
     this.addTag = this.addTag.bind(this);
+    this.isInstanceBlocked = this.isInstanceBlocked.bind(this);
   }
 
   updateModel (data) {
@@ -62,6 +64,27 @@ export default class TestForm extends React.Component {
     }
   }
 
+  isInstanceBlocked() {
+    let testId = this.props.model.id;
+    var checkInstance = function(value, index, array) { return value.id === testId };
+    var instance = this.props.data.find(checkInstance);
+    if((this.state.isBlocked === false) && (instance.block.isBlocked || (instance.tags.indexOf("deprecated") !== -1))) {
+      this.setState({isBlocked: true});
+    }
+  }
+
+  componentWillMount() {
+    if(this.props.actionType === "edit") {
+      this.isInstanceBlocked();
+    }
+  }
+
+  componentDidUpdate() {
+    if(this.props.actionType === "edit") {
+      this.isInstanceBlocked();
+    }
+  }
+
   render () {
     return (
       <span>
@@ -75,6 +98,7 @@ export default class TestForm extends React.Component {
             style={styles.firstLine.one}
             floatingLabelText="Name of the test"
             underlineStyle={{ borderBottom: "1px solid grey" }}
+            disabled={this.state.isBlocked}
           />
 
           <SelectField
@@ -106,6 +130,7 @@ export default class TestForm extends React.Component {
                 }
               }
             }}
+            disabled={this.state.isBlocked}
           >
 
             {/* eslint-disable-next-line react/no-array-index-key */}
@@ -120,6 +145,7 @@ export default class TestForm extends React.Component {
             style={styles.secondLine.one}
             floatingLabelText="Test description"
             underlineStyle={{ borderBottom: "1px solid grey" }}
+            disabled={this.state.isBlocked}
           />
         </div>
 
@@ -176,6 +202,7 @@ export default class TestForm extends React.Component {
                 });
               }}
               model={this.props.actionType === "edit" ? this.state.model.observation : undefined}
+              disabled={this.state.isBlocked}
             />
           </div>
 
@@ -195,6 +222,7 @@ export default class TestForm extends React.Component {
                 });
               }}
               model={this.props.actionType === "edit" ? this.state.model.params : undefined}
+              disabled={this.state.isBlocked}
             />
           </div>
         </div>

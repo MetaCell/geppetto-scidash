@@ -1,7 +1,7 @@
 import React from "react";
 import TestForm from "../test-form/TestForm";
 
-const TestCreate = ({ model, testClasses, errors, onSave, onCancel, actionType }) => { 
+const TestCreate = ({ model, testClasses, errors, onSave, onCancel, actionType, data }) => { 
   let errorsTemplate = null;
 
   if (errors.length > 0){
@@ -18,6 +18,7 @@ const TestCreate = ({ model, testClasses, errors, onSave, onCancel, actionType }
         onSave={onSave}
         onCancel={onCancel}
         actionType={actionType}
+        data={data}
       />
     </div>
   );

@@ -133,7 +133,8 @@ export default class ParamsTable extends React.Component {
             customComponent={enhancedWithRowData(
               this.props.onCheck,
               this.props.onUncheck,
-              this.state.watchedVariables
+              this.state.watchedVariables,
+              this.props.disabled
             )(
               ChooseVarComponent
             )}

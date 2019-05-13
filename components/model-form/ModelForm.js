@@ -37,7 +37,8 @@ export default class ModelForm extends React.Component {
       paramsDisabled: true,
       newTag: "",
       modelParamsOpen: false,
-      validationFailed: false
+      validationFailed: false,
+      isBlocked: false
     };
 
 
@@ -50,6 +51,7 @@ export default class ModelForm extends React.Component {
     this.modelFactory = GEPPETTO.ModelFactory;
     this.deleteTag = this.deleteTag.bind(this);
     this.addTag = this.addTag.bind(this);
+    this.isInstanceBlocked = this.isInstanceBlocked.bind(this);
   }
 
   getModelClassError (){
@@ -215,6 +217,28 @@ export default class ModelForm extends React.Component {
     }, () => callback());
   }
 
+  isInstanceBlocked() {
+    let testId = this.props.model.id;
+    var checkInstance = function(value, index, array) { return value.id === testId };
+    var instance = this.props.data.find(checkInstance);
+    if((this.state.isBlocked === false) && (instance.block.isBlocked || (instance.tags.indexOf("deprecated") !== -1))) {
+      this.setState({isBlocked: true});
+    }
+  }
+
+  componentWillMount() {
+    if(this.props.actionType === "edit") {
+      this.checkUrl(this.state.model.url);
+      this.isInstanceBlocked();
+    }
+  }
+
+  componentDidUpdate() {
+    if(this.props.actionType === "edit") {
+      this.isInstanceBlocked();
+    }
+  }
+
   render () {
 
     return (
@@ -230,6 +254,7 @@ export default class ModelForm extends React.Component {
               floatingLabelText="Name of the model"
               underlineStyle={{ borderBottom: "1px solid grey" }}
               onChange={(event, value) => this.updateModel({ name: value })}
+              disabled={this.state.isBlocked}
             />
             <TextField
               value={this.state.model.url}
@@ -254,6 +279,7 @@ export default class ModelForm extends React.Component {
                   });
                 }
               }
+              disabled={this.state.isBlocked}
             />
             <span className="icons">
               {this.state.successClasses ? <SvgIcon style={{ color: "green" }}>{OKicon}</SvgIcon> : null}
@@ -293,6 +319,7 @@ export default class ModelForm extends React.Component {
                   }
                 }
               }}
+              disabled={this.state.isBlocked}
             >
               {this.state.modelClasses.map(klass => <MenuItem value={klass.id} key={klass.id} primaryText={klass.class_name} label={klass.class_name} />)}
             </SelectField>
@@ -378,6 +405,7 @@ export default class ModelForm extends React.Component {
               params={this.state.params}
               onCheck={this.saveChecked}
               onUncheck={this.removeChecked}
+              disabled={this.state.isBlocked}
             />
           </Dialog>
         </div>

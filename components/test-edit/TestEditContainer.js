@@ -9,6 +9,7 @@ const mapStateToProps = state => ({
   model: new TestInstance(state.router.location.state.test),
   testClasses: state.testClasses.data,
   errors: state.global.errors,
+  data: state.testInstances.data,
   actionType: "edit"
 });
 

@@ -8,6 +8,8 @@ import PagesService from "../../services/PagesService";
 const mapStateToProps = state => ({
     model: new ModelInstance(state.router.location.state.model),
     modelClasses: state.modelClasses.data,
+    errors: state.global.errors,
+    data: state.models.data,
     actionType: "edit"
 });
 

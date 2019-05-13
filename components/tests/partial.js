@@ -25,15 +25,28 @@ export class CustomMenu extends Component {
     this.state = {
       anchorEl: null
     };
+
+    this.isBlocked = this.isBlocked.bind(this);
+  }
+
+  isBlocked() {
+    if(this.props.value.get("isBlocked")) {
+      return true;
+    }
+    var instanceId = this.props.value.get("testId");
+    var checkInstance = function(value, index, array) { return value.id === instanceId };
+    var instance = this.props.data.find(checkInstance);
+    if((instance.tags.indexOf("deprecated") !== -1)) {
+      return true;
+    }
+    return false;
   }
 
   render () {
     const { anchorEl } = this.state;
     return (
       <span className="edit-clone-test">
-        {this.props.value.get("isBlocked") &&
-          <FontIcon className="fa fa-lock" />
-        }
+        { this.isBlocked() && <FontIcon className="fa fa-lock" /> }
         <IconButton
           iconClassName="fa fa-ellipsis-v"
           onClick={e => this.setState({ anchorEl: e.currentTarget })}
