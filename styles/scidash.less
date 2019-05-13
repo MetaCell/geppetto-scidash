@@ -446,6 +446,75 @@ div[role=menu] {
     opacity: 1;
 }
 
+/* Data tooltip on right side */
+
+[data-tooltip-right] {
+    overflow: visible;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+
+[data-tooltip-right]:before,
+[data-tooltip-right]:after {
+    visibility: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Position tooltip above the element */
+
+[data-tooltip-right]:before {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-bottom: 0px;
+    margin-left: 5px;
+    padding: 3px;
+    width: 160px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: #000;
+    background-color: hsla(0, 0%, 20%, 0.9);
+    color: #fff;
+    content: attr(data-tooltip-right);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+
+[data-tooltip-right]:after {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: 5px;
+    width: 0;
+    border-top: 5px solid #000;
+    border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+}
+
+/* Show tooltip content on hover */
+
+[data-tooltip-right]:hover:before,
+[data-tooltip-right]:hover:after {
+    visibility: visible;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    opacity: 1;
+}
+
 ::-webkit-scrollbar,
 ::-webkit-scrollbar-thumb {
     width: 0.4em;
