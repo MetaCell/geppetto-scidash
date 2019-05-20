@@ -65,7 +65,8 @@ Config["errorStatuses"] = [
 Config.scoreStatusMap = {
   s: "Scheduled",
   c: "Calculated",
-  l: "Locked"
+  l: "Locked",
+  f: "Failed"
 };
 
 export default Config;

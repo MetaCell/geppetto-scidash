@@ -45,6 +45,8 @@ export default class ModelForm extends React.Component {
     this.checkUrl = this.checkUrl.bind(this);
     this.saveChecked = this.saveChecked.bind(this);
     this.removeChecked = this.removeChecked.bind(this);
+    this.removeAll = this.removeAll.bind(this);
+    this.addAll = this.addAll.bind(this);
     this.updateModel = this.updateModel.bind(this);
     this.onSave = props.onSave.bind(this);
     this.onCancel = props.onCancel.bind(this);
@@ -54,11 +56,24 @@ export default class ModelForm extends React.Component {
     this.isInstanceBlocked = this.isInstanceBlocked.bind(this);
   }
 
+  componentWillMount () {
+    if (this.props.actionType === "edit") {
+      this.checkUrl(this.state.model.url);
+      this.isInstanceBlocked();
+    }
+  }
+
+  componentDidUpdate () {
+    if (this.props.actionType === "edit") {
+      this.isInstanceBlocked();
+    }
+  }
+
   getModelClassError (){
     let errors = [];
 
-    if(this.state.model.errors !== undefined)
-      errors.push("model_class" in this.state.model.errors ? this.state.model.errors["model_class"] : "");
+    if (this.state.model.errors !== undefined)
+    {errors.push("model_class" in this.state.model.errors ? this.state.model.errors["model_class"] : "");}
     errors.push(this.state.failClasses ? " / No compatible class found for this model" : "");
 
     return errors;
@@ -149,27 +164,46 @@ export default class ModelForm extends React.Component {
   }
 
 
-  saveChecked (variable){
-    this.state.model.run_params.watchedVariables.push(variable);
-
-    this.updateModel({
-      run_params:{
-        ...this.state.model.run_params,
-        watchedVariables: this.state.model.run_params.watchedVariables
-      }
-    });
+  saveChecked (variable) {
+    if (!this.state.model.run_params.watchedVariables.includes(variable)) {
+      console.log(this);
+      this.updateModel({
+        run_params: {
+          ...this.state.model.run_params,
+          watchedVariables: [...this.state.model.run_params.watchedVariables, variable]
+        }
+      }, console.log(this.state.model.run_params));
+    }
   }
 
   removeChecked (variable){
     this.updateModel({
       run_params:{
         ...this.state.model.run_params,
-        watchedVariables: this.state.model.run_params.watchedVariables.filter(
-          el => el != variable
-        )
+        watchedVariables: this.state.model.run_params.watchedVariables.filter( el => el != variable)
+      }
+    }, console.log(this.state.model.run_params));
+  }
+
+
+  removeAll (){
+    this.updateModel({
+      run_params:{
+        ...this.state.model.run_params,
+        watchedVariables: []
       }
     });
   }
+
+  addAll (){
+    this.updateModel({
+      run_params:{
+        ...this.state.model.run_params,
+        watchedVariables: this.state.model.run_params.stateVariables
+      }
+    });
+  }
+
 
   processModel (model){
     GEPPETTO.Manager.loadModel(JSON.parse(model.geppetto_model_loaded));
@@ -217,27 +251,15 @@ export default class ModelForm extends React.Component {
     }, () => callback());
   }
 
-  isInstanceBlocked() {
+  isInstanceBlocked () {
     let testId = this.props.model.id;
-    var checkInstance = function(value, index, array) { return value.id === testId };
-    var instance = this.props.data.find(checkInstance);
-    if((this.state.isBlocked === false) && (instance.block.isBlocked || (instance.tags.indexOf("deprecated") !== -1))) {
-      this.setState({isBlocked: true});
+    let checkInstance = function (value, index, array) { return value.id === testId; };
+    let instance = this.props.data.find(checkInstance);
+    if ((this.state.isBlocked === false) && (instance.block.isBlocked || (instance.tags.indexOf("deprecated") !== -1))) {
+      this.setState({ isBlocked: true });
     }
   }
 
-  componentWillMount() {
-    if(this.props.actionType === "edit") {
-      this.checkUrl(this.state.model.url);
-      this.isInstanceBlocked();
-    }
-  }
-
-  componentDidUpdate() {
-    if(this.props.actionType === "edit") {
-      this.isInstanceBlocked();
-    }
-  }
 
   render () {
 
@@ -335,26 +357,32 @@ export default class ModelForm extends React.Component {
 
             <div className="tags">
               {/* eslint-disable-next-line react/no-array-index-key */}
-              {this.state.model.tags.map(function(tag, i) { 
-              if (typeof(tag.name) !== 'undefined') {
-                return (<Chip 
-                  backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
-                  style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
-                  key={`${tag.name}-${i}`}
-                  onRequestDelete={() => this.deleteTag(tag)}>
-                    {tag.name.toString()}
-                </Chip>);
-              } else {
-                return (<Chip 
-                  backgroundColor={(tag.toLowerCase() === "deprecated") ? red400 : brown500}
-                  style={{ marginLeft: 4, marginTop: 4, float: "left" }} 
-                  key={`${tag}-${i}`}
-                  onRequestDelete={() => this.deleteTag(tag)}>
-                    {tag}
-                </Chip>);
-              }
-              
-            }.bind(this))}
+              {this.state.model.tags.map(function (tag, i) {
+                if (typeof(tag.name) !== "undefined") {
+                  return (
+                    <Chip
+                      backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
+                      style={{ marginLeft: 4, marginTop: 4, float: "left" }}
+                      key={`${tag.name}-${i}`}
+                      onRequestDelete={() => this.deleteTag(tag)}
+                    >
+                      {tag.name.toString()}
+                    </Chip>
+                  );
+                } else {
+                  return (
+                    <Chip
+                      backgroundColor={(tag.toLowerCase() === "deprecated") ? red400 : brown500}
+                      style={{ marginLeft: 4, marginTop: 4, float: "left" }}
+                      key={`${tag}-${i}`}
+                      onRequestDelete={() => this.deleteTag(tag)}
+                    >
+                      {tag}
+                    </Chip>
+                  );
+                }
+
+              }.bind(this))}
             </div>
           </div>
         </div>
@@ -405,6 +433,8 @@ export default class ModelForm extends React.Component {
               params={this.state.params}
               onCheck={this.saveChecked}
               onUncheck={this.removeChecked}
+              removeAll={this.removeAll}
+              addAll={this.addAll}
               disabled={this.state.isBlocked}
             />
           </Dialog>
@@ -412,7 +442,7 @@ export default class ModelForm extends React.Component {
 
         <div className="actions-container">
           <RaisedButton
-            label={"save"}
+            label="save"
             disabled={this.state.loadingParams || this.state.loadingClasses}
             className="actions-button"
             onClick={() => {

@@ -3,6 +3,7 @@ import Griddle, { RowDefinition, ColumnDefinition, plugins } from "griddle-react
 import _ from "underscore";
 import FlatButton from "material-ui/FlatButton";
 import { enhancedWithRowData, ChooseVarComponent } from "./partials";
+import { TOGGLE_ALL, UNTOGGLE_ALL } from "./events";
 
 export default class ParamsTable extends React.Component {
   constructor (props, context) {
@@ -21,8 +22,16 @@ export default class ParamsTable extends React.Component {
   }
 
   componentDidMount (){
+    GEPPETTO.on(UNTOGGLE_ALL, this.props.removeAll, this);
+    GEPPETTO.on(TOGGLE_ALL, this.props.addAll, this);
+
     this.convertToStateVariablesTableData();
     this.convertToParamsTableData();
+  }
+
+  componentWillUnmount (){
+    GEPPETTO.off(UNTOGGLE_ALL, this.props.removeAll, this);
+    GEPPETTO.off(TOGGLE_ALL, this.props.addAll, this);
   }
 
   convertToStateVariablesTableData () {
@@ -107,40 +116,43 @@ export default class ParamsTable extends React.Component {
     };
 
     let stateVariablesTable = (
-      <Griddle
-        data={this.state.stateVariablesTableData}
-        plugins={[plugins.LocalPlugin]}
-        styleConfig={{
-          classNames: {
-            Table: "table scidash-table",
-            TableHeadingCell: "scidash-table-heading-cell",
-            Filter: "scidash-table-filter"
-          }
-        }}
-        // TODO: a bit ugly, merge into 1 const
-        components={{
-          Layout: StateVariablesLayout,
-          ...paginationButtons
-        }}
-      >
-        <RowDefinition>
-          <ColumnDefinition
-            title="Name"
-            id="name"
-          />
-          <ColumnDefinition
-            title="Choose"
-            customComponent={enhancedWithRowData(
-              this.props.onCheck,
-              this.props.onUncheck,
-              this.state.watchedVariables,
-              this.props.disabled
-            )(
-              ChooseVarComponent
-            )}
-          />
-        </RowDefinition>
-      </Griddle>
+      <span>
+
+        <Griddle
+          data={this.state.stateVariablesTableData}
+          plugins={[plugins.LocalPlugin]}
+          styleConfig={{
+            classNames: {
+              Table: "table scidash-table",
+              TableHeadingCell: "scidash-table-heading-cell",
+              Filter: "scidash-table-filter"
+            }
+          }}
+          // TODO: a bit ugly, merge into 1 const
+          components={{
+            Layout: StateVariablesLayout,
+            ...paginationButtons
+          }}
+        >
+          <RowDefinition>
+            <ColumnDefinition
+              title="Name"
+              id="name"
+            />
+            <ColumnDefinition
+              title="Choose"
+              customComponent={enhancedWithRowData(
+                this.props.onCheck,
+                this.props.onUncheck,
+                this.state.watchedVariables,
+                this.props.disabled
+              )(
+                ChooseVarComponent
+              )}
+            />
+          </RowDefinition>
+        </Griddle>
+      </span>
     );
 
     let paramsTable = (
@@ -197,6 +209,26 @@ export default class ParamsTable extends React.Component {
             }}
             backgroundColor={this.state.paramsOpen ? "#ccc" : ""}
           />
+          {this.state.stateVariablesOpen &&
+            (
+              <span>
+                <FlatButton
+                  label="Untoggle all" style={{
+                    margin: "10px 0 10px 0",
+                    float: "right"
+                  }}
+                  onClick={() => GEPPETTO.trigger(UNTOGGLE_ALL)}
+                />
+                <FlatButton
+                  label="Toggle all" style={{
+                    margin: "10px 0 10px 0",
+                    float: "right"
+                  }}
+                  onClick={() => GEPPETTO.trigger(TOGGLE_ALL)}
+                />
+              </span>
+            )
+          }
         </div>
         { this.state.stateVariablesOpen ? stateVariablesTable : "" }
         { this.state.paramsOpen ? paramsTable : "" }

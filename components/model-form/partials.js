@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import _ from "underscore";
 import Toggle from "material-ui/Toggle";
 import React from "react";
+import { TOGGLE_ALL, UNTOGGLE_ALL } from "./events";
 
 export const rowDataSelector = (state, { griddleKey }) => state
   .get("data")
@@ -26,26 +27,46 @@ export class ChooseVarComponent extends React.Component{
     };
 
     this.onToggle = this.onToggle.bind(this);
+    this.switchToggle = this.switchToggle.bind(this);
+
+    this.onToggleAll = (() => this.switchToggle(true)).bind(this);
+    this.onUntoggleAll = (() => this.switchToggle(false)).bind(this);
   }
 
   componentDidMount (){
+
+    GEPPETTO.on(TOGGLE_ALL, this.onToggleAll, this);
+    GEPPETTO.on(UNTOGGLE_ALL, this.onUntoggleAll, this);
+
     this.setState({
       toggled: this.props.watchedVariables.includes(this.props.rowData.name)
     });
   }
 
-  onToggle (ev, isInputChecked){
-    if (isInputChecked){
-      this.props.onCheck(this.props.rowData.name);
-      this.setState({
-        toggled: true
-      });
-    } else {
-      this.setState({
-        toggled: false
-      });
-      this.props.onUncheck(this.props.rowData.name);
+  componentWillUnmount (){
+    GEPPETTO.off(TOGGLE_ALL, this.onToggleAll, this);
+    GEPPETTO.off(UNTOGGLE_ALL, this.onUntoggleAll, this);
+  }
+
+  onToggle (ev, toggled){
+    this.switchToggle(toggled, () => {
+      if (toggled) {
+        this.props.onCheck(this.props.rowData.name);
+      } else {
+        this.props.onUncheck(this.props.rowData.name);
+      }
+    });
+  }
+
+  switchToggle (toggled, callback){
+
+    if (!callback){
+      callback = () => {};
     }
+
+    this.setState({
+      toggled: toggled
+    }, callback());
   }
 
   render (){
