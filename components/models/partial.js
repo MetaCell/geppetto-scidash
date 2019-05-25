@@ -28,6 +28,7 @@ export class CustomMenu extends Component {
 
     this.isBlocked = this.isBlocked.bind(this);
     this.checkInstance = this.checkInstance.bind(this);
+    this.checkUserRights = this.checkUserRights.bind(this);
   }
 
   isBlocked() {
@@ -57,6 +58,20 @@ export class CustomMenu extends Component {
     }
   }
 
+  checkUserRights() {
+    if(this.props.value === false || this.props.value === undefined) {
+      return false
+    } else {
+      var instanceId = this.props.value.get("modelId");
+      var checkInstance = function(value, index, array) { return value.id === instanceId };
+      var instance = this.props.data.find(checkInstance);
+      if(instance.owner === this.props.user.userObject.username) {
+        return false;
+      }
+      return true;
+    }
+  }
+
   render () {
     const { anchorEl } = this.state;
     return (
@@ -77,8 +92,17 @@ export class CustomMenu extends Component {
           <Menu>
             <MenuItem
               primaryText="Edit"
-              onClick={() => this.props.edit(this.props.value.get("modelId"))}
+              onClick={() => 
+                {
+                  if(this.checkUserRights()) {
+                    return false;
+                  } else {
+                    this.props.edit(this.props.value.get("modelId"));
+                  }
+                }
+              }
               leftIcon={<FontIcon className="fa fa-pencil-square-o" />}
+              disabled={this.checkUserRights()}
             />
             <MenuItem
               primaryText="Clone"
