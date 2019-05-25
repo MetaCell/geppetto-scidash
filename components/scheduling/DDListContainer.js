@@ -4,8 +4,8 @@ import * as actions from "../../actions/creators/scheduler";
 
 const mapStateToProps = state => ({
   data: [
-    ...state.models.data,
-    ...state.testInstances.data
+    ...state.models.data.filter(instance => instance.owner === state.user.userObject.username),
+    ...state.testInstances.data.filter(instance => instance.owner === state.user.userObject.username)
   ],
   choosedTests: state.scheduler.choosedTests,
   choosedModels: state.scheduler.choosedModels
