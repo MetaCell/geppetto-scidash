@@ -27,11 +27,15 @@ export class CustomMenu extends Component {
     };
 
     this.isBlocked = this.isBlocked.bind(this);
+    this.checkInstance = this.checkInstance.bind(this);
   }
 
   isBlocked() {
+    if(this.props.value === false) {
+      return false;
+    }
     if(this.props.value === undefined) {
-      return false
+      return false;
     }
     if(this.props.value.get("isBlocked")) {
       return true;
@@ -45,15 +49,23 @@ export class CustomMenu extends Component {
     return false;
   }
 
+  checkInstance() {
+    if(this.props.value === false || this.props.value === undefined) {
+      return false
+    } else {
+      return true;
+    }
+  }
+
   render () {
     const { anchorEl } = this.state;
     return (
       <span className="edit-clone-test">
         { this.isBlocked() && <FontIcon className="fa fa-lock" /> }
-        <IconButton
+        { this.checkInstance() && <IconButton
           iconClassName="fa fa-ellipsis-v"
           onClick={e => this.setState({ anchorEl: e.currentTarget })}
-        />
+        /> }
 
         <Popover
           open={!!anchorEl}

@@ -73,7 +73,15 @@ export default class Models extends React.Component {
             <ColumnDefinition
               id="source"
               title="Source"
-              customComponent={props => <a href={props.value} style={{ color: "grey" }}><i className="fa fa-external-link" /></a>}
+              customComponent={props => {
+                  var inputString = props.value.replace(/\s/g, '');
+                  if(inputString !== "") {
+                    return <a href={props.value} style={{ color: "grey" }}><i className="fa fa-external-link" /></a>
+                  } else {
+                    return <span></span>
+                  }
+                }
+              }
               order={3}
             />
 
