@@ -116,6 +116,7 @@ export default class Models extends React.Component {
             <ColumnDefinition
               id="timestamp"
               title="Last edited"
+              cssClassName="timeStampCss"
               customHeadingComponent={props => (<DateRangeCellContainer
                 onFilterUpdate={this.props.onFilterUpdate}
                 namespace={Config.modelInstancesNamespace}
