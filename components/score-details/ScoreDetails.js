@@ -1,4 +1,6 @@
 import React from "react";
+import Chip from "material-ui/Chip";
+import {red400, brown500} from 'material-ui/styles/colors';
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import ModelDetailsContainer from "../model-details/ModelDetailsContainer";
 
@@ -17,7 +19,9 @@ const ScoreDetails = ({
   timestamp,
   modelBackend,
   background,
-  modelInstance
+  modelInstance,
+  testTags,
+  instanceTestName
 }) => (
   <Card>
     <CardText style={{
@@ -39,7 +43,7 @@ Test details
           <CardText>
             <div>
               <strong>Test name: </strong>
-              {testClassName}
+              {instanceTestName}
             </div>
             <div>
               <strong>Score: </strong>
@@ -90,6 +94,23 @@ Test details
             <div>
               <strong>Timestamp: </strong>
               {timestamp}
+            </div>
+            <div>
+              <strong>Tags: </strong>
+              {testTags.map((tag, i) =>
+                <Chip
+                    containerElement={'span'}
+                    backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
+                    style={{ 
+                      marginTop: 6, 
+                      marginBottom: 0,
+                      whiteSpace: "nowrap",
+                      display: "inline-block"
+                    }}
+                    key={`${tag}-${i}`}>
+                    {tag}
+                </Chip>)
+              }
             </div>
             <hr />
             <div>
