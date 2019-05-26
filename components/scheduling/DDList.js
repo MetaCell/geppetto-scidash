@@ -74,6 +74,12 @@ export default class DDList extends React.Component {
   }
 
   isSearchable (item){
+    if (item.block.isBlocked === true) {
+      return false;
+    }
+    if (item.tags.includes("deprecated")) {
+      return false;
+    }
     if (this.state.searchable == ""){
       return true;
     }
