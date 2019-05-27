@@ -42,6 +42,7 @@ export default class ScoresGriddleAdapter extends BaseAdapter {
         model: score.model_instance,
         hostname: score.test_instance.hostname,
         status: Config.scoreStatusMap[score.status],
+        error: score.error,
         owner: score.owner.username,
         build_info: score.test_instance.build_info,
         timestamp: { full: fullDate, short: shortDate },
