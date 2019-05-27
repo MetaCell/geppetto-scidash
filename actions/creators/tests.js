@@ -53,10 +53,9 @@ export function filteringTestsStarted (searchText, filterName, dispatch){
 
 
   apiService.getList(false, Config.testInstancesNamespace).then(result => {
-
     let filters = filteringService.getFilters(Config.testInstancesNamespace);
-    let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "/";
-    window.history.pushState("", "", filterString);
+    let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "/";
+    window.history.pushState("", "", `${location.pathname}` + filterString);
 
     dispatch(filteringTestsFinished(result));
   });
@@ -148,7 +147,7 @@ export function startEditTest (testId, dispatch){
     let _tags = result.tags;
     result.tags = [];
     _tags.map((tag, i) => result.tags.push(tag.name));
-    dispatch(changePageWithParams(new PagesService().TESTS_EDIT_PAGE, {'test': result}, dispatch))
+    dispatch(changePageWithParams(new PagesService().TESTS_EDIT_PAGE, { "test": result }, dispatch));
   });
 
   return {

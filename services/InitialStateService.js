@@ -10,6 +10,7 @@ import HeaderInitialStateService from "./state/HeaderInitialStateService";
 import ModelsInitialStateService from "./state/ModelsInitialStateService";
 import ModelClassInitialStateService from "./state/ModelClassInitialStateService";
 import TestClassInitialStateService from "./state/TestClassInitialStateService";
+import PagesService from "./PagesService";
 
 export default class InitialStateService {
 
@@ -63,9 +64,12 @@ export default class InitialStateService {
     async generateInitialState (){
       this.initialState = this.getInitialState();
       let filteringS = FilteringService.getInstance();
+      let pagesService = new PagesService();
 
       let suitesNamespace = Config.suitesNamespace;
       let scoresNamespace = Config.scoresNamespace;
+
+      let currentNamespace = pagesService.getCurrentNamespace();
 
       const period = await this.countPeriod();
 
@@ -77,7 +81,7 @@ export default class InitialStateService {
       }
 
       filteringS.extractFiltersFromQueryString(location.search, scoresNamespace);
-      window.history.pushState("", "", `${location.pathname}?` + filteringS.stringifyFilters(filteringS.getFilters(scoresNamespace)));
+      window.history.pushState("", "", `${location.origin}${location.pathname}?` + filteringS.stringifyFilters(filteringS.getFilters(currentNamespace)));
 
       this.initialState.scores = await new ScoreInitialStateService().generateInitialState();
       this.initialState.testSuites = await new TestSuitesInitialStateService().generateInitialState();
@@ -88,7 +92,7 @@ export default class InitialStateService {
       this.initialState.user = await new UserInitialStateService().generateInitialState();
       this.initialState.header = new HeaderInitialStateService().generateInitialState();
       this.initialState.global = new GlobalInitialStateService().getInitialStateTemplate();
-      
+
       return this.initialState;
     }
 }
