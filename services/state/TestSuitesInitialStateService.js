@@ -4,6 +4,7 @@ import ScoresApiService from "../api/ScoresApiService";
 import TestSuitesGriddleAdapter from "../../shared/adapter/TestSuitesGriddleAdapter";
 import TestSuitesAutocompleteAdapter from "../../shared/adapter/TestSuitesAutocompleteAdapter";
 import Config from "../../shared/Config";
+import ScoreMatrixGriddleAdapter from "../../shared/adapter/ScoreMatrixGriddleAdapter";
 
 export default class TestSuitesInitialStateService extends BaseInitialStateService {
     initialStateTemplate = {
@@ -51,6 +52,11 @@ export default class TestSuitesInitialStateService extends BaseInitialStateServi
         .getGriddleData();
       initialState.autoCompleteData = new TestSuitesAutocompleteAdapter(initialState.data)
         .getAutocompleteData();
+      let scoreMatrixAdapter = new ScoreMatrixGriddleAdapter(scores);
+
+      initialState.scoreMatrixTableDataList = scoreMatrixAdapter.getGriddleData();
+      initialState.scoreMatrixList = scoreMatrixAdapter.getScoreMatrix();
+
       return initialState;
     }
 

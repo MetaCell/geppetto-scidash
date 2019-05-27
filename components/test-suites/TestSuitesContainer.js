@@ -6,13 +6,11 @@ import ScidashStorage from "../../shared/ScidashStorage";
 
 import {
   filteringSuitesStarted,
-  filteringSuitesFinished,
   hideModel,
   showAllModels,
   dateFilterChanged,
   clearDateFilter
 } from "../../actions/creators/test-suites";
-
 
 const mapStateToProps = state => ({
   data: state.testSuites.data,
@@ -34,7 +32,9 @@ const mapStateToProps = state => ({
       if (props.hasNext) {
         return (
           <RaisedButton
-            label={props.text} onClick={props.getNext} style={{
+            label={props.text}
+            onClick={props.getNext}
+            style={{
               marginLeft: "10px"
             }}
           />
@@ -47,7 +47,9 @@ const mapStateToProps = state => ({
       if (props.hasPrevious) {
         return (
           <RaisedButton
-            label={props.text} onClick={props.getPrevious} style={{
+            label={props.text}
+            onClick={props.getPrevious}
+            style={{
               marginRight: "10px"
             }}
           />
@@ -61,30 +63,24 @@ const mapStateToProps = state => ({
     currentPage: 1
   },
   showLoading: state.testSuites.showLoading,
-  dateFilterChanged: state.testSuites.dateFilterChanged,
+  dateFilterChanged: state.testSuites.dateFilterChanged
 });
 
 const mapDispatchToProps = dispatch => {
-
   let filter = (searchText, filterName, dispatch, reset = false) => {
-
     let storage = new ScidashStorage();
     let timeoutKey = "lastFilterTimeoutId";
 
-    if (storage.getItem(timeoutKey)){
+    if (storage.getItem(timeoutKey)) {
       clearTimeout(storage.getItem(timeoutKey));
       storage.setItem(timeoutKey, false);
     }
 
     let f = (searchText, filterName, dispatch) => {
-      dispatch(filteringSuitesStarted(
-        searchText,
-        filterName,
-        dispatch
-      ));
+      dispatch(filteringSuitesStarted(searchText, filterName, dispatch));
     };
 
-    if (/^timestamp_.*/.test(filterName) && !reset){
+    if (/^timestamp_.*/.test(filterName) && !reset) {
       dispatch(dateFilterChanged());
     }
 
@@ -101,20 +97,21 @@ const mapDispatchToProps = dispatch => {
     onDateFilterClear: event => {
       dispatch(clearDateFilter(filter, dispatch));
     },
-    sortScore: (data, column, sortAscending = true) => data.sort(
-      (original, newRecord) => {
-        original = (!!original.get("_sort_key") && original.get("_sort_key")) || "";
-        newRecord = (!!newRecord.get("_sort_key") && newRecord.get("_sort_key")) || "";
+    sortScore: (data, column, sortAscending = true) =>
+      data.sort((original, newRecord) => {
+        original =
+          (!!original.get("_sort_key") && original.get("_sort_key")) || "";
+        newRecord =
+          (!!newRecord.get("_sort_key") && newRecord.get("_sort_key")) || "";
 
         if (original === newRecord) {
           return 0;
         } else if (original > newRecord) {
           return sortAscending ? 1 : -1;
-        }
-        else {
+        } else {
           return sortAscending ? -1 : 1;
         }
-      }),
+      })
   };
 };
 
@@ -122,6 +119,5 @@ const TestSuitesContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(TestSuites);
-
 
 export default TestSuitesContainer;
