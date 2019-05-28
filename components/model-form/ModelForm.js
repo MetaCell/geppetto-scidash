@@ -55,6 +55,7 @@ export default class ModelForm extends React.Component {
     this.deleteTag = this.deleteTag.bind(this);
     this.addTag = this.addTag.bind(this);
     this.isInstanceBlocked = this.isInstanceBlocked.bind(this);
+    this.convertUrl = this.convertUrl.bind(this);
   }
 
   componentWillMount () {
@@ -132,6 +133,19 @@ export default class ModelForm extends React.Component {
         successParams: true,
         paramsDisabled: false
       });
+    }
+  }
+
+  convertUrl(url) {
+    if(url.toLowerCase().indexOf("githubusercontent") > -1) {
+      return url;
+    } else {
+      var string1 = testurl.slice(0, testurl.indexOf("\/blob\/"));
+      var string2 = testurl.slice(testurl.indexOf("\/blob\/") + 5, testurl.length);
+      var github_user = string1.slice(string1.slice(0, string1.lastIndexOf("/")).lastIndexOf("/") + 1, string1.lastIndexOf("/"));
+      var repository = string1.slice(string1.lastIndexOf("/") + 1, string1.length)
+      var final_string = "https://raw.githubusercontent.com/" + github_user + "/" + repository + string2;
+      return final_string;
     }
   }
 
