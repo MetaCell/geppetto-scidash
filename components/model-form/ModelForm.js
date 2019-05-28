@@ -17,6 +17,7 @@ import Config from "../../shared/Config";
 import ModelParametersApiService from "../../services/api/ModelParametersApiService";
 import ParamsTable from "./ParamsTable";
 import ModelInstance from "../../models/ModelInstance";
+var gh = require('parse-github-url');
 
 
 export default class ModelForm extends React.Component {
@@ -275,7 +276,17 @@ export default class ModelForm extends React.Component {
               }
               floatingLabelText="Name of the model"
               underlineStyle={{ borderBottom: "1px solid grey" }}
-              onChange={(event, value) => this.updateModel({ name: value })}
+              onChange={
+                (event, value) => {
+                  this.updateModel({ name: value }, () => {
+                    if(!this.state.model.validate()) {
+                      this.setState({ validationFailed: true });
+                    } else {
+                      this.setState({ validationFailed: false });
+                    }
+                  });
+                }
+              }
               disabled={this.state.isBlocked}
             />
             <TextField
@@ -291,13 +302,12 @@ export default class ModelForm extends React.Component {
                   this.updateModel({ url: value }, () => {
                     if (!this.state.model.validate()) {
                       if (this.state.model.errors !== undefined && "url" in this.state.model.errors) {
-                        this.setState({
-                          validationFailed: true
-                        });
-                      } else {
-                        this.checkUrl(value);
+                        this.setState({ validationFailed: true });
                       }
+                    } else {
+                      this.setState({ validationFailed: false });
                     }
+                    this.checkUrl(value);
                   });
                 }
               }
@@ -337,7 +347,18 @@ export default class ModelForm extends React.Component {
               onChange={(event, key, value) => {
                 for (let klass of this.state.modelClasses) {
                   if (klass.id == value) {
-                    this.updateModel({ "model_class": klass });
+                    this.updateModel({ "model_class": klass }, () => {
+                      if(!this.state.model.validate()) {
+                        this.setState({
+                          validationFailed: true
+                        });
+                      } else {
+                        this.setState({
+                          validationFailed: false
+                        });
+                      }
+                    }
+                    );
                   }
                 }
               }}
@@ -363,7 +384,7 @@ export default class ModelForm extends React.Component {
                     <Chip
                       backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
                       style={{ marginLeft: 4, marginTop: 4, float: "left" }}
-                      key={`${tag.name}-${i}`}
+                      key={tag.name+"-"+i}
                       onRequestDelete={() => this.deleteTag(tag)}
                     >
                       {tag.name.toString()}
@@ -374,7 +395,7 @@ export default class ModelForm extends React.Component {
                     <Chip
                       backgroundColor={(tag.toLowerCase() === "deprecated") ? red400 : brown500}
                       style={{ marginLeft: 4, marginTop: 4, float: "left" }}
-                      key={`${tag}-${i}`}
+                      key={tag+"-"+i}
                       onRequestDelete={() => this.deleteTag(tag)}
                     >
                       {tag}
@@ -445,6 +466,7 @@ export default class ModelForm extends React.Component {
             label="save"
             disabled={this.state.loadingParams || this.state.loadingClasses}
             className="actions-button"
+            disabled={(this.state.validationFailed || Object.entries(this.state.model.errors).length > 0) ? true : false}
             onClick={() => {
               if (this.state.model.validate() && !this.state.loadingParams) {
                 this.setState({
