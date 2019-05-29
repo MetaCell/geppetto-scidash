@@ -44,6 +44,13 @@ const mapStateToProps = (state, ownProps) => {
     scoreType = ownProps.score.get("score_type");
   }
 
+  let testTags = null;
+
+  if (ownProps.score.get("test_instance").get("tags").size > 0) {
+    testTags = ownProps.score.get("test_instance").get("tags").map(item => item.get("name"));
+  }
+  
+
   return {
     scoreClassName: helper.noneIfEmptyString(ownProps.score.get("test_instance").get("test_class").get("class_name")),
     testClassName: helper.noneIfEmptyString(ownProps.score.get("test_instance").get("test_class").get("class_name")),
@@ -57,7 +64,9 @@ const mapStateToProps = (state, ownProps) => {
     observation: helper.noneIfEmptyMap(ownProps.score.get("test_instance").get("observation")),
     modelInstance: ownProps.score.get("model_instance"),
     sortKey: sortKey,
-    background
+    background,
+    testTags: testTags,
+    instanceTestName: helper.noneIfEmptyString(ownProps.score.get("test_instance").get("name"))
   };
 };
 
