@@ -56,8 +56,8 @@ export function filteringModelsStarted (searchText, filterName, dispatch){
   apiService.getList(false, Config.modelInstancesNamespace).then(result => {
 
     let filters = filteringService.getFilters(Config.modelInstancesNamespace);
-    let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "/";
-    window.history.pushState("", "", filterString);
+    let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "/";
+    window.history.pushState("", "", `${location.pathname}` + filterString);
 
     dispatch(filteringModelsFinished(result));
   });
@@ -135,7 +135,7 @@ export function startEditModel (modelId, dispatch){
     let _tags = result.tags;
     result.tags = [];
     _tags.map((tag, i) => result.tags.push(tag.name));
-    dispatch(changePageWithParams(new PagesService().MODELS_EDIT_PAGE, {'model': result}, dispatch))
+    dispatch(changePageWithParams(new PagesService().MODELS_EDIT_PAGE, { "model": result }, dispatch));
   });
 
   return {

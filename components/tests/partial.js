@@ -38,14 +38,16 @@ export class CustomMenu extends Component {
     if(this.props.value === undefined) {
       return false;
     }
-    if(this.props.value.get("isBlocked")) {
+    if (this.props.value.get("isBlocked")) {
       return true;
     }
-    var instanceId = this.props.value.get("testId");
-    var checkInstance = function(value, index, array) { return value.id === instanceId };
-    var instance = this.props.data.find(checkInstance);
-    if((instance.tags.indexOf("deprecated") !== -1)) {
-      return true;
+    let instanceId = this.props.value.get("testId");
+    let checkInstance = function (value, index, array) { return value.id === instanceId; };
+    let instance = this.props.data.find(checkInstance);
+    if (instance !== undefined){
+      if ((instance.tags.indexOf("deprecated") !== -1)) {
+        return true;
+      }
     }
     return false;
   }
@@ -116,7 +118,7 @@ export class CustomMenu extends Component {
   }
 }
 
-export const CustomTagComponent =({ value }) => (
+export const CustomTagComponent = ({ value }) => (
   <span className="chips">
     {value.map((tag, i) => <Chip backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500} containerElement="span" key={i}>{tag}</Chip>)}
   </span>

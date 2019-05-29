@@ -17,11 +17,11 @@ export default class Models extends React.Component {
     this.username = this.props.user.isLogged ? this.props.user.userObject.username : "";
   }
 
-  componentWillMount() {
-    if(this.props.user.isLogged) {
+  componentWillMount () {
+    if (this.props.user.isLogged) {
       this.props.onFilterUpdate(this.username, "owner");
     } else {
-      this.props.notLoggedRedirect()
+      this.props.notLoggedRedirect();
     }
   }
 

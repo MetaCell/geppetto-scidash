@@ -24,20 +24,31 @@ class Scheduling extends React.Component {
 
   }
 
-  getItemByID (ids){
+  componentWillMount () {
+    if (!this.props.user.isLogged) {
+      this.props.notLoggedRedirect();
+    }
+  }
+
+  getItemByID (ids) {
     return this.props.data.filter(item => ids.includes(item.scheduler_id));
   }
 
-  async scheduleTests (matrix){
+  async scheduleTests (matrix) {
     this.setState({
       showLoading: true
     });
+
+    let payload = {
+      suiteName: this.state.saveSuites ? this.state.suitesName : "",
+      matrix,
+    };
 
     let schedulingService = new SchedulingApiService();
 
     schedulingService.clearCache(schedulingService.storage);
 
-    let result = await schedulingService.create(matrix);
+    let result = await schedulingService.create(payload);
 
     this.setState({
       showLoading: false
@@ -46,7 +57,7 @@ class Scheduling extends React.Component {
     return result;
   }
 
-  saveCompatible (csvMatrix){
+  saveCompatible (csvMatrix) {
     let result = {};
     let rows = csvMatrix.split(";");
 
@@ -55,7 +66,7 @@ class Scheduling extends React.Component {
     header.shift();
     rows.pop();
 
-    for (let row of rows){
+    for (let row of rows) {
 
       row = row.split("|");
       let modelName = row.shift();
@@ -63,10 +74,10 @@ class Scheduling extends React.Component {
 
       result[modelId] = [];
 
-      for (const [index, test] of header.entries()){
+      for (const [index, test] of header.entries()) {
         let testId = test.split("#")[1];
 
-        if (row[index] == "TBD"){
+        if (row[index] == "TBD") {
           result[modelId].push(parseInt(testId));
         }
 
@@ -79,12 +90,6 @@ class Scheduling extends React.Component {
 
     return result;
 
-  }
-
-  componentWillMount() {
-    if(!this.props.user.isLogged) {
-      this.props.notLoggedRedirect()
-    }
   }
 
   render () {
@@ -118,7 +123,7 @@ class Scheduling extends React.Component {
                   placeholder='Name the suites'
                   floatingLabelText="Enter a name"
                   onChange={e => this.setState({ suitesName: e.target.value })}
-                  onKeyPress={e => e.key === "Enter" ? () => {} : null}
+                  onKeyPress={e => e.key === "Enter" ? () => { } : null}
                 />
               </div>
               : null

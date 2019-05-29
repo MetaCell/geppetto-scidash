@@ -13,10 +13,13 @@ export default class TestInstancesInitialStateService extends BaseInitialStateSe
           id: 0,
           name: " ",
           class: " ",
-          tags: [" "],
+          tags: [],
           owner: " ",
           timestamp: " ",
-          block: false
+          block: {
+            isBlocker: false,
+            testId: 0
+          }
         },
       ],
       autoCompleteData: {
