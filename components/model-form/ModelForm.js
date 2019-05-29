@@ -17,7 +17,6 @@ import Config from "../../shared/Config";
 import ModelParametersApiService from "../../services/api/ModelParametersApiService";
 import ParamsTable from "./ParamsTable";
 import ModelInstance from "../../models/ModelInstance";
-var gh = require('parse-github-url');
 
 
 export default class ModelForm extends React.Component {
