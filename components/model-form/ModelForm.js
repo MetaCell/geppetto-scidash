@@ -128,11 +128,12 @@ export default class ModelForm extends React.Component {
       });
     } else {
       this.processModel(JSON.parse(responseParams.data));
+      this.updateModel({ url: this.convertUrl(url) }, () =>
       this.setState({
         loadingParams: false,
         successParams: true,
         paramsDisabled: false
-      });
+      }));
     }
   }
 
@@ -140,8 +141,8 @@ export default class ModelForm extends React.Component {
     if(url.toLowerCase().indexOf("githubusercontent") > -1) {
       return url;
     } else {
-      var string1 = testurl.slice(0, testurl.indexOf("\/blob\/"));
-      var string2 = testurl.slice(testurl.indexOf("\/blob\/") + 5, testurl.length);
+      var string1 = url.slice(0, url.indexOf("\/blob\/"));
+      var string2 = url.slice(url.indexOf("\/blob\/") + 5, url.length);
       var github_user = string1.slice(string1.slice(0, string1.lastIndexOf("/")).lastIndexOf("/") + 1, string1.lastIndexOf("/"));
       var repository = string1.slice(string1.lastIndexOf("/") + 1, string1.length)
       var final_string = "https://raw.githubusercontent.com/" + github_user + "/" + repository + string2;
