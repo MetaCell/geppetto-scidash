@@ -57,7 +57,22 @@ export function filteringTestsStarted (searchText, filterName, dispatch){
     let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "/";
     window.history.pushState("", "", `${location.pathname}` + filterString);
 
-    dispatch(filteringTestsFinished(result));
+    var uniqueResults = [];
+    result.map((item, index) => 
+      {
+        var flag = true;
+        for(var j = 0; j < uniqueResults.length; j++) {
+          if(item.id === uniqueResults[j].id) {
+            flag = false;
+          }
+        }
+        if(flag) {
+          uniqueResults.push(item);
+        }
+      }
+    );
+
+    dispatch(filteringTestsFinished(uniqueResults));
   });
 
   return {
