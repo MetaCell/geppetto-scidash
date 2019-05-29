@@ -217,6 +217,7 @@ export default class ParamsTable extends React.Component {
                     margin: "10px 0 10px 0",
                     float: "right"
                   }}
+                  disabled={this.props.disabled}
                   onClick={() => GEPPETTO.trigger(UNTOGGLE_ALL)}
                 />
                 <FlatButton
@@ -224,6 +225,7 @@ export default class ParamsTable extends React.Component {
                     margin: "10px 0 10px 0",
                     float: "right"
                   }}
+                  disabled={this.props.disabled}
                   onClick={() => GEPPETTO.trigger(TOGGLE_ALL)}
                 />
               </span>

@@ -46,23 +46,12 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
           onClick={() => handleMenuClick(pagesService.SCORES_PAGE)}
         />
 
-        {userLogged == true 
-        ? (<MenuItem
-            id="hamMenuSuites"
-            primaryText="Suite scores"
-            leftIcon={<i className="fa fa-suitcase drawer-icon" />}
-            onClick={() => handleMenuClick(pagesService.SUITES_PAGE)}
-            disabled={!userLogged}
-          />) 
-        : (<span data-tooltip-right="User must be logged in to view this page">
-          <MenuItem
-            id="hamMenuSuites"
-            primaryText="Suite scores"
-            leftIcon={<i className="fa fa-suitcase drawer-icon" />}
-            onClick={() => handleMenuClick(pagesService.SUITES_PAGE)}
-            disabled={!userLogged}
-          />
-        </span>)}
+        <MenuItem
+          id="hamMenuSuites"
+          primaryText="Suite scores"
+          leftIcon={<i className="fa fa-suitcase drawer-icon" />}
+          onClick={() => handleMenuClick(pagesService.SUITES_PAGE)}
+        />
 
         {userLogged == true 
         ? (<MenuItem

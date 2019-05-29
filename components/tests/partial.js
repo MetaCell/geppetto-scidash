@@ -27,10 +27,15 @@ export class CustomMenu extends Component {
     };
 
     this.isBlocked = this.isBlocked.bind(this);
+    this.checkInstance = this.checkInstance.bind(this);
+    this.checkUserRights = this.checkUserRights.bind(this);
   }
 
-  isBlocked () {
-    if (this.props.value === undefined) {
+  isBlocked() {
+    if(this.props.value === false) {
+      return false;
+    }
+    if(this.props.value === undefined) {
       return false;
     }
     if (this.props.value.get("isBlocked")) {
@@ -47,15 +52,37 @@ export class CustomMenu extends Component {
     return false;
   }
 
+  checkInstance() {
+    if(this.props.value === false || this.props.value === undefined) {
+      return false
+    } else {
+      return true;
+    }
+  }
+
+  checkUserRights() {
+    if(this.props.value === false || this.props.value === undefined) {
+      return false
+    } else {
+      var instanceId = this.props.value.get("testId");
+      var checkInstance = function(value, index, array) { return value.id === instanceId };
+      var instance = this.props.data.find(checkInstance);
+      if(instance.owner === this.props.user.userObject.username) {
+        return false;
+      }
+      return true;
+    }
+  }
+
   render () {
     const { anchorEl } = this.state;
     return (
       <span className="edit-clone-test">
         { this.isBlocked() && <FontIcon className="fa fa-lock" /> }
-        <IconButton
+        { this.checkInstance() && <IconButton
           iconClassName="fa fa-ellipsis-v"
           onClick={e => this.setState({ anchorEl: e.currentTarget })}
-        />
+        /> }
 
         <Popover
           open={!!anchorEl}
@@ -67,8 +94,17 @@ export class CustomMenu extends Component {
           <Menu>
             <MenuItem
               primaryText="Edit"
-              onClick={() => this.props.edit(this.props.value.get("testId"))}
+              onClick={() => 
+                {
+                  if(this.checkUserRights()) {
+                    return false;
+                  } else {
+                    this.props.edit(this.props.value.get("testId"));
+                  }
+                }
+              }
               leftIcon={<FontIcon className="fa fa-pencil-square-o" />}
+              disabled={this.checkUserRights()}
             />
             <MenuItem
               primaryText="Clone"
