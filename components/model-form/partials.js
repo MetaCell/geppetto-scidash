@@ -4,6 +4,21 @@ import Toggle from "material-ui/Toggle";
 import React from "react";
 import { TOGGLE_ALL, UNTOGGLE_ALL } from "./events";
 
+const styles = {
+  thumbOff: {
+    backgroundColor: 'red',
+  },
+  trackOff: {
+    backgroundColor: '#e19183',
+  },
+  thumbSwitched: {
+    backgroundColor: '#008000',
+  },
+  trackSwitched: {
+    backgroundColor: '#83e183',
+  }
+};
+
 export const rowDataSelector = (state, { griddleKey }) => state
   .get("data")
   .find(rowMap => rowMap.get("griddleKey") === griddleKey)
@@ -71,13 +86,17 @@ export class ChooseVarComponent extends React.Component{
 
   render (){
     return (
-      <div>
+      <div style={{float: "right"}}>
         <Toggle
           toggled={
             this.state.toggled
           }
           onToggle={this.onToggle}
           disabled={this.props.disabled}
+          thumbStyle={styles.thumbOff}
+          thumbSwitchedStyle={styles.thumbSwitched}
+          trackStyle={styles.trackOff}
+          trackSwitchedStyle={styles.trackSwitched}
         />
       </div>
     );
