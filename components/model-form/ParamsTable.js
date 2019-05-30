@@ -140,7 +140,8 @@ export default class ParamsTable extends React.Component {
               id="name"
             />
             <ColumnDefinition
-              title="Choose"
+              title="Watch"
+              headerCssClassName="toggleHeaderClass"
               customComponent={enhancedWithRowData(
                 this.props.onCheck,
                 this.props.onUncheck,

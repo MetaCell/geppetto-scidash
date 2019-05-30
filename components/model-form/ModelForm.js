@@ -54,6 +54,7 @@ export default class ModelForm extends React.Component {
     this.deleteTag = this.deleteTag.bind(this);
     this.addTag = this.addTag.bind(this);
     this.isInstanceBlocked = this.isInstanceBlocked.bind(this);
+    this.convertUrl = this.convertUrl.bind(this);
   }
 
   componentWillMount () {
@@ -126,11 +127,26 @@ export default class ModelForm extends React.Component {
       });
     } else {
       this.processModel(JSON.parse(responseParams.data));
-      this.setState({
-        loadingParams: false,
-        successParams: true,
-        paramsDisabled: false
-      });
+      this.updateModel({ url: this.convertUrl(url) }, () =>
+        this.setState({
+          loadingParams: false,
+          successParams: true,
+          paramsDisabled: false
+        })
+      );
+    }
+  }
+
+  convertUrl(url) {
+    if((url.toLowerCase().indexOf("githubusercontent") === -1) && (url.toLowerCase().indexOf("github") > -1)) {
+      var string1 = url.slice(0, url.indexOf("\/blob\/"));
+      var string2 = url.slice(url.indexOf("\/blob\/") + 5, url.length);
+      var github_user = string1.slice(string1.slice(0, string1.lastIndexOf("/")).lastIndexOf("/") + 1, string1.lastIndexOf("/"));
+      var repository = string1.slice(string1.lastIndexOf("/") + 1, string1.length)
+      var final_string = "https://raw.githubusercontent.com/" + github_user + "/" + repository + string2;
+      return final_string;
+    } else {
+      return url;
     }
   }
 
@@ -275,7 +291,17 @@ export default class ModelForm extends React.Component {
               }
               floatingLabelText="Name of the model"
               underlineStyle={{ borderBottom: "1px solid grey" }}
-              onChange={(event, value) => this.updateModel({ name: value })}
+              onChange={
+                (event, value) => {
+                  this.updateModel({ name: value }, () => {
+                    if(!this.state.model.validate()) {
+                      this.setState({ validationFailed: true });
+                    } else {
+                      this.setState({ validationFailed: false });
+                    }
+                  });
+                }
+              }
               disabled={this.state.isBlocked}
             />
             <TextField
@@ -291,13 +317,12 @@ export default class ModelForm extends React.Component {
                   this.updateModel({ url: value }, () => {
                     if (!this.state.model.validate()) {
                       if (this.state.model.errors !== undefined && "url" in this.state.model.errors) {
-                        this.setState({
-                          validationFailed: true
-                        });
-                      } else {
-                        this.checkUrl(value);
+                        this.setState({ validationFailed: true });
                       }
+                    } else {
+                      this.setState({ validationFailed: false });
                     }
+                    this.checkUrl(value);
                   });
                 }
               }
@@ -337,7 +362,18 @@ export default class ModelForm extends React.Component {
               onChange={(event, key, value) => {
                 for (let klass of this.state.modelClasses) {
                   if (klass.id == value) {
-                    this.updateModel({ "model_class": klass });
+                    this.updateModel({ "model_class": klass }, () => {
+                      if(!this.state.model.validate()) {
+                        this.setState({
+                          validationFailed: true
+                        });
+                      } else {
+                        this.setState({
+                          validationFailed: false
+                        });
+                      }
+                    }
+                    );
                   }
                 }
               }}
@@ -363,7 +399,7 @@ export default class ModelForm extends React.Component {
                     <Chip
                       backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
                       style={{ marginLeft: 4, marginTop: 4, float: "left" }}
-                      key={`${tag.name}-${i}`}
+                      key={tag.name+"-"+i}
                       onRequestDelete={() => this.deleteTag(tag)}
                     >
                       {tag.name.toString()}
@@ -374,7 +410,7 @@ export default class ModelForm extends React.Component {
                     <Chip
                       backgroundColor={(tag.toLowerCase() === "deprecated") ? red400 : brown500}
                       style={{ marginLeft: 4, marginTop: 4, float: "left" }}
-                      key={`${tag}-${i}`}
+                      key={tag+"-"+i}
                       onRequestDelete={() => this.deleteTag(tag)}
                     >
                       {tag}
@@ -445,6 +481,7 @@ export default class ModelForm extends React.Component {
             label="save"
             disabled={this.state.loadingParams || this.state.loadingClasses}
             className="actions-button"
+            disabled={(this.state.validationFailed || Object.entries(this.state.model.errors).length > 0) ? true : false}
             onClick={() => {
               if (this.state.model.validate() && !this.state.loadingParams) {
                 this.setState({
