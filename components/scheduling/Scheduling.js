@@ -2,10 +2,12 @@ import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import Checkbox from "material-ui/Checkbox";
 import TextField from "material-ui/TextField";
+import { Redirect } from "react-router-dom";
 import DDListContainer from "./DDListContainer";
 import CompatibilityTable from "./CompatibilityTable";
 import SchedulingApiService from "../../services/api/SchedulingApiService";
 import Loader from "../loader/Loader";
+import PagesService from "../../services/PagesService";
 
 
 class Scheduling extends React.Component {
@@ -17,6 +19,7 @@ class Scheduling extends React.Component {
       saveSuites: false,
       compatible: {},
       showLoading: false,
+      scheduled: false,
       suitesName: `Suites_${new Date().toJSON().slice(0, 19)}`.replace(/[-:]/g, "_") // a default date set to today
     };
 
@@ -51,7 +54,8 @@ class Scheduling extends React.Component {
     let result = await schedulingService.create(payload);
 
     this.setState({
-      showLoading: false
+      showLoading: false,
+      scheduled: true
     });
 
     return result;
@@ -97,9 +101,14 @@ class Scheduling extends React.Component {
 
     const { choosedTests, choosedModels } = this.props;
 
+    let pagesService = new PagesService();
+
+    if (this.state.scheduled) return <Redirect to={pagesService.SCORES_PAGE} />;
+
     return (
       <span>
         <DDListContainer />
+
 
         {choosedModels.length > 0 && choosedTests.length > 0 ?
           <span>
