@@ -1,6 +1,6 @@
 import React from "react";
 import Chip from "material-ui/Chip";
-import {red400, brown500} from 'material-ui/styles/colors';
+import { red400, brown500 } from "material-ui/styles/colors";
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import ModelDetailsContainer from "../model-details/ModelDetailsContainer";
 
@@ -94,7 +94,11 @@ const ScoreDetails = ({
               <strong>Hostname: </strong>
               {hostname}
             </div>
-            <div>
+            <div style={{
+              wordWrap: "break-word",
+              width: "230px"
+            }}
+            >
               <strong>Errors: </strong>
               {error}
             </div>
@@ -104,20 +108,23 @@ const ScoreDetails = ({
             </div>
             <div>
               <strong>Tags: </strong>
-              {testTags.map((tag, i) =>
+              {testTags.map((tag, i) => (
                 <Chip
-                    containerElement={'span'}
-                    backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
-                    style={{ 
-                      marginTop: 6, 
-                      marginBottom: 0,
-                      whiteSpace: "nowrap",
-                      display: "inline-block"
-                    }}
-                    key={`${tag}-${i}`}>
-                    {tag}
-                </Chip>)
-              }
+                  containerElement="span"
+                  backgroundColor={
+                    tag.toLowerCase() === "deprecated" ? red400 : brown500
+                  }
+                  style={{
+                    marginTop: 6,
+                    marginBottom: 0,
+                    whiteSpace: "nowrap",
+                    display: "inline-block"
+                  }}
+                  key={`${tag}-${i}`}
+                >
+                  {tag}
+                </Chip>
+              ))}
             </div>
             <hr />
             <div>

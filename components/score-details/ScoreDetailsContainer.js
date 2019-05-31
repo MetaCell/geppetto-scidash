@@ -44,12 +44,12 @@ const mapStateToProps = (state, ownProps) => {
     scoreType = ownProps.score.get("score_type");
   }
 
-  let testTags = null;
+  let testTags = [];
 
   if (ownProps.score.get("test_instance").get("tags").size > 0) {
     testTags = ownProps.score.get("test_instance").get("tags").map(item => item.get("name"));
   }
-  
+
 
   return {
     scoreClassName: helper.noneIfEmptyString(ownProps.score.get("test_instance").get("test_class").get("class_name")),

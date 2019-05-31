@@ -7,7 +7,7 @@ const mapStateToProps = (state, ownProps) => {
 
   let helper = new Helper();
 
-  let modelTags = null;
+  let modelTags = [];
 
   if (ownProps.model.get("tags").size > 0) {
     modelTags = ownProps.model.get("tags").map(item => item.get("name"));
