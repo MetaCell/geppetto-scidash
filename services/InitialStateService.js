@@ -80,6 +80,14 @@ export default class InitialStateService {
         }, namespace, true);
       }
 
+      this.initialState.user = await new UserInitialStateService().generateInitialState();
+
+      if (!this.initialState.user.isLogged){
+        filteringS.setupFilters({
+          status: "c"
+        }, scoresNamespace, false);
+      }
+
       filteringS.extractFiltersFromQueryString(location.search, scoresNamespace);
       window.history.pushState("", "", `${location.origin}${location.pathname}?` + filteringS.stringifyFilters(filteringS.getFilters(currentNamespace)));
 
@@ -89,7 +97,6 @@ export default class InitialStateService {
       this.initialState.testInstances = await new TestInstancesInitialStateService().generateInitialState();
       this.initialState.modelClasses.data = await new ModelClassInitialStateService().generateInitialState();
       this.initialState.testClasses.data = await new TestClassInitialStateService().generateInitialState();
-      this.initialState.user = await new UserInitialStateService().generateInitialState();
       this.initialState.header = new HeaderInitialStateService().generateInitialState();
       this.initialState.global = new GlobalInitialStateService().getInitialStateTemplate();
 
