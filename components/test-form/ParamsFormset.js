@@ -74,7 +74,7 @@ export default class ParamsFormset extends React.Component {
             disabled={this.props.disabled}
           >
             {this.state.schemaList.map((value, index) =>
-            // eslint-disable-next-line react/no-array-index-key
+              // eslint-disable-next-line react/no-array-index-key
               <MenuItem label={`${value[0]}`} primaryText={`${value[0]}`} value={index} key={index} />
             )}
           </SelectField>

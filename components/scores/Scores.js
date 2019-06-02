@@ -1,5 +1,9 @@
 import React from "react";
-import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
+import Griddle, {
+  ColumnDefinition,
+  RowDefinition,
+  plugins
+} from "griddle-react";
 
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
 import ScoreDetailLinkColumnContainer from "../griddle-columns/score-detail-link-column/ScoreDetailLinkColumnContainer";
@@ -14,19 +18,36 @@ import {
 } from "./partials";
 
 import Loader from "../loader/Loader";
+import SelectCellContainer from "../select-cell/SelectCellContainer";
 
 export default class Scores extends React.Component {
-
   constructor (props, context) {
     super(props, context);
 
     this.props = props;
-    this.username = this.props.user.isLogged ? this.props.user.userObject.username : "";
+    this.username = this.props.user.isLogged
+      ? this.props.user.userObject.username
+      : "";
+
+    this.state = {
+      intervalId: null
+    };
   }
 
-  componentWillMount() {
-    if(this.props.user.isLogged) {
+  componentWillMount () {
+    if (this.props.user.isLogged) {
       this.props.onFilterUpdate(this.username, "owner");
+    }
+    if (this.state.intervalId === null) {
+      this.setState({
+        intervalId: setInterval(this.props.updateScores, 5000)
+      });
+    }
+  }
+
+  componentWillUnmount () {
+    if (this.state.intervalId !== null) {
+      clearInterval(this.state.intervalId);
     }
   }
 
@@ -45,23 +66,27 @@ export default class Scores extends React.Component {
               id="name"
               title="Name"
               customComponent={CustomScoreName}
-              customHeadingComponent={props => (<FilterCellContainer
-                autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.instancesNamespace}
-                onFilterUpdate={this.props.onFilterUpdate}
-                filterName="name"
-                {...props}
-              />)
-              } order={1}
+              customHeadingComponent={props => (
+                <FilterCellContainer
+                  autoCompleteData={this.props.autoCompleteData}
+                  namespace={Config.instancesNamespace}
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  filterName="name"
+                  {...props}
+                />
+              )}
+              order={1}
             />
             <ColumnDefinition
               id="score"
               title="Score"
               sortMethod={this.props.sortScore}
-              customComponent={props => (<ScoreDetailLinkColumnContainer
-                colorBlind={this.props.colorBlind}
-                {...props}
-              />)}
+              customComponent={props => (
+                <ScoreDetailLinkColumnContainer
+                  colorBlind={this.props.colorBlind}
+                  {...props}
+                />
+              )}
               order={2}
             />
             <ColumnDefinition
@@ -72,70 +97,88 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="score_type"
               title="Score Type"
-              customHeadingComponent={props => (<FilterCellContainer
-                autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.instancesNamespace}
-                onFilterUpdate={this.props.onFilterUpdate}
-                filterName="score_type"
-                {...props}
-              />)
-              } order={3}
+              customHeadingComponent={props => (
+                <FilterCellContainer
+                  autoCompleteData={this.props.autoCompleteData}
+                  namespace={Config.instancesNamespace}
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  filterName="score_type"
+                  {...props}
+                />
+              )}
+              order={3}
             />
             <ColumnDefinition
               id="model"
               title="Model"
               sortMethod={this.sortModel}
               customComponent={ModelDetailLinkColumnContainer}
-              customHeadingComponent={props => (<FilterCellContainer
-                autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.instancesNamespace}
-                onFilterUpdate={this.props.onFilterUpdate}
-                filterName="model"
-                {...props}
-              />)
-              } order={6}
+              customHeadingComponent={props => (
+                <FilterCellContainer
+                  autoCompleteData={this.props.autoCompleteData}
+                  namespace={Config.instancesNamespace}
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  filterName="model"
+                  {...props}
+                />
+              )}
+              order={6}
             />
             <ColumnDefinition
               id="hostname"
               title="Hostname"
-              customHeadingComponent={props => (<FilterCellContainer
-                autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.instancesNamespace}
-                onFilterUpdate={this.props.onFilterUpdate}
-                filterName="hostname"
-                {...props}
-              />)
-              } order={7}
+              customHeadingComponent={props => (
+                <FilterCellContainer
+                  autoCompleteData={this.props.autoCompleteData}
+                  namespace={Config.instancesNamespace}
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  filterName="hostname"
+                  {...props}
+                />
+              )}
+              order={7}
             />
             <ColumnDefinition
               id="owner"
               title="Owner"
-              customHeadingComponent={props => (<FilterCellContainer
-                autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.instancesNamespace}
-                onFilterUpdate={this.props.onFilterUpdate}
-                filterName="owner"
-                value={this.username}
-                {...props}
-              />)
-              } order={8}
+              customHeadingComponent={props => (
+                <FilterCellContainer
+                  autoCompleteData={this.props.autoCompleteData}
+                  namespace={Config.instancesNamespace}
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  filterName="owner"
+                  value={this.username}
+                  {...props}
+                />
+              )}
+              order={8}
             />
             <ColumnDefinition
               id="build_info"
               title="Build Info"
               customComponent={ScidashBuildInfoColumn}
-              customHeadingComponent={props => (<FilterCellContainer
-                autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.instancesNamespace}
-                onFilterUpdate={this.props.onFilterUpdate}
-                filterName="build_info"
-                {...props}
-              />)
-              } order={9}
+              customHeadingComponent={props => (
+                <FilterCellContainer
+                  autoCompleteData={this.props.autoCompleteData}
+                  namespace={Config.instancesNamespace}
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  filterName="build_info"
+                  {...props}
+                />
+              )}
+              order={9}
             />
             <ColumnDefinition
               id="status"
               title="Status"
+              customHeadingComponent={props => (
+                <SelectCellContainer
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  filterName='status'
+                  namespace={Config.instancesNamespace}
+                  {...props}
+                />
+              )}
               order={10}
             />
             <ColumnDefinition
@@ -144,14 +187,16 @@ export default class Scores extends React.Component {
               title="Timestamp"
               width="100px"
               customComponent={ScidashTimestampColumn}
-              customHeadingComponent={props => (<DateRangeCellContainer
-                onFilterUpdate={this.props.onFilterUpdate}
-                namespace={Config.instancesNamespace}
-                dateFilterChanged={this.props.dateFilterChanged}
-                onDateFilterClear={this.props.onDateFilterClear}
-                {...props}
-              />)
-              } order={11}
+              customHeadingComponent={props => (
+                <DateRangeCellContainer
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  namespace={Config.instancesNamespace}
+                  dateFilterChanged={this.props.dateFilterChanged}
+                  onDateFilterClear={this.props.onDateFilterClear}
+                  {...props}
+                />
+              )}
+              order={11}
             />
             <ColumnDefinition
               isMetadata="true"

@@ -6,6 +6,7 @@ import ScidashStorage from "../../shared/ScidashStorage";
 
 import {
   filteringScoresStarted,
+  updateScores,
   dateFilterChanged,
   clearDateFilter
 } from "../../actions/creators/scores";
@@ -88,6 +89,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onFilterUpdate: (searchText, filterName) => {
       filter(searchText, filterName, dispatch);
+    },
+    updateScores: () => {
+      dispatch(updateScores(dispatch));
     },
     onDateFilterClear: event => {
       dispatch(clearDateFilter(filter, dispatch));

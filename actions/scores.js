@@ -51,3 +51,14 @@ export function dateFilterClear (state, action){
   };
 
 }
+
+export function updateScoresFinished (state, action){
+  let adapter = new ScoresGriddleAdapter(action.scores);
+
+  let newState = {
+    ...state,
+    data: adapter.getGriddleData()
+  };
+
+  return newState;
+}
