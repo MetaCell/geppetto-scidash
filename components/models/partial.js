@@ -1,22 +1,21 @@
 import React, { Component } from "react";
-import Menu from 'material-ui/Menu';
-import Chip from 'material-ui/Chip';
-import Popover from 'material-ui/Popover';
-import FontIcon from 'material-ui/FontIcon';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import {red400, brown500} from 'material-ui/styles/colors';
-
+import Menu from "material-ui/Menu";
+import Chip from "material-ui/Chip";
+import Popover from "material-ui/Popover";
+import FontIcon from "material-ui/FontIcon";
+import MenuItem from "material-ui/MenuItem";
+import IconButton from "material-ui/IconButton";
+import { red400, brown500 } from "material-ui/styles/colors";
 
 const styles = {
   anchorOrigin: {
     vertical: "center",
-    horizontal: "left",
+    horizontal: "left"
   },
   targetOrigin: {
     vertical: "center",
-    horizontal: "right",
-  },
+    horizontal: "right"
+  }
 };
 
 export class CustomMenu extends Component {
@@ -31,41 +30,45 @@ export class CustomMenu extends Component {
     this.checkUserRights = this.checkUserRights.bind(this);
   }
 
-  isBlocked() {
-    if(this.props.value === false) {
+  isBlocked () {
+    if (this.props.value === false) {
       return false;
     }
-    if(this.props.value === undefined) {
-      return false
+    if (this.props.value === undefined) {
+      return false;
     }
-    if(this.props.value.get("isBlocked")) {
+    if (this.props.value.get("isBlocked")) {
       return true;
     }
-    var instanceId = this.props.value.get("modelId");
-    var checkInstance = function(value, index, array) { return value.id === instanceId };
-    var instance = this.props.data.find(checkInstance);
-    if((instance.tags.indexOf("deprecated") !== -1)) {
+    let instanceId = this.props.value.get("modelId");
+    let checkInstance = function (value, index, array) {
+      return value.id === instanceId;
+    };
+    let instance = this.props.data.find(checkInstance);
+    if (instance.tags.indexOf("deprecated") !== -1) {
       return true;
     }
     return false;
   }
 
-  checkInstance() {
-    if(this.props.value === false || this.props.value === undefined) {
-      return false
+  checkInstance () {
+    if (this.props.value === false || this.props.value === undefined) {
+      return false;
     } else {
       return true;
     }
   }
 
-  checkUserRights() {
-    if(this.props.value === false || this.props.value === undefined) {
-      return false
+  checkUserRights () {
+    if (this.props.value === false || this.props.value === undefined) {
+      return false;
     } else {
-      var instanceId = this.props.value.get("modelId");
-      var checkInstance = function(value, index, array) { return value.id === instanceId };
-      var instance = this.props.data.find(checkInstance);
-      if(instance.owner === this.props.user.userObject.username) {
+      let instanceId = this.props.value.get("modelId");
+      let checkInstance = function (value, index, array) {
+        return value.id === instanceId;
+      };
+      let instance = this.props.data.find(checkInstance);
+      if (instance.owner === this.props.user.userObject.username) {
         return false;
       }
       return true;
@@ -76,11 +79,13 @@ export class CustomMenu extends Component {
     const { anchorEl } = this.state;
     return (
       <span className="edit-clone-test">
-        { this.isBlocked() && <FontIcon className="fa fa-lock" /> }
-        { this.checkInstance() && <IconButton
-          iconClassName="fa fa-ellipsis-v"
-          onClick={e => this.setState({ anchorEl: e.currentTarget })}
-        /> }
+        {this.isBlocked() && <FontIcon className="fa fa-lock" />}
+        {this.checkInstance() && (
+          <IconButton
+            iconClassName="fa fa-ellipsis-v"
+            onClick={e => this.setState({ anchorEl: e.currentTarget })}
+          />
+        )}
 
         <Popover
           open={!!anchorEl}
@@ -92,15 +97,13 @@ export class CustomMenu extends Component {
           <Menu>
             <MenuItem
               primaryText="Edit"
-              onClick={() => 
-                {
-                  if(this.checkUserRights()) {
-                    return false;
-                  } else {
-                    this.props.edit(this.props.value.get("modelId"));
-                  }
+              onClick={() => {
+                if (this.checkUserRights()) {
+                  return false;
+                } else {
+                  this.props.edit(this.props.value.get("modelId"));
                 }
-              }
+              }}
               leftIcon={<FontIcon className="fa fa-pencil-square-o" />}
               disabled={this.checkUserRights()}
             />
@@ -118,6 +121,14 @@ export class CustomMenu extends Component {
 
 export const CustomTagComponent = ({ value }) => (
   <span className="chips">
-    {value.map((tag, i) => <Chip backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500} containerElement="span" key={i}>{tag}</Chip>)}
+    {value.map((tag, i) => (
+      <Chip
+        backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
+        containerElement="span"
+        key={i}
+      >
+        {tag}
+      </Chip>
+    ))}
   </span>
 );

@@ -18,6 +18,7 @@ export default class ModelInstance extends BaseModel {
     this.run_params = {};
     this.timestamp = new Date();
     this.url = "";
+    this.status = "a";
 
     this.rules = {
       name: [Validator.required],

@@ -1,5 +1,5 @@
 import BaseAdapter from "./BaseAdapter";
-import InitialStateService from "../../services/InitialStateService.js";
+import InitialStateService from "../../services/InitialStateService";
 
 export default class ModelsGriddleAdapter extends BaseAdapter {
 
@@ -32,7 +32,7 @@ export default class ModelsGriddleAdapter extends BaseAdapter {
         owner: model.owner.username,
         timestamp: fullDate,
         block: {
-          isBlocked: false,
+          isBlocked: model.status == "l",
           modelId: model.id
         }
       });
