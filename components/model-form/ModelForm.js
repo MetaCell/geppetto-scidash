@@ -18,7 +18,6 @@ import ModelParametersApiService from "../../services/api/ModelParametersApiServ
 import ParamsTable from "./ParamsTable";
 import ModelInstance from "../../models/ModelInstance";
 
-
 export default class ModelForm extends React.Component {
   constructor (props, context) {
     super(props, context);
@@ -40,7 +39,6 @@ export default class ModelForm extends React.Component {
       validationFailed: false,
       isBlocked: false
     };
-
 
     this.checkUrl = this.checkUrl.bind(this);
     this.saveChecked = this.saveChecked.bind(this);
@@ -70,18 +68,26 @@ export default class ModelForm extends React.Component {
     }
   }
 
-  getModelClassError (){
+  getModelClassError () {
     let errors = [];
 
-    if (this.state.model.errors !== undefined)
-    {errors.push("model_class" in this.state.model.errors ? this.state.model.errors["model_class"] : "");}
-    errors.push(this.state.failClasses ? " / No compatible class found for this model" : "");
+    if (this.state.model.errors !== undefined) {
+      errors.push(
+        "model_class" in this.state.model.errors
+          ? this.state.model.errors["model_class"]
+          : ""
+      );
+    }
+    errors.push(
+      this.state.failClasses
+        ? " / No compatible class found for this model"
+        : ""
+    );
 
     return errors;
   }
 
-  async checkUrl (url){
-
+  async checkUrl (url) {
     this.setState({
       loadingClasses: true,
       successClasses: false,
@@ -94,11 +100,20 @@ export default class ModelForm extends React.Component {
     let paramsService = new ModelParametersApiService();
     let filteringService = FilteringService.getInstance();
 
-    filteringService.setupFilter("model_url", url, Config.modelCreateNamespace, false, false);
+    filteringService.setupFilter(
+      "model_url",
+      url,
+      Config.modelCreateNamespace,
+      false,
+      false
+    );
 
-    let responseClasses = await classService.getList(false, Config.modelCreateNamespace);
+    let responseClasses = await classService.getList(
+      false,
+      Config.modelCreateNamespace
+    );
 
-    if (responseClasses.length > 0){
+    if (responseClasses.length > 0) {
       this.setState({
         successClasses: true
       });
@@ -114,9 +129,12 @@ export default class ModelForm extends React.Component {
       loadingParams: true
     });
 
-    let responseParams = await paramsService.getList(false, Config.modelCreateNamespace);
+    let responseParams = await paramsService.getList(
+      false,
+      Config.modelCreateNamespace
+    );
 
-    if (responseParams.failed){
+    if (responseParams.failed) {
       this.setState({
         paramsErrors: [responseParams.message]
       });
@@ -137,13 +155,27 @@ export default class ModelForm extends React.Component {
     }
   }
 
-  convertUrl(url) {
-    if((url.toLowerCase().indexOf("githubusercontent") === -1) && (url.toLowerCase().indexOf("github") > -1)) {
-      var string1 = url.slice(0, url.indexOf("\/blob\/"));
-      var string2 = url.slice(url.indexOf("\/blob\/") + 5, url.length);
-      var github_user = string1.slice(string1.slice(0, string1.lastIndexOf("/")).lastIndexOf("/") + 1, string1.lastIndexOf("/"));
-      var repository = string1.slice(string1.lastIndexOf("/") + 1, string1.length)
-      var final_string = "https://raw.githubusercontent.com/" + github_user + "/" + repository + string2;
+  convertUrl (url) {
+    if (
+      url.toLowerCase().indexOf("githubusercontent") === -1 &&
+      url.toLowerCase().indexOf("github") > -1
+    ) {
+      let string1 = url.slice(0, url.indexOf("/blob/"));
+      let string2 = url.slice(url.indexOf("/blob/") + 5, url.length);
+      let github_user = string1.slice(
+        string1.slice(0, string1.lastIndexOf("/")).lastIndexOf("/") + 1,
+        string1.lastIndexOf("/")
+      );
+      let repository = string1.slice(
+        string1.lastIndexOf("/") + 1,
+        string1.length
+      );
+      let final_string =
+        "https://raw.githubusercontent.com/" +
+        github_user +
+        "/" +
+        repository +
+        string2;
       return final_string;
     } else {
       return url;
@@ -169,71 +201,83 @@ export default class ModelForm extends React.Component {
 
   retrieveStateVariables () {
     this.setState({
-      stateVariables: GEPPETTO.ModelFactory.getAllPotentialInstancesOfMetaType("StateVariableType")
+      stateVariables: GEPPETTO.ModelFactory.getAllPotentialInstancesOfMetaType(
+        "StateVariableType"
+      )
     });
   }
 
   retrieveParams () {
     this.setState({
-      params: GEPPETTO.ModelFactory.getAllPotentialInstancesOfMetaType("ParameterType")
+      params: GEPPETTO.ModelFactory.getAllPotentialInstancesOfMetaType(
+        "ParameterType"
+      )
     });
   }
 
-
   saveChecked (variable) {
     if (!this.state.model.run_params.watchedVariables.includes(variable)) {
-      console.log(this);
-      this.updateModel({
-        run_params: {
-          ...this.state.model.run_params,
-          watchedVariables: [...this.state.model.run_params.watchedVariables, variable]
+      this.updateModel(
+        {
+          run_params: {
+            ...this.state.model.run_params,
+            watchedVariables: [
+              ...this.state.model.run_params.watchedVariables,
+              variable
+            ]
+          }
         }
-      }, console.log(this.state.model.run_params));
+      );
     }
   }
 
-  removeChecked (variable){
-    this.updateModel({
-      run_params:{
-        ...this.state.model.run_params,
-        watchedVariables: this.state.model.run_params.watchedVariables.filter( el => el != variable)
+  removeChecked (variable) {
+    this.updateModel(
+      {
+        run_params: {
+          ...this.state.model.run_params,
+          watchedVariables: this.state.model.run_params.watchedVariables.filter(
+            el => el != variable
+          )
+        }
       }
-    }, console.log(this.state.model.run_params));
+    );
   }
 
-
-  removeAll (){
+  removeAll () {
     this.updateModel({
-      run_params:{
+      run_params: {
         ...this.state.model.run_params,
         watchedVariables: []
       }
     });
   }
 
-  addAll (){
+  addAll () {
     this.updateModel({
-      run_params:{
+      run_params: {
         ...this.state.model.run_params,
         watchedVariables: this.state.model.run_params.stateVariables
       }
     });
   }
 
-
-  processModel (model){
+  processModel (model) {
     GEPPETTO.Manager.loadModel(JSON.parse(model.geppetto_model_loaded));
 
     this.retrieveStateVariables();
     this.retrieveParams();
 
     this.updateModel({
-      "run_params": {
-        "stateVariables": this.state.stateVariables,
-        "watchedVariables": this.state.stateVariables,
-        "params": this.state.params.map(value => {
+      run_params: {
+        stateVariables: this.state.stateVariables,
+        watchedVariables: this.state.model.id === null ? [] : this.state.model.run_params.watchedVariables,
+        params: this.state.params.map(value => {
           let object = eval(value);
-          let sixDecimalValue = object.getInitialValue().toString().match(/^-?\d+(?:.\d{0,6})?/)[0];
+          let sixDecimalValue = object
+            .getInitialValue()
+            .toString()
+            .match(/^-?\d+(?:.\d{0,6})?/)[0];
 
           let result = {
             name: value,
@@ -252,7 +296,7 @@ export default class ModelForm extends React.Component {
   updateModel (data, callback) {
     let newModel = {};
     if (!callback) {
-      callback = () => { };
+      callback = () => {};
     }
 
     newModel = {
@@ -262,23 +306,29 @@ export default class ModelForm extends React.Component {
 
     newModel = new ModelInstance(newModel);
 
-    this.setState({
-      model: newModel
-    }, () => callback());
+    this.setState(
+      {
+        model: newModel
+      },
+      () => callback()
+    );
   }
 
   isInstanceBlocked () {
     let testId = this.props.model.id;
-    let checkInstance = function (value, index, array) { return value.id === testId; };
+    let checkInstance = function (value, index, array) {
+      return value.id === testId;
+    };
     let instance = this.props.data.find(checkInstance);
-    if ((this.state.isBlocked === false) && (instance.block.isBlocked || (instance.tags.indexOf("deprecated") !== -1))) {
+    if (
+      this.state.isBlocked === false &&
+      (instance.block.isBlocked || instance.tags.indexOf("deprecated") !== -1)
+    ) {
       this.setState({ isBlocked: true });
     }
   }
 
-
   render () {
-
     return (
       <span className="model-form">
         <div className="first-line">
@@ -287,21 +337,22 @@ export default class ModelForm extends React.Component {
               value={this.state.model.name}
               className="model-name"
               errorText={
-                (this.state.model.errors !== undefined && "name" in this.state.model.errors) ? this.state.model.errors["name"] : ""
+                this.state.model.errors !== undefined &&
+                "name" in this.state.model.errors
+                  ? this.state.model.errors["name"]
+                  : ""
               }
               floatingLabelText="Name of the model"
               underlineStyle={{ borderBottom: "1px solid grey" }}
-              onChange={
-                (event, value) => {
-                  this.updateModel({ name: value }, () => {
-                    if(!this.state.model.validate()) {
-                      this.setState({ validationFailed: true });
-                    } else {
-                      this.setState({ validationFailed: false });
-                    }
-                  });
-                }
-              }
+              onChange={(event, value) => {
+                this.updateModel({ name: value }, () => {
+                  if (!this.state.model.validate()) {
+                    this.setState({ validationFailed: true });
+                  } else {
+                    this.setState({ validationFailed: false });
+                  }
+                });
+              }}
               disabled={this.state.isBlocked}
             />
             <TextField
@@ -309,29 +360,39 @@ export default class ModelForm extends React.Component {
               className="url"
               floatingLabelText="Source URL"
               errorText={
-                (this.state.model.errors !== undefined && "url" in this.state.model.errors) ? this.state.model.errors["url"] : ""
+                this.state.model.errors !== undefined &&
+                "url" in this.state.model.errors
+                  ? this.state.model.errors["url"]
+                  : ""
               }
               underlineStyle={{ borderBottom: "1px solid grey" }}
-              onChange={
-                (event, value) => {
-                  this.updateModel({ url: value }, () => {
-                    if (!this.state.model.validate()) {
-                      if (this.state.model.errors !== undefined && "url" in this.state.model.errors) {
-                        this.setState({ validationFailed: true });
-                      }
-                    } else {
-                      this.setState({ validationFailed: false });
+              onChange={(event, value) => {
+                this.updateModel({ url: value }, () => {
+                  if (!this.state.model.validate()) {
+                    if (
+                      this.state.model.errors !== undefined &&
+                      "url" in this.state.model.errors
+                    ) {
+                      this.setState({ validationFailed: true });
                     }
-                    this.checkUrl(value);
-                  });
-                }
-              }
+                  } else {
+                    this.setState({ validationFailed: false });
+                  }
+                  this.checkUrl(value);
+                });
+              }}
               disabled={this.state.isBlocked}
             />
             <span className="icons">
-              {this.state.successClasses ? <SvgIcon style={{ color: "green" }}>{OKicon}</SvgIcon> : null}
-              {this.state.failClasses ? <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon> : null}
-              {this.state.loadingClasses ? <CircularProgress size={36} /> : null}
+              {this.state.successClasses ? (
+                <SvgIcon style={{ color: "green" }}>{OKicon}</SvgIcon>
+              ) : null}
+              {this.state.failClasses ? (
+                <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
+              ) : null}
+              {this.state.loadingClasses ? (
+                <CircularProgress size={36} />
+              ) : null}
             </span>
           </div>
         </div>
@@ -346,7 +407,12 @@ export default class ModelForm extends React.Component {
               }}
               floatingLabelText="Select class"
               errorText={this.getModelClassError().map(value => value)}
-              iconStyle={{ background: "#000", padding: "2px", width: "28px", height: "28px" }}
+              iconStyle={{
+                background: "#000",
+                padding: "2px",
+                width: "28px",
+                height: "28px"
+              }}
               value={this.state.model.model_class.id}
               underlineStyle={{ borderBottom: "1px solid grey" }}
               dropDownMenuProps={{
@@ -362,8 +428,8 @@ export default class ModelForm extends React.Component {
               onChange={(event, key, value) => {
                 for (let klass of this.state.modelClasses) {
                   if (klass.id == value) {
-                    this.updateModel({ "model_class": klass }, () => {
-                      if(!this.state.model.validate()) {
+                    this.updateModel({ model_class: klass }, () => {
+                      if (!this.state.model.validate()) {
                         this.setState({
                           validationFailed: true
                         });
@@ -372,53 +438,82 @@ export default class ModelForm extends React.Component {
                           validationFailed: false
                         });
                       }
-                    }
-                    );
+                    });
                   }
                 }
               }}
               disabled={this.state.isBlocked}
             >
-              {this.state.modelClasses.map(klass => <MenuItem value={klass.id} key={klass.id} primaryText={klass.class_name} label={klass.class_name} />)}
+              {this.state.modelClasses.map(klass => (
+                <MenuItem
+                  value={klass.id}
+                  key={klass.id}
+                  primaryText={klass.class_name}
+                  label={klass.class_name}
+                />
+              ))}
             </SelectField>
 
             <TextField
               value={this.state.newTag}
-              onChange={(e, value) => { this.setState({ newTag: value }); }}
+              onChange={(e, value) => {
+                this.setState({ newTag: value });
+              }}
               className="new-tag"
               floatingLabelText="Add a new tag"
               underlineStyle={{ borderBottom: "1px solid grey" }}
-              onKeyPress={e => e.key === "Enter" ? this.addTag(this.state.newTag.toLowerCase()) : null}
+              onKeyPress={e =>
+                e.key === "Enter"
+                  ? this.addTag(this.state.newTag.toLowerCase())
+                  : null
+              }
             />
 
             <div className="tags">
               {/* eslint-disable-next-line react/no-array-index-key */}
-              {this.state.model.tags.map(function (tag, i) {
-                if (typeof(tag.name) !== "undefined") {
-                  return (
-                    <Chip
-                      backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
-                      style={{ marginLeft: 4, marginTop: 4, float: "left" }}
-                      key={tag.name+"-"+i}
-                      onRequestDelete={() => this.deleteTag(tag)}
-                    >
-                      {tag.name.toString()}
-                    </Chip>
-                  );
-                } else {
-                  return (
-                    <Chip
-                      backgroundColor={(tag.toLowerCase() === "deprecated") ? red400 : brown500}
-                      style={{ marginLeft: 4, marginTop: 4, float: "left" }}
-                      key={tag+"-"+i}
-                      onRequestDelete={() => this.deleteTag(tag)}
-                    >
-                      {tag}
-                    </Chip>
-                  );
-                }
-
-              }.bind(this))}
+              {this.state.model.tags.map(
+                function (tag, i) {
+                  if (typeof tag.name !== "undefined") {
+                    return (
+                      <Chip
+                        backgroundColor={
+                          tag.name.toLowerCase() === "deprecated"
+                            ? red400
+                            : brown500
+                        }
+                        style={{
+                          marginLeft: 4,
+                          marginTop: 4,
+                          float: "left"
+                        }}
+                        key={tag.name + "-" + i}
+                        onRequestDelete={() => this.deleteTag(tag)}
+                      >
+                        {tag.name.toString()}
+                      </Chip>
+                    );
+                  } else {
+                    return (
+                      <Chip
+                        backgroundColor={
+                          tag.toLowerCase() === "deprecated"
+                            ? red400
+                            : brown500
+                        }
+                        style={{
+                          marginLeft: 4,
+                          marginTop: 4,
+                          float: "left"
+                        }}
+                        key={tag + "-" + i}
+                        onRequestDelete={() => this.deleteTag(tag)}
+                      >
+                        {tag}
+                      </Chip>
+                    );
+                  }
+                }.bind(this)
+              )}
             </div>
           </div>
         </div>
@@ -426,7 +521,11 @@ export default class ModelForm extends React.Component {
         <div className="fourth-line">
           <h3>Model parameters</h3>
           {/* eslint-disable-next-line react/no-array-index-key */}
-          {this.state.paramsErrors.map((value, index) => <p key={index} style={{ color: "red" }}>{value}</p>)}
+          {this.state.paramsErrors.map((value, index) => (
+            <p key={index} style={{ color: "red" }}>
+              {value}
+            </p>
+          ))}
         </div>
 
         <div className="fifth-line">
@@ -442,19 +541,27 @@ export default class ModelForm extends React.Component {
           />
 
           <span className="icons">
-            {this.state.successParams ? <SvgIcon style={{ color: "green" }}>{OKicon}</SvgIcon> : null}
-            {this.state.paramsErrors.length > 0 ? <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon> : null}
-            {this.state.loadingParams ? <CircularProgress size={36} /> : null}
+            {this.state.successParams ? (
+              <SvgIcon style={{ color: "green" }}>{OKicon}</SvgIcon>
+            ) : null}
+            {this.state.paramsErrors.length > 0 ? (
+              <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
+            ) : null}
+            {this.state.loadingParams ? (
+              <CircularProgress size={36} />
+            ) : null}
           </span>
 
           <Dialog
             modal
-            actions={[<FlatButton
-              label="Close"
-              key="close-button"
-              primary
-              onClick={() => this.setState({ modelParamsOpen: false })}
-            />,]}
+            actions={[
+              <FlatButton
+                label="Close"
+                key="close-button"
+                primary
+                onClick={() => this.setState({ modelParamsOpen: false })}
+              />
+            ]}
             autoScrollBodyContent
             contentStyle={{
               width: "75%",
@@ -465,7 +572,9 @@ export default class ModelForm extends React.Component {
           >
             <ParamsTable
               stateVariables={this.state.stateVariables}
-              watchedVariables={this.state.model.run_params.watchedVariables}
+              watchedVariables={
+                this.state.model.run_params.watchedVariables
+              }
               params={this.state.params}
               onCheck={this.saveChecked}
               onUncheck={this.removeChecked}
@@ -479,11 +588,18 @@ export default class ModelForm extends React.Component {
         <div className="actions-container">
           <RaisedButton
             label="save"
-            disabled={this.state.loadingParams || this.state.loadingClasses}
+            disabled={
+              this.state.loadingParams ||
+              this.state.loadingClasses ||
+              this.state.validationFailed ||
+              Object.entries(this.state.model.errors).length > 0
+            }
             className="actions-button"
-            disabled={(this.state.validationFailed || Object.entries(this.state.model.errors).length > 0) ? true : false}
             onClick={() => {
-              if (this.state.model.validate() && !this.state.loadingParams) {
+              if (
+                this.state.model.validate() &&
+                !this.state.loadingParams
+              ) {
                 this.setState({
                   validationFailed: false
                 });

@@ -18,6 +18,7 @@ export default class ParamsTable extends React.Component {
       stateVariablesOpen: true,
       paramsOpen: false
     };
+    console.log(this.props.watchedVariables);
 
   }
 
