@@ -6,6 +6,22 @@ import ModelDetailsContainer from "../model-details/ModelDetailsContainer";
 
 import { Observation, BuildInfoLine } from "./partials";
 
+function unpackError (error){
+  let parsedError = null;
+
+  try {
+    parsedError = JSON.parse(error);
+  } catch (error){
+    return error;
+  }
+
+  parsedError = JSON.parse(parsedError.error_running_experiment);
+
+  let result = `${parsedError.message} (${parsedError.exception})`;
+
+  return result;
+}
+
 const ScoreDetails = ({
   scoreClassName,
   testClassName,
@@ -100,7 +116,7 @@ const ScoreDetails = ({
             }}
             >
               <strong>Errors: </strong>
-              {error}
+              {unpackError(error)}
             </div>
             <div>
               <strong>Timestamp: </strong>

@@ -4,17 +4,21 @@ import ScoreDetailLinkColumn from "./ScoreDetailLinkColumn";
 
 const mapStateToProps = (state, ownProps) => {
   let scoreInstanceObject = ownProps.value;
-  let score = scoreInstanceObject.get("score");
+  let score = null;
   let scoreType = scoreInstanceObject.get("score_type");
   let sortKey = scoreInstanceObject.get("sort_key");
 
-  let helper = new Helper();
-
-  if (!score) {
-    score = "";
+  if (scoreInstanceObject.get("status") == "c"){
+    score = scoreInstanceObject.get("score").toFixed(3);
   } else {
-    score = score.toFixed(3);
+    if (scoreInstanceObject.get("id") == null){
+      score = "";
+    } else {
+      score = "N/A";
+    }
   }
+
+  let helper = new Helper();
 
   return {
     customContentStyle: {

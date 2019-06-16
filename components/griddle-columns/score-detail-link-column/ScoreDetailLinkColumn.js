@@ -37,6 +37,10 @@ export default class ScoreDetailLinkColumn extends React.Component {
     });
   }
 
+  getScore (){
+    return this.props.score || "";
+  }
+
   render () {
     const actions = [
       <FlatButton
@@ -70,7 +74,7 @@ export default class ScoreDetailLinkColumn extends React.Component {
               color: "white"
             }}
           >
-            {this.props.score || "N/A"}
+            {this.getScore()}
           </a>
           <Dialog
             actions={actions}
