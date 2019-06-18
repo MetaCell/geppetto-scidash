@@ -37,7 +37,8 @@ export default class ModelForm extends React.Component {
       newTag: "",
       modelParamsOpen: false,
       validationFailed: false,
-      isBlocked: false
+      isBlocked: false,
+      changesHappened: false
     };
 
     this.checkUrl = this.checkUrl.bind(this);
@@ -145,13 +146,13 @@ export default class ModelForm extends React.Component {
       });
     } else {
       this.processModel(JSON.parse(responseParams.data));
-      this.updateModel({ url: this.convertUrl(url) }, () =>
+      this.updateModel({ url: this.convertUrl(url) }, () => {
         this.setState({
           loadingParams: false,
           successParams: true,
           paramsDisabled: false
-        })
-      );
+        });
+      }, true);
     }
   }
 
@@ -288,16 +289,22 @@ export default class ModelForm extends React.Component {
           return result;
         })
       }
-    });
+    }, () => {console.log(this.state);}, true);
 
     return this;
   }
 
-  updateModel (data, callback) {
+  updateModel (data, callback, ignoreChange) {
     let newModel = {};
     if (!callback) {
       callback = () => {};
     }
+
+    if (typeof ignoreChange == "undefined"){
+      ignoreChange = false;
+    }
+
+    console.log(ignoreChange);
 
     newModel = {
       ...this.state.model,
@@ -308,7 +315,8 @@ export default class ModelForm extends React.Component {
 
     this.setState(
       {
-        model: newModel
+        model: newModel,
+        changesHappened: !ignoreChange
       },
       () => callback()
     );
@@ -438,7 +446,7 @@ export default class ModelForm extends React.Component {
                           validationFailed: false
                         });
                       }
-                    });
+                    }, this.props.actionType == "edit" && this.state.isBlocked);
                   }
                 }
               }}
@@ -592,7 +600,8 @@ export default class ModelForm extends React.Component {
               this.state.loadingParams ||
               this.state.loadingClasses ||
               this.state.validationFailed ||
-              Object.entries(this.state.model.errors).length > 0
+              Object.entries(this.state.model.errors).length > 0 ||
+              (this.state.isBlocked && !this.state.changesHappened)
             }
             className="actions-button"
             onClick={() => {
