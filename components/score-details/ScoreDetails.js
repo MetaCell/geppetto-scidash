@@ -11,7 +11,7 @@ function unpackError (error){
 
   try {
     parsedError = JSON.parse(error);
-  } catch (error){
+  } catch (exception){
     return error;
   }
 
