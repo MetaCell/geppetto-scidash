@@ -72,7 +72,7 @@ const ScoreDetails = ({
                   padding: "1px"
                 }}
               >
-                {score}
+                {score.toFixed(2)}
               </span>
             </div>
             <div>
@@ -84,7 +84,7 @@ const ScoreDetails = ({
                   padding: "1px"
                 }}
               >
-                {sortKey}
+                {sortKey.toFixed(2)}
               </span>
             </div>
             <div>
