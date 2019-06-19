@@ -87,8 +87,17 @@ export default class TestForm extends React.Component {
 
 
   render () {
+    let blockedWarning = <div style={{fontSize: '18px'}}>
+                            <p>
+                              <i className="fa fa-lock" style={{fontSize: '25px'}}/> &nbsp;
+                              This model instance is locked because it has already a score 
+                              associated to it, only tags can be edited. 
+                              Clone from the grid view to create a different instance.
+                            </p>
+                          </div>;
     return (
       <span>
+        {this.state.isBlocked ? blockedWarning : undefined}
         <div style={styles.firstLine.container}>
           <TextField
             value={this.state.model.name}
