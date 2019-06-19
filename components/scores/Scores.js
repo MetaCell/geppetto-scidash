@@ -14,7 +14,8 @@ import Config from "../../shared/Config";
 import {
   CustomScoreName,
   ScidashBuildInfoColumn,
-  ScidashTimestampColumn
+  ScidashTimestampColumn,
+  StatusIconColumn
 } from "./partials";
 
 import Loader from "../loader/Loader";
@@ -171,6 +172,7 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="status"
               title="Status"
+              customComponent={StatusIconColumn}
               customHeadingComponent={props => (
                 <SelectCellContainer
                   onFilterUpdate={this.props.onFilterUpdate}
