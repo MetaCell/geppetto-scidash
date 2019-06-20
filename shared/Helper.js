@@ -1,31 +1,33 @@
 export default class Helper {
+  constructor () {}
 
-  constructor (){}
-
-  isEmptyString (string){
+  isEmptyString (string) {
     let isEmpty = false;
 
-    if (string === null || string === undefined ||
-            (string != undefined && string.length == 0)){
+    if (
+      string === null ||
+      string === undefined ||
+      (string != undefined && string.length == 0)
+    ) {
       isEmpty = true;
     }
 
     return isEmpty;
   }
 
-  getBackground (sortKey, colorBlind){
+  getBackground (sortKey, colorBlind) {
     let sortKeyRounded = null;
     let percents = 0;
     let decreasingValue = 255;
     let growingValue = 255;
 
-    if (typeof sortKey != "undefined" && !isNaN(sortKey)){
+    if (typeof sortKey != "undefined" && !isNaN(sortKey)) {
       sortKeyRounded = sortKey.toFixed(2);
       percents = sortKeyRounded * 100;
-      decreasingValue = Math.floor(255 - (255 / 100 * percents));
-      growingValue = Math.floor(255 / 100 * percents);
+      decreasingValue = Math.floor(255 - (255 / 100) * percents);
+      growingValue = Math.floor((255 / 100) * percents);
 
-      if (!colorBlind){
+      if (!colorBlind) {
         if (growingValue > 40) {
           growingValue = growingValue - 20;
         }
@@ -36,15 +38,21 @@ export default class Helper {
           decreasingValue = decreasingValue - 20;
         }
 
-        return "rgba(" + decreasingValue + ", " + decreasingValue + ", " + growingValue + ", 1)";
+        return (
+          "rgba(" +
+          decreasingValue +
+          ", " +
+          decreasingValue +
+          ", " +
+          growingValue +
+          ", 1)"
+        );
       }
     }
-
   }
 
-  getOSIconClass (osName = null){
-
-    switch (osName){
+  getOSIconClass (osName = null) {
+    switch (osName) {
     case "OSX":
     case "Darwin":
       return "fa-apple";
@@ -55,25 +63,26 @@ export default class Helper {
     default:
       return "";
     }
-
   }
 
-  generateId (max, min){
+  generateId (max, min) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-  generateHash (string){
-    let hash = 0, i, chr;
+  generateHash (string) {
+    let hash = 0,
+      i,
+      chr;
     if (string.length === 0) return hash;
     for (i = 0; i < string.length; i++) {
       chr = string.charCodeAt(i);
-      hash = ((hash << 5) - hash) + chr;
+      hash = (hash << 5) - hash + chr;
       hash |= 0; // Convert to 32bit integer
     }
     return hash;
   }
 
-  generateHashId (model){
+  generateHashId (model) {
     let saltedName = `${model.name}_${this.generateId(2000, 100000)}`;
 
     let hash = Math.abs(this.generateHash(saltedName));
@@ -102,12 +111,12 @@ export default class Helper {
     return object.size == 0 ? "None" : object;
   }
 
-  parseBuildInfo (string){
+  parseBuildInfo (string) {
     let buildInfoRegex = /(.+)(\/)(\w+)/;
     let buildInfoResult = null;
     let iconClass = "";
 
-    if (buildInfoRegex.test(string)){
+    if (buildInfoRegex.test(string)) {
       buildInfoResult = buildInfoRegex.exec(string);
       iconClass = this.getOSIconClass(buildInfoResult[3]);
     }
@@ -118,10 +127,11 @@ export default class Helper {
     };
   }
 
-  isEmpty(obj) {
-    for(var key in obj) {
-      if(obj.hasOwnProperty(key))
+  isEmpty (obj) {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
         return false;
+      }
     }
     return true;
   }

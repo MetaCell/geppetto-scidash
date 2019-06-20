@@ -44,3 +44,11 @@ export function removeModelFromScheduler (schedulerState, action){
     choosedModels: models
   };
 }
+
+export function clearScheduler (schedulerState, action){
+  return {
+    ...schedulerState,
+    choosedModels: [],
+    choosedTests: []
+  };
+}

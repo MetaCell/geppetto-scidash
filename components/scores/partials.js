@@ -1,54 +1,58 @@
-import React from 'react';
-import Helper from "../../shared/Helper";
+import React from "react";
 import $ from "jquery";
+import Helper from "../../shared/Helper";
 
-const CustomScoreName = ({value}) => <div style={{paddingRight:"20px"}}>{value}</div>;
+const CustomScoreName = ({ value }) => (
+  <div style={{ paddingRight: "20px" }}>{value}</div>
+);
 
 class ScidashBuildInfoColumn extends React.Component {
+  constructor (props, context) {
+    super(props, context);
+    this.props = props;
+    this.helper = new Helper();
+  }
 
-    constructor(props, context){
-        super(props, context)
-        this.props = props;
-        this.helper = new Helper();
-    }
+  componentDidMount () {
+    if (this.props.value != " ") $(".build-info-cell").tooltip();
+  }
 
-    componentDidMount(){
-        if (this.props.value != " ")
-            $(".build-info-cell").tooltip()
-    }
+  render () {
+    let parsedBuildInfo = this.helper.parseBuildInfo(this.props.value);
 
-    render(){
-        let parsedBuildInfo = this.helper.parseBuildInfo(this.props.value);
-
-        return (
-            <div className="build-info-cell" title={this.props.value}>
-                <i className={`fa ${parsedBuildInfo.icon}`}></i> {this.props.value}
-            </div>
-        )
-    }
+    return (
+      <div className="build-info-cell" title={this.props.value}>
+        <i className={`fa ${parsedBuildInfo.icon}`} />
+        {this.props.value}
+      </div>
+    );
+  }
 }
 
 class ScidashTimestampColumn extends React.Component {
-    constructor(props, context){
-        super(props, context)
-        this.props = props;
-    }
+  constructor (props, context) {
+    super(props, context);
+    this.props = props;
+  }
 
-    componentDidMount(){
-        if (this.props.value != " ")
-            $(".timestamp-cell").tooltip()
-    }
+  componentDidMount () {
+    if (this.props.value != " ") $(".timestamp-cell").tooltip();
+  }
 
-    render(){
-        if(this.props.value != " ")
-            return (<div className="timestamp-cell" style={{textAlign: "center"}} title={this.props.value.get("full")}>{this.props.value.get("short")}</div>)
+  render () {
+    if (this.props.value != " ")
+    {return (
+      <div
+        className="timestamp-cell"
+        style={{ textAlign: "center" }}
+        title={this.props.value.get("full")}
+      >
+        {this.props.value.get("short")}
+      </div>
+    );}
 
-        return (<span></span>)
-    }
+    return <span />;
+  }
 }
 
-export {
-    CustomScoreName,
-    ScidashBuildInfoColumn,
-    ScidashTimestampColumn
-}
+export { CustomScoreName, ScidashBuildInfoColumn, ScidashTimestampColumn };

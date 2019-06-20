@@ -4,8 +4,8 @@ import * as TYPES from "../actions/creators/scheduler";
 export default function scidashScheduler (state = {}, action){
   let newState = null;
 
-        
-  switch (action.type){  
+
+  switch (action.type){
   case TYPES.ADD_TEST_TO_SCHEDULER:
     newState = {
       ...actions.addTestToScheduler(state, action)
@@ -24,6 +24,11 @@ export default function scidashScheduler (state = {}, action){
   case TYPES.REMOVE_MODEL_FROM_SCHEDULER:
     newState = {
       ...actions.removeModelFromScheduler(state, action)
+    };
+    break;
+  case TYPES.CLEAR_SCHEDULER:
+    newState = {
+      ...actions.clearScheduler(state, action)
     };
     break;
   default:
