@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 import { connect } from "react-redux";
 import _ from "underscore";
 import Toggle from "material-ui/Toggle";
@@ -24,11 +25,10 @@ export const rowDataSelector = (state, { griddleKey }) => state
   .find(rowMap => rowMap.get("griddleKey") === griddleKey)
   .toJSON();
 
-export const enhancedWithRowData = (onCheck, onUncheck, watchedVariables, disabled) => connect((state, props) => ({
+export const enhancedWithRowData = (onCheck, onUncheck, disabled) => connect((state, props) => ({
   rowData: rowDataSelector(state, props),
   onCheck,
   onUncheck,
-  watchedVariables,
   disabled
 }));
 
@@ -54,7 +54,7 @@ export class ChooseVarComponent extends React.Component{
     GEPPETTO.on(UNTOGGLE_ALL, this.onUntoggleAll, this);
 
     this.setState({
-      toggled: this.props.watchedVariables.includes(this.props.rowData.name)
+      toggled: this.props.value
     });
   }
 
