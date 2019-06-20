@@ -6,6 +6,7 @@ import { enhancedWithRowData, ChooseVarComponent } from "./partials";
 import { TOGGLE_ALL, UNTOGGLE_ALL } from "./events";
 
 export default class ParamsTable extends React.Component {
+
   constructor (props, context) {
     super(props, context);
 
@@ -18,8 +19,6 @@ export default class ParamsTable extends React.Component {
       stateVariablesOpen: true,
       paramsOpen: false
     };
-    console.log(this.props.watchedVariables);
-
   }
 
   componentDidMount (){

@@ -31,3 +31,5 @@
 
 export const TOGGLE_ALL = "toggle_all";
 export const UNTOGGLE_ALL = "untoggle_all";
+export const ADDED = "added";
+export const REMOVED = "removed";

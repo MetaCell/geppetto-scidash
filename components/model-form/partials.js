@@ -6,16 +6,16 @@ import { TOGGLE_ALL, UNTOGGLE_ALL } from "./events";
 
 const styles = {
   thumbOff: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
   trackOff: {
-    backgroundColor: '#e19183',
+    backgroundColor: "#e19183",
   },
   thumbSwitched: {
-    backgroundColor: '#008000',
+    backgroundColor: "#008000",
   },
   trackSwitched: {
-    backgroundColor: '#83e183',
+    backgroundColor: "#83e183",
   }
 };
 
@@ -86,7 +86,7 @@ export class ChooseVarComponent extends React.Component{
 
   render (){
     return (
-      <div style={{float: "right"}}>
+      <div style={{ float: "right" }}>
         <Toggle
           toggled={
             this.state.toggled
