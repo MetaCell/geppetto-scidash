@@ -60,6 +60,7 @@ export default class Scores extends React.Component {
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
           pageProperties={this.props.pageProperties}
+          sortProperties={this.props.sortProperties}
         >
           <RowDefinition>
             <ColumnDefinition

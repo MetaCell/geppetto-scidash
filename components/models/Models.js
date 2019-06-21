@@ -42,6 +42,7 @@ export default class Models extends React.Component {
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
           pageProperties={this.props.pageProperties}
+          sortProperties={this.props.sortProperties}
         >
           <RowDefinition>
             <ColumnDefinition
@@ -74,13 +75,13 @@ export default class Models extends React.Component {
               id="source"
               title="Source"
               customComponent={props => {
-                  var inputString = props.value.replace(/\s/g, '');
-                  if(inputString !== "") {
-                    return <a href={props.value} style={{ color: "grey" }}><i className="fa fa-external-link" /></a>
-                  } else {
-                    return <span></span>
-                  }
+                let inputString = props.value.replace(/\s/g, "");
+                if (inputString !== "") {
+                  return <a href={props.value} style={{ color: "grey" }}><i className="fa fa-external-link" /></a>;
+                } else {
+                  return <span />;
                 }
+              }
               }
               order={3}
             />
@@ -126,7 +127,11 @@ export default class Models extends React.Component {
               />)}
               order={6}
             />
-
+            <ColumnDefinition
+              isMetadata="true"
+              id="_timestamp"
+              title="_timestamp"
+            />
             <ColumnDefinition
               title=""
               id="block"
