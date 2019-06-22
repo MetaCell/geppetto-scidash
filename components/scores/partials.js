@@ -6,6 +6,47 @@ const CustomScoreName = ({ value }) => (
   <div style={{ paddingRight: "20px" }}>{value}</div>
 );
 
+class StatusIconColumn extends React.Component {
+
+    constructor(props, context){
+        super(props, context)
+        this.props = props;
+        this.helper = new Helper();
+    }
+
+    componentDidMount(){
+        if (this.props.value != " ")
+            $(".build-info-cell").tooltip()
+    }
+
+    render(){
+        let statusIcon = undefined;
+        switch(this.props.value) {
+            case "Calculated":
+                statusIcon = <i className="fa fa-check" style={{fontSize: '18px'}}></i>;
+                break;
+            case "Scheduled":
+                statusIcon = <i className="fa fa-clock-o" style={{fontSize: '18px'}}></i>;
+                break;
+            case "Locked":
+                statusIcon = <i className="fa fa-lock" style={{fontSize: '18px'}}></i>;
+                break;
+            case "Failed":
+                statusIcon = <i className="fa fa-times" style={{fontSize: '18px'}}></i>;
+                break;
+            default:
+                if(this.props.value !== undefined && this.props.value !== "")
+                    statusIcon = <i className="fa fa-question" style={{fontSize: '18px'}}></i>;
+        }
+
+        return (
+            <div title={this.props.value}>
+                {statusIcon}
+            </div>
+        )
+    }
+}
+
 class ScidashBuildInfoColumn extends React.Component {
   constructor (props, context) {
     super(props, context);
@@ -55,4 +96,10 @@ class ScidashTimestampColumn extends React.Component {
   }
 }
 
-export { CustomScoreName, ScidashBuildInfoColumn, ScidashTimestampColumn };
+export {
+    CustomScoreName,
+    ScidashBuildInfoColumn,
+    ScidashTimestampColumn,
+    StatusIconColumn
+}
+
