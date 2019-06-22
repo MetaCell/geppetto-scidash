@@ -334,9 +334,18 @@ export default class ModelForm extends React.Component {
   }
 
   render () {
+    let blockedWarning = <div style={{fontSize: '18px', paddingLeft: '12px'}}>
+                            <p>
+                              <i className="fa fa-lock" style={{fontSize: '25px'}}/> &nbsp;
+                              This model instance is locked because it has already a score 
+                              associated to it, only tags can be edited. 
+                              Clone from the grid view to create a different instance.
+                            </p>
+                          </div>;
     return (
       <span className="model-form">
         <div className="first-line">
+          {this.state.isBlocked ? blockedWarning : undefined}
           <div className="container">
             <TextField
               value={this.state.model.name}
