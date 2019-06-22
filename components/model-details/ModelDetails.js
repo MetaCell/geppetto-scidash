@@ -36,7 +36,9 @@ const ModelDetails = ({
         {instanceName}
       </p>
       <p className="model-url"><strong>Instance source: </strong>
-        {instanceSource}
+        {instanceSource.search(/http/) > -1 ? 
+          <a target='_blank' className="model-url" href={instanceSource}> {instanceSource}</a> : 
+          instanceSource}
       </p>
       <p className="model-url"><strong>Instance Tags: </strong>
         {modelTags.map((tag, i) => 
