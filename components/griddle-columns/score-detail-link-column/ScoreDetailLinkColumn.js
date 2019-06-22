@@ -62,7 +62,7 @@ export default class ScoreDetailLinkColumn extends React.Component {
         }}
         />
         <div style={{
-          textAlign: "right",
+          textAlign: "center",
           position: "relative",
           right: "20px"
         }}
@@ -71,7 +71,8 @@ export default class ScoreDetailLinkColumn extends React.Component {
             onClick={this.openScoreDetail}
             style={{
               cursor: "pointer",
-              color: "white"
+              color: "white",
+              paddingLeft: "17px"
             }}
           >
             {this.getScore()}

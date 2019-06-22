@@ -54,6 +54,10 @@ const mapStateToProps = state => ({
   pageProperties: {
     currentPage: 1
   },
+  sortProperties: [{
+    id: "_timestamp",
+    sortAscending: false
+  }],
   showLoading: state.scores.showLoading,
   dateFilterChanged: state.scores.dateFilterChanged,
   user: state.user,

@@ -3,6 +3,7 @@ import Scheduling from "./Scheduling";
 
 import { changePage } from "../../actions/creators/header";
 import PagesService from "../../services/PagesService";
+import { clearScheduler } from "../../actions/creators/scheduler";
 
 const mapStateToProps = state => ({
   data: [
@@ -16,9 +17,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   let pagesService = new PagesService();
+
   return {
-    notLoggedRedirect: () => dispatch(changePage(pagesService.SCORES_PAGE, dispatch))
-  }
+    notLoggedRedirect: () => dispatch(changePage(pagesService.SCORES_PAGE, dispatch)),
+    clearScheduler: () => dispatch(clearScheduler())
+  };
 };
 
 export default connect(

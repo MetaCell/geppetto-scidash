@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 import { connect } from "react-redux";
 import _ from "underscore";
 import Toggle from "material-ui/Toggle";
@@ -6,16 +7,16 @@ import { TOGGLE_ALL, UNTOGGLE_ALL } from "./events";
 
 const styles = {
   thumbOff: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
   trackOff: {
-    backgroundColor: '#e19183',
+    backgroundColor: "#e19183",
   },
   thumbSwitched: {
-    backgroundColor: '#008000',
+    backgroundColor: "#008000",
   },
   trackSwitched: {
-    backgroundColor: '#83e183',
+    backgroundColor: "#83e183",
   }
 };
 
@@ -24,11 +25,10 @@ export const rowDataSelector = (state, { griddleKey }) => state
   .find(rowMap => rowMap.get("griddleKey") === griddleKey)
   .toJSON();
 
-export const enhancedWithRowData = (onCheck, onUncheck, watchedVariables, disabled) => connect((state, props) => ({
+export const enhancedWithRowData = (onCheck, onUncheck, disabled) => connect((state, props) => ({
   rowData: rowDataSelector(state, props),
   onCheck,
   onUncheck,
-  watchedVariables,
   disabled
 }));
 
@@ -54,7 +54,7 @@ export class ChooseVarComponent extends React.Component{
     GEPPETTO.on(UNTOGGLE_ALL, this.onUntoggleAll, this);
 
     this.setState({
-      toggled: this.props.watchedVariables.includes(this.props.rowData.name)
+      toggled: this.props.value
     });
   }
 
@@ -86,7 +86,7 @@ export class ChooseVarComponent extends React.Component{
 
   render (){
     return (
-      <div style={{float: "right"}}>
+      <div style={{ float: "right" }}>
         <Toggle
           toggled={
             this.state.toggled

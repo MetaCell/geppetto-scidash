@@ -31,6 +31,7 @@ export default class ModelsGriddleAdapter extends BaseAdapter {
         source: model.url,
         owner: model.owner.username,
         timestamp: fullDate,
+        _timestamp: model.timestamp,
         block: {
           isBlocked: model.status == "l",
           modelId: model.id

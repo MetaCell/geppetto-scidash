@@ -6,7 +6,7 @@ import IconButton from "material-ui/IconButton";
 import { Draggable, Droppable } from "react-drag-and-drop";
 import { brown500, blue500, grey400, grey600, brown200, brown100, blue200, blue100 } from "material-ui/styles/colors";
 import { TestIcon, ModelsIcon } from "../../assets/CustomIcons";
-import InfoDialog from '../info-dialog/InfoDialog';
+import InfoDialog from "../info-dialog/InfoDialog";
 
 const styles = {
   header: {
@@ -74,9 +74,6 @@ export default class DDList extends React.Component {
   }
 
   isSearchable (item){
-    if (item.block.isBlocked === true) {
-      return false;
-    }
     if (item.tags.includes("deprecated")) {
       return false;
     }
@@ -89,14 +86,14 @@ export default class DDList extends React.Component {
     return re.test(item.name);
   }
 
-  openDialog(instance) {
-    this.infoDialog = <InfoDialog instance={instance} closeDialog={this.closeDialog} dialogOpened={true}/>
-    this.setState({dialogOpened: true});
+  openDialog (instance) {
+    this.infoDialog = <InfoDialog instance={instance} closeDialog={this.closeDialog} dialogOpened />;
+    this.setState({ dialogOpened: true });
   }
 
-  closeDialog() {
+  closeDialog () {
     this.infoDialog = undefined;
-    this.setState({dialogOpened: false});
+    this.setState({ dialogOpened: false });
   }
 
   render () {
@@ -139,7 +136,7 @@ export default class DDList extends React.Component {
           <Divider style={styles.divider} />
           <Droppable
             types={["tests"]}
-            className="scrolling3" 
+            className="scrolling3"
             onDrop={dropData => addTest(dropData.tests)}
             onDragEnter={() => this.changeBGC("tests", "enter")}
             onDragLeave={() => this.changeBGC("tests", "leave")}
@@ -167,7 +164,7 @@ export default class DDList extends React.Component {
           <Divider style={styles.divider} />
           <Droppable
             types={["models"]}
-            className="scrolling3" 
+            className="scrolling3"
             onDrop={dropData => addModel(dropData.models)}
             onDragEnter={() => this.changeBGC("models", "enter")}
             onDragLeave={() => this.changeBGC("models", "leave")}

@@ -1,11 +1,13 @@
+/* eslint-disable react/no-did-update-set-state */
 import React from "react";
 import Griddle, { RowDefinition, ColumnDefinition, plugins } from "griddle-react";
 import _ from "underscore";
 import FlatButton from "material-ui/FlatButton";
 import { enhancedWithRowData, ChooseVarComponent } from "./partials";
-import { TOGGLE_ALL, UNTOGGLE_ALL } from "./events";
+import { TOGGLE_ALL, UNTOGGLE_ALL, ADDED, REMOVED } from "./events";
 
 export default class ParamsTable extends React.Component {
+
   constructor (props, context) {
     super(props, context);
 
@@ -18,13 +20,17 @@ export default class ParamsTable extends React.Component {
       stateVariablesOpen: true,
       paramsOpen: false
     };
-    console.log(this.props.watchedVariables);
-
   }
 
   componentDidMount (){
     GEPPETTO.on(UNTOGGLE_ALL, this.props.removeAll, this);
     GEPPETTO.on(TOGGLE_ALL, this.props.addAll, this);
+
+    GEPPETTO.on(UNTOGGLE_ALL, this.removeAll, this);
+    GEPPETTO.on(TOGGLE_ALL, this.addAll, this);
+
+    GEPPETTO.on(ADDED, this.addedHandler, this);
+    GEPPETTO.on(REMOVED, this.removedHandler, this);
 
     this.convertToStateVariablesTableData();
     this.convertToParamsTableData();
@@ -33,6 +39,57 @@ export default class ParamsTable extends React.Component {
   componentWillUnmount (){
     GEPPETTO.off(UNTOGGLE_ALL, this.props.removeAll, this);
     GEPPETTO.off(TOGGLE_ALL, this.props.addAll, this);
+    GEPPETTO.off(ADDED, this.addedHandler, this);
+    GEPPETTO.off(REMOVED, this.removedHandler, this);
+    GEPPETTO.off(UNTOGGLE_ALL, this.removeAll, this);
+    GEPPETTO.off(TOGGLE_ALL, this.addAll, this);
+  }
+
+  addAll (){
+    this.setState(state => {
+      let watchedVariables = state.stateVariables;
+
+      return {
+        ...state,
+        watchedVariables
+      };
+    }, this.convertToStateVariablesTableData);
+  }
+
+  removeAll (){
+    this.setState(state => {
+      let watchedVariables = [];
+
+      return {
+        ...state,
+        watchedVariables
+      };
+    }, this.convertToStateVariablesTableData);
+  }
+
+  addedHandler (variable){
+    this.setState(state => {
+      let watchedVariables = state.watchedVariables.concat(variable);
+
+      return {
+        ...state,
+        watchedVariables
+      };
+    }, this.convertToStateVariablesTableData);
+
+  }
+
+  removedHandler (variable){
+    this.setState(state => {
+      let watchedVariables = state.watchedVariables.filter(
+        el => el != variable
+      );
+
+      return {
+        ...state,
+        watchedVariables
+      };
+    }, this.convertToStateVariablesTableData);
   }
 
   convertToStateVariablesTableData () {
@@ -40,7 +97,8 @@ export default class ParamsTable extends React.Component {
 
     this.state.stateVariables.map(item => {
       tableData.push({
-        name: item
+        name: item,
+        toggled: this.state.watchedVariables.includes(item)
       });
     });
 
@@ -74,7 +132,7 @@ export default class ParamsTable extends React.Component {
       <div>
         <Filter />
         <Table />
-        { this.state.paramsTableData.length > 10 && <Pagination />}
+        { this.state.params.length > 10 && <Pagination />}
       </div>
     );
 
@@ -82,7 +140,7 @@ export default class ParamsTable extends React.Component {
       <div>
         <Filter />
         <Table />
-        { this.state.stateVariablesTableData.length > 10 && <Pagination />}
+        { this.state.stateVariables.length > 10 && <Pagination />}
       </div>
     );
 
@@ -142,11 +200,11 @@ export default class ParamsTable extends React.Component {
             />
             <ColumnDefinition
               title="Watch"
+              id="toggled"
               headerCssClassName="toggleHeaderClass"
               customComponent={enhancedWithRowData(
                 this.props.onCheck,
                 this.props.onUncheck,
-                this.state.watchedVariables,
                 this.props.disabled
               )(
                 ChooseVarComponent

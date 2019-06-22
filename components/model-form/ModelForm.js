@@ -17,6 +17,7 @@ import Config from "../../shared/Config";
 import ModelParametersApiService from "../../services/api/ModelParametersApiService";
 import ParamsTable from "./ParamsTable";
 import ModelInstance from "../../models/ModelInstance";
+import { ADDED, REMOVED } from "./events";
 
 export default class ModelForm extends React.Component {
   constructor (props, context) {
@@ -227,8 +228,7 @@ export default class ModelForm extends React.Component {
               variable
             ]
           }
-        }
-      );
+        }, () => GEPPETTO.trigger(ADDED, variable));
     }
   }
 
@@ -241,8 +241,7 @@ export default class ModelForm extends React.Component {
             el => el != variable
           )
         }
-      }
-    );
+      }, () => GEPPETTO.trigger(REMOVED, variable));
   }
 
   removeAll () {
@@ -289,7 +288,7 @@ export default class ModelForm extends React.Component {
           return result;
         })
       }
-    }, () => {console.log(this.state);}, true);
+    }, () => {}, true);
 
     return this;
   }
@@ -303,8 +302,6 @@ export default class ModelForm extends React.Component {
     if (typeof ignoreChange == "undefined"){
       ignoreChange = false;
     }
-
-    console.log(ignoreChange);
 
     newModel = {
       ...this.state.model,

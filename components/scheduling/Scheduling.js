@@ -58,6 +58,8 @@ class Scheduling extends React.Component {
       scheduled: true
     });
 
+    this.props.clearScheduler();
+
     return result;
   }
 
