@@ -31,8 +31,20 @@ export default class Scores extends React.Component {
       : "";
 
     this.state = {
-      intervalId: null
+      intervalId: null,
+      page: 1
     };
+
+    this.nextPage = this.nextPage.bind(this);
+    this.previousPage = this.previousPage.bind(this);
+  }
+
+  nextPage () {
+    this.setState({page: this.state.page + 1});
+  }
+
+  previousPage () {
+    this.setState({page: this.state.page - 1});
   }
 
   componentWillMount () {
@@ -41,9 +53,15 @@ export default class Scores extends React.Component {
     }
     if (this.state.intervalId === null) {
       this.setState({
-        intervalId: setInterval(this.props.updateScores, 300000)
+        intervalId: setInterval(this.props.updateScores, 5000)
       });
     }
+  }
+
+  componentDidMount () {
+    window.scoreNextPage = this.nextPage;
+    window.scorePreviousPage = this.previousPage;
+
   }
 
   componentWillUnmount () {
@@ -53,6 +71,8 @@ export default class Scores extends React.Component {
   }
 
   render () {
+    let pageProperties = this.props.pageProperties;
+    pageProperties.currentPage = this.state.page;
     return (
       <div>
         <Griddle
@@ -60,8 +80,12 @@ export default class Scores extends React.Component {
           components={this.props.griddleComponents}
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
-          pageProperties={this.props.pageProperties}
+          pageProperties={pageProperties}
           sortProperties={this.props.sortProperties}
+          events={{
+            onNext: () => {this.setState({page: this.state.page + 1})},
+            onPrevious: () => {this.setState({page: this.state.page - 1})}
+          }}
         >
           <RowDefinition>
             <ColumnDefinition
