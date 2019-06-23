@@ -22,7 +22,7 @@ import Loader from "../loader/Loader";
 import SelectCellContainer from "../select-cell/SelectCellContainer";
 
 export default class Scores extends React.Component {
-  constructor (props, context) {
+  constructor(props, context) {
     super(props, context);
 
     this.props = props;
@@ -39,15 +39,15 @@ export default class Scores extends React.Component {
     this.previousPage = this.previousPage.bind(this);
   }
 
-  nextPage () {
-    this.setState({page: this.state.page + 1});
+  nextPage() {
+    this.setState({ page: this.state.page + 1 });
   }
 
-  previousPage () {
-    this.setState({page: this.state.page - 1});
+  previousPage() {
+    this.setState({ page: this.state.page - 1 });
   }
 
-  componentWillMount () {
+  componentWillMount() {
     if (this.props.user.isLogged) {
       this.props.onFilterUpdate(this.username, "owner");
     }
@@ -58,19 +58,18 @@ export default class Scores extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.scoreNextPage = this.nextPage;
     window.scorePreviousPage = this.previousPage;
-
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.state.intervalId !== null) {
       clearInterval(this.state.intervalId);
     }
   }
 
-  render () {
+  render() {
     let pageProperties = this.props.pageProperties;
     pageProperties.currentPage = this.state.page;
     return (
@@ -83,8 +82,12 @@ export default class Scores extends React.Component {
           pageProperties={pageProperties}
           sortProperties={this.props.sortProperties}
           events={{
-            onNext: () => {this.setState({page: this.state.page + 1})},
-            onPrevious: () => {this.setState({page: this.state.page - 1})}
+            onNext: () => {
+              this.setState({ page: this.state.page + 1 });
+            },
+            onPrevious: () => {
+              this.setState({ page: this.state.page - 1 });
+            }
           }}
         >
           <RowDefinition>
@@ -201,7 +204,7 @@ export default class Scores extends React.Component {
               customHeadingComponent={props => (
                 <SelectCellContainer
                   onFilterUpdate={this.props.onFilterUpdate}
-                  filterName='status'
+                  filterName="status"
                   namespace={Config.instancesNamespace}
                   {...props}
                 />
