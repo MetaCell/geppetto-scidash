@@ -28,7 +28,12 @@ const mapStateToProps = state => ({
       if (props.hasNext) {
         return (
           <RaisedButton
-            label={props.text} onClick={props.getNext} style={{
+            label={props.text} 
+            onClick={() => {
+              props.getNext();
+              window.scoreNextPage();
+            }} 
+            style={{
               marginLeft: "10px"
             }}
           />
@@ -41,7 +46,12 @@ const mapStateToProps = state => ({
       if (props.hasPrevious) {
         return (
           <RaisedButton
-            label={props.text} onClick={props.getPrevious} style={{
+            label={props.text} 
+            onClick={() => {
+              props.getPrevious();
+              window.scorePreviousPage();
+            }} 
+            style={{
               marginRight: "10px"
             }}
           />
