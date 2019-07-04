@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
 import Scores from "./Scores";
 import ScidashStorage from "../../shared/ScidashStorage";
+import _ from 'lodash';
 
 import {
   filteringScoresStarted,
@@ -60,7 +61,7 @@ const mapStateToProps = state => ({
 
       return null;
     },
-    PageDropDown: props => {
+    PageDropdown: props => {
       const getRange = (number) => {
         if (!_.isFinite(number)) { return [0] }
         return Array(number).fill().map((_, i) => i + 1);
