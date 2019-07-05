@@ -35,6 +35,7 @@ export default class Scores extends React.Component {
       page: 1
     };
 
+    this.setPage = this.setPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
   }
@@ -45,6 +46,10 @@ export default class Scores extends React.Component {
 
   previousPage() {
     this.setState({ page: this.state.page - 1 });
+  }
+
+  setPage(e) {
+    this.setState({ page: parseInt(e.target.value) });
   }
 
   componentWillMount() {
@@ -61,6 +66,7 @@ export default class Scores extends React.Component {
   componentDidMount() {
     window.scoreNextPage = this.nextPage;
     window.scorePreviousPage = this.previousPage;
+    window.setPage = this.setPage;
   }
 
   componentWillUnmount() {
