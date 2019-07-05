@@ -36,6 +36,7 @@ export default class Scores extends React.Component {
       sortProperties: this.props.sortProperties
     };
 
+    this.setPage = this.setPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
   }
@@ -48,7 +49,11 @@ export default class Scores extends React.Component {
     this.setState({ page: this.state.page - 1 });
   }
 
-  componentWillMount () {
+  setPage(e) {
+    this.setState({ page: parseInt(e.target.value) });
+  }
+
+  componentWillMount() {
     if (this.props.user.isLogged) {
       this.props.onFilterUpdate(this.username, "owner");
     }
@@ -62,6 +67,7 @@ export default class Scores extends React.Component {
   componentDidMount () {
     window.scoreNextPage = this.nextPage;
     window.scorePreviousPage = this.previousPage;
+    window.setPage = this.setPage;
   }
 
   componentWillUnmount () {

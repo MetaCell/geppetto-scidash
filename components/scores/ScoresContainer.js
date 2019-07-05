@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
 import Scores from "./Scores";
 import ScidashStorage from "../../shared/ScidashStorage";
+import _ from 'lodash';
 
 import {
   filteringScoresStarted,
@@ -59,6 +60,29 @@ const mapStateToProps = state => ({
       }
 
       return null;
+    },
+    PageDropdown: props => {
+      const getRange = (number) => {
+        if (!_.isFinite(number)) { return [0] }
+        return Array(number).fill().map((_, i) => i + 1);
+      };
+      const { currentPage, maxPages } = props;
+      return (
+        <select
+          onChange={(e) => {
+            props.setPage(e);
+            window.setPage(e);
+          }}
+          value={currentPage}
+          style={props.style}
+          className={props.className}
+        >
+          {getRange(maxPages)
+            .map(num => (
+              <option key={num} value={num}>{num}</option>
+          ))}
+        </select>
+      );
     }
   },
   pageProperties: {
