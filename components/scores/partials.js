@@ -7,44 +7,43 @@ const CustomScoreName = ({ value }) => (
 );
 
 class StatusIconColumn extends React.Component {
+  constructor (props, context) {
+    super(props, context);
+    this.props = props;
+    this.helper = new Helper();
+  }
 
-    constructor(props, context){
-        super(props, context)
-        this.props = props;
-        this.helper = new Helper();
+  componentDidMount () {
+    if (this.props.value != " ") $(".build-info-cell").tooltip();
+  }
+
+  render () {
+    let statusIcon = undefined;
+    switch (this.props.value) {
+    case "Calculated":
+      statusIcon = <i className="fa fa-check" style={{ fontSize: "18px" }} />;
+      break;
+    case "Scheduled":
+      statusIcon = (
+        <i className="fa fa-clock-o" style={{ fontSize: "18px" }} />
+      );
+      break;
+    case "Locked":
+      statusIcon = <i className="fa fa-lock" style={{ fontSize: "18px" }} />;
+      break;
+    case "Failed":
+      statusIcon = <i className="fa fa-times" style={{ fontSize: "18px" }} />;
+      break;
+    default:
+      if (this.props.value !== undefined && this.props.value !== "") {
+        statusIcon = (
+          <i className="fa fa-question" style={{ fontSize: "18px" }} />
+        );
+      }
     }
 
-    componentDidMount(){
-        if (this.props.value != " ")
-            $(".build-info-cell").tooltip()
-    }
-
-    render(){
-        let statusIcon = undefined;
-        switch(this.props.value) {
-            case "Calculated":
-                statusIcon = <i className="fa fa-check" style={{fontSize: '18px'}}></i>;
-                break;
-            case "Scheduled":
-                statusIcon = <i className="fa fa-clock-o" style={{fontSize: '18px'}}></i>;
-                break;
-            case "Locked":
-                statusIcon = <i className="fa fa-lock" style={{fontSize: '18px'}}></i>;
-                break;
-            case "Failed":
-                statusIcon = <i className="fa fa-times" style={{fontSize: '18px'}}></i>;
-                break;
-            default:
-                if(this.props.value !== undefined && this.props.value !== "")
-                    statusIcon = <i className="fa fa-question" style={{fontSize: '18px'}}></i>;
-        }
-
-        return (
-            <div title={this.props.value}>
-                {statusIcon}
-            </div>
-        )
-    }
+    return <div title={this.props.value}>{statusIcon}</div>;
+  }
 }
 
 class ScidashBuildInfoColumn extends React.Component {
@@ -81,24 +80,25 @@ class ScidashTimestampColumn extends React.Component {
   }
 
   render () {
-    if (this.props.value != " ")
-    {return (
-      <div
-        className="timestamp-cell"
-        style={{ textAlign: "center" }}
-        title={this.props.value.get("full")}
-      >
-        {this.props.value.get("short")}
-      </div>
-    );}
+    if (this.props.value != " ") {
+      return (
+        <div
+          className="timestamp-cell"
+          style={{ textAlign: "center" }}
+          title={this.props.value.get("full")}
+        >
+          {this.props.value.get("short")}
+        </div>
+      );
+    }
 
     return <span />;
   }
 }
 
 export {
-    CustomScoreName,
-    ScidashBuildInfoColumn,
-    ScidashTimestampColumn,
-    StatusIconColumn
-}
+  CustomScoreName,
+  ScidashBuildInfoColumn,
+  ScidashTimestampColumn,
+  StatusIconColumn
+};

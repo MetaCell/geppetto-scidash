@@ -22,7 +22,7 @@ import Loader from "../loader/Loader";
 import SelectCellContainer from "../select-cell/SelectCellContainer";
 
 export default class Scores extends React.Component {
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context);
 
     this.props = props;
@@ -32,7 +32,8 @@ export default class Scores extends React.Component {
 
     this.state = {
       intervalId: null,
-      page: 1
+      page: 1,
+      sortProperties: this.props.sortProperties
     };
 
     this.setPage = this.setPage.bind(this);
@@ -40,11 +41,11 @@ export default class Scores extends React.Component {
     this.previousPage = this.previousPage.bind(this);
   }
 
-  nextPage() {
+  nextPage () {
     this.setState({ page: this.state.page + 1 });
   }
 
-  previousPage() {
+  previousPage () {
     this.setState({ page: this.state.page - 1 });
   }
 
@@ -63,21 +64,24 @@ export default class Scores extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     window.scoreNextPage = this.nextPage;
     window.scorePreviousPage = this.previousPage;
     window.setPage = this.setPage;
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     if (this.state.intervalId !== null) {
       clearInterval(this.state.intervalId);
     }
   }
 
-  render() {
+  render () {
+
     let pageProperties = this.props.pageProperties;
+
     pageProperties.currentPage = this.state.page;
+
     return (
       <div>
         <Griddle
@@ -86,13 +90,20 @@ export default class Scores extends React.Component {
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
           pageProperties={pageProperties}
-          sortProperties={this.props.sortProperties}
+          sortProperties={this.state.sortProperties}
           events={{
             onNext: () => {
               this.setState({ page: this.state.page + 1 });
             },
             onPrevious: () => {
               this.setState({ page: this.state.page - 1 });
+            },
+            onSort: id => {
+              this.setState(state => {
+                state.sortProperties = [id];
+
+                return state;
+              });
             }
           }}
         >
