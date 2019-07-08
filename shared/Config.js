@@ -69,4 +69,6 @@ Config.scoreStatusMap = {
   f: "Failed"
 };
 
+Config.noImportTag = "no import path";
+
 export default Config;

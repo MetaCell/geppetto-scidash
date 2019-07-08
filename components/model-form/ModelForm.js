@@ -147,13 +147,17 @@ export default class ModelForm extends React.Component {
       });
     } else {
       this.processModel(JSON.parse(responseParams.data));
-      this.updateModel({ url: this.convertUrl(url) }, () => {
-        this.setState({
-          loadingParams: false,
-          successParams: true,
-          paramsDisabled: false
-        });
-      }, true);
+      this.updateModel(
+        { url: this.convertUrl(url) },
+        () => {
+          this.setState({
+            loadingParams: false,
+            successParams: true,
+            paramsDisabled: false
+          });
+        },
+        true
+      );
     }
   }
 
@@ -228,7 +232,9 @@ export default class ModelForm extends React.Component {
               variable
             ]
           }
-        }, () => GEPPETTO.trigger(ADDED, variable));
+        },
+        () => GEPPETTO.trigger(ADDED, variable)
+      );
     }
   }
 
@@ -241,7 +247,9 @@ export default class ModelForm extends React.Component {
             el => el != variable
           )
         }
-      }, () => GEPPETTO.trigger(REMOVED, variable));
+      },
+      () => GEPPETTO.trigger(REMOVED, variable)
+    );
   }
 
   removeAll () {
@@ -268,27 +276,34 @@ export default class ModelForm extends React.Component {
     this.retrieveStateVariables();
     this.retrieveParams();
 
-    this.updateModel({
-      run_params: {
-        stateVariables: this.state.stateVariables,
-        watchedVariables: this.state.model.id === null ? [] : this.state.model.run_params.watchedVariables,
-        params: this.state.params.map(value => {
-          let object = eval(value);
-          let sixDecimalValue = object
-            .getInitialValue()
-            .toString()
-            .match(/^-?\d+(?:.\d{0,6})?/)[0];
+    this.updateModel(
+      {
+        run_params: {
+          stateVariables: this.state.stateVariables,
+          watchedVariables:
+            this.state.model.id === null
+              ? []
+              : this.state.model.run_params.watchedVariables,
+          params: this.state.params.map(value => {
+            let object = eval(value);
+            let sixDecimalValue = object
+              .getInitialValue()
+              .toString()
+              .match(/^-?\d+(?:.\d{0,6})?/)[0];
 
-          let result = {
-            name: value,
-            value: sixDecimalValue,
-            unit: object.getUnit()
-          };
+            let result = {
+              name: value,
+              value: sixDecimalValue,
+              unit: object.getUnit()
+            };
 
-          return result;
-        })
-      }
-    }, () => {}, true);
+            return result;
+          })
+        }
+      },
+      () => {},
+      true
+    );
 
     return this;
   }
@@ -299,7 +314,7 @@ export default class ModelForm extends React.Component {
       callback = () => {};
     }
 
-    if (typeof ignoreChange == "undefined"){
+    if (typeof ignoreChange == "undefined") {
       ignoreChange = false;
     }
 
@@ -334,14 +349,17 @@ export default class ModelForm extends React.Component {
   }
 
   render () {
-    let blockedWarning = <div style={{fontSize: '18px', paddingLeft: '12px'}}>
-                            <p>
-                              <i className="fa fa-lock" style={{fontSize: '25px'}}/> &nbsp;
-                              This model instance is locked because it has already a score 
-                              associated to it, only tags can be edited. 
-                              Clone from the grid view to create a different instance.
-                            </p>
-                          </div>;
+    let blockedWarning = (
+      <div style={{ fontSize: "18px", paddingLeft: "12px" }}>
+        <p>
+          <i className="fa fa-lock" style={{ fontSize: "23px" }} />
+          &nbsp; This model instance is locked because it has already a
+          score associated to it or model class of this instance has no
+          import path, only tags can be edited. Clone from the grid view to
+          create a different instance.
+        </p>
+      </div>
+    );
     return (
       <span className="model-form">
         <div className="first-line">
@@ -442,17 +460,21 @@ export default class ModelForm extends React.Component {
               onChange={(event, key, value) => {
                 for (let klass of this.state.modelClasses) {
                   if (klass.id == value) {
-                    this.updateModel({ model_class: klass }, () => {
-                      if (!this.state.model.validate()) {
-                        this.setState({
-                          validationFailed: true
-                        });
-                      } else {
-                        this.setState({
-                          validationFailed: false
-                        });
-                      }
-                    }, this.props.actionType == "edit" && this.state.isBlocked);
+                    this.updateModel(
+                      { model_class: klass },
+                      () => {
+                        if (!this.state.model.validate()) {
+                          this.setState({
+                            validationFailed: true
+                          });
+                        } else {
+                          this.setState({
+                            validationFailed: false
+                          });
+                        }
+                      },
+                      this.props.actionType == "edit" && this.state.isBlocked
+                    );
                   }
                 }
               }}
@@ -510,9 +532,7 @@ export default class ModelForm extends React.Component {
                     return (
                       <Chip
                         backgroundColor={
-                          tag.toLowerCase() === "deprecated"
-                            ? red400
-                            : brown500
+                          tag.toLowerCase() === "deprecated" ? red400 : brown500
                         }
                         style={{
                           marginLeft: 4,
@@ -561,9 +581,7 @@ export default class ModelForm extends React.Component {
             {this.state.paramsErrors.length > 0 ? (
               <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
             ) : null}
-            {this.state.loadingParams ? (
-              <CircularProgress size={36} />
-            ) : null}
+            {this.state.loadingParams ? <CircularProgress size={36} /> : null}
           </span>
 
           <Dialog
@@ -586,9 +604,7 @@ export default class ModelForm extends React.Component {
           >
             <ParamsTable
               stateVariables={this.state.stateVariables}
-              watchedVariables={
-                this.state.model.run_params.watchedVariables
-              }
+              watchedVariables={this.state.model.run_params.watchedVariables}
               params={this.state.params}
               onCheck={this.saveChecked}
               onUncheck={this.removeChecked}
@@ -611,10 +627,7 @@ export default class ModelForm extends React.Component {
             }
             className="actions-button"
             onClick={() => {
-              if (
-                this.state.model.validate() &&
-                !this.state.loadingParams
-              ) {
+              if (this.state.model.validate() && !this.state.loadingParams) {
                 this.setState({
                   validationFailed: false
                 });
