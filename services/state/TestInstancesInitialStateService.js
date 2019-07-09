@@ -36,9 +36,7 @@ export default class TestInstancesInitialStateService extends BaseInitialStateSe
       let service = new TestInstancesApiService();
       let namespace = Config.modelInstancesNamespace;
 
-      let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key));
-
-      return service.getList(keys, namespace);
+      return service.getList(false, namespace);
     }
 
     async generateInitialState (){

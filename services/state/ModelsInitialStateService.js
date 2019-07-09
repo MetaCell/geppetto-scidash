@@ -19,7 +19,7 @@ export default class ModelsInitialStateService extends BaseInitialStateService {
         }
       ],
       autoCompleteData:{
-        name: [], class: [], tags: [], owner: [] 
+        name: [], class: [], tags: [], owner: []
       }
     }
 
@@ -28,9 +28,7 @@ export default class ModelsInitialStateService extends BaseInitialStateService {
       let service = new ModelsApiService();
       let namespace = Config.modelInstancesNamespace;
 
-      let keys = Object.keys(filteringS.getFilters(namespace, true)).filter(key => !Config.cachableFilters.includes(key));
-
-      return service.getList(keys, namespace);
+      return service.getList(false, namespace);
     }
 
     async generateInitialState (){

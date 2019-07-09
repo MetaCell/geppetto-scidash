@@ -7,6 +7,7 @@ import { Draggable, Droppable } from "react-drag-and-drop";
 import { brown500, blue500, grey400, grey600, brown200, brown100, blue200, blue100 } from "material-ui/styles/colors";
 import { TestIcon, ModelsIcon } from "../../assets/CustomIcons";
 import InfoDialog from "../info-dialog/InfoDialog";
+import Config from "../../shared/Config";
 
 const styles = {
   header: {
@@ -109,26 +110,50 @@ export default class DDList extends React.Component {
             onChange={(e, value) => this.setState({ searchable: value })}
           />
           <div className="scrolling3">
-            {data.filter(item => !choosedModels.includes(item.scheduler_id) && !choosedTests.includes(item.scheduler_id) && this.isSearchable(item)).map( dataItem => (
-              <Draggable
-                key={dataItem.scheduler_id}
-                data={dataItem.scheduler_id}
-                type={!dataItem.source ? "tests" : "models"}
-                onDragEnd={() => this.changeBGC(!dataItem.source ? "tests" : "models", "end")}
-                onDragStart={() => this.changeBGC(!dataItem.source ? "tests" : "models", "start")}
-              >
-                <ListItem
-                  primaryText={dataItem.name}
-                  secondaryText={dataItem.class}
-                  firstActionClass="fa fa-info"
-                  secondActionClass="fa fa-chevron-right"
-                  firstAction={() => { this.openDialog(dataItem); }}
-                  secondAction={() => { !dataItem.source ? addTest(dataItem.scheduler_id) : addModel(dataItem.scheduler_id);}}
-                  leftIconSVG={!dataItem.source ? TestIcon : ModelsIcon}
-                  leftIconColor={!dataItem.source ? brown500 : blue500}
-                />
-              </Draggable>
-            ))}
+            {data
+              .filter(
+                item =>
+                  !choosedModels.includes(item.scheduler_id) &&
+                  !choosedTests.includes(item.scheduler_id) &&
+                  this.isSearchable(item) &&
+                  !item.tags.includes(Config.noImportTag)
+              )
+              .map(dataItem => (
+                <Draggable
+                  key={dataItem.scheduler_id}
+                  data={dataItem.scheduler_id}
+                  type={!dataItem.source ? "tests" : "models"}
+                  onDragEnd={() =>
+                    this.changeBGC(
+                      !dataItem.source ? "tests" : "models",
+                      "end"
+                    )
+                  }
+                  onDragStart={() =>
+                    this.changeBGC(
+                      !dataItem.source ? "tests" : "models",
+                      "start"
+                    )
+                  }
+                >
+                  <ListItem
+                    primaryText={dataItem.name}
+                    secondaryText={dataItem.class}
+                    firstActionClass="fa fa-info"
+                    secondActionClass="fa fa-chevron-right"
+                    firstAction={() => {
+                      this.openDialog(dataItem);
+                    }}
+                    secondAction={() => {
+                      !dataItem.source
+                        ? addTest(dataItem.scheduler_id)
+                        : addModel(dataItem.scheduler_id);
+                    }}
+                    leftIconSVG={!dataItem.source ? TestIcon : ModelsIcon}
+                    leftIconColor={!dataItem.source ? brown500 : blue500}
+                  />
+                </Draggable>
+              ))}
           </div>
         </div>
         <div className="scrolling2">
@@ -142,22 +167,31 @@ export default class DDList extends React.Component {
             onDragLeave={() => this.changeBGC("tests", "leave")}
             style={{ backgroundColor: this.state.testsBGC }}
           >
-            {data.filter(item => choosedTests.includes(item.scheduler_id)).map(test => (
-              <ListItem
-                key={test.scheduler_id}
-                primaryText={test.name}
-                secondaryText={test.class}
-                firstActionClass="fa fa-info"
-                secondActionClass="fa fa-trash-o"
-                firstAction={() => { this.openDialog(test); }}
-                secondAction={() => { removeTest(test.scheduler_id); }}
-                leftIconColor={brown500}
-                leftIconSVG={TestIcon}
-              />
-            ))}
+            {data
+              .filter(item => choosedTests.includes(item.scheduler_id))
+              .map(test => (
+                <ListItem
+                  key={test.scheduler_id}
+                  primaryText={test.name}
+                  secondaryText={test.class}
+                  firstActionClass="fa fa-info"
+                  secondActionClass="fa fa-trash-o"
+                  firstAction={() => {
+                    this.openDialog(test);
+                  }}
+                  secondAction={() => {
+                    removeTest(test.scheduler_id);
+                  }}
+                  leftIconColor={brown500}
+                  leftIconSVG={TestIcon}
+                />
+              ))}
           </Droppable>
-          {this.state.dragging == "tests" ? <p style={{ textAlign: "center", marginTop: "-25px" }}>DROP HERE</p> : null}
-
+          {this.state.dragging == "tests" ? (
+            <p style={{ textAlign: "center", marginTop: "-25px" }}>
+              DROP HERE
+            </p>
+          ) : null}
         </div>
         <div className="scrolling2">
           <h3 style={styles.header}>Models</h3>
@@ -170,21 +204,29 @@ export default class DDList extends React.Component {
             onDragLeave={() => this.changeBGC("models", "leave")}
             style={{ backgroundColor: this.state.modelsBGC }}
           >
-            {data.filter(item => choosedModels.includes(item.scheduler_id)).map(model => (
-              <ListItem
-                key={model.scheduler_id}
-                primaryText={model.name}
-                secondaryText={model.class}
-                firstActionClass="fa fa-info"
-                secondActionClass="fa fa-trash-o"
-                firstAction={() => { this.openDialog(model); }}
-                secondAction={() => removeModel(model.scheduler_id)}
-                leftIconColor={blue500}
-                leftIconSVG={ModelsIcon}
-              />
-            ))}
+            {data
+              .filter(item => choosedModels.includes(item.scheduler_id))
+              .map(model => (
+                <ListItem
+                  key={model.scheduler_id}
+                  primaryText={model.name}
+                  secondaryText={model.class}
+                  firstActionClass="fa fa-info"
+                  secondActionClass="fa fa-trash-o"
+                  firstAction={() => {
+                    this.openDialog(model);
+                  }}
+                  secondAction={() => removeModel(model.scheduler_id)}
+                  leftIconColor={blue500}
+                  leftIconSVG={ModelsIcon}
+                />
+              ))}
           </Droppable>
-          {this.state.dragging == "models" ? <p style={{ textAlign: "center", marginTop: "-25px" }}>DROP HERE</p> : null}
+          {this.state.dragging == "models" ? (
+            <p style={{ textAlign: "center", marginTop: "-25px" }}>
+              DROP HERE
+            </p>
+          ) : null}
         </div>
         {this.infoDialog}
       </div>
