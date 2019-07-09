@@ -69,6 +69,6 @@ Config.scoreStatusMap = {
   f: "Failed"
 };
 
-Config.noImportTag = "no import path";
+Config.noImportTag = "unschedulable";
 
 export default Config;
