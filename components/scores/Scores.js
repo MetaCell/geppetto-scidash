@@ -39,6 +39,7 @@ export default class Scores extends React.Component {
     this.setPage = this.setPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
+    this.onFilterUpdate = this.onFilterUpdate.bind(this);
   }
 
   nextPage () {
@@ -49,11 +50,11 @@ export default class Scores extends React.Component {
     this.setState({ page: this.state.page - 1 });
   }
 
-  setPage(e) {
+  setPage (e) {
     this.setState({ page: parseInt(e.target.value) });
   }
 
-  componentWillMount() {
+  componentWillMount () {
     if (this.props.user.isLogged) {
       this.props.onFilterUpdate(this.username, "owner");
     }
@@ -74,6 +75,17 @@ export default class Scores extends React.Component {
     if (this.state.intervalId !== null) {
       clearInterval(this.state.intervalId);
     }
+  }
+
+  onFilterUpdate (searchText, filterName){
+    this.setState(state => {
+      state = {
+        ...state,
+        page: 1
+      };
+
+      return state;
+    }, () => this.props.onFilterUpdate(searchText, filterName));
   }
 
   render () {
@@ -116,7 +128,7 @@ export default class Scores extends React.Component {
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
                   namespace={Config.instancesNamespace}
-                  onFilterUpdate={this.props.onFilterUpdate}
+                  onFilterUpdate={this.onFilterUpdate}
                   filterName="name"
                   {...props}
                 />
@@ -147,7 +159,7 @@ export default class Scores extends React.Component {
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
                   namespace={Config.instancesNamespace}
-                  onFilterUpdate={this.props.onFilterUpdate}
+                  onFilterUpdate={this.onFilterUpdate}
                   filterName="score_type"
                   {...props}
                 />
@@ -163,7 +175,7 @@ export default class Scores extends React.Component {
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
                   namespace={Config.instancesNamespace}
-                  onFilterUpdate={this.props.onFilterUpdate}
+                  onFilterUpdate={this.onFilterUpdate}
                   filterName="model"
                   {...props}
                 />
@@ -177,7 +189,7 @@ export default class Scores extends React.Component {
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
                   namespace={Config.instancesNamespace}
-                  onFilterUpdate={this.props.onFilterUpdate}
+                  onFilterUpdate={this.onFilterUpdate}
                   filterName="hostname"
                   {...props}
                 />
@@ -191,7 +203,7 @@ export default class Scores extends React.Component {
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
                   namespace={Config.instancesNamespace}
-                  onFilterUpdate={this.props.onFilterUpdate}
+                  onFilterUpdate={this.onFilterUpdate}
                   filterName="owner"
                   value={this.username}
                   {...props}
@@ -207,7 +219,7 @@ export default class Scores extends React.Component {
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
                   namespace={Config.instancesNamespace}
-                  onFilterUpdate={this.props.onFilterUpdate}
+                  onFilterUpdate={this.onFilterUpdate}
                   filterName="build_info"
                   {...props}
                 />
@@ -220,7 +232,7 @@ export default class Scores extends React.Component {
               customComponent={StatusIconColumn}
               customHeadingComponent={props => (
                 <SelectCellContainer
-                  onFilterUpdate={this.props.onFilterUpdate}
+                  onFilterUpdate={this.onFilterUpdate}
                   filterName="status"
                   namespace={Config.instancesNamespace}
                   {...props}
