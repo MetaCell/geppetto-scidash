@@ -40,19 +40,17 @@ export class RunParams extends ModelDetailsPartial {
       Object.assign(obj, { [key]: value }) // Be careful! Maps can have non-String keys; object literals can't.
     ), {});
 
-    console.log(runParamsObj);
-
     const params = Object.entries(runParamsObj).map(param =>
       (
         <tr key={param[0]}>
           <td>{param[0]}</td>
           <td>
-            {param[1].map((value, index) => (
+            {typeof param[1] != "string" ? param[1].map((value, index) => (
               <span key={index}>
                 {value instanceof Object ? this.displayParam(value) : value}
                 <br />
               </span>
-            ))}
+            )) : param[1]}
           </td>
         </tr>
       ));
