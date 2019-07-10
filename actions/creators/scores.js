@@ -47,7 +47,7 @@ export function filteringScoresStarted (searchText, filterName, dispatch){
 
     let filters = filteringService.getFilters(Config.scoresNamespace);
 
-    let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "/";
+    let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "";
 
     window.history.pushState("", "", filterString);
     dispatch(filteringScoresFinished(result));
