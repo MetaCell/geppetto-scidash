@@ -513,7 +513,7 @@ export default class ModelForm extends React.Component {
                     return (
                       <Chip
                         backgroundColor={
-                          (tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable")
+                          (tag.name.toLowerCase() === "deprecated" || tag.name.toLowerCase() === "unschedulable")
                             ? red400
                             : brown500
                         }
