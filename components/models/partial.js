@@ -51,6 +51,25 @@ export class CustomMenu extends Component {
     return false;
   }
 
+  isUnschedulable () {
+    if (this.props.value === false) {
+      return false;
+    }
+    if (this.props.value === undefined) {
+      return false;
+    }
+    let instanceId = this.props.value.get("modelId");
+    let checkInstance = function (value, index, array) {
+      return value.id === instanceId;
+    };
+    let instance = this.props.data.find(checkInstance);
+    if (instance.tags.indexOf("unschedulable") !== -1) {
+      return true;
+    }
+    return false;
+  }
+
+
   checkInstance () {
     if (this.props.value === false || this.props.value === undefined) {
       return false;
@@ -111,6 +130,7 @@ export class CustomMenu extends Component {
               primaryText="Clone"
               onClick={() => this.props.clone(this.props.value.get("modelId"))}
               leftIcon={<FontIcon className="fa fa-clone" />}
+	      disabled={this.isUnschedulable()}
             />
           </Menu>
         </Popover>
@@ -123,7 +143,7 @@ export const CustomTagComponent = ({ value }) => (
   <span className="chips">
     {value.map((tag, i) => (
       <Chip
-        backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
+        backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red400 : brown500}
         containerElement="span"
         key={i}
       >
