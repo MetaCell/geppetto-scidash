@@ -45,7 +45,7 @@ export function filteringSuitesStarted (searchText, filterName, dispatch){
   apiService.getList(false, Config.suiteNamespace).then(result => {
 
     let filters = filteringService.getFilters(Config.suiteNamespace);
-    let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "/";
+    let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "";
 
     window.history.pushState("", "", filterString);
     dispatch(filteringSuitesFinished(result));

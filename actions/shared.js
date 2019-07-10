@@ -18,7 +18,7 @@ export function openTestsView (state, action, type){
   } else if (type == "global") {
     let service = new FilteringService();
     let filters = service.getFilters(Config.scoresNamespace);
-    let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "/";
+    let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "";
 
     window.history.pushState("", "", filterString);
 
@@ -46,7 +46,7 @@ export function openSuitesView (state, action, type){
   } else if (type == "global") {
     let service = new FilteringService();
     let filters = service.getFilters(Config.suiteNamespace);
-    let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "/";
+    let filterString = Object.keys(filters).length ? "/?" + service.stringifyFilters(filters) : "";
 
     window.history.pushState("", "", filterString);
     newState = {

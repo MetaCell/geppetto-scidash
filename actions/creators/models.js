@@ -56,22 +56,22 @@ export function filteringModelsStarted (searchText, filterName, dispatch){
   apiService.getList(false, Config.modelInstancesNamespace).then(result => {
 
     let filters = filteringService.getFilters(Config.modelInstancesNamespace);
-    let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "/";
+    let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "";
     window.history.pushState("", "", `${location.pathname}` + filterString);
 
-    var uniqueResults = [];
-    result.map((item, index) => 
-      {
-        var flag = true;
-        for(var j = 0; j < uniqueResults.length; j++) {
-          if(item.id === uniqueResults[j].id) {
-            flag = false;
-          }
-        }
-        if(flag) {
-          uniqueResults.push(item);
+    let uniqueResults = [];
+    result.map((item, index) =>
+    {
+      let flag = true;
+      for (let j = 0; j < uniqueResults.length; j++) {
+        if (item.id === uniqueResults[j].id) {
+          flag = false;
         }
       }
+      if (flag) {
+        uniqueResults.push(item);
+      }
+    }
     );
 
     dispatch(filteringModelsFinished(uniqueResults));
