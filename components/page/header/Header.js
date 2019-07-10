@@ -99,7 +99,7 @@ export default class Header extends React.Component {
     }
     return (
       <div id="header">
-        <div id="scidash-logo">
+        <div id="scidash-logo" style={{cursor: "pointer", zIndex: 2}} onClick={() => this.props.logoClick()}>
           <h3 style={{ marginLeft: "60px", marginTop: "15px", width: "200px" }}>{title}</h3>
         </div>
         <DrawerContainer />
@@ -110,7 +110,7 @@ export default class Header extends React.Component {
               <div className="col-md-3 auth-links">
                 <RaisedButton
                   className="userButton" label={userinitial}
-                  buttonStyle={{ borderRadius: 50, backgroundColor: "blue" }}
+                  buttonStyle={{ borderRadius: 50, backgroundColor: "#37474f" }}
                   onTouchTap={this.handleTouchTap}
                   style={{ marginRight: "10px", borderRadius: 50, float: "right" }}
                 >

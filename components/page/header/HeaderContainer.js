@@ -1,5 +1,7 @@
 import { connect } from "react-redux";
 import Header from "./Header";
+import PagesService from "../../../services/PagesService";
+import { changePage } from "../../../actions/creators/header";
 import {
   toggleSettings,
   hideSettings,
@@ -38,7 +40,9 @@ const mapDispatchToProps = dispatch => ({
     if (wrapperSettings && !wrapperSettings.contains(event.target) && settingsDisplaying) {
       dispatch(hideSettings());
     }
-  }
+  },
+
+  logoClick: () => dispatch(changePage(new PagesService().SCORES_PAGE, dispatch))
 });
 
 const HeaderContainer = connect(
