@@ -185,7 +185,7 @@ export default class TestForm extends React.Component {
               } else {
                 return (
                   <Chip
-                    backgroundColor={(tag.toLowerCase() === "deprecated") ? red400 : brown500}
+                    backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red400 : brown500}
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag}-${i}`}
                     onRequestDelete={() => this.deleteTag(tag)}
