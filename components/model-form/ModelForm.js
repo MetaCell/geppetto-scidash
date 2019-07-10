@@ -473,7 +473,8 @@ export default class ModelForm extends React.Component {
                           });
                         }
                       },
-                      this.props.actionType == "edit" && this.state.isBlocked
+                      this.props.actionType == "edit" &&
+                        this.state.isBlocked
                     );
                   }
                 }
@@ -532,7 +533,9 @@ export default class ModelForm extends React.Component {
                     return (
                       <Chip
                         backgroundColor={
-                          tag.toLowerCase() === "deprecated" ? red400 : brown500
+                          tag.toLowerCase() === "deprecated"
+                            ? red400
+                            : brown500
                         }
                         style={{
                           marginLeft: 4,
@@ -581,7 +584,9 @@ export default class ModelForm extends React.Component {
             {this.state.paramsErrors.length > 0 ? (
               <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
             ) : null}
-            {this.state.loadingParams ? <CircularProgress size={36} /> : null}
+            {this.state.loadingParams ? (
+              <CircularProgress size={36} />
+            ) : null}
           </span>
 
           <Dialog
@@ -604,7 +609,12 @@ export default class ModelForm extends React.Component {
           >
             <ParamsTable
               stateVariables={this.state.stateVariables}
-              watchedVariables={this.state.model.run_params.watchedVariables}
+              watchedVariables={
+                typeof this.state.model.run_params.watchedVariables !=
+                "undefined"
+                  ? this.state.model.run_params.watchedVariables
+                  : []
+              }
               params={this.state.params}
               onCheck={this.saveChecked}
               onUncheck={this.removeChecked}
@@ -627,7 +637,10 @@ export default class ModelForm extends React.Component {
             }
             className="actions-button"
             onClick={() => {
-              if (this.state.model.validate() && !this.state.loadingParams) {
+              if (
+                this.state.model.validate() &&
+                !this.state.loadingParams
+              ) {
                 this.setState({
                   validationFailed: false
                 });
