@@ -128,9 +128,16 @@ export class CustomMenu extends Component {
             />
             <MenuItem
               primaryText="Clone"
-              onClick={() => this.props.clone(this.props.value.get("modelId"))}
+              onClick={() => {
+                if(this.isUnschedulable()) {
+                  return false;
+                } else {
+                  this.props.clone(this.props.value.get("modelId"))
+                }
+              }
+            }
               leftIcon={<FontIcon className="fa fa-clone" />}
-	      disabled={this.isUnschedulable()}
+              disabled={this.isUnschedulable()}
             />
           </Menu>
         </Popover>
