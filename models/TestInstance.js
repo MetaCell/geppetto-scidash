@@ -48,9 +48,11 @@ export default class TestInstance extends BaseModel {
       }
     }
 
-    if (!Object.keys(this.params).length){
-      for (let key of Object.keys(this.test_class.test_parameters_schema)){
-        this.params[key] = "";
+    if (this.params != null){
+      if (!Object.keys(this.params).length){
+        for (let key of Object.keys(this.test_class.test_parameters_schema)){
+          this.params[key] = "";
+        }
       }
     }
 
@@ -86,6 +88,10 @@ export default class TestInstance extends BaseModel {
 
   getParamsUnitsMap (){
     let map = {};
+
+    if (this.params == null){
+      return map;
+    }
 
     for (let key of Object.keys(this.test_class.test_parameters_schema)){
       map[key] = Config.testParametersUnitsMap[

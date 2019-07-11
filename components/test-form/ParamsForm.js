@@ -98,6 +98,11 @@ export default class ParamsForm extends React.Component {
   }
 
   render () {
+    if (this.state.model === null){
+      return (
+        <span />
+      );
+    }
     return (
       <span>
         {Object.keys(this.state.model).map(
