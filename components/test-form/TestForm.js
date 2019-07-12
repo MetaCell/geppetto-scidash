@@ -90,8 +90,8 @@ export default class TestForm extends React.Component {
     let blockedWarning = <div style={{fontSize: '18px'}}>
                             <p>
                               <i className="fa fa-lock" style={{fontSize: '25px'}}/> &nbsp;
-                              This model instance is locked because it has already a score 
-                              associated to it, only tags can be edited. 
+                              This model instance is locked because it has already a score
+                              associated to it, only tags can be edited.
                               Clone from the grid view to create a different instance.
                             </p>
                           </div>;
@@ -144,7 +144,12 @@ export default class TestForm extends React.Component {
           >
 
             {/* eslint-disable-next-line react/no-array-index-key */}
-            {this.state.testClasses.map((klass, index) => <MenuItem value={klass.id} key={index} primaryText={klass.class_name} label={klass.class_name} />)}
+            {this.state.testClasses.sort((a, b) => {
+              let textA = a.class_name.toLowerCase();
+              let textB = b.class_name.toLowerCase();
+
+              return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            }).map((klass, index) => <MenuItem value={klass.id} key={index} primaryText={klass.class_name} label={klass.class_name} />)}
           </SelectField>
         </div>
 

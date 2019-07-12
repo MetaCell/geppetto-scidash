@@ -14,12 +14,7 @@ export default class TestInstancesGriddleAdapter extends BaseAdapter {
       let options = {
         year: "numeric",
         month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-        timeZone: "UTC",
-        timeZoneName: "short"
+        day: "numeric"
       };
 
       let fullDate = new Date(test.timestamp).toLocaleString("en-US", options);
