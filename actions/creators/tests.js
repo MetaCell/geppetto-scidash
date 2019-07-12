@@ -57,19 +57,19 @@ export function filteringTestsStarted (searchText, filterName, dispatch){
     let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "";
     window.history.pushState("", "", `${location.pathname}` + filterString);
 
-    var uniqueResults = [];
-    result.map((item, index) => 
-      {
-        var flag = true;
-        for(var j = 0; j < uniqueResults.length; j++) {
-          if(item.id === uniqueResults[j].id) {
-            flag = false;
-          }
-        }
-        if(flag) {
-          uniqueResults.push(item);
+    let uniqueResults = [];
+    result.map((item, index) =>
+    {
+      let flag = true;
+      for (let j = 0; j < uniqueResults.length; j++) {
+        if (item.id === uniqueResults[j].id) {
+          flag = false;
         }
       }
+      if (flag) {
+        uniqueResults.push(item);
+      }
+    }
     );
 
     dispatch(filteringTestsFinished(uniqueResults));
@@ -98,7 +98,16 @@ export function testCreateStarted (model, dispatch){
   copiedModel.hash_id = new Helper().generateHashId(copiedModel);
 
   let d = new Date();
-  copiedModel.timestamp = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+  copiedModel.timestamp =
+    d.getFullYear() +
+    "-" +
+    ("0" + (d.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + d.getDate()).slice(-2) +
+    "T" +
+    d.getHours() +
+    ":" +
+    d.getMinutes();
   let tagObjects = [];
 
   for (let tag of copiedModel.tags){

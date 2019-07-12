@@ -16,7 +16,7 @@ export default class ModelInstance extends BaseModel {
     this.attributes = {};
     this.name = "";
     this.run_params = {};
-    this.timestamp = new Date();
+    this.timestamp = new Date().toISOString();
     this.url = "";
     this.status = "a";
 
