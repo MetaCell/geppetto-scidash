@@ -1,32 +1,29 @@
-import FilteringService from "../services/FilteringService";
-
+import Config from "../shared/Config";
 
 export default class PagesService {
 
-    TESTS_VIEW = "instances";
-    SUITES_VIEW = "suites";
-    SCORES_PAGE = "SCORES_PAGE";
-    TESTS_PAGE = "TESTS_PAGE";
-    MODELS_PAGE = "MODELS_PAGE";
-    SETTINGS_PAGE = "SETTINGS_PAGE";
-    SCHEDULING_PAGE = "SCHEDULLING_PAGE";
+  SCORES_PAGE = "/";
+  SUITES_PAGE = "/suite-scores/";
+  TESTS_PAGE = "/test-instances/";
+  TESTS_CREATE_PAGE = "/test-instances/create/";
+  MODELS_PAGE = "/model-instances/";
+  MODELS_CREATE_PAGE = "/model-instances/create/";
+  SETTINGS_PAGE = "/settings/";
+  SCHEDULING_PAGE = "/scheduling/";
+  MODELS_EDIT_PAGE = "/model-instances/edit/";
+  TESTS_EDIT_PAGE = "/test-instances/edit/";
 
-    default = "";
+  default = "";
 
-    constructor(){
-        this.default = this.TESTS_VIEW;
-        this.defaultPage = this.SCORES_PAGE;
-    }
+  constructor () {
+    this.defaultPage = this.SCORES_PAGE;
+  }
 
-    getAll(){
-        return [TESTS_VIEW, SUITES_VIEW];
-    }
+  getDefaultPage () {
+    return this.defaultPage;
+  }
 
-    getDefault(){
-        return this.default;
-    }
-
-    getDefaultPage(){
-      return this.defaultPage;
-    }
+  getCurrentNamespace () {
+    return Config.pageNamespaceMap[location.pathname];
+  }
 }

@@ -1,37 +1,38 @@
-import AutocompleteAdapter from "./AutocompleteAdapter";
-import InitialStateService from "../../services/InitialStateService";
+import BaseAdapter from "./BaseAdapter";
+import TestInstancesInitialStateService from "../../services/state/TestInstancesInitialStateService";
 
-export default class TestInstancesAutocompleteAdapter extends AutocompleteAdapter {
+export default class TestInstancesAutocompleteAdapter extends BaseAdapter {
 
-    getAutocompleteData(){
+  getAutocompleteData (){
 
-        let autoCompleteData = {};
+    let autoCompleteData = {};
 
-        if (this.getTableData().length > 0 && !this.getTableData()[0].template){
-            for (let key of Object.keys(this.getTableData()[0])){
-                autoCompleteData[key] = [];
+    if (this.getRawData().length > 0){
+      for (let key of Object.keys(this.getRawData()[0])){
+        autoCompleteData[key] = [];
 
-                for (let item of this.getTableData()){
-
-                    if (key == "model"){
-                        if (!autoCompleteData[key].includes(item[key]["model_class"]["class_name"]))
-                            autoCompleteData[key].push(item[key]["model_class"]["class_name"])
-                        if (!autoCompleteData[key].includes(item[key]["name"]))
-                            autoCompleteData[key].push(item[key]["name"])
-                    } else {
-                        if (!autoCompleteData[key].includes(item[key]))
-                            autoCompleteData[key].push(item[key]);
-                    }
-                }
+        for (let item of this.getRawData()){
+          if (!Array.isArray(item[key])){
+            if (!autoCompleteData[key].includes(item[key])) {
+              autoCompleteData[key].push(item[key]);
             }
+          } else {
+            for (let el of item[key]){
+              if (!autoCompleteData[key].includes(el)) {
+                autoCompleteData[key].push(el);
+              }
+            }
+          }
+
         }
-
-        if (Object.keys(autoCompleteData).length == 0)
-            autoCompleteData = new InitialStateService()
-                .getInitialState()
-                .testInstances
-                .autoCompleteData
-
-        return autoCompleteData;
+      }
     }
+    if (Object.keys(autoCompleteData).length == 0) {
+      autoCompleteData = new TestInstancesInitialStateService()
+        .getInitialStateTemplate()
+        .autoCompleteData;
+    }
+
+    return autoCompleteData;
+  }
 }

@@ -1,55 +1,66 @@
-import React from 'react';
+/* eslint-disable react/no-array-index-key */
+import React from "react";
 
 
-class ModelDetailsPartial extends React.Component{
-    constructor(props, context) {
-        super(props, context)
+class ModelDetailsPartial extends React.Component {
+  constructor (props, context) {
+    super(props, context);
 
-        this.props = props;
-    }
+    this.props = props;
+  }
 }
 
 
-export class Capabilities extends ModelDetailsPartial{
+export class Capabilities extends ModelDetailsPartial {
 
-    render() {
-        const capabilities = this.props.capabilities
-            .map((capability) => {
-                return <li key={capability.get('id')}>{capability.get('class_name')}</li>;
-            });
+  render () {
+    const capabilities = this.props.capabilities
+      .map(capability => <li key={capability.get("id")}>{capability.get("class_name")}</li>);
 
-        return (
-            <span>
-                <ul>
-                    {capabilities}
-                </ul>
-            </span>
-        );
-    }
+    return (
+      <span>
+        <ul>
+          {capabilities}
+        </ul>
+      </span>
+    );
+  }
 }
 
 
-export class RunParams extends ModelDetailsPartial{
+export class RunParams extends ModelDetailsPartial {
 
-    render() {
+  displayParam (param){
+    return `${param.get("name")}: ${param.get("value")} ${param.get("unit")}`;
+  }
 
-        let runParamsObj = Array.from(this.props.runParams).reduce((obj, [key, value]) => (
-            Object.assign(obj, { [key]: value }) // Be careful! Maps can have non-String keys; object literals can't.
-        ), {});
+  render () {
 
-        const params = Object.entries(runParamsObj).map((param) => {
-            return <tr key={param[0]}>
-                <td>{param[0]}</td>
-                <td>{param[1]}</td>
-            </tr>;
-        });
+    let runParamsObj = Array.from(this.props.runParams).reduce((obj, [key, value]) => (
+      Object.assign(obj, { [key]: value }) // Be careful! Maps can have non-String keys; object literals can't.
+    ), {});
 
-        return (
-            <table className="table">
-                <tbody>
-                    {params}
-                </tbody>
-            </table>
-        );
-    }
+    const params = Object.entries(runParamsObj).map(param =>
+      (
+        <tr key={param[0]}>
+          <td>{param[0]}</td>
+          <td>
+            {typeof param[1] != "string" ? param[1].map((value, index) => (
+              <span key={index}>
+                {value instanceof Object ? this.displayParam(value) : value}
+                <br />
+              </span>
+            )) : param[1]}
+          </td>
+        </tr>
+      ));
+
+    return (
+      <table className="table">
+        <tbody>
+          {params}
+        </tbody>
+      </table>
+    );
+  }
 }

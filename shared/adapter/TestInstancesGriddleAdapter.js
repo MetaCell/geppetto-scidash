@@ -1,59 +1,49 @@
-import GriddleAdapter from './GriddleAdapter';
-import InitialStateService from '../../services/InitialStateService';
+import BaseAdapter from "./BaseAdapter";
+import InitialStateService from "../../services/InitialStateService";
 
-export default class TestInstancesAdapter extends GriddleAdapter{
+const LOCKED = "l";
 
-    getGriddleData(){
+export default class TestInstancesGriddleAdapter extends BaseAdapter {
 
-        let scoreData = [];
+  getGriddleData (){
 
-        for (let score of this.getScores()){
-            var testSuite = null;
+    let testsData = [];
 
-            if (score.test_instance.test_suites.length > 0){
-                testSuite = score.test_instance.test_suites[0].name;
-            }
+    for (let test of this.getRawData()){
 
-            let options = {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-                timeZone: 'UTC',
-                timeZoneName: 'short'
-            };
+      let options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      };
 
-            let fullDate = new Date(score.timestamp).toLocaleString('en-US', options);
-            let shortDate = new Date(score.timestamp).toLocaleString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+      let fullDate = new Date(test.timestamp).toLocaleString("en-US", options);
 
-            scoreData.push({
-                name: score.test_instance.test_class.class_name,
-                score: score,
-                score_type: score.score_type,
-                _sort_key: score.sort_key,
-                test_class: score.test_instance.test_class.class_name,
-                model: score.model_instance,
-                hostname: score.test_instance.hostname,
-                owner: score.owner.username,
-                build_info: score.test_instance.build_info,
-                timestamp: {full: fullDate, short: shortDate},
-                _timestamp: score.timestamp
-            });
+      testsData.push({
+        id: test.id,
+        scheduler_id: `${test.id}-test`,
+        name: test.name,
+        class: test.test_class.class_name,
+        tags: test.tags.map(item => item.name),
+        timestamp: fullDate,
+        owner: test.owner.username,
+        _timestamp: test.timestamp,
+        block: {
+          isBlocked: test.status == LOCKED,
+          testId: test.id
         }
-
-        if (scoreData.length == 0)
-            scoreData = new InitialStateService()
-                .getInitialStateTemplate()
-                .testInstances
-                .data;
-
-        return scoreData;
-
+      });
     }
+
+    if (testsData.length == 0) {
+      testsData = new InitialStateService()
+        .getInitialStateTemplate()
+        .testInstances
+        .data;
+    }
+
+    return testsData;
+
+  }
+
 }

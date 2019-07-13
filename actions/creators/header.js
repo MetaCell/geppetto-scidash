@@ -1,51 +1,57 @@
-import PagesService from "../../services/PagesService";
-export const TOGGLE_SETTINGS = 'TOGGLE_SETTINGS';
-export const HIDE_SETTINGS = 'HIDE_SETTINGS';
-export const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
-export const TOGGLE_COLOR_BLIND = 'TOGGLE_COLOR_BLIND';
-export const CHANGE_PAGE = 'CHANGE_PAGE';
-export const ACTIVATE_EDIT_MODEL = 'ACTIVATE_EDIT_MODEL';
-export const ACTIVATE_EDIT_TEST = 'ACTIVATE_EDIT_TEST';
+import { push } from "connected-react-router";
 
-export function toggleSettings(){
-    return {
-        type: TOGGLE_SETTINGS
-    };
-}
+export const TOGGLE_SETTINGS = "TOGGLE_SETTINGS";
 
-export function toggleColorBlind(){
-    return {
-        type: TOGGLE_COLOR_BLIND
-    };
-}
+export const HIDE_SETTINGS = "HIDE_SETTINGS";
+export const TOGGLE_DRAWER = "TOGGLE_DRAWER";
+export const TOGGLE_COLOR_BLIND = "TOGGLE_COLOR_BLIND";
+export const CHANGE_PAGE = "CHANGE_PAGE";
+export const TOGGLE_CREATE_MODEL = "TOGGLE_EDIT_MODEL";
+export const TOGGLE_CREATE_TEST = "TOGGLE_CREATE_TEST";
+export const CHANGE_PAGE_WITH_PARAMS = "CHANGE_PAGE_WITH_PARAMS";
 
-export function hideSettings(){
-    return {
-        type: HIDE_SETTINGS
-    };
-}
 
-export function toggleDrawer(){
+export function toggleSettings (){
   return {
-      type: TOGGLE_DRAWER
+    type: TOGGLE_SETTINGS
   };
 }
 
-export function changePage(page){
+export function toggleColorBlind (){
   return {
-      type: CHANGE_PAGE,
-      page
+    type: TOGGLE_COLOR_BLIND
   };
 }
 
-export function activateEditTest(){
+export function hideSettings (){
   return {
-      type: ACTIVATE_EDIT_TEST,
+    type: HIDE_SETTINGS
   };
 }
 
-export function activateEditModel(){
+export function toggleDrawer (){
   return {
-      type: ACTIVATE_EDIT_MODEL,
+    type: TOGGLE_DRAWER
+  };
+}
+
+export function changePage (page, dispatch){
+  dispatch(push(page));
+
+  return {
+    type: CHANGE_PAGE,
+    page
+  };
+}
+
+export function changePageWithParams (page, params, dispatch){
+  dispatch(push({
+    pathname: page,
+    state: params
+  }));
+
+  return {
+    type: CHANGE_PAGE_WITH_PARAMS,
+    page
   };
 }

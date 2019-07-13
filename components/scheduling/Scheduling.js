@@ -1,87 +1,144 @@
-import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import Checkbox from 'material-ui/Checkbox';
-import TextField from 'material-ui/TextField';
+import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
+import Checkbox from "material-ui/Checkbox";
+import TextField from "material-ui/TextField";
+import { Redirect } from "react-router-dom";
+import DDListContainer from "./DDListContainer";
+import CompatibilityTable from "./CompatibilityTable";
+import SchedulingApiService from "../../services/api/SchedulingApiService";
+import Loader from "../loader/Loader";
+import PagesService from "../../services/PagesService";
 
-import DDList from './DDList';
-import CustomTable from './CustomTable';
-
-
-const draggableData = [ // fake 
-  { type: 'tests', name: 'My first test', meta: 'Rheobase test', id: 0 }, 
-  { type: 'models', name: 'My first model', meta: 'Reduced model', id: 1 }, 
-  { type: 'tests', name: 'My second test', meta: 'VM test', id: 2 },
-  { type: 'models', name: 'My second model', meta: 'Reduced model', id: 3 }, 
-  { type: 'tests', name: 'My third test', meta: 'VM test', id: 4 }, 
-  { type: 'models', name: 'My third model', meta: 'Reduced model', id: 5 },
-]
 
 class Scheduling extends React.Component {
 
   constructor (props, context) {
     super(props, context);
+
     this.state = {
       saveSuites: false,
-      selectedTestIDs: [0],
-      selectedModelIDs: [1],
+      compatible: {},
+      showLoading: false,
+      scheduled: false,
       suitesName: `Suites_${new Date().toJSON().slice(0, 19)}`.replace(/[-:]/g, "_") // a default date set to today
-    }
-    
+    };
+
+    this.saveCompatible = this.saveCompatible.bind(this);
+
   }
 
-  getItemByID(ids){
-    return draggableData.filter(item => ids.includes(item.id))
+  componentWillMount () {
+    if (!this.props.user.isLogged) {
+      this.props.notLoggedRedirect();
+    }
   }
 
-  drop(dropData){
-    const { selectedTestIDs, selectedModelIDs } = this.state;
-    if (Object.keys(dropData).indexOf("tests") > -1) {
-      const index = parseInt(dropData.tests)
-      if (selectedTestIDs.indexOf(index) == -1) {
-        this.setState( oldState => ({ selectedTestIDs: [ ...oldState.selectedTestIDs, index] }) )
+  getItemByID (ids) {
+    return this.props.data.filter(item => ids.includes(item.scheduler_id));
+  }
+
+  async scheduleTests (matrix) {
+    this.setState({
+      showLoading: true
+    });
+
+    let payload = {
+      suiteName: this.state.saveSuites ? this.state.suitesName : "",
+      matrix,
+    };
+
+    let schedulingService = new SchedulingApiService();
+
+    schedulingService.clearCache(schedulingService.storage);
+
+    let result = await schedulingService.create(payload);
+
+    this.setState({
+      showLoading: false,
+      scheduled: true
+    });
+
+    this.props.clearScheduler();
+
+    return result;
+  }
+
+  saveCompatible (csvMatrix) {
+    let result = {};
+    let rows = csvMatrix.split(";");
+
+    let header = rows.shift();
+    header = header.split("|");
+    header.shift();
+    rows.pop();
+
+    for (let row of rows) {
+
+      row = row.split("|");
+      let modelName = row.shift();
+      let modelId = modelName.split("#")[1];
+
+      result[modelId] = [];
+
+      for (const [index, test] of header.entries()) {
+        let testId = test.split("#")[1];
+
+        if (row[index] == "TBD") {
+          result[modelId].push(parseInt(testId));
+        }
+
       }
     }
-    else {
-      const index = parseInt(dropData.models)
-      if (selectedModelIDs.indexOf(index) == -1) {
-        this.setState( oldState => ({ selectedModelIDs: [ ...oldState.selectedModelIDs, index] }) )
-      }
-    }
+
+    this.setState({
+      compatible: result
+    }, () => console.log(this.state.compatible));
+
+    return result;
+
   }
 
   render () {
-    const { saveSuites, suitesName, selectedTestIDs, selectedModelIDs } = this.state;
+    const { saveSuites, suitesName } = this.state;
+
+    const { choosedTests, choosedModels } = this.props;
+
+    let pagesService = new PagesService();
+
+    if (this.state.scheduled) return <Redirect to={pagesService.SCORES_PAGE} />;
+
     return (
       <span>
-        <DDList 
-          data={draggableData} // available tests and models
-          onDrop={dropData => this.drop(dropData)}
-          tests={this.getItemByID(selectedTestIDs)}   // selected tests
-          models={this.getItemByID(selectedModelIDs)} // selected models
-        />
-        
-        {selectedTestIDs.length > 0 && selectedModelIDs.length > 0 ?  
+        <DDListContainer />
+
+
+        {choosedModels.length > 0 && choosedTests.length > 0 ?
           <span>
-            <CustomTable  //renders a table with compatibility between selected tests and models
-              tests={this.getItemByID(selectedTestIDs)} 
-              models={this.getItemByID(selectedModelIDs)} 
+            <CompatibilityTable // renders a table with compatibility between selected tests and models
+              tests={this.getItemByID(choosedTests)}
+              models={this.getItemByID(choosedModels)}
+              onFinish={this.saveCompatible}
             />
             <div style={styles.saveContainer}>
-              <RaisedButton >Run tests</RaisedButton>
-              {saveSuites ?
-                <span style={styles.saveSubContainer}>
-                  <TextField
-                    value={suitesName}	
-                    style={styles.saveRoot}
-                    placeholder='Name the suites'
-                    floatingLabelText="Enter a name"
-                    onChange={e => this.setState({ suitesName: e.target.value })}
-                    onKeyPress={e => e.key === 'Enter' ? ()=>{} : null}
-                  />
-                </span> 
-                : null
-              }
+              <RaisedButton
+                onClick={() => this.scheduleTests(this.state.compatible)}
+              >
+                Run tests
+              </RaisedButton>
             </div>
+            {saveSuites ?
+              <div style={styles.saveSubContainer}>
+                <TextField
+                  value={suitesName}
+                  style={styles.saveRoot}
+                  placeholder='Name the suites'
+                  floatingLabelText="Enter a name"
+                  onChange={e => this.setState({ suitesName: e.target.value })}
+                  onKeyPress={e => e.key === "Enter" ? () => { } : null}
+                />
+              </div>
+              : null
+            }
             <div style={styles.checkboxContainer}>
               <Checkbox
                 checked={saveSuites}
@@ -91,40 +148,43 @@ class Scheduling extends React.Component {
               />
             </div>
           </span>
-          : null 
+          : null
         }
-      </span>	
-    )
+        {this.state.showLoading ? <Loader /> : ""}
+      </span>
+    );
   }
 }
 
-export default Scheduling
+export default Scheduling;
 
 const styles = {
-  saveContainer: { 
-    textAlign: 'center', 
-    marginTop: '35px', 
-    position: 'relative' 
+  saveContainer: {
+    textAlign: "center",
+    marginTop: "35px",
+    position: "relative"
   },
-  saveSubContainer: { 
-    position: 'absolute', 
-    marginLeft: '0px',
-    marginTop: '-26px' 
+  saveSubContainer: {
+    textAlign: "center",
+    marginTop: "0px",
+    position: "relative"
   },
   saveButton: {
-    display: 'inline-block'
+    display: "inline-block"
   },
-  saveRoot: { 
-    marginLeft: '10px', 
-    width: '200px' 
+  saveRoot: {
+    marginLeft: "10px",
+    width: "200px"
   },
   checkboxContainer: {
-    marginLeft: "auto", 
-    marginRight: "auto", 
-    textAlign: "center", 
+    marginLeft: "auto",
+    marginRight: "auto",
+    paddingLeft: "-20px",
+    paddingTop: "15px",
+    textAlign: "center",
     width: "160px"
   },
   checkbox: {
-    marginLeft: "20px"
+    marginLeft: "5px"
   }
 };

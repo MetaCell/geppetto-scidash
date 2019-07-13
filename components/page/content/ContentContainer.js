@@ -1,25 +1,20 @@
-import { connect } from 'react-redux';
-import Content from './Content';
+import { connect } from "react-redux";
+import Content from "./Content";
 
-const mapStateToProps = state => {
-    return {
-        activeView: state.global.activeView,
-        activePage: state.header.activePage,
-        editModelActive: state.header.editModelActive,
-        editTestActive: state.header.editTestActive
-    }
-}
+const mapStateToProps = state => ({
+  activeView: state.global.activeView,
+  activePage: state.header.activePage,
+  createModelActive: state.header.createModelActive,
+  createTestActive: state.header.createTestActive
+});
 
-const mapDispatchToProps = dispatch => {
-    return {
-    }
-}
+const mapDispatchToProps = () => ({
+});
 
 const ScidashContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Content)
+  mapStateToProps,
+  mapDispatchToProps
+)(Content);
 
 
 export default ScidashContainer;
-
