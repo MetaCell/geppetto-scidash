@@ -132,12 +132,20 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="name"
               title="Name"
-              sortMethod={this.props.sortScore}
               customComponent={props => (
                 <TestDetailLinkColumnContainer
                   {...props}
                 />
               )}
+              customHeadingComponent={props => (
+                <FilterCellContainer
+                  autoCompleteData={this.props.autoCompleteData}
+                  namespace={Config.instancesNamespace}
+                  onFilterUpdate={this.onFilterUpdate}
+                  filterName="name"
+                  {...props}
+                />
+                )}
               order={1}
             />
             <ColumnDefinition

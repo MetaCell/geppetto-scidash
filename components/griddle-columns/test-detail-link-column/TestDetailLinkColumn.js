@@ -45,28 +45,15 @@ export default class TestDetailLinkColumn extends React.Component {
 
     return (
       <div>
-        <div style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          background: this.props.background,
-          bottom: "0px",
-          right: "12px"
-        }}
-        />
-        <div style={{
-          textAlign: "center",
-          position: "relative",
-          right: "20px"
-        }}
-        >
           <a
             onClick={this.openTestDetail}
             style={{
               cursor: "pointer",
             }}
           >
-            {this.props.testInstanceObject.get("test_class").get("class_name")}
+            {this.props.testInstanceObject !== undefined
+              ? this.props.testInstanceObject.get("test_class").get("class_name")
+              : undefined}
           </a>
           <Dialog
             actions={actions}
@@ -81,7 +68,6 @@ export default class TestDetailLinkColumn extends React.Component {
           >
             <TestDetailsContainer testInstance={this.props.testInstanceObject} />
           </Dialog>
-        </div>
       </div>
     );
   }
