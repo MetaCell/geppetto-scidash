@@ -77,7 +77,7 @@ export default class ModelViewDetails extends React.Component {
          : undefined}
       </p>
       <p><strong>Class source: </strong>
-        {(this.props.modelInstance.get("modelClass").get("import_path") !== undefined) 
+        {(this.props.modelInstance.get("modelClass") !== undefined) 
           ? this.props.modelInstance.get("modelClass").get("import_path")
           : undefined}
       </p>
