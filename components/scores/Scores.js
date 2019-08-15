@@ -8,6 +8,7 @@ import Griddle, {
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
 import ScoreDetailLinkColumnContainer from "../griddle-columns/score-detail-link-column/ScoreDetailLinkColumnContainer";
 import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link-column/ModelDetailLinkColumnContainer";
+import TestDetailLinkColumnContainer from "../griddle-columns/test-detail-link-column/TestDetailLinkColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 import Config from "../../shared/Config";
 
@@ -94,10 +95,18 @@ export default class Scores extends React.Component {
 
     pageProperties.currentPage = this.state.page;
 
+    // This will be removed - this.props.data needs to be refactored rom the
+    // services/state/ScoreInitialEtc, the initial template must return an object for name
+    // plus the backend part that needs to return the test instance object for the name.
+    var griddleData = this.props.data.map(function(item) {
+      item.name = item.score.test_instance;
+      return item;
+    });
+
     return (
       <div>
         <Griddle
-          data={this.props.data}
+          data={griddleData}
           components={this.props.griddleComponents}
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
@@ -123,7 +132,11 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="name"
               title="Name"
-              customComponent={CustomScoreName}
+              customComponent={props => (
+                <TestDetailLinkColumnContainer
+                  {...props}
+                />
+              )}
               customHeadingComponent={props => (
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
@@ -132,7 +145,7 @@ export default class Scores extends React.Component {
                   filterName="name"
                   {...props}
                 />
-              )}
+                )}
               order={1}
             />
             <ColumnDefinition
