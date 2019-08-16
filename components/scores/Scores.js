@@ -30,6 +30,7 @@ export default class Scores extends React.Component {
     this.username = this.props.user.isLogged
       ? this.props.user.userObject.username
       : "";
+    this.griddleData = undefined;
 
     this.state = {
       intervalId: null,
@@ -64,6 +65,14 @@ export default class Scores extends React.Component {
         intervalId: setInterval(this.props.updateScores, 5000)
       });
     }
+
+    // This will be removed - this.props.data needs to be refactored rom the
+    // services/state/ScoreInitialEtc, the initial template must return an object for name
+    // plus the backend part that needs to return the test instance object for the name.
+    this.griddleData = this.props.data.map(function(item) {
+      item.name = item.score.test_instance;
+      return item;
+    });
   }
 
   componentDidMount () {
@@ -75,6 +84,15 @@ export default class Scores extends React.Component {
   componentWillUnmount () {
     if (this.state.intervalId !== null) {
       clearInterval(this.state.intervalId);
+    }
+  }
+
+  componentWillUpdate (nextProps, nextState) {
+    if(this.props.data.length !== nextProps.data.length) {
+      this.griddleData = nextProps.data.map(function(item) {
+        item.name = item.score.test_instance;
+        return item;
+      });
     }
   }
 
@@ -95,18 +113,10 @@ export default class Scores extends React.Component {
 
     pageProperties.currentPage = this.state.page;
 
-    // This will be removed - this.props.data needs to be refactored rom the
-    // services/state/ScoreInitialEtc, the initial template must return an object for name
-    // plus the backend part that needs to return the test instance object for the name.
-    var griddleData = this.props.data.map(function(item) {
-      item.name = item.score.test_instance;
-      return item;
-    });
-
     return (
       <div>
         <Griddle
-          data={griddleData}
+          data={this.griddleData}
           components={this.props.griddleComponents}
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
