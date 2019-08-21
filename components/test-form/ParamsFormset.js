@@ -85,6 +85,7 @@ export default class ParamsFormset extends React.Component {
           schema={this.state.schemaList[this.state.choosedForm]}
           onChange={this.props.onChange}
           model={this.props.model}
+          default_params={this.props.default_params}
           disabled={this.props.disabled}
         />
 

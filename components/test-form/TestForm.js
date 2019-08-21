@@ -216,6 +216,7 @@ export default class TestForm extends React.Component {
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.observation_schema}
+              default_params={this.state.model.test_class.default_params}
               unitsMap={this.state.model.getObservationUnitsMap()}
               onChange={observation => {
                 this.updateModel({
@@ -236,6 +237,7 @@ export default class TestForm extends React.Component {
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.test_parameters_schema}
+              default_params={this.state.model.test_class.default_params}
               unitsMap={this.state.model.getParamsUnitsMap()}
               onChange={params => {
                 this.updateModel({

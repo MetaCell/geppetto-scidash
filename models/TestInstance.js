@@ -21,13 +21,13 @@ export default class TestInstance extends BaseModel {
     this.rules = {
       name: [Validator.required],
       observation: [Validator.requiredAll],
-      params: [Validator.requiredAll],
+      params: [Validator.requiredParams],
     };
 
     this.validationMessages = {
       "required-name": "Name is required",
       "requiredAll-observation": "Missed observations :info",
-      "requiredAll-params": "Missed parameters :info",
+      "requiredParams-params": "Missed parameters :info",
     };
 
 
