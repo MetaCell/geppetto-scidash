@@ -8,7 +8,6 @@ import Griddle, {
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
 import ScoreDetailLinkColumnContainer from "../griddle-columns/score-detail-link-column/ScoreDetailLinkColumnContainer";
 import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link-column/ModelDetailLinkColumnContainer";
-import TestDetailLinkColumnContainer from "../griddle-columns/test-detail-link-column/TestDetailLinkColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 import Config from "../../shared/Config";
 
@@ -30,7 +29,6 @@ export default class Scores extends React.Component {
     this.username = this.props.user.isLogged
       ? this.props.user.userObject.username
       : "";
-    this.griddleData = undefined;
 
     this.state = {
       intervalId: null,
@@ -62,17 +60,9 @@ export default class Scores extends React.Component {
     }
     if (this.state.intervalId === null) {
       this.setState({
-        intervalId: setInterval(this.props.updateScores, 5000)
+        intervalId: setInterval(this.props.updateScores, 15000)
       });
     }
-
-    // This will be removed - this.props.data needs to be refactored rom the
-    // services/state/ScoreInitialEtc, the initial template must return an object for name
-    // plus the backend part that needs to return the test instance object for the name.
-    this.griddleData = this.props.data.map(function(item) {
-      item.name = item.score.test_instance;
-      return item;
-    });
   }
 
   componentDidMount () {
@@ -84,15 +74,6 @@ export default class Scores extends React.Component {
   componentWillUnmount () {
     if (this.state.intervalId !== null) {
       clearInterval(this.state.intervalId);
-    }
-  }
-
-  componentWillUpdate (nextProps, nextState) {
-    if(this.props.data.length !== nextProps.data.length) {
-      this.griddleData = nextProps.data.map(function(item) {
-        item.name = item.score.test_instance;
-        return item;
-      });
     }
   }
 
@@ -116,7 +97,7 @@ export default class Scores extends React.Component {
     return (
       <div>
         <Griddle
-          data={this.griddleData}
+          data={this.props.data}
           components={this.props.griddleComponents}
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
@@ -142,11 +123,7 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="name"
               title="Name"
-              customComponent={props => (
-                <TestDetailLinkColumnContainer
-                  {...props}
-                />
-              )}
+              customComponent={CustomScoreName}
               customHeadingComponent={props => (
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
@@ -155,7 +132,7 @@ export default class Scores extends React.Component {
                   filterName="name"
                   {...props}
                 />
-                )}
+              )}
               order={1}
             />
             <ColumnDefinition

@@ -68,6 +68,32 @@ const Validator = {
     return finalResult;
   },
 
+  requiredParams: (model, key) => {
+    if (Object.entries(model[key]).length == 0){
+      return {
+        success: false,
+        additionalInfo: ""
+      };
+    }
+
+    let result = [];
+
+    Object.entries(model[key]).map(value => {
+      if (!model.test_class.test_parameters_schema[value[0]].required) {
+        result.push([true, value[0]]);
+      } else {
+        result.push([required(value[1]).success, value[0]]);  
+      }
+    });
+
+    let finalResult = {
+      success: result.reduce((prev, current) => prev && current[0]),
+      additionalInfo: result.filter(value => !value[0]).map(value => value[1]).join(", ")
+    };
+
+    return finalResult;
+  },
+
   url: (model, key) => url(model[key]),
 
   numberAll: (model, key) => {
