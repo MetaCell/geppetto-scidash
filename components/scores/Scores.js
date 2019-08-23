@@ -60,7 +60,7 @@ export default class Scores extends React.Component {
     }
     if (this.state.intervalId === null) {
       this.setState({
-        intervalId: setInterval(this.props.updateScores, 5000)
+        intervalId: setInterval(this.props.updateScores, 15000)
       });
     }
   }
