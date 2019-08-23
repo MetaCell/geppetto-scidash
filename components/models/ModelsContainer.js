@@ -62,6 +62,8 @@ const mapStateToProps = state => ({
   }],
   showLoading: state.scores.showLoading,
   user: state.user,
+  scores: state.scores.data,
+  modelClasses: state.modelClasses.data
 });
 
 

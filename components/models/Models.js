@@ -7,6 +7,9 @@ import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 import Config from "../../shared/Config";
 import Loader from "../loader/Loader";
 import { CustomMenu, CustomTagComponent } from "./partial";
+import _ from 'lodash';
+import ModelViewDetailsContainer from "../griddle-columns/model-view-details/ModelViewDetailsContainer";
+
 
 export default class Models extends React.Component {
 
@@ -15,6 +18,7 @@ export default class Models extends React.Component {
     this.props = props;
 
     this.username = this.props.user.isLogged ? this.props.user.userObject.username : "";
+    this.griddleData = [];
   }
 
   componentWillMount () {
@@ -23,10 +27,45 @@ export default class Models extends React.Component {
     } else {
       this.props.notLoggedRedirect();
     }
+
+    // This will be removed - this.props.data needs to be refactored rom the
+    // services/state/ScoreInitialEtc, the initial template must return an object for name
+    // plus the backend part that needs to return the test instance object for the name.
+    for ( var i = 0; i < this.props.data.length; i++) {
+      let griddleItem = _.clone(this.props.data[i]);
+      let newItem = _.clone(this.props.data[i]);
+      griddleItem.nameLink = this.props.data[i].name;
+      for ( var j=0; j < this.props.modelClasses.length; j++) {
+        if (this.props.modelClasses[j].class_name === this.props.data[i].class) {
+          griddleItem.modelClass = this.props.modelClasses[j];
+        }
+      }
+      newItem.name = griddleItem;
+      this.griddleData.push(newItem);
+    }
+  }
+
+  componentWillUpdate (nextProps, nextState) {
+    if(this.props.data.length !== nextProps.data.length) {
+      this.griddleData = [];
+      for ( var i = 0; i < nextProps.data.length; i++) {
+      let griddleItem = _.clone(nextProps.data[i]);
+      let newItem = _.clone(nextProps.data[i]);
+      griddleItem.nameLink = nextProps.data[i].name;
+      for ( var j=0; j < this.props.modelClasses.length; j++) {
+        if (this.props.modelClasses[j].class_name === nextProps.data[i].class) {
+          griddleItem.modelClass = nextProps.modelClasses[j];
+        }
+      }
+      newItem.name = griddleItem;
+      this.griddleData.push(newItem);
+    }
+    }
   }
 
   render (){
     const { toggleCreateModel } = this.props;
+
     return (
       <div>
         <IconButton
@@ -37,7 +76,7 @@ export default class Models extends React.Component {
           style={{ float: "right", borderRadius: "40px", backgroundColor: brown500 }}
         />
         <Griddle
-          data={this.props.data}
+          data={this.griddleData}
           components={this.props.griddleComponents}
           plugins={[plugins.LocalPlugin]}
           styleConfig={this.props.styleConfig}
@@ -48,6 +87,11 @@ export default class Models extends React.Component {
             <ColumnDefinition
               id="name"
               title="Name"
+              customComponent={props => (
+                <ModelViewDetailsContainer
+                  {...props}
+                />
+              )}
               customHeadingComponent={props => (<FilterCellContainer
                 autoCompleteData={this.props.autoCompleteData}
                 namespace={Config.modelInstancesNamespace}

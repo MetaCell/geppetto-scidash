@@ -8,6 +8,7 @@ export default class ParamsForm extends React.Component {
 
     this.props = props;
     this.state = {
+      default_params: this.props.default_params,
       model:
         this.props.model === undefined
           ? this.transformSchemaToModel()
@@ -42,6 +43,7 @@ export default class ParamsForm extends React.Component {
       );
     }
   }
+
 
   getIterable (){
     let iterable = [];
@@ -78,7 +80,13 @@ export default class ParamsForm extends React.Component {
 
     let result = {};
     for (let key of Object.keys(schema)) {
-      result[key] = "";
+      if(this.props.default_params !== null &&
+         this.props.default_params !== undefined && 
+         this.props.default_params[key] !== undefined) {
+        result[key] = this.props.default_params[key];
+      } else {
+        result[key] = "";  
+      }
     }
 
     return result;
