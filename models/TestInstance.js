@@ -26,8 +26,8 @@ export default class TestInstance extends BaseModel {
 
     this.validationMessages = {
       "required-name": "Name is required",
-      "requiredAll-observation": "Missed observations :info",
-      "requiredParams-params": "Missed parameters :info",
+      "requiredAll-observation": "Missing observations :info",
+      "requiredParams-params": "Missing parameters :info",
     };
 
 
