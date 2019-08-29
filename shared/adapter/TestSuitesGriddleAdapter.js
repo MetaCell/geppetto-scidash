@@ -27,40 +27,53 @@ export default class TestSuitesGriddleAdapter extends BaseAdapter {
     };
 
     for (let score of this.getRawData()) {
-      let suiteHash = score.test_instance.test_suites[0].hash;
-      let suiteObject = score.test_instance.test_suites[0];
-      let suiteTimestamp = score.test_instance.test_suites[0].timestamp;
-      let modelInstanceName = score.model_instance.name;
-      let modelSuiteKey = suiteHash + "_" + modelInstanceName;
+      for (let suite of score.test_instance.test_suites) {
+        let suiteHash = suite.hash;
+        let suiteTimestamp = suite.timestamp;
+        let modelSuiteKey = suiteHash + "_" + score.model_instance.hash_id;
 
-      if (!(modelSuiteKey in result)) {
-        result[modelSuiteKey] = {};
-      }
+        if (!(modelSuiteKey in result)) {
+          result[modelSuiteKey] = {};
+        }
 
-      result[modelSuiteKey]["suite"] = suiteHash;
-      result[modelSuiteKey]["suiteObject"] = suiteObject;
-      result[modelSuiteKey]["model"] = score.model_instance;
+        result[modelSuiteKey]["suite"] = suiteHash;
+        result[modelSuiteKey]["suiteObject"] = suite;
+        result[modelSuiteKey]["model"] = score.model_instance;
 
-      if (!("avgScore" in result[modelSuiteKey])) {
-        result[modelSuiteKey]["avgScore"] = {
-          value: null,
-          scoreList: []
+        if (!("avgScore" in result[modelSuiteKey])) {
+          result[modelSuiteKey]["avgScore"] = {
+            value: null,
+            scoreList: []
+          };
+        }
+
+        result[modelSuiteKey]["avgScore"]["scoreList"].push(score);
+
+        let tests = [];
+        for (let score of result[modelSuiteKey]["avgScore"]["scoreList"]) {
+          if (!tests.includes(score.test_instance.hash_id)) {
+            tests.push(score.test_instance.hash_id);
+          }
+        }
+
+        result[modelSuiteKey]["testsCount"] = tests.length;
+
+        let fullDate = new Date(suiteTimestamp).toLocaleString(
+          "en-US",
+          options
+        );
+        let shortDate = new Date(suiteTimestamp).toLocaleString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+
+        result[modelSuiteKey]["timestamp"] = {
+          full: fullDate,
+          short: shortDate
         };
+        result[modelSuiteKey]["_timestamp"] = suiteTimestamp;
       }
-
-      result[modelSuiteKey]["avgScore"]["scoreList"].push(score);
-      result[modelSuiteKey]["testsCount"] =
-        result[modelSuiteKey]["avgScore"]["scoreList"].length;
-
-      let fullDate = new Date(suiteTimestamp).toLocaleString("en-US", options);
-      let shortDate = new Date(suiteTimestamp).toLocaleString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      });
-
-      result[modelSuiteKey]["timestamp"] = { full: fullDate, short: shortDate };
-      result[modelSuiteKey]["_timestamp"] = suiteTimestamp;
     }
 
     let list = Object.values(result);
