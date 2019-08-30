@@ -47,7 +47,20 @@ export default class TestSuitesGriddleAdapter extends BaseAdapter {
           };
         }
 
-        result[modelSuiteKey]["avgScore"]["scoreList"].push(score);
+        if ((suiteHash + "_" + score.model_instance.hash_id) == modelSuiteKey){
+          let usedTest = false;
+
+          for (let usedScore of result[modelSuiteKey]["avgScore"]["scoreList"] )
+          {
+            if (usedScore.test_instance.hash_id == score.test_instance.hash_id){
+              usedTest = true;
+            }
+          }
+
+          if (!usedTest){
+            result[modelSuiteKey]["avgScore"]["scoreList"].push(score);
+          }
+        }
 
         let tests = [];
         for (let score of result[modelSuiteKey]["avgScore"]["scoreList"]) {
