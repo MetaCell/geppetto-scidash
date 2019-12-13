@@ -84,7 +84,11 @@ export default class InitialStateService {
 
       if (!this.initialState.user.isLogged){
         filteringS.setupFilters({
-          status: "c"
+          status: "c",
+        }, scoresNamespace, false);
+      } else {
+        filteringS.setupFilters({
+          owner: this.initialState.user.userObject.username
         }, scoresNamespace, false);
       }
 

@@ -10,6 +10,8 @@ import ScoreDetailLinkColumnContainer from "../griddle-columns/score-detail-link
 import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link-column/ModelDetailLinkColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 import Config from "../../shared/Config";
+import FilteringService from "../../services/FilteringService";
+
 
 import {
   CustomScoreName,
@@ -26,14 +28,12 @@ export default class Scores extends React.Component {
     super(props, context);
 
     this.props = props;
-    this.username = this.props.user.isLogged
-      ? this.props.user.userObject.username
-      : "";
+    let filteringService = FilteringService.getInstance();
 
     this.state = {
       intervalId: null,
       page: 1,
-      sortProperties: this.props.sortProperties
+      sortProperties: this.props.sortProperties,
     };
 
     this.setPage = this.setPage.bind(this);
@@ -55,9 +55,6 @@ export default class Scores extends React.Component {
   }
 
   componentWillMount () {
-    if (this.props.user.isLogged) {
-      this.props.onFilterUpdate(this.username, "owner");
-    }
     if (this.state.intervalId === null) {
       this.setState({
         intervalId: setInterval(this.props.updateScores, 15000)
@@ -205,7 +202,6 @@ export default class Scores extends React.Component {
                   namespace={Config.instancesNamespace}
                   onFilterUpdate={this.onFilterUpdate}
                   filterName="owner"
-                  value={this.username}
                   {...props}
                 />
               )}
