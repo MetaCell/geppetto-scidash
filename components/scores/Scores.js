@@ -10,7 +10,6 @@ import ScoreDetailLinkColumnContainer from "../griddle-columns/score-detail-link
 import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link-column/ModelDetailLinkColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 import Config from "../../shared/Config";
-import FilteringService from "../../services/FilteringService";
 
 
 import {
@@ -28,7 +27,6 @@ export default class Scores extends React.Component {
     super(props, context);
 
     this.props = props;
-    let filteringService = FilteringService.getInstance();
 
     this.state = {
       intervalId: null,
