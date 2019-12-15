@@ -14,6 +14,7 @@ export default class TestSuitesInitialStateService extends BaseInitialStateServi
           avgScore: [],
           testsCount: "",
           model: {},
+          owner: "",
           timestamp: " ",
           _timestamp: " "
         }
@@ -29,6 +30,7 @@ export default class TestSuitesInitialStateService extends BaseInitialStateServi
         avgScore: [],
         testsCount: [],
         model: [],
+        owner: [],
         timestamp: [],
         _timestamp: []
       }

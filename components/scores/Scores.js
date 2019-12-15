@@ -10,7 +10,7 @@ import ScoreDetailLinkColumnContainer from "../griddle-columns/score-detail-link
 import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link-column/ModelDetailLinkColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 import Config from "../../shared/Config";
-
+import FilteringService from "../../services/FilteringService";
 
 import {
   CustomScoreName,
@@ -58,6 +58,9 @@ export default class Scores extends React.Component {
         intervalId: setInterval(this.props.updateScores, 15000)
       });
     }
+    let filteringService = FilteringService.getInstance();
+    const username = filteringService.getFilter("owner", Config.scoresNamespace);
+    this.props.onFilterUpdate(username, "owner");
   }
 
   componentDidMount () {

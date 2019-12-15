@@ -39,6 +39,7 @@ export default class TestSuitesGriddleAdapter extends BaseAdapter {
         result[modelSuiteKey]["suite"] = suiteHash;
         result[modelSuiteKey]["suiteObject"] = suite;
         result[modelSuiteKey]["model"] = score.model_instance;
+        result[modelSuiteKey]["owner"] = score.owner.username;
 
         if (!("avgScore" in result[modelSuiteKey])) {
           result[modelSuiteKey]["avgScore"] = {

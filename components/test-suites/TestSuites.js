@@ -14,6 +14,7 @@ import ScidashTimestampColumn from "./partials";
 import SuiteNameLinkColumnContainer from "../griddle-columns/suite-name-link-column/SuiteNameLinkColumnContainer";
 import AvgScoreDetailLinkColumnContainer from "../griddle-columns/avg-score-detail-link-column/AvgScoreDetailLinkColumnContainer";
 import Config from "../../shared/Config";
+import FilteringService from "../../services/FilteringService";
 
 import Loader from "../loader/Loader";
 
@@ -21,6 +22,12 @@ export default class TestSuites extends React.Component {
   constructor (props, context) {
     super(props, context);
     this.props = props;
+  }
+
+  componentWillMount() {
+    let filteringService = FilteringService.getInstance();
+    const username = filteringService.getFilter("owner", Config.scoresNamespace);
+    this.props.onFilterUpdate(username, "owner");
   }
 
   render () {
@@ -93,6 +100,20 @@ export default class TestSuites extends React.Component {
               order={4}
             />
             <ColumnDefinition
+              id="owner"
+              title="Owner"
+              customHeadingComponent={props => (
+                <FilterCellContainer
+                  autoCompleteData={this.props.autoCompleteData}
+                  namespace={Config.scoresNamespace}
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  filterName="owner"
+                  {...props}
+                />
+              )}
+              order={8}
+            />
+            <ColumnDefinition
               id="timestamp"
               width="100px"
               sortMethod={this.props.sortTimestamp}
@@ -101,7 +122,7 @@ export default class TestSuites extends React.Component {
               customHeadingComponent={props => (
                 <DateRangeCellContainer
                   onFilterUpdate={this.props.onFilterUpdate}
-                  namespace={Config.suiteNamespace}
+                  namespace={Config.scoresNamespace}
                   dateFilterChanged={this.props.dateFilterChanged}
                   onDateFilterClear={this.props.onDateFilterClear}
                   {...props}
