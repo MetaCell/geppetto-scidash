@@ -58,9 +58,7 @@ export default class Scores extends React.Component {
         intervalId: setInterval(this.props.updateScores, 15000)
       });
     }
-    let filteringService = FilteringService.getInstance();
-    const username = filteringService.getFilter("owner", Config.scoresNamespace);
-    this.props.onFilterUpdate(username, "owner");
+    FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
   }
 
   componentDidMount () {
@@ -200,7 +198,7 @@ export default class Scores extends React.Component {
               customHeadingComponent={props => (
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
-                  namespace={Config.instancesNamespace}
+                  namespace={Config.globalNamespace}
                   onFilterUpdate={this.onFilterUpdate}
                   filterName="owner"
                   {...props}
@@ -246,7 +244,7 @@ export default class Scores extends React.Component {
               customHeadingComponent={props => (
                 <DateRangeCellContainer
                   onFilterUpdate={this.props.onFilterUpdate}
-                  namespace={Config.instancesNamespace}
+                  namespace={Config.globalNamespace}
                   dateFilterChanged={this.props.dateFilterChanged}
                   onDateFilterClear={this.props.onDateFilterClear}
                   {...props}

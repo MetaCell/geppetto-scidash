@@ -73,12 +73,10 @@ export default class InitialStateService {
 
       const period = await this.countPeriod();
 
-      for (let namespace of [suitesNamespace, scoresNamespace]){
-        filteringS.setupFilters({
+      filteringS.setupFilters({
           timestamp_to: period.current_date,
           timestamp_from: period.acceptable_period
-        }, namespace, true);
-      }
+      }, Config.globalNamespace, true);
 
       this.initialState.user = await new UserInitialStateService().generateInitialState();
 
@@ -89,7 +87,7 @@ export default class InitialStateService {
       } else {
         filteringS.setupFilters({
           owner: this.initialState.user.userObject.username
-        }, scoresNamespace, false);
+        }, Config.globalNamespace, false);
       }
 
       filteringS.extractFiltersFromQueryString(location.search, scoresNamespace);

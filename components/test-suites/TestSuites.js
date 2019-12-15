@@ -25,9 +25,7 @@ export default class TestSuites extends React.Component {
   }
 
   componentWillMount() {
-    let filteringService = FilteringService.getInstance();
-    const username = filteringService.getFilter("owner", Config.scoresNamespace);
-    this.props.onFilterUpdate(username, "owner");
+    FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
   }
 
   render () {
@@ -58,7 +56,7 @@ export default class TestSuites extends React.Component {
               customHeadingComponent={props => (
                 <FilterCellContainer
                   filterName="suite_name"
-                  namespace={Config.suiteNamespace}
+                  namespace={Config.suitesNamespace}
                   onFilterUpdate={this.props.onFilterUpdate}
                   autoCompleteData={this.props.autoCompleteData}
                   {...props}
@@ -91,7 +89,7 @@ export default class TestSuites extends React.Component {
               customHeadingComponent={props => (
                 <FilterCellContainer
                   filterName="model"
-                  namespace={Config.suiteNamespace}
+                  namespace={Config.suitesNamespace}
                   onFilterUpdate={this.props.onFilterUpdate}
                   autoCompleteData={this.props.autoCompleteData}
                   {...props}
@@ -105,7 +103,7 @@ export default class TestSuites extends React.Component {
               customHeadingComponent={props => (
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
-                  namespace={Config.scoresNamespace}
+                  namespace={Config.globalNamespace}
                   onFilterUpdate={this.props.onFilterUpdate}
                   filterName="owner"
                   {...props}
@@ -122,7 +120,7 @@ export default class TestSuites extends React.Component {
               customHeadingComponent={props => (
                 <DateRangeCellContainer
                   onFilterUpdate={this.props.onFilterUpdate}
-                  namespace={Config.scoresNamespace}
+                  namespace={Config.globalNamespace}
                   dateFilterChanged={this.props.dateFilterChanged}
                   onDateFilterClear={this.props.onDateFilterClear}
                   {...props}

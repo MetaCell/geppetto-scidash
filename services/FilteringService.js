@@ -23,6 +23,7 @@ export default class FilteringService {
     }
 
     setupFilter (key, value, namespace = Config.scoresNamespace, initial = false, writeToStorage = true){
+        console.log(namespace);
       if (Config.bannedFilters[namespace].includes(key)){
         console.warn(`${key} is banned for namespace '${namespace}'`);
         return this;
@@ -55,6 +56,15 @@ export default class FilteringService {
         }
       }
       return this;
+    }
+
+    setFromGLobalFilters (dispatch) {
+      const globalFilterNames = ["owner", "timestamp_from", "timestamp_to"];
+      for(let index in globalFilterNames){
+        const filterName =  globalFilterNames[index];
+        const filterValue = this.getFilter(filterName, Config.globalNamespace);
+        dispatch(filterValue, filterName);
+      }
     }
 
     setupFilters (filters = {}, namespace = null, initial = false){

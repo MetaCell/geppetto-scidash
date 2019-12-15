@@ -14,9 +14,9 @@ export function dateFilterChanged (state, action) {
 export function dateFilterClear (state, action) {
   let filteringService = FilteringService.getInstance();
 
-  filteringService.restoreFromInitial(Config.suiteNamespace);
+  filteringService.restoreFromInitial(Config.suitesNamespace);
 
-  for (let entry of Object.entries(filteringService.getFilters(Config.suiteNamespace))) {
+  for (let entry of Object.entries(filteringService.getFilters(Config.suitesNamespace))) {
     action.filter(entry[1], entry[0], action.dispatch, true);
   }
 
