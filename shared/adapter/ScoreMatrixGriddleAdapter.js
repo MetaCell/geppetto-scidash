@@ -33,9 +33,7 @@ export default class ScoreMatrixGriddleAdapter extends BaseAdapter {
     let suiteHashes = new Set();
 
     for (let score of this.getRawData()) {
-      for (let suite of score.test_instance.test_suites){
-        suiteHashes.add(suite.hash);
-      }
+      suiteHashes.add(score.test_instance.test_suites[0].hash);
     }
 
     for (let hash of suiteHashes) {
@@ -49,29 +47,27 @@ export default class ScoreMatrixGriddleAdapter extends BaseAdapter {
         ]
       };
       for (let score of this.getRawData()) {
-        for (let suite of score.test_instance.test_suites){
-          if (hash != suite.hash) {
-            continue;
-          }
-
-          let modelInstanceName = score.model_instance.name;
-          let modelInstanceId = score.model_instance.id;
-          let testHashId = score.test_instance.hash_id;
-          let modelKey = `${modelInstanceName}_${modelInstanceId}`;
-
-          if (this.hiddenModels.includes(modelKey)) {
-            continue;
-          }
-
-          if (!(modelKey in scoreMatrix.rows)) {
-            scoreMatrix.rows[modelKey] = {
-              title: modelInstanceName,
-              info: new Map()
-            };
-          }
-
-          scoreMatrix.rows[modelKey]["info"].set(testHashId, score);
+        if (hash != score.test_instance.test_suites[0].hash) {
+          continue;
         }
+
+        let modelInstanceName = score.model_instance.name;
+        let modelInstanceId = score.model_instance.id;
+        let testHashId = score.test_instance.hash_id;
+        let modelKey = `${modelInstanceName}_${modelInstanceId}`;
+
+        if (this.hiddenModels.includes(modelKey)) {
+          continue;
+        }
+
+        if (!(modelKey in scoreMatrix.rows)) {
+          scoreMatrix.rows[modelKey] = {
+            title: modelInstanceName,
+            info: new Map()
+          };
+        }
+
+        scoreMatrix.rows[modelKey]["info"].set(testHashId, score);
       }
 
       let biggestRow = new Map();

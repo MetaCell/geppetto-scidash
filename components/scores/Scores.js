@@ -160,7 +160,7 @@ export default class Scores extends React.Component {
                   autoCompleteData={this.props.autoCompleteData}
                   namespace={Config.instancesNamespace}
                   onFilterUpdate={this.onFilterUpdate}
-                  filterName="score_class"
+                  filterName="score_type"
                   {...props}
                 />
               )}
