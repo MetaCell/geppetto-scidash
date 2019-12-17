@@ -35,6 +35,7 @@ export default class DateRangeCell extends React.Component {
                         <DatePicker
                             hintText="From"
                             title="From"
+                            onClick={this.props.stopPropagation}
                             ref={(instance) => this.fromDatePicker = instance}
                             className="scidash-materialui-field"
                             style={this.props.styleWrapper}
@@ -44,7 +45,7 @@ export default class DateRangeCell extends React.Component {
                         />
                     </div>
 
-                    <div id="ToDatePicker" className="date-range-tooltip" title="To" onClick={function(){self.toDatePicker.openDialog();}}>
+                    <div id="toDatePicker" className="date-range-tooltip" title="To" onClick={function(){self.toDatePicker.openDialog();}}>
                         <DatePicker
                             hintText="To"
                             title="To"
