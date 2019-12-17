@@ -11,9 +11,9 @@ const testScoresURL = scidashURL + '/?timestamp_to=2018-07-12&timestamp_from=201
  */
 describe('Scidash Main Page Tests', () => {
 	beforeAll(async () => {
-		jest.setTimeout(60000); 
+		jest.setTimeout(60000);
+		await page.setViewport({ width: 1280, height: 800 })
 		await page.goto(scidashURL);
-
 	});
 
 	//Tests components in landing page are present
@@ -77,6 +77,7 @@ describe('Scidash Main Page Tests', () => {
 		})
 
 		it('Sidebar Component Closed', async () => {
+			await page.waitFor(3000);
 			await click(page, 'span#hamMenuScores');
 			await wait4selector(page, 'span#hamMenuScores', { visible: false })
 		})
@@ -87,7 +88,6 @@ describe('Scidash Test Scores and Suites View', () => {
 	beforeAll(async () => {
 		jest.setTimeout(60000); 
 		await page.goto(testScoresURL);
-
 	});
 
 	//Tests components in landing page are present
@@ -168,6 +168,7 @@ describe('Scidash Test Scores and Suites View', () => {
 		})
 
 		it('Next Page in Test Scores Loaded', async () => {
+			await page.waitFor(2000);
 			await click(page, 'button#nextPage');
 			await wait4selector(page, 'button#previousPage', { visible: true })
 		})
@@ -178,6 +179,7 @@ describe('Scidash Test Scores and Suites View', () => {
 		})
 		
 		it('Previous Page in Test Scores Loaded', async () => {
+			await page.waitFor(2000);
 			await click(page, 'button#previousPage');
 			await wait4selector(page, 'button#nextPage', { visible: true })
 		})
@@ -196,7 +198,7 @@ describe('Scidash Test Scores and Suites View', () => {
 	})
 
 	//Tests components in landing page are present
-	describe('Test Suites View', () => {
+	describe('Test Suites Scores View', () => {
 		it('Sidebar Component Opened, "Suites scores" Present', async () => {
 			await click(page, 'button#hamMenu');
 			await wait4selector(page, 'span#hamMenuSuites', { visible: true })
@@ -207,33 +209,25 @@ describe('Scidash Test Scores and Suites View', () => {
 			await page.waitForFunction('document.getElementById("scidash-logo").innerText.startsWith("Suite scores")');
 		})
 
-		it('Filters Reset, 0 Suite Scores Present in Main Page', async () => {
-			const mainPageTestScoresRows = await page.evaluate(async () => document.querySelectorAll(".griddle-row").length);
-			expect(mainPageTestScoresRows).toEqual(1);
-		})
-
-//		it('Date Picker in "Suite Scores" Opened', async () => {
-//			await page.evaluate(async () => document.querySelector("#fromDatePicker input").click());
-//			const fromDatePickerDivVisible = await page.evaluate(async () => {
-//				return document.querySelector('[style="color: rgba(0, 0, 0, 0.87); user-select: none; width: 310px;"]')!=null;
-//			});
-//			expect(fromDatePickerDivVisible).toEqual(true);
-//		})
-
-		it('Date Selected in Date Picker', async () => {
-			await page.evaluate(async () => {
-				var el = document.querySelectorAll(".scidash-materialui-field input")[3];
-				el.value=new Date();
-				el.dispatchEvent(new Event('input', { bubbles: true }));
-			});
-			//give it some time before continue testing stack viewer
+		it('1 Suite  Present in Main Page', async () => {
 			await page.waitFor(5000);
-			await wait4selector(page, 'button#resetDate', { visible: true })
-		})
-
-		it('0 Suite Scores Present in Main Page', async () => {
-			const mainPageTestScoresRows = await page.evaluate(async () => document.querySelectorAll(".griddle-row").length);
+			const mainPageTestScoresRows = await page.evaluate(async () => document.querySelectorAll(".griddle-row .timestamp-cell"));
 			expect(mainPageTestScoresRows).toEqual(1);
+		})
+		
+		it('Suite_231043766474 Suite Score In Page Present', async () => {
+			const inputResistanceTest = await page.evaluate(async (name, score) => {
+				var rows = document.querySelectorAll(".griddle-row");
+				for(var r in rows){
+					if(name == document.querySelectorAll(".griddle-row")[r].querySelector("div").innerText){
+						if(score == document.querySelectorAll(".griddle-row")[r].querySelector("a").innerText){
+							return true;
+						}
+					}
+				}
+				return false;
+			}, "Suite_231043766474","0.54");
+			expect(inputResistanceTest).toEqual(true);
 		})
 	})
 })
