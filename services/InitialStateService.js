@@ -87,7 +87,7 @@ export default class InitialStateService {
       } else {
         filteringS.setupFilters({
           owner: this.initialState.user.userObject.username
-        }, Config.globalNamespace, false);
+        }, Config.globalNamespace, true);
       }
 
       filteringS.extractFiltersFromQueryString(location.search, scoresNamespace);

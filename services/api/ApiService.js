@@ -45,7 +45,10 @@ export default class ApiService {
         throw new ApiServiceException("You should define API endpoint");
       }
 
-      let queryPath = this.endpoint + (filteringS.getFilters(namespace, true) ? "?" + filteringS.stringifyFilters(filteringS.getFilters(namespace, true)) : "");
+      let queryPath = this.endpoint + (filteringS.getFilters(namespace, true)
+          ? "?" + filteringS.stringifyFilters(filteringS.getFilters('global', true))
+                + filteringS.stringifyFilters(filteringS.getFilters(namespace, true))
+          : "");
 
       if (this.storage.getItem(queryPath) && cache){
         return new Promise(resolve => {

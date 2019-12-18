@@ -102,6 +102,9 @@ export default class FilteringService {
       let filters = new URLSearchParams(queryString);
       let parsedFilters = {};
 
+      this.clearFiltersByNamespace(namespace);
+      this.restoreFromInitial('global');
+
       for (let filter of filters){
         if (/^timestamp_/.test(filter)){
 
