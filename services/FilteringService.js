@@ -1,5 +1,6 @@
 import ScidashStorage from "../shared/ScidashStorage";
 import Config from "../shared/Config";
+import Helper from "../shared/Helper";
 
 export default class FilteringService {
 
@@ -30,11 +31,11 @@ export default class FilteringService {
       }
 
       if (namespace){
-
+        const filter_ns = Helper.getNamespaceFromKey(key, namespace);
         if (initial) {
-          this.initialFilters[`${namespace}${Config.namespaceDivider}${key}`] = value;
+          this.initialFilters[`${filter_ns}${Config.namespaceDivider}${key}`] = value;
         }
-        this.filters[`${namespace}${Config.namespaceDivider}${key}`] = value;
+        this.filters[`${filter_ns}${Config.namespaceDivider}${key}`] = value;
       } else {
         if (initial) {
           this.initialFilters[key] = value;
@@ -51,7 +52,8 @@ export default class FilteringService {
 
     restoreFromInitial (namespace){
       for (let key of Object.keys(this.initialFilters)){
-        if (this.matchNamespace(key, namespace)){
+        const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+        if (this.matchNamespace(key, filter_ns)){
           this.filters[key] = this.initialFilters[key];
         }
       }
@@ -129,7 +131,8 @@ export default class FilteringService {
     }
 
     matchNamespace (key, namespace){
-      return new RegExp(`^${namespace}${Config.namespaceDivider}.+$`).test(key);
+      const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+      return new RegExp(`^${filter_ns}${Config.namespaceDivider}.+$`).test(key);
     }
 
     hasNamespace (filterName){
@@ -140,7 +143,8 @@ export default class FilteringService {
       let filterName = key;
 
       if (namespace){
-        filterName = `${namespace}${Config.namespaceDivider}${key}`;
+        const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+        filterName = `${filter_ns}${Config.namespaceDivider}${key}`;
       }
 
       if (filterName in this.filters){
