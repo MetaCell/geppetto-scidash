@@ -34,11 +34,11 @@ The extension needs to be cloned into the Scidash django-app static folder, afte
 
 To run tests:
 
-Install locally packages:
+Install locally packages (install from inside folder from org.geppetto.frontend/src/main/webapp):
 
 ``npm install jest@24.8.0 puppeteer@1.17.0 jest-puppeteer@4.3.0 @babel/preset-env@7.4.5 url-join@4.0.0 @babel/core@7.4.5``
 
-Then navigate to folder 'geppetto-scidash/tests/jest' and run:
+Then navigate to folder 'org.geppetto.frontend/src/main/webapp' and run:
 
 ``npm test``
 
