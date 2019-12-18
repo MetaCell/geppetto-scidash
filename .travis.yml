@@ -27,17 +27,17 @@ install:
 before_script:
   - docker pull metacell/scidash_virgo:development || true
 script:
-  - git clone -b feature/393 https://github.com/Metacell/scidash.git || true
+  - git clone -b feature/393_1 https://github.com/Metacell/scidash.git || true
   - echo -e "travis_fold:start:Docker_Build" || true
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
   - echo -e "Building scidash database container" || true
-  - travis_retry docker build --build-arg SCIDASH_BRANCH=feature/393 -f ./scidash/service/docker/Dockerfile-postgres -t=$DB_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
+  - travis_retry docker build --build-arg SCIDASH_BRANCH=feature/393_1 -f ./scidash/service/docker/Dockerfile-postgres -t=$DB_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
   - sleep 5
   - echo -e "Building geppetto virgo container" || true
   - travis_retry docker build -f ./scidash/service/docker/Dockerfile-virgo -t=$GEPPETTO_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
   - sleep 5
   - echo -e "Building scidash container" || true
-  - travis_retry docker build --build-arg targetBranch==feature/393 -f ./scidash/service/docker/Dockerfile-scidash -t=$SCIDASH_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
+  - travis_retry docker build --build-arg targetBranch==feature/393_1 -f ./scidash/service/docker/Dockerfile-scidash -t=$SCIDASH_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
   - sleep 5
   - echo -e "Starting scidash docker compose" || true
   - cd ./scidash/service/deployment || true
