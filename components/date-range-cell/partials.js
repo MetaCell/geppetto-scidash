@@ -5,7 +5,7 @@ const ClearButton = ({ changed, clearFilter }) => {
 
     if (changed)
         return (
-            <button onClick={clearFilter}> Reset</button>
+            <button id={"resetDate"} onClick={clearFilter}> Reset</button>
         )
     else
         return (
