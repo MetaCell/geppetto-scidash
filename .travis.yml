@@ -27,7 +27,7 @@ install:
 before_script:
   - docker pull metacell/scidash_virgo:development || true
 script:
-  - git clone -b development https://github.com/Metacell/scidash.git || true
+  - git clone -b feature/393 https://github.com/Metacell/scidash.git || true
   - echo -e "travis_fold:start:Docker_Build" || true
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
   - echo -e "Building scidash database container" || true

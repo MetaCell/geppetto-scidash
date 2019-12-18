@@ -211,7 +211,7 @@ describe('Scidash Test Scores and Suites View', () => {
 
 		it('1 Suite  Present in Main Page', async () => {
 			await page.waitFor(5000);
-			const mainPageTestScoresRows = await page.evaluate(async () => document.querySelectorAll(".griddle-row .timestamp-cell"));
+			const mainPageTestScoresRows = await page.evaluate(async () => document.querySelectorAll(".griddle-row .timestamp-cell").length);
 			expect(mainPageTestScoresRows).toEqual(1);
 		})
 		
