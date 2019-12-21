@@ -11,7 +11,7 @@ env:
     - DB_CONTAINER: scidash_db
     - GEPPETTO_CONTAINER: scidash_virgo
     - SCIDASH_CONTAINER: scidash
-    - DEFAULT_BRANCH: development
+    - DEFAULT_BRANCH: geppetto-scidash
     - LANDING_PAGE: "http://127.0.0.1:8000"
     - COMMIT: ${TRAVIS_COMMIT::8}
 services:
