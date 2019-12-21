@@ -11,7 +11,7 @@ env:
     - DB_CONTAINER: scidash_db
     - GEPPETTO_CONTAINER: scidash_virgo
     - SCIDASH_CONTAINER: scidash
-    - DEFAULT_BRANCH: development
+    - DEFAULT_BRANCH: geppetto-scidash
     - LANDING_PAGE: "http://127.0.0.1:8000"
     - COMMIT: ${TRAVIS_COMMIT::8}
 services:
@@ -27,17 +27,17 @@ install:
 before_script:
   - docker pull metacell/scidash_virgo:development || true
 script:
-  - git clone -b development https://github.com/Metacell/scidash.git || true
   - echo -e "travis_fold:start:Docker_Build" || true
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - git clone -b $BRANCH https://github.com/Metacell/scidash.git || true
   - echo -e "Building scidash database container" || true
-  - travis_retry docker build --build-arg SCIDASH_BRANCH=$TRAVIS_BRANCH -f ./scidash/service/docker/Dockerfile-postgres -t=$DB_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
+  - travis_retry docker build --build-arg SCIDASH_BRANCH=$BRANCH -f ./scidash/service/docker/Dockerfile-postgres -t=$DB_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
   - sleep 5
   - echo -e "Building geppetto virgo container" || true
-  - travis_retry docker build -f ./scidash/service/docker/Dockerfile-virgo -t=$GEPPETTO_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
+  - travis_retry docker build --build-arg targetBranch=$TRAVIS_BRANCH --build-arg originBranch=$BRANCH --build-arg defaultBranch=$DEFAULT_BRANCH -f ./scidash/service/docker/Dockerfile-virgo -t=$GEPPETTO_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
   - sleep 5
   - echo -e "Building scidash container" || true
-  - travis_retry docker build --build-arg targetBranch==$TRAVIS_BRANCH -f ./scidash/service/docker/Dockerfile-scidash -t=$SCIDASH_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
+  - travis_retry docker build --build-arg targetBranch=$TRAVIS_BRANCH --build-arg originBranch=$BRANCH --build-arg defaultBranch=$DEFAULT_BRANCH -f ./scidash/service/docker/Dockerfile-scidash -t=$SCIDASH_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
   - sleep 5
   - echo -e "Starting scidash docker compose" || true
   - cd ./scidash/service/deployment || true
