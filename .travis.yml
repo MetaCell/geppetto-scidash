@@ -41,6 +41,7 @@ script:
   - sleep 5
   - echo -e "Starting scidash docker compose" || true
   - cd ./scidash/service/deployment || true
+  - sed -i -e "s/latest/$TAG/g" docker-compose.yml
   - travis_retry docker-compose up -d || travis_terminate 1
   - cd -
   - sleep 60;
