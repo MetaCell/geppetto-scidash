@@ -40,7 +40,7 @@ export function filteringSuitesStarted (state, action) {
 export function filteringSuitesFinished (state, action) {
 
   let adapter = new TestSuitesGriddleAdapter(action.scores);
-  let scoreMatrixAdapter = new ScoreMatrixGriddleAdapter(action.scores);
+  let scoreMatrixAdapter = ScoreMatrixGriddleAdapter.getInstance(action.scores);
 
   $(".griddle-page-select").show();
 
