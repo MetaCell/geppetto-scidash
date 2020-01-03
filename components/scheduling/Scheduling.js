@@ -8,6 +8,7 @@ import CompatibilityTable from "./CompatibilityTable";
 import SchedulingApiService from "../../services/api/SchedulingApiService";
 import Loader from "../loader/Loader";
 import PagesService from "../../services/PagesService";
+import {changePage} from "../../actions/creators/header";
 
 
 class Scheduling extends React.Component {
@@ -105,7 +106,7 @@ class Scheduling extends React.Component {
 
     let pagesService = new PagesService();
 
-    if (this.state.scheduled) return <Redirect to={pagesService.SCORES_PAGE} />;
+    if (this.state.scheduled) this.props.gotoScorePage();
 
     return (
       <span>
