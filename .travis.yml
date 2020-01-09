@@ -29,7 +29,8 @@ before_script:
 script:
   - echo -e "travis_fold:start:Docker_Build" || true
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
-  - git clone -b $BRANCH https://github.com/Metacell/scidash.git || true
+  - git clone https://github.com/ddelpiano/travis_utils
+  - ./travis_utils/copy.sh https://github.com/Metacell/scidash.git $BRANCH $BRANCH development
   - echo -e "Building scidash database container" || true
   - travis_retry docker build --build-arg targetBranch=$TRAVIS_BRANCH --build-arg originBranch=$BRANCH --build-arg defaultBranch=$DEFAULT_BRANCH -f ./scidash/service/docker/Dockerfile-postgres -t=$DB_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
   - sleep 5
