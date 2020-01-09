@@ -7,6 +7,7 @@ import Griddle, {
 
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
 import ScoreDetailLinkColumnContainer from "../griddle-columns/score-detail-link-column/ScoreDetailLinkColumnContainer";
+import TestDetailLinkColumnContainer from "../griddle-columns/test-detail-link-column/TestDetailLinkColumnContainer";
 import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link-column/ModelDetailLinkColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 import Config from "../../shared/Config";
@@ -123,7 +124,7 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="name"
               title="Name"
-              customComponent={CustomScoreName}
+              customComponent={TestDetailLinkColumnContainer}
               customHeadingComponent={props => (
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
