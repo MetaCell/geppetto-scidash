@@ -25,12 +25,7 @@ before_install:
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH;
     else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo ${BRANCH/\//-}; fi`
-  - echo $TRAVIS_BRANCH
-  - echo $BRANCH
-  - echo $TAG
   - export PULL_TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "development"; fi`
-  - export TAG=$TAG`if [ "$BUILD_TYPE" == "development" ]; then echo "-development";fi`
-  - echo $TAG
 install:
   - npm install jest@24.8.0 puppeteer@1.17.0 jest-puppeteer@4.3.0 @babel/preset-env@7.4.5
     url-join@4.0.0 @babel/core@7.4.5
