@@ -3,6 +3,7 @@ import TestSuitesGriddleAdapter from "../shared/adapter/TestSuitesGriddleAdapter
 import ScoreMatrixGriddleAdapter from "../shared/adapter/ScoreMatrixGriddleAdapter";
 import FilteringService from "../services/FilteringService";
 import Config from "../shared/Config";
+import TestSuitesAutocompleteAdapter from "../shared/adapter/TestSuitesAutocompleteAdapter";
 
 export function dateFilterChanged (state, action) {
   return {
@@ -39,14 +40,15 @@ export function filteringSuitesStarted (state, action) {
 
 export function filteringSuitesFinished (state, action) {
 
-  let adapter = new TestSuitesGriddleAdapter(action.scores);
+  let data = new TestSuitesGriddleAdapter(action.scores).getGriddleData();
   let scoreMatrixAdapter = new ScoreMatrixGriddleAdapter(action.scores);
 
   $(".griddle-page-select").show();
 
   let newState = {
     ...state,
-    data: adapter.getGriddleData(),
+    data: data,
+    autoCompleteData: new TestSuitesAutocompleteAdapter(data).getAutocompleteData(),
     scoreMatrixTableDataList: scoreMatrixAdapter.getGriddleData(),
     scoreMatrixList: scoreMatrixAdapter.getScoreMatrix()
   };
