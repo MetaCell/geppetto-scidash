@@ -109,12 +109,15 @@ export default class Header extends React.Component {
             {this.props.userInfo.isLogged ?
               <div className="col-md-3 auth-links">
                 <RaisedButton
-                  className="userButton" label={userinitial}
+                  className="user-button" 
+                  label={userinitial}
+                  id="user-button"
                   buttonStyle={{ borderRadius: 50, backgroundColor: "#37474f" }}
                   onTouchTap={this.handleTouchTap}
+                  onClick={this.handleTouchTap}
                   style={{ marginRight: "10px", borderRadius: 50, float: "right" }}
                 >
-                  <FontIcon className="fa fa-user loggedIcon" />
+                  <FontIcon className="fa fa-user logged-icon" />
                 </RaisedButton>
                 <Popover
                   open={this.state.open} anchorEl={this.state.anchorEl}
@@ -131,8 +134,8 @@ export default class Header extends React.Component {
                       showExpandableButton
                     />
                     <CardActions>
-                      <FlatButton label="Reset Password" href="/auth/password-reset/" style={{ border: "2px solid lightgrey" }} />
-                      <FlatButton label="Logout" href="/auth/logout/" style={{ border: "2px solid lightgrey" }} />
+                      <FlatButton label="Reset Password" id="reset-password" href="/auth/password-reset/" style={{ border: "2px solid lightgrey" }} />
+                      <FlatButton id="logout-button" label="Logout" href="/auth/logout/" style={{ border: "2px solid lightgrey" }} />
                     </CardActions>
                     <CardText expandable>
                       <List style={{ textAlign: "center" }}>
@@ -156,12 +159,12 @@ export default class Header extends React.Component {
               :
               <div className="col-md-3 auth-links">
                 <RaisedButton
-                  href="/auth/login/" className="userButton loginButton" label="Login" style={{
+                  href="/auth/login/" className="user-button login-button" label="Login" style={{
                     marginRight: "10px"
                   }}
                 />
                 <RaisedButton
-                  href="/auth/sign-up/" className="userButton signUpButton" label="Sign-Up" style={{
+                  href="/auth/sign-up/" className="user-button signup-button" label="Sign-Up" style={{
                     marginRight: "10px"
                   }}
                 />

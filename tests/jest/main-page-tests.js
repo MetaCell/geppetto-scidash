@@ -37,11 +37,11 @@ describe('Scidash Main Page Tests', () => {
 		})
 
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.loginButton', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.login-button', { visible: true, timeout : 10000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signUpButton', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 10000 })
 		})
 
 		it('Main Table Visible', async () => {
