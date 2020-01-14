@@ -3,6 +3,7 @@ import TestInstancesGriddleAdapter from "../shared/adapter/TestInstancesGriddleA
 import FilteringService from "../services/FilteringService";
 import Config from "../shared/Config";
 import ApiService from "../services/api/ApiService";
+import TestInstancesAutocompleteAdapter from "../shared/adapter/TestInstancesAutocompleteAdapter";
 
 
 export function filteringTestsStarted (state, action){
@@ -18,13 +19,13 @@ export function filteringTestsStarted (state, action){
 
 export function filteringTestsFinished (state, action){
 
-  let adapter = new TestInstancesGriddleAdapter(action.models);
+  let data = new TestInstancesGriddleAdapter(action.models).getGriddleData();
 
   $(".griddle-page-select").show();
-
   let newState = {
     ...state,
-    data: adapter.getGriddleData()
+    data: data,
+    autoCompleteData: new TestInstancesAutocompleteAdapter(data).getAutocompleteData()
   };
 
   return newState;
