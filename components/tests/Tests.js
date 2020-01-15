@@ -13,14 +13,10 @@ export default class Tests extends React.Component {
   constructor (props, context){
     super(props, context);
     this.props = props;
-
-    this.username = this.props.user.isLogged ? this.props.user.userObject.username : "";
   }
 
   componentWillMount() {
-    if(this.props.user.isLogged) {
-      this.props.onFilterUpdate(this.username, "owner");
-    } else {
+    if(!this.props.user.isLogged) {
       this.props.notLoggedRedirect()
     }
   }
@@ -90,10 +86,9 @@ export default class Tests extends React.Component {
               title="Owner"
               customHeadingComponent={props => (<FilterCellContainer
                 autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.testInstancesNamespace}
+                namespace={Config.globalNamespace}
                 onFilterUpdate={this.props.onFilterUpdate}
                 filterName="owner"
-                value={this.username}
                 {...props}
               />)}
               order={4}

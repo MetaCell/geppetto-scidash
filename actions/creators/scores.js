@@ -1,6 +1,7 @@
 import ScoresApiService from "../../services/api/ScoresApiService";
 import FilteringService from "../../services/FilteringService";
 import Config from "../../shared/Config";
+import Helper from "../../shared/Helper";
 
 export const FILTERING_SCORES_STARTED = "FILTERING_SCORES_STARTED";
 export const FILTERING_SCORES_FINISHED = "FILTERING_SCORES_FINISHED";
@@ -33,19 +34,20 @@ export function filteringScoresFinished (scores){
 export function filteringScoresStarted (searchText, filterName, dispatch){
   let apiService = new ScoresApiService();
   let filteringService = FilteringService.getInstance();
+  const namespace = Helper.getNamespaceFromKey(filterName, Config.scoresNamespace);
 
   if (searchText.length > 0) {
-    filteringService.setupFilter(filterName, searchText, Config.scoresNamespace);
+    filteringService.setupFilter(filterName, searchText, namespace);
   }
   else {
-    filteringService.deleteFilter(filterName, Config.scoresNamespace);
+    filteringService.deleteFilter(filterName, namespace);
   }
 
   filteringService.deleteFilter("with_suites");
 
-  apiService.getList(false, Config.scoresNamespace).then(result => {
+  apiService.getList(false, namespace).then(result => {
 
-    let filters = filteringService.getFilters(Config.scoresNamespace);
+    let filters = filteringService.getFilters(namespace);
 
     let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "";
 

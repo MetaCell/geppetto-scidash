@@ -10,6 +10,7 @@ import ScoreDetailLinkColumnContainer from "../griddle-columns/score-detail-link
 import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link-column/ModelDetailLinkColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 import Config from "../../shared/Config";
+import FilteringService from "../../services/FilteringService";
 
 import {
   CustomScoreName,
@@ -26,14 +27,11 @@ export default class Scores extends React.Component {
     super(props, context);
 
     this.props = props;
-    this.username = this.props.user.isLogged
-      ? this.props.user.userObject.username
-      : "";
 
     this.state = {
       intervalId: null,
       page: 1,
-      sortProperties: this.props.sortProperties
+      sortProperties: this.props.sortProperties,
     };
 
     this.setPage = this.setPage.bind(this);
@@ -55,14 +53,12 @@ export default class Scores extends React.Component {
   }
 
   componentWillMount () {
-    if (this.props.user.isLogged) {
-      this.props.onFilterUpdate(this.username, "owner");
-    }
     if (this.state.intervalId === null) {
       this.setState({
         intervalId: setInterval(this.props.updateScores, 15000)
       });
     }
+    FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
   }
 
   componentDidMount () {
@@ -202,10 +198,9 @@ export default class Scores extends React.Component {
               customHeadingComponent={props => (
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
-                  namespace={Config.instancesNamespace}
+                  namespace={Config.globalNamespace}
                   onFilterUpdate={this.onFilterUpdate}
                   filterName="owner"
-                  value={this.username}
                   {...props}
                 />
               )}
@@ -249,7 +244,7 @@ export default class Scores extends React.Component {
               customHeadingComponent={props => (
                 <DateRangeCellContainer
                   onFilterUpdate={this.props.onFilterUpdate}
-                  namespace={Config.instancesNamespace}
+                  namespace={Config.globalNamespace}
                   dateFilterChanged={this.props.dateFilterChanged}
                   onDateFilterClear={this.props.onDateFilterClear}
                   {...props}
