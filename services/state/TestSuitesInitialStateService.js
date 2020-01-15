@@ -52,7 +52,7 @@ export default class TestSuitesInitialStateService extends BaseInitialStateServi
         .getGriddleData();
       initialState.autoCompleteData = new TestSuitesAutocompleteAdapter(initialState.data)
         .getAutocompleteData();
-      let scoreMatrixAdapter = new ScoreMatrixGriddleAdapter(scores);
+      let scoreMatrixAdapter = ScoreMatrixGriddleAdapter.getInstance(scores);
 
       initialState.scoreMatrixTableDataList = scoreMatrixAdapter.getGriddleData();
       initialState.scoreMatrixList = scoreMatrixAdapter.getScoreMatrix();
