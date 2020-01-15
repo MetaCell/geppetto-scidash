@@ -375,6 +375,7 @@ export default class ModelForm extends React.Component {
                   : ""
               }
               floatingLabelText="Name of the model"
+              id="model-name"
               underlineStyle={{ borderBottom: "1px solid grey" }}
               onChange={(event, value) => {
                 this.updateModel({ name: value }, () => {
@@ -391,6 +392,7 @@ export default class ModelForm extends React.Component {
               value={this.state.model.url}
               className="url"
               floatingLabelText="Source URL"
+              id="source-url"
               errorText={
                 this.state.model.errors !== undefined &&
                 "url" in this.state.model.errors
@@ -485,6 +487,7 @@ export default class ModelForm extends React.Component {
                 <MenuItem
                   value={klass.id}
                   key={klass.id}
+                  id={klass.class_name}
                   primaryText={klass.class_name}
                   label={klass.class_name}
                 />
@@ -498,6 +501,7 @@ export default class ModelForm extends React.Component {
               }}
               className="new-tag"
               floatingLabelText="Add a new tag"
+              id="new-tag"
               underlineStyle={{ borderBottom: "1px solid grey" }}
               onKeyPress={e =>
                 e.key === "Enter"

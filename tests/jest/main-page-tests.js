@@ -64,7 +64,7 @@ describe('Scidash Main Page Tests', () => {
 			await wait4selector(page, 'span#hamMenuScores', { visible: true })
 		})
 
-		it('Tests Suites Label Present', async () => {
+		it('Tests Scores Label Present', async () => {
 			await wait4selector(page, 'span#hamMenuScores', { visible: true })
 		})
 
