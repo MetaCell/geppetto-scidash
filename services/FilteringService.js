@@ -1,5 +1,6 @@
 import ScidashStorage from "../shared/ScidashStorage";
 import Config from "../shared/Config";
+import Helper from "../shared/Helper";
 
 export default class FilteringService {
 
@@ -23,17 +24,18 @@ export default class FilteringService {
     }
 
     setupFilter (key, value, namespace = Config.scoresNamespace, initial = false, writeToStorage = true){
+        console.log(namespace);
       if (Config.bannedFilters[namespace].includes(key)){
         console.warn(`${key} is banned for namespace '${namespace}'`);
         return this;
       }
 
       if (namespace){
-
+        const filter_ns = Helper.getNamespaceFromKey(key, namespace);
         if (initial) {
-          this.initialFilters[`${namespace}${Config.namespaceDivider}${key}`] = value;
+          this.initialFilters[`${filter_ns}${Config.namespaceDivider}${key}`] = value;
         }
-        this.filters[`${namespace}${Config.namespaceDivider}${key}`] = value;
+        this.filters[`${filter_ns}${Config.namespaceDivider}${key}`] = value;
       } else {
         if (initial) {
           this.initialFilters[key] = value;
@@ -50,11 +52,21 @@ export default class FilteringService {
 
     restoreFromInitial (namespace){
       for (let key of Object.keys(this.initialFilters)){
-        if (this.matchNamespace(key, namespace)){
+        const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+        if (this.matchNamespace(key, filter_ns)){
           this.filters[key] = this.initialFilters[key];
         }
       }
       return this;
+    }
+
+    setFromGLobalFilters (dispatch) {
+      const globalFilterNames = ["owner", "timestamp_from", "timestamp_to"];
+      for(let index in globalFilterNames){
+        const filterName =  globalFilterNames[index];
+        const filterValue = this.getFilter(filterName, Config.globalNamespace);
+        dispatch(filterValue, filterName);
+      }
     }
 
     setupFilters (filters = {}, namespace = null, initial = false){
@@ -90,6 +102,9 @@ export default class FilteringService {
       let filters = new URLSearchParams(queryString);
       let parsedFilters = {};
 
+      this.clearFiltersByNamespace(namespace);
+      this.restoreFromInitial('global');
+
       for (let filter of filters){
         if (/^timestamp_/.test(filter)){
 
@@ -119,7 +134,8 @@ export default class FilteringService {
     }
 
     matchNamespace (key, namespace){
-      return new RegExp(`^${namespace}${Config.namespaceDivider}.+$`).test(key);
+      const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+      return new RegExp(`^${filter_ns}${Config.namespaceDivider}.+$`).test(key);
     }
 
     hasNamespace (filterName){
@@ -130,7 +146,8 @@ export default class FilteringService {
       let filterName = key;
 
       if (namespace){
-        filterName = `${namespace}${Config.namespaceDivider}${key}`;
+        const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+        filterName = `${filter_ns}${Config.namespaceDivider}${key}`;
       }
 
       if (filterName in this.filters){
