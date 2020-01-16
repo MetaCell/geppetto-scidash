@@ -1,0 +1,79 @@
+language: node_js
+sudo: required
+node_js:
+  - '9'
+env:
+  global:
+    - DOCKER_FOLDER: "$TRAVIS_BUILD_DIR/"
+    - DB_IMAGE: metacell/scidash_db
+    - GEPPETTO_IMAGE: metacell/scidash_virgo
+    - SCIDASH_IMAGE: metacell/scidash
+    - DB_CONTAINER: scidash_db
+    - GEPPETTO_CONTAINER: scidash_virgo
+    - SCIDASH_CONTAINER: scidash
+    - DEFAULT_BRANCH: geppetto-scidash
+    - LANDING_PAGE: http://127.0.0.1:8000
+    - COMMIT: "${TRAVIS_COMMIT::8}"
+services:
+  - docker
+before_install:
+  - export BUILD_TYPE=`if [ "$TRAVIS_BRANCH" == "vfb_geppetto_application" ]; then echo
+    "development"; else echo "release"; fi`
+  - export VFB_REPO=$(echo ${TRAVIS_REPO_SLUG##*/} | awk '{gsub(/\-/,"_",$0);gsub(/\./,"_",$0);print
+    toupper($0)}')
+  - export REPO=$(echo ${TRAVIS_REPO_SLUG} | awk '{gsub(/\./,"_",$0);print tolower($0)}')
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH;
+    else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo ${BRANCH/\//-}; fi`
+  - export PULL_TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "development"; fi`
+install:
+  - npm install jest@24.8.0 puppeteer@1.17.0 jest-puppeteer@4.3.0 @babel/preset-env@7.4.5
+    url-join@4.0.0 @babel/core@7.4.5
+  - docker pull $GEPPETTO_IMAGE:$PULL_TAG
+  - docker tag $GEPPETTO_IMAGE:$PULL_TAG $GEPPETTO_IMAGE:$TAG
+script:
+  - git clone https://github.com/ddelpiano/travis_utils
+  - travis_utils/copy.sh https://github.com/Metacell/scidash.git $TRAVIS_BRANCH $BRANCH $DEFAULT_BRANCH
+  - travis_fold start "building_scidash_database_container"
+  - travis_retry docker build --build-arg targetBranch=$TRAVIS_BRANCH
+    --build-arg originBranch=$BRANCH --build-arg defaultBranch=$DEFAULT_BRANCH -f ./scidash/service/docker/Dockerfile-postgres
+    -t=$DB_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
+  - travis_fold end "building_scidash_database_container"
+  - sleep 5
+  - travis_fold start "building_scidash_container"
+  - travis_retry docker build --build-arg targetBranch=$TRAVIS_BRANCH
+    --build-arg originBranch=$BRANCH --build-arg defaultBranch=$DEFAULT_BRANCH -f ./scidash/service/docker/Dockerfile-scidash
+    -t=$SCIDASH_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
+  - travis_fold end "building_scidash_container"
+  - sleep 5
+  - echo -e "Starting scidash docker compose" || true
+  - cd ./scidash/service/deployment || true
+  - sed -i -e "s/latest/$TAG/g" docker-compose.yml
+  - travis_retry docker-compose up -d || travis_terminate 1
+  - cd -
+  - sleep 20
+  - travis_fold start "Startup_Server1"
+  - export VIRGO_HOST_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' scidash_virgo`
+  - bash $TRAVIS_BUILD_DIR/utilities/tests/scripts/test_geppetto_server.sh $VIRGO_HOST_IP
+  - travis_fold end "Startup_Server1"
+  - travis_fold start "Docker_container_logs"
+  - docker logs $SCIDASH_CONTAINER || true
+  - docker logs $GEPPETTO_CONTAINER || true
+  - docker logs $DB_CONTAINER || true
+  - travis_fold end "Docker_container_logs"
+  - sleep 20
+  - travis_fold start "Startup_Server2"
+  - bash $TRAVIS_BUILD_DIR/utilities/tests/scripts/test_geppetto_server.sh $VIRGO_HOST_IP
+  - travis_fold end "Startup_Server2"
+  - sleep 10
+  - http_status=$(curl -s -I $1 $LANDING_PAGE | grep HTTP/1.1 | awk {'print $2'})
+  - echo "$http_status"
+  - docker exec -ti $SCIDASH_CONTAINER /bin/bash -c "make run-tests"
+  - echo "When tests are ready enable this command here -> travis_retry npm test --
+    --verbose --colors"
+  - sudo docker cp $GEPPETTO_CONTAINER:/opt/virgo/serviceability/logs/log.log /etc;
+  - travis_fold start "Geppetto_container_log"
+  - tail /etc/log.log -n 200
+  - travis_fold end "Geppetto_container_log"
+  - docker stop $(docker ps -a -q)
+  - docker rm $(docker ps -a -q)
