@@ -7,6 +7,7 @@ import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 import Config from "../../shared/Config";
 import Loader from "../loader/Loader";
 import { CustomMenu, CustomTagComponent } from "./partial";
+import FilteringService from "../../services/FilteringService";
 
 export default class Tests extends React.Component {
 
@@ -19,6 +20,9 @@ export default class Tests extends React.Component {
     if(!this.props.user.isLogged) {
       this.props.notLoggedRedirect()
     }
+
+    FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
+
   }
 
   render (){
@@ -100,7 +104,7 @@ export default class Tests extends React.Component {
               cssClassName="timeStampCss"
               customHeadingComponent={props => (<DateRangeCellContainer
                 onFilterUpdate={this.props.onFilterUpdate}
-                namespace={Config.tesmodeltInstancesNamespace}
+                namespace={Config.globalNamespace}
                 dateFilterChanged={this.props.dateFilterChanged}
                 onDateFilterClear={this.props.onDateFilterClear}
                 {...props}
