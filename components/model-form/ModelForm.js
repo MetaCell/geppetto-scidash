@@ -632,6 +632,7 @@ export default class ModelForm extends React.Component {
         <div className="actions-container">
           <RaisedButton
             label="save"
+            id="save-model"
             disabled={
               this.state.loadingParams ||
               this.state.loadingClasses ||
@@ -659,6 +660,7 @@ export default class ModelForm extends React.Component {
 
           <RaisedButton
             label="cancel"
+            id="cancel-model"
             className="actions-button"
             onClick={() => this.onCancel()}
           />
