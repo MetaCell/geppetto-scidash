@@ -425,7 +425,7 @@ export default class ModelForm extends React.Component {
                 <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
               ) : null}
               {this.state.loadingClasses ? (
-                <CircularProgress size={36} />
+                <CircularProgress id="validating-source-url" size={36} />
               ) : null}
             </span>
           </div>
@@ -528,6 +528,11 @@ export default class ModelForm extends React.Component {
                           float: "left"
                         }}
                         key={tag.name + "-" + i}
+                        onKeyPress={e =>
+                             e.key === "Enter"
+                             ? this.deleteTag(tag)
+                             : null
+                        }
                         onRequestDelete={() => this.deleteTag(tag)}
                       >
                         {tag.name.toString()}
@@ -547,6 +552,11 @@ export default class ModelForm extends React.Component {
                           float: "left"
                         }}
                         key={tag + "-" + i}
+                        onKeyPress={e =>
+                          e.key === "Enter"
+                          ? this.deleteTag(tag)
+                          : null
+                        }
                         onRequestDelete={() => this.deleteTag(tag)}
                       >
                         {tag}
@@ -572,6 +582,7 @@ export default class ModelForm extends React.Component {
         <div className="fifth-line">
           <RaisedButton
             label="Open"
+            id="open-model-parameters"
             disabled={this.state.paramsDisabled}
             className="actions-button"
             style={{
@@ -589,7 +600,7 @@ export default class ModelForm extends React.Component {
               <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
             ) : null}
             {this.state.loadingParams ? (
-              <CircularProgress size={36} />
+              <CircularProgress id="loading-model-parameters" size={36} />
             ) : null}
           </span>
 

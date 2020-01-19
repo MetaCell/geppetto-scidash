@@ -1,10 +1,10 @@
 const puppeteer = require('puppeteer');
 const { TimeoutError } = require('puppeteer/Errors');
 
-import { wait4selector, click , makeUserID, signUpTests, loginTests, logoutTests, resetPasswordTests} from './utils';
+import { wait4selector, click , makeUserID, signUpTests, testModelFilters, resetModelFilters} from './utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
-const testScoresURL = scidashURL + '/?timestamp_to=2018-07-12&timestamp_from=2018-05-05&status=c'; 
+const testScoresURL = scidashURL; 
 
 /** Variables used for creation of new user */
 let newUserID = makeUserID(6);
@@ -19,14 +19,14 @@ const editedModelTag = "test-edited";
 const newModelClass = "ReducedModel";
 const editedModelClass = "LEMSModel";
 
-const tableModelLength = 2;
+var tableModelLength = 2;
 
 /**
  * User Auth Tests
  */
 describe('Scidash User Authorization Tests', () => {
 	beforeAll(async () => {
-		jest.setTimeout(60000);
+		jest.setTimeout(125000);
 		await page.setViewport({ width: 1280, height: 800 })
 		await page.goto(scidashURL);
 	});
@@ -44,15 +44,15 @@ describe('Scidash User Authorization Tests', () => {
 
 		// Wait for this component to load on term info, means page has finished loading
 		it('Scidash Logo Shows Up', async () => {
-			await wait4selector(page, 'div#scidash-logo', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div#scidash-logo', { visible: true, timeout : 30000 })
 		})
 
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
 		})
 	})
 
@@ -60,7 +60,7 @@ describe('Scidash User Authorization Tests', () => {
 	describe('Create User Account', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
 		})
 
 		// Click Sign-Up button and wait for registration form to show up
@@ -68,7 +68,7 @@ describe('Scidash User Authorization Tests', () => {
 			await page.evaluate(async () => {
 				document.querySelector(".signup-button a").click()
 			});
-			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 10000 });
+			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
 		})
 
 		// Perform registration form tests
@@ -107,7 +107,7 @@ describe('Scidash User Authorization Tests', () => {
 				elm.value = newModelURL;
 				elm.dispatchEvent(ev);
 			}, newModelURL);
-			
+
 			const testModelURL = await page.evaluate(async () => {
 				return document.getElementById("source-url").value;
 			});
@@ -117,7 +117,7 @@ describe('Scidash User Authorization Tests', () => {
 		it('Model URL Validated', async () => {
 			await wait4selector(page, 'span.icons', { visible: true , timeout : 5000 });
 			// Wait for URL model to validate
-			await page.waitFor(10000);
+			await wait4selector(page, '#validating-source-url', { hidden: true , timeout : 60000 })
 			const modelValidated = await page.evaluate(async () => {
 				return document.querySelector(".icons svg").style.color;
 			});
@@ -159,15 +159,15 @@ describe('Scidash User Authorization Tests', () => {
 				ev.simulated = true;
 				elm.value = newModelTag;
 				elm.dispatchEvent(ev);
-				
+
 				var evt = new CustomEvent('Event');
 				evt.initEvent('keypress', true, false);
 				evt.which = 13;
 				evt.keyCode = 13;
 				elm.dispatchEvent(evt);
-				
+
 			}, newModelTag);
-			
+
 			const testModelTag = await page.evaluate(async () => {
 				return document.querySelectorAll('.tags svg').length;
 			});
@@ -186,12 +186,26 @@ describe('Scidash User Authorization Tests', () => {
 				elm.value = newModel;
 				elm.dispatchEvent(ev);
 			}, newModelName);
-			
+
 			const testModelName = await page.evaluate(async () => {
 				return document.getElementById("model-name").value;
 			});
 
 			expect(testModelName).toEqual(newModelName);
+		})
+
+		it('Model Parameters Button Present', async () => {
+			await wait4selector(page, '#open-model-parameters', { visible: true , timeout : 5000 })
+		})
+
+		it('Model Parameters Button Enabled', async () => {
+			await wait4selector(page, '#loading-model-parameters', { hidden: true , timeout : 125000 })
+
+			const modelParametersButton = await page.evaluate(async () => {
+				return document.getElementById("open-model-parameters").disabled;
+			});
+
+			expect(modelParametersButton).toEqual(false);
 		})
 
 		it('Save Model', async () => {
@@ -214,19 +228,19 @@ describe('Scidash User Authorization Tests', () => {
 				return document.querySelectorAll(".scidash-table tr").length;
 			});
 			expect(tableModels).toBeGreaterThanOrEqual(tableModelLength);
-			
+
 			const modelName = await page.evaluate(async () => {
 				return document.querySelectorAll(".scidash-table tr td")[0].innerText;
 			});
 
 			expect(modelName).toEqual(newModelName);
-			
+
 			const modelClass = await page.evaluate(async () => {
 				return document.querySelectorAll(".scidash-table tr td")[1].innerText;
 			});
 
 			expect(modelClass).toEqual(newModelClass);
-			
+
 			const modelTag = await page.evaluate(async () => {
 				return document.querySelectorAll(".chips span")[0].innerText;
 			});
@@ -234,24 +248,24 @@ describe('Scidash User Authorization Tests', () => {
 			expect(modelTag).toEqual(newModelTag);
 		})
 	})
-	
-		//Tests User Logout Functionality
+
+	//Tests User Logout Functionality
 	describe('Cancel Model Creation', () => {
 		it('Models Page Opened, New Model Button Present', async () => {
 			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
 		})
-		
+
 		it('New Model Creation Form', async () => {
 			await page.evaluate(async () => {
 				document.querySelector("span.fa-plus").click()
 			});
 			await wait4selector(page, 'div.actions-container', { visible: true , timeout : 5000 })
 		})
-		
+
 		it('Cancel Model Creation Button Present', async () => {
 			await wait4selector(page, '#cancel-model', { visible: true , timeout : 5000 })
 		})
-		
+
 		it('Cancel Model Creation, Navigate Back to Models Page', async () => {
 			await page.evaluate(async () => {
 				return document.getElementById("cancel-model").click();
@@ -260,37 +274,37 @@ describe('Scidash User Authorization Tests', () => {
 			await wait4selector(page, 'table.scidash-table', { visible: true , timeout : 5000 })
 		})
 	})
-	
+
 	describe('Clone Model', () => {
 		it('Models Page Opened, New Model Button Present', async () => {
 			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
 		})
-		
+
 		it('Open Model Edit/Clone Menu', async () => {
 			await page.evaluate(async () => {
 				document.querySelector(".fa-ellipsis-v").click()
 			});
 			await wait4selector(page, 'span.fa-clone', { visible: true , timeout : 5000 })
 		})
-		
+
 		it('Clone Model', async () => {
 			await click(page, 'span.fa-clone');
 
 			// Wait for model to clone
 			await page.waitFor(5000);
-			
+
 			const models = await page.evaluate(async () => {
 				return document.querySelectorAll(".scidash-table tr").length;
 			});
 
 			expect(models).toBeGreaterThanOrEqual(tableModelLength);
-			
+
 			const modelName = await page.evaluate(async () => {
 				return document.querySelectorAll(".scidash-table tr td")[7].innerText;
 			});
 
 			expect(modelName).toEqual(newModelName);
-			
+
 			const modelClass = await page.evaluate(async () => {
 				return document.querySelectorAll(".scidash-table tr td")[8].innerText;
 			});
@@ -298,25 +312,25 @@ describe('Scidash User Authorization Tests', () => {
 			expect(modelClass).toEqual("ReducedModel");
 		})
 	})
-	
+
 	describe('Edit Model', () => {
 		it('Models Page Opened, New Model Button Present', async () => {
 			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
 		})
-		
+
 		it('Open Model Edit/Clone Menu', async () => {
 			await page.evaluate(async () => {
 				document.querySelector(".fa-ellipsis-v").click()
 			});
 			await wait4selector(page, 'span.fa-pencil-square-o', { visible: true , timeout : 5000 })
 		})
-		
+
 		it('Open Edit Model Form', async () => {
 			await click(page, 'span.fa-pencil-square-o');
 
 			await wait4selector(page, 'div.actions-container', { visible: true , timeout : 5000 })
 		})
-		
+
 		it('Source URL Field Present in Form', async () => {
 			await wait4selector(page, 'input#source-url', { visible: true , timeout : 5000 })
 		})
@@ -324,7 +338,7 @@ describe('Scidash User Authorization Tests', () => {
 		it('Model URL Validated', async () => {
 			await wait4selector(page, 'span.icons', { visible: true , timeout : 5000 });
 			// Wait for URL model to validate
-			await page.waitFor(5000);
+			await wait4selector(page, '#validating-source-url', { hidden: true , timeout : 60000 })
 			const modelValidated = await page.evaluate(async () => {
 				return document.querySelector(".icons svg").style.color;
 			});
@@ -359,6 +373,22 @@ describe('Scidash User Authorization Tests', () => {
 			await wait4selector(page, 'input#new-tag', { visible: true , timeout : 5000 })
 		})
 
+		it('Delete Tag', async () => {
+			await page.evaluate(async (editedModelTag) => {
+				var elm =document.querySelector(".tags path")
+				var evt = new CustomEvent('Event');
+				evt.initEvent('keypress', true, false);
+				evt.which = 13;
+				evt.keyCode = 13;
+				elm.dispatchEvent(evt);
+			}, editedModelTag);
+
+			const testModelTag = await page.evaluate(async () => {
+				return document.querySelectorAll('.tags svg').length;
+			});
+			expect(testModelTag).toEqual(0);
+		})
+
 		it('Enter New Tag', async () => {
 			await page.evaluate(async (editedModelTag) => {
 				var elm = document.querySelector('#new-tag')
@@ -366,14 +396,14 @@ describe('Scidash User Authorization Tests', () => {
 				ev.simulated = true;
 				elm.value = editedModelTag;
 				elm.dispatchEvent(ev);
-				
+
 				var evt = new CustomEvent('Event');
 				evt.initEvent('keypress', true, false);
 				evt.which = 13;
 				evt.keyCode = 13;
 				elm.dispatchEvent(evt);
 			}, editedModelTag);
-			
+
 			const testModelTag = await page.evaluate(async () => {
 				return document.querySelectorAll('.tags svg').length;
 			});
@@ -393,12 +423,26 @@ describe('Scidash User Authorization Tests', () => {
 				elm.dispatchEvent(ev);
 
 			}, editedModelName);
-			
+
 			const testModelName = await page.evaluate(async () => {
 				return document.getElementById("model-name").value;
 			});
 
 			expect(testModelName).toEqual(editedModelName);
+		})
+
+		it('Model Parameters Button Present', async () => {
+			await wait4selector(page, '#open-model-parameters', { visible: true , timeout : 5000 })
+		})
+
+		it('Model Parameters Button Enabled', async () => {
+			await wait4selector(page, '#loading-model-parameters', { hidden: true , timeout : 125000 })
+
+			const modelParametersButton = await page.evaluate(async () => {
+				return document.getElementById("open-model-parameters").disabled;
+			});
+
+			expect(modelParametersButton).toEqual(false);
 		})
 
 		it('Save Model', async () => {
@@ -421,25 +465,41 @@ describe('Scidash User Authorization Tests', () => {
 				return document.querySelectorAll(".scidash-table tr").length;
 			});
 
+			tableModelLength = tableModelLength+1;
 			expect(models).toBeGreaterThanOrEqual(tableModelLength);
-			
+
 			const modelName = await page.evaluate(async () => {
 				return document.querySelectorAll(".scidash-table tr td")[0].innerText;
 			});
 
 			expect(modelName).toEqual(editedModelName);
-			
+
 			const modelClass = await page.evaluate(async () => {
 				return document.querySelectorAll(".scidash-table tr td")[1].innerText;
 			});
-			
+
 			expect(modelClass).toEqual(editedModelClass);
-			
+
 			const modelTag = await page.evaluate(async () => {
 				return document.querySelectorAll(".chips span")[1].innerText;
 			});
 
 			expect(modelTag).toEqual(editedModelTag);
 		})
+	})
+
+	describe('Model Page Filters', () => {
+		it('Models Page Opened, New Model Button Present', async () => {
+			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+		})
+
+		testModelFilters(page, newModelName, 0, 0, tableModelLength);
+		testModelFilters(page, editedModelName, 0,0, tableModelLength);
+
+		testModelFilters(page, newModelClass, 1, 1, tableModelLength);
+		testModelFilters(page, editedModelClass, 1, 1, tableModelLength);
+
+		testModelFilters(page, newModelTag, 2, 3, tableModelLength);
+		testModelFilters(page, editedModelTag, 2, 3, tableModelLength);
 	})
 })
