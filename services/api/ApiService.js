@@ -45,8 +45,12 @@ export default class ApiService {
         throw new ApiServiceException("You should define API endpoint");
       }
 
+      let globalFilters = "" + filteringS.stringifyFilters(filteringS.getFilters('global', true));
+      if(globalFilters && globalFilters.length>0){
+          globalFilters = globalFilters + "&";
+      }
       let queryPath = this.endpoint + (filteringS.getFilters(namespace, true)
-          ? "?" + filteringS.stringifyFilters(filteringS.getFilters('global', true))
+          ? "?" + globalFilters
                 + filteringS.stringifyFilters(filteringS.getFilters(namespace, true))
           : "");
 
