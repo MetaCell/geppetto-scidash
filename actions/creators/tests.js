@@ -193,6 +193,7 @@ export function editTest (test, dispatch){
   }
 
   test.tags = tagObjects;
+  test.test_class.class_name = test.test_class.class_name.split(" ")[0];
 
   apiService.update(test).then(result => result.json()).then(result => {
     dispatch(editTestFinished(result, dispatch));
