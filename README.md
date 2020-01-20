@@ -40,7 +40,7 @@ Install locally packages:
 
 Then navigate to folder 'geppetto-scidash/tests/jest' and run:
 
-``npm test``
+``npm test -- --runInBand``
 
 This will run the tests against the local server 'localhost:8000'.
 

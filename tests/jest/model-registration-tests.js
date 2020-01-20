@@ -1,16 +1,16 @@
 const puppeteer = require('puppeteer');
 const { TimeoutError } = require('puppeteer/Errors');
 
-import { wait4selector, click , makeUserID, signUpTests, testModelFilters, resetModelFilters} from './utils';
+import { wait4selector, click , makeUserID, signUpTests, logoutTests, testModelFilters, resetModelFilters} from './utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
-const testScoresURL = scidashURL; 
 
-/** Variables used for creation of new user */
+// Variables used for creation of new user
 let newUserID = makeUserID(6);
 const newUserEmail = "test_user@gmail.com";
 const newUserPassword = "Password_2020";
 
+// Variables used for Model registration form
 const newModelName = "TestModel1";
 const editedModelName = "TestModel2";
 const newModelURL = "https://github.com/ddelpiano/neuronunit/blob/dev/neuronunit/models/NeuroML2/LEMS_2007One.xml";
@@ -19,19 +19,20 @@ const editedModelTag = "test-edited";
 const newModelClass = "ReducedModel";
 const editedModelClass = "LEMSModel";
 
+// Amount of models in models page
 var tableModelLength = 2;
 
 /**
- * User Auth Tests
+ * Model Registration Tests
  */
-describe('Scidash User Authorization Tests', () => {
+describe('Scidash Model Registration Tests', () => {
 	beforeAll(async () => {
 		jest.setTimeout(125000);
 		await page.setViewport({ width: 1280, height: 800 })
 		await page.goto(scidashURL);
 	});
 
-	//Tests components in landing page are present
+	// Tests components in landing page are present
 	describe('Test Landing Page Components', () => {
 		it('Loading spinner goes away', async () => {
 			await wait4selector(page, 'i.fa-cogs', { hidden: true, timeout : 120000 })
@@ -56,7 +57,8 @@ describe('Scidash User Authorization Tests', () => {
 		})
 	})
 
-	//Tests User Registration/Sign-Up Works using the Sign-Up Button
+	// Tests User Registration/Sign-Up Works using the Sign-Up Button,
+	// Needed to Generate User for Model Registration
 	describe('Create User Account', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
@@ -76,8 +78,8 @@ describe('Scidash User Authorization Tests', () => {
 
 	})
 
-	//Tests User Logout Functionality
-	describe('Test New Model Registration', () => {
+	// Tests New Model Creation
+	describe('Test New Model Creation', () => {
 		it('Sidebar Component Opened, Models Option Present', async () => {
 			await click(page, 'button#hamMenu');
 			await wait4selector(page, 'span#hamMenuModels', { visible: true })
@@ -249,7 +251,7 @@ describe('Scidash User Authorization Tests', () => {
 		})
 	})
 
-	//Tests User Logout Functionality
+	// Tests Cancel Model Creation
 	describe('Cancel Model Creation', () => {
 		it('Models Page Opened, New Model Button Present', async () => {
 			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
@@ -275,6 +277,7 @@ describe('Scidash User Authorization Tests', () => {
 		})
 	})
 
+	// Tests Cloning Model
 	describe('Clone Model', () => {
 		it('Models Page Opened, New Model Button Present', async () => {
 			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
@@ -313,6 +316,7 @@ describe('Scidash User Authorization Tests', () => {
 		})
 	})
 
+	// Tests Model Editing
 	describe('Edit Model', () => {
 		it('Models Page Opened, New Model Button Present', async () => {
 			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
@@ -488,6 +492,7 @@ describe('Scidash User Authorization Tests', () => {
 		})
 	})
 
+	// Tests Model Page Filters
 	describe('Model Page Filters', () => {
 		it('Models Page Opened, New Model Button Present', async () => {
 			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
@@ -501,5 +506,10 @@ describe('Scidash User Authorization Tests', () => {
 
 		testModelFilters(page, newModelTag, 2, 3, tableModelLength);
 		testModelFilters(page, editedModelTag, 2, 3, tableModelLength);
+	})
+	
+	// User Logout
+	describe('User Logout', () => {
+		logoutTests(page);
 	})
 })

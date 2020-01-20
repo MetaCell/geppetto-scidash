@@ -110,7 +110,7 @@ export const signUpTests = (page, newUserID, newUserEmail, newUserPassword) => {
 		expect(testUserPassword).toEqual(newUserPassword);
 	})
 
-	it('Submit Registration and Test Loggged In Button Appears', async () => {
+	it('Submit Registration and Test Logged In Button Appears', async () => {
 		await page.evaluate(async () => {
 			document.querySelector(".registration-container button").click()
 		});
@@ -158,13 +158,13 @@ export const loginTests = (page, newUserID, newUserPassword) => {
 		await page.evaluate(async () => {
 			document.querySelector(".login-container button").click()
 		});
-		await wait4selector(page, 'div.user-button', { visible: true, timeout : 30000 })
+		await wait4selector(page, 'div.user-button', { visible: true, timeout : 60000 })
 	})
 }
 
 export const logoutTests = (page) => {
 	it('Logged In Button Visible', async () => {
-		await wait4selector(page, '#user-button', { visible: true, timeout : 30000 })
+		await wait4selector(page, '#user-button', { visible: true, timeout : 60000 })
 	})
 
 	it('Open User Info Panel', async () => {
@@ -229,11 +229,11 @@ export const resetPasswordTests = (page, newUserEmail) => {
 	})
 
 	it('Submit User Credentials', async () => {
-		await page.waitFor(5000);
+		await page.waitFor(1000);
 		await page.evaluate(async () => {
 			document.querySelector(".password-reset-container button").click()
 		});
-		await wait4selector(page, 'div.password-reset-sent', { visible: true, timeout : 30000 })
+		await wait4selector(page, 'div.password-reset-container', { visible: true, timeout : 30000 })
 	})
 }
 
