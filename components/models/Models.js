@@ -22,9 +22,7 @@ export default class Models extends React.Component {
   }
 
   componentWillMount () {
-    if (this.props.user.isLogged) {
-      this.props.onFilterUpdate(this.username, "owner");
-    } else {
+    if (!this.props.user.isLogged) {
       this.props.notLoggedRedirect();
     }
 

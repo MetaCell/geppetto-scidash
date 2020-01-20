@@ -136,7 +136,7 @@ export default class TestForm extends React.Component {
             onChange={(e, key, value) => {
               for (let klass of this.state.testClasses) {
                 if (klass.id == value) {
-                  this.updateModel({ "test_class": klass });
+                  this.updateModel({ "test_class": klass,  });
                 }
               }
             }}
@@ -218,6 +218,7 @@ export default class TestForm extends React.Component {
               schema={this.state.model.test_class.observation_schema}
               default_params={this.state.model.test_class.default_params}
               unitsMap={this.state.model.getObservationUnitsMap()}
+              test_class={this.state.model.test_class}
               onChange={observation => {
                 this.updateModel({
                   observation
@@ -239,6 +240,7 @@ export default class TestForm extends React.Component {
               schema={this.state.model.test_class.test_parameters_schema}
               default_params={this.state.model.test_class.default_params}
               unitsMap={this.state.model.getParamsUnitsMap()}
+              test_class={this.state.model.test_class}
               onChange={params => {
                 this.updateModel({
                   params

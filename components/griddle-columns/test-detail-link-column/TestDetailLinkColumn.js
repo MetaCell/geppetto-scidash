@@ -51,7 +51,7 @@ export default class TestDetailLinkColumn extends React.Component {
               cursor: "pointer",
             }}
           >
-            {this.props.testInstanceObject !== undefined
+            {this.props.testInstanceObject !== undefined && this.props.testInstanceObject !== " "
               ? this.props.testInstanceObject.get("test_class").get("class_name")
               : undefined}
           </a>

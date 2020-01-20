@@ -85,7 +85,7 @@ export default class ScoreMatrix extends React.Component {
                       key={index}
                       title={heading.title}
                       width="55px"
-                      customComponent={({ value }) => <HideRowCell rowData={value} hideRow={this.props.hideRow} />}
+                      customComponent={({ value }) => <HideRowCell rowData={value} hideRow={this.props.hideRow} data={this.props.scoreMatrixTableData} />}
                       customHeadingComponent={props => <ShowAllHeading hiddenModels={this.props.hiddenModels} showAllModels={this.props.showAllModels} />}
                       cssClassName="griddle-cell score-matrix-cell"
                       order={index + 1}

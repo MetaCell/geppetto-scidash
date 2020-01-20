@@ -3,7 +3,7 @@ import $ from "jquery";
 import Helper from "../../shared/Helper";
 
 const CustomScoreName = ({ value }) => (
-  <div style={{ paddingRight: "20px" }}>{value}</div>
+  <div style={{ paddingRight: "20px" }}>{value.get("test_class").get("class_name")}</div>
 );
 
 class StatusIconColumn extends React.Component {

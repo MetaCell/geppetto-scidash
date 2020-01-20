@@ -1,6 +1,7 @@
 import ScoresApiService from "../../services/api/ScoresApiService";
 import FilteringService from "../../services/FilteringService";
 import Config from "../../shared/Config";
+import Helper from "../../shared/Helper";
 
 export const FILTERING_SUITES_STARTED = "FILTERING_SUITES_STARTED";
 export const FILTERING_SUITES_FINISHED = "FILTERING_SUITES_FINISHED";
@@ -33,21 +34,22 @@ export function filteringSuitesFinished (scores){
 export function filteringSuitesStarted (searchText, filterName, dispatch){
   let apiService = new ScoresApiService();
   let filteringService = FilteringService.getInstance();
+  const namespace = Helper.getNamespaceFromKey(filterName, Config.suitesNamespace);
 
-  filteringService.setupFilter("with_suites", true, Config.suiteNamespace);
+  filteringService.setupFilter("with_suites", true, namespace);
 
   if (searchText.length > 0) {
-    filteringService.setupFilter(filterName, searchText, Config.suiteNamespace);
+    filteringService.setupFilter(filterName, searchText, namespace);
   } else {
-    filteringService.deleteFilter(filterName, Config.suiteNamespace);
+    filteringService.deleteFilter(filterName, namespace);
   }
 
-  apiService.getList(false, Config.suiteNamespace).then(result => {
+  apiService.getList(false, namespace).then(result => {
 
-    let filters = filteringService.getFilters(Config.suiteNamespace);
-    let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "";
+    let filters = filteringService.getFilters(namespace);
+    let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "";
 
-    window.history.pushState("", "", filterString);
+    window.history.pushState("", "", `${location.pathname}` + filterString);
     dispatch(filteringSuitesFinished(result));
 
   });

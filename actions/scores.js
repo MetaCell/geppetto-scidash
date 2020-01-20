@@ -2,6 +2,7 @@ import $ from "jquery";
 import ScoresGriddleAdapter from "../shared/adapter/ScoresGriddleAdapter";
 import FilteringService from "../services/FilteringService";
 import Config from "../shared/Config";
+import ScoresAutocompleteAdapter from "../shared/adapter/ScoresAutocompleteAdapter";
 
 
 export function filteringScoresStarted (state, action){
@@ -17,13 +18,14 @@ export function filteringScoresStarted (state, action){
 
 export function filteringScoresFinished (state, action){
 
-  let adapter = new ScoresGriddleAdapter(action.scores);
+  let data = new ScoresGriddleAdapter(action.scores).getGriddleData();
 
   $(".griddle-page-select").show();
 
   let newState = {
     ...state,
-    data: adapter.getGriddleData()
+    data: data,
+    autoCompleteData: new ScoresAutocompleteAdapter(data).getAutocompleteData()
   };
 
   return newState;

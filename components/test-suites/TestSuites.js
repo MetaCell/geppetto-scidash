@@ -14,6 +14,7 @@ import ScidashTimestampColumn from "./partials";
 import SuiteNameLinkColumnContainer from "../griddle-columns/suite-name-link-column/SuiteNameLinkColumnContainer";
 import AvgScoreDetailLinkColumnContainer from "../griddle-columns/avg-score-detail-link-column/AvgScoreDetailLinkColumnContainer";
 import Config from "../../shared/Config";
+import FilteringService from "../../services/FilteringService";
 
 import Loader from "../loader/Loader";
 
@@ -21,6 +22,10 @@ export default class TestSuites extends React.Component {
   constructor (props, context) {
     super(props, context);
     this.props = props;
+  }
+
+  componentWillMount() {
+    FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
   }
 
   render () {
@@ -51,7 +56,7 @@ export default class TestSuites extends React.Component {
               customHeadingComponent={props => (
                 <FilterCellContainer
                   filterName="suite_name"
-                  namespace={Config.suiteNamespace}
+                  namespace={Config.suitesNamespace}
                   onFilterUpdate={this.props.onFilterUpdate}
                   autoCompleteData={this.props.autoCompleteData}
                   {...props}
@@ -84,13 +89,27 @@ export default class TestSuites extends React.Component {
               customHeadingComponent={props => (
                 <FilterCellContainer
                   filterName="model"
-                  namespace={Config.suiteNamespace}
+                  namespace={Config.suitesNamespace}
                   onFilterUpdate={this.props.onFilterUpdate}
                   autoCompleteData={this.props.autoCompleteData}
                   {...props}
                 />
               )}
               order={4}
+            />
+            <ColumnDefinition
+              id="owner"
+              title="Owner"
+              customHeadingComponent={props => (
+                <FilterCellContainer
+                  autoCompleteData={this.props.autoCompleteData}
+                  namespace={Config.globalNamespace}
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  filterName="owner"
+                  {...props}
+                />
+              )}
+              order={8}
             />
             <ColumnDefinition
               id="timestamp"
@@ -101,7 +120,7 @@ export default class TestSuites extends React.Component {
               customHeadingComponent={props => (
                 <DateRangeCellContainer
                   onFilterUpdate={this.props.onFilterUpdate}
-                  namespace={Config.suiteNamespace}
+                  namespace={Config.globalNamespace}
                   dateFilterChanged={this.props.dateFilterChanged}
                   onDateFilterClear={this.props.onDateFilterClear}
                   {...props}
