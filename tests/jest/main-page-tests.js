@@ -4,7 +4,7 @@ const { TimeoutError } = require('puppeteer/Errors');
 import { wait4selector, click } from './utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
-const testScoresURL = scidashURL + '/?timestamp_to=2018-07-12&timestamp_from=2018-05-05&status=c'; 
+const testScoresURL = scidashURL + '/?timestamp_to=2018-07-12T05%3A00%3A00.000Z&timestamp_from=2018-05-05T05%3A00%3A00.000Z&status=c'; 
 
 /**
  * Tests Main Page
@@ -29,27 +29,27 @@ describe('Scidash Main Page Tests', () => {
 
 		// Wait for this component to load on term info, means page has finished loading
 		it('Scidash Logo Shows Up', async () => {
-			await wait4selector(page, 'div#scidash-logo', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div#scidash-logo', { visible: true, timeout : 30000 })
 		})
 
 		it('Sidebar Toggle Button Visible', async () => {
-			await wait4selector(page, 'button#hamMenu', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'button#hamMenu', { visible: true, timeout : 30000 })
 		})
 
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
 		})
 
 		it('Main Table Visible', async () => {
-			await wait4selector(page, 'div.datepicker-wrapper', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.datepicker-wrapper', { visible: true, timeout : 30000 })
 		})
 
 		it('Date Picker Visible', async () => {
-			await wait4selector(page, 'div.datepicker-wrapper', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.datepicker-wrapper', { visible: true, timeout : 30000 })
 		})
 
 		it('Scidash Footer Visible', async () => {
@@ -64,7 +64,7 @@ describe('Scidash Main Page Tests', () => {
 			await wait4selector(page, 'span#hamMenuScores', { visible: true })
 		})
 
-		it('Tests Suites Label Present', async () => {
+		it('Tests Scores Label Present', async () => {
 			await wait4selector(page, 'span#hamMenuScores', { visible: true })
 		})
 
@@ -209,18 +209,18 @@ describe('Scidash Test Scores and Suites View', () => {
 			await page.waitForFunction('document.getElementById("scidash-logo").innerText.startsWith("Suite scores")');
 		})
 
-		it('1 Suite  Present in Main Page', async () => {
+		it('8 Suites  Present in Main Page', async () => {
 			await page.waitFor(5000);
 			const mainPageTestScoresRows = await page.evaluate(async () => document.querySelectorAll(".griddle-row .timestamp-cell").length);
-			expect(mainPageTestScoresRows).toEqual(1);
+			expect(mainPageTestScoresRows).toEqual(8);
 		})
 		
 		it('Suite_231043766474 Suite Score In Page Present', async () => {
 			const inputResistanceTest = await page.evaluate(async (name, score) => {
 				var rows = document.querySelectorAll(".griddle-row");
 				for(var r in rows){
-					if(name == document.querySelectorAll(".griddle-row")[r].querySelector("div").innerText){
-						if(score == document.querySelectorAll(".griddle-row")[r].querySelector("a").innerText){
+					if(name == document.querySelectorAll(".griddle-row")[r].querySelectorAll("a")[0].innerText){
+						if(score == document.querySelectorAll(".griddle-row")[r].querySelectorAll("a")[1].innerText){
 							return true;
 						}
 					}
