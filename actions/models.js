@@ -3,6 +3,7 @@ import ModelsGriddleAdapter from "../shared/adapter/ModelsGriddleAdapter";
 import FilteringService from "../services/FilteringService";
 import Config from "../shared/Config";
 import ApiService from "../services/api/ApiService";
+import ModelsAutocompleteAdapter from "../shared/adapter/ModelsAutocompleteAdapter";
 
 
 export function filteringModelsStarted (state, action){
@@ -18,13 +19,14 @@ export function filteringModelsStarted (state, action){
 
 export function filteringModelsFinished (state, action){
 
-  let adapter = new ModelsGriddleAdapter(action.models);
+  let data = new ModelsGriddleAdapter(action.models).getGriddleData();
 
   $(".griddle-page-select").show();
 
   let newState = {
     ...state,
-    data: adapter.getGriddleData()
+    data: data,
+    autoCompleteData: new ModelsAutocompleteAdapter(data).getAutocompleteData()
   };
 
   return newState;

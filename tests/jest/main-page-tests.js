@@ -29,27 +29,27 @@ describe('Scidash Main Page Tests', () => {
 
 		// Wait for this component to load on term info, means page has finished loading
 		it('Scidash Logo Shows Up', async () => {
-			await wait4selector(page, 'div#scidash-logo', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div#scidash-logo', { visible: true, timeout : 30000 })
 		})
 
 		it('Sidebar Toggle Button Visible', async () => {
-			await wait4selector(page, 'button#hamMenu', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'button#hamMenu', { visible: true, timeout : 30000 })
 		})
 
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
 		})
 
 		it('Main Table Visible', async () => {
-			await wait4selector(page, 'div.datepicker-wrapper', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.datepicker-wrapper', { visible: true, timeout : 30000 })
 		})
 
 		it('Date Picker Visible', async () => {
-			await wait4selector(page, 'div.datepicker-wrapper', { visible: true, timeout : 10000 })
+			await wait4selector(page, 'div.datepicker-wrapper', { visible: true, timeout : 30000 })
 		})
 
 		it('Scidash Footer Visible', async () => {

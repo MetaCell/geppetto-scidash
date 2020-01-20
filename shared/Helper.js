@@ -1,3 +1,5 @@
+import Config from "./Config";
+
 export default class Helper {
   constructor () {}
 
@@ -134,5 +136,14 @@ export default class Helper {
       }
     }
     return true;
+  }
+
+  static getNamespaceFromKey (key, namespace) {
+    switch (key) {
+      case "owner": return Config.globalNamespace;
+      case "timestamp_from": return Config.globalNamespace;
+      case "timestamp_to": return Config.globalNamespace;
+      default: return namespace;
+    }
   }
 }

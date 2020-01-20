@@ -169,14 +169,20 @@ export const logoutTests = (page) => {
 
 	it('Open User Info Panel', async () => {
 		await page.evaluate(async () => {
-			document.querySelector("#user-button").click()
+			var button = document.querySelector("#user-button");
+			if(button != null){
+				button.click();
+			}
 		});
 		await wait4selector(page, '#logout-button', { visible: true, timeout : 30000 });
 	})
 
 	it('Click Logout Button', async () => {
 		await page.evaluate(async () => {
-			document.querySelector("#logout-button").click()
+			var button = document.querySelector("#logout-button");
+			if(button != null){
+				button.click();
+			}
 		});
 	})
 

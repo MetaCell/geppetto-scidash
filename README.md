@@ -1,4 +1,7 @@
+[![Build Status](https://img.shields.io/travis/MetaCell/geppetto-scidash/master.svg?style=flat-square&label=master)](https://travis-ci.org/MetaCell/geppetto-scidash)
+[![Build Status](https://img.shields.io/travis/MetaCell/geppetto-scidash/development.svg?style=flat-square&label=develop)](https://travis-ci.org/MetaCell/geppetto-scidash)
 # geppetto-scidash
+
 
 This repository contains the Geppetto extension for SciDash. This extension is designed to work with the Scidash backend app (see README on https://github.com/MetaCell/scidash for further details of how it all ties together).
 

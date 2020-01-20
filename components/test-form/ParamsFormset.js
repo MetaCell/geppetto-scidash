@@ -31,7 +31,10 @@ export default class ParamsFormset extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
-    if (!_.isEqual(this.props.schema, prevProps.schema)) {
+    if (
+      (!_.isEqual(this.props.test_class, prevProps.test_class)) ||
+      (!_.isEqual(this.props.schema, prevProps.schema)) 
+    ){
       if (!Array.isArray(this.props.schema)){
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
