@@ -9,6 +9,7 @@ import Loader from "../loader/Loader";
 import { CustomMenu, CustomTagComponent } from "./partial";
 import _ from 'lodash';
 import ModelViewDetailsContainer from "../griddle-columns/model-view-details/ModelViewDetailsContainer";
+import FilteringService from "../../services/FilteringService";
 
 
 export default class Models extends React.Component {
@@ -17,7 +18,6 @@ export default class Models extends React.Component {
     super(props, context);
     this.props = props;
 
-    this.username = this.props.user.isLogged ? this.props.user.userObject.username : "";
     this.griddleData = [];
   }
 
@@ -25,6 +25,8 @@ export default class Models extends React.Component {
     if (!this.props.user.isLogged) {
       this.props.notLoggedRedirect();
     }
+
+    FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
 
     // This will be removed - this.props.data needs to be refactored rom the
     // services/state/ScoreInitialEtc, the initial template must return an object for name
@@ -147,10 +149,9 @@ export default class Models extends React.Component {
               title="Owner"
               customHeadingComponent={props => (<FilterCellContainer
                 autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.modelInstancesNamespace}
+                namespace={Config.globalNamespace}
                 onFilterUpdate={this.props.onFilterUpdate}
                 filterName="owner"
-                value={this.username}
                 {...props}
               />)}
               order={5}
@@ -162,7 +163,7 @@ export default class Models extends React.Component {
               cssClassName="timeStampCss"
               customHeadingComponent={props => (<DateRangeCellContainer
                 onFilterUpdate={this.props.onFilterUpdate}
-                namespace={Config.modelInstancesNamespace}
+                namespace={Config.globalNamespace}
                 dateFilterChanged={this.props.dateFilterChanged}
                 onDateFilterClear={this.props.onDateFilterClear}
                 {...props}

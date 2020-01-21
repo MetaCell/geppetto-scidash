@@ -14,6 +14,8 @@ export default class ScoreMatrixGriddleAdapter extends BaseAdapter {
 
     if (this.instance === null) {
       this.instance = new this(rawScores);
+    } else if (rawScores){
+      this.instance.rawData = rawScores;
     }
 
     return this.instance;
