@@ -47,9 +47,37 @@ describe('Scidash Model Registration Tests', () => {
 		it('Scidash Logo Shows Up', async () => {
 			await wait4selector(page, 'div#scidash-logo', { visible: true, timeout : 30000 })
 		})
-
+	})
+	
+	//Tests login components in landing page are present
+	describe('Test Landing Page Login Components', () => {
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			const userLogin = await page.evaluate(async () => {
+				var button = document.querySelector("#user-button")
+				if(button == null || button == undefined){
+					return false;
+				}
+				return true;
+			});
+
+			if(userLogin){
+				await page.evaluate(async () => {
+					var button = document.querySelector("#user-button");
+					if(button != null){
+						button.click();
+					}
+				});
+				await wait4selector(page, '#logout-button', { visible: true, timeout : 30000 });
+
+				await page.evaluate(async () => {
+					var button = document.querySelector("#logout-button");
+					if(button != null){
+						button.click();
+					}
+				});
+			}
+
+			await wait4selector(page, 'div.login-button', { visible: true, timeout : 60000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
@@ -447,6 +475,14 @@ describe('Scidash Model Registration Tests', () => {
 			});
 
 			expect(modelParametersButton).toEqual(false);
+		})
+		
+		it('Model Parameters Dialog Open', async () => {
+			await page.evaluate(async () => {
+				return document.getElementById("open-model-parameters").click();
+			});
+			
+			await wait4selector(page, '#parameters-table', { visible: true , timeout : 5000 })
 		})
 
 		it('Save Model', async () => {

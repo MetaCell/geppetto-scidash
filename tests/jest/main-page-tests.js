@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { TimeoutError } = require('puppeteer/Errors');
 
-import { wait4selector, click } from './utils';
+import { wait4selector, click, logoutTests} from './utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 const testScoresURL = scidashURL + '/?timestamp_to=2018-07-12T05%3A00%3A00.000Z&timestamp_from=2018-05-05T05%3A00%3A00.000Z&status=c'; 
@@ -36,14 +36,6 @@ describe('Scidash Main Page Tests', () => {
 			await wait4selector(page, 'button#hamMenu', { visible: true, timeout : 30000 })
 		})
 
-		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
-		})
-
-		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
-		})
-
 		it('Main Table Visible', async () => {
 			await wait4selector(page, 'div.datepicker-wrapper', { visible: true, timeout : 30000 })
 		})
@@ -54,6 +46,42 @@ describe('Scidash Main Page Tests', () => {
 
 		it('Scidash Footer Visible', async () => {
 			await wait4selector(page, 'div#footer-scidash', { visible: true })
+		})
+	})
+
+	//Tests login components in landing page are present
+	describe('Test Landing Page Login Components', () => {
+		it('Login Button Visible', async () => {
+			const userLogin = await page.evaluate(async () => {
+				var button = document.querySelector("#user-button")
+				if(button == null || button == undefined){
+					return false;
+				}
+				return true;
+			});
+
+			if(userLogin){
+				await page.evaluate(async () => {
+					var button = document.querySelector("#user-button");
+					if(button != null){
+						button.click();
+					}
+				});
+				await wait4selector(page, '#logout-button', { visible: true, timeout : 30000 });
+
+				await page.evaluate(async () => {
+					var button = document.querySelector("#logout-button");
+					if(button != null){
+						button.click();
+					}
+				});
+			}
+
+			await wait4selector(page, 'div.login-button', { visible: true, timeout : 60000 })
+		})
+
+		it('Sign Up Button Visible', async () => {
+			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
 		})
 	})
 
@@ -124,10 +152,10 @@ describe('Scidash Test Scores and Suites View', () => {
 
 		it('RestingPotentialTest Score In Page Present', async () => {
 			const restingPotentialTest = await page.evaluate(async (name, score) => {
-				var rows = document.querySelectorAll(".griddle-row");
-				for(var r in rows){
-					if(name == document.querySelectorAll(".griddle-row")[r].querySelector("div").innerText){
-						if(score == document.querySelectorAll(".griddle-row")[r].querySelector("a").innerText){
+				var rows = document.querySelectorAll(".griddle-row").length;
+				for(var r = 0; r < rows; r++){
+					if(name == document.querySelectorAll(".griddle-row")[r].querySelectorAll("a")[0].innerText){
+						if(score == document.querySelectorAll(".griddle-row")[r].querySelectorAll("a")[1].innerText){
 							return true;
 						}
 					}
@@ -139,10 +167,10 @@ describe('Scidash Test Scores and Suites View', () => {
 
 		it('InjectedCurrentAPWidthTest Score In Page Present', async () => {
 			const injectedCurrentAPWidthTest = await page.evaluate(async (name, score) => {
-				var rows = document.querySelectorAll(".griddle-row");
-				for(var r in rows){
-					if(name == document.querySelectorAll(".griddle-row")[r].querySelector("div").innerText){
-						if(score == document.querySelectorAll(".griddle-row")[r].querySelector("a").innerText){
+				var rows = document.querySelectorAll(".griddle-row").length;
+				for(var r = 0; r < rows; r++){
+					if(name == document.querySelectorAll(".griddle-row")[r].querySelectorAll("a")[0].innerText){
+						if(score == document.querySelectorAll(".griddle-row")[r].querySelectorAll("a")[1].innerText){
 							return true;
 						}
 					}
@@ -154,10 +182,10 @@ describe('Scidash Test Scores and Suites View', () => {
 
 		it('InputResistanceTest Score In Page Present', async () => {
 			const inputResistanceTest = await page.evaluate(async (name, score) => {
-				var rows = document.querySelectorAll(".griddle-row");
-				for(var r in rows){
-					if(name == document.querySelectorAll(".griddle-row")[r].querySelector("div").innerText){
-						if(score == document.querySelectorAll(".griddle-row")[r].querySelector("a").innerText){
+				var rows = document.querySelectorAll(".griddle-row").length;
+				for(var r = 0; r < rows; r++){
+					if(name == document.querySelectorAll(".griddle-row")[r].querySelectorAll("a")[0].innerText){
+						if(score == document.querySelectorAll(".griddle-row")[r].querySelectorAll("a")[1].innerText){
 							return true;
 						}
 					}
@@ -212,13 +240,13 @@ describe('Scidash Test Scores and Suites View', () => {
 		it('8 Suites  Present in Main Page', async () => {
 			await page.waitFor(5000);
 			const mainPageTestScoresRows = await page.evaluate(async () => document.querySelectorAll(".griddle-row .timestamp-cell").length);
-			expect(mainPageTestScoresRows).toEqual(8);
+			expect(mainPageTestScoresRows).toEqual(1);
 		})
 		
 		it('Suite_231043766474 Suite Score In Page Present', async () => {
 			const inputResistanceTest = await page.evaluate(async (name, score) => {
-				var rows = document.querySelectorAll(".griddle-row");
-				for(var r in rows){
+				var rows = document.querySelectorAll(".griddle-row").length;
+				for(var r = 0; r < rows; r++){
 					if(name == document.querySelectorAll(".griddle-row")[r].querySelectorAll("a")[0].innerText){
 						if(score == document.querySelectorAll(".griddle-row")[r].querySelectorAll("a")[1].innerText){
 							return true;
@@ -226,7 +254,7 @@ describe('Scidash Test Scores and Suites View', () => {
 					}
 				}
 				return false;
-			}, "Suite_231043766474","0.54");
+			}, "Suite_231043766474","0.97");
 			expect(inputResistanceTest).toEqual(true);
 		})
 	})

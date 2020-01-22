@@ -133,9 +133,4 @@ describe('Scidash User Authorization Tests', () => {
 		// Precondition: User is login. Perform password reset tests
 		resetPasswordTests(page, newUserEmail)		
 	})
-
-	// User Logout After Tests are Performed
-	describe('User Logout', () => {
-		logoutTests(page);
-	})
 })

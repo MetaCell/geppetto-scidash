@@ -630,6 +630,7 @@ export default class ModelForm extends React.Component {
                   ? this.state.model.run_params.watchedVariables
                   : []
               }
+              id="parameters-table"
               params={this.state.params}
               onCheck={this.saveChecked}
               onUncheck={this.removeChecked}

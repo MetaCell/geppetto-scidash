@@ -48,6 +48,7 @@ export const makeUserID = (length) => {
 
 export const signUpTests = (page, newUserID, newUserEmail, newUserPassword) => {
 	it('Test Validation Fields', async () => {
+		await page.waitFor(1000);
 		await page.evaluate(async () => {
 			document.querySelector(".registration-container button").click()
 		});
