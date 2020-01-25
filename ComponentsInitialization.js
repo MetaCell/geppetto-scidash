@@ -4,8 +4,10 @@ define(function (require) {
 
     let ReactDOM = require("react-dom");
     let React = require("react");
+    let Sentry = require("@sentry/browser");
     let App = require("./App").default;
 
+    Sentry.init({dsn: "https://ccf48f7877bc4fb5a4cca74bdd193feb@sentry.io/1955654"});
 
     require("./styles/scidash.less");
 
