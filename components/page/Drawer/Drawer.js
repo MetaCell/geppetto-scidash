@@ -16,7 +16,7 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
   };
 
   const handleClickUserLogged = page => {
-    if(userLogged) {
+    if (userLogged) {
       handleMenuClick(page);
     } else {
       handleMenuClick(pagesService.SCORES_PAGE);
@@ -54,40 +54,40 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
         />
 
         {userLogged == true 
-        ? (<MenuItem
+          ? (<MenuItem
             id="hamMenuTests"
             primaryText="Tests"
             onClick={() => handleMenuClick(pagesService.TESTS_PAGE)}
             leftIcon={<i className="fa fa-laptop drawer-icon" />}
             disabled={!userLogged}
           />) 
-        : (<span data-tooltip-right="User must be logged in to view this page">
-          <MenuItem
-            id="hamMenuTests"
-            primaryText="Tests"
-            onClick={() => handleMenuClick(pagesService.TESTS_PAGE)}
-            leftIcon={<i className="fa fa-laptop drawer-icon" />}
-            disabled={!userLogged}
-          />
-        </span>)}
+          : (<span data-tooltip-right="User must be logged in to view this page">
+            <MenuItem
+              id="hamMenuTests"
+              primaryText="Tests"
+              onClick={() => handleMenuClick(pagesService.TESTS_PAGE)}
+              leftIcon={<i className="fa fa-laptop drawer-icon" />}
+              disabled={!userLogged}
+            />
+          </span>)}
 
         {userLogged == true 
-        ? (<MenuItem
+          ? (<MenuItem
             id="hamMenuModels"
             primaryText="Models"
             onClick={() => handleMenuClick(pagesService.MODELS_PAGE)}
             leftIcon={<i id="gpt-3dshow" className="gpt-3dshow drawer-icon" />}
             disabled={!userLogged}
           />) 
-        : (<span data-tooltip-right="User must be logged in to view this page">
-          <MenuItem
-            id="hamMenuModels"
-            primaryText="Models"
-            onClick={() => handleMenuClick(pagesService.MODELS_PAGE)}
-            leftIcon={<i id="gpt-3dshow" className="gpt-3dshow drawer-icon" />}
-            disabled={!userLogged}
-          />
-        </span>)}
+          : (<span data-tooltip-right="User must be logged in to view this page">
+            <MenuItem
+              id="hamMenuModels"
+              primaryText="Models"
+              onClick={() => handleMenuClick(pagesService.MODELS_PAGE)}
+              leftIcon={<i id="gpt-3dshow" className="gpt-3dshow drawer-icon" />}
+              disabled={!userLogged}
+            />
+          </span>)}
 
         <MenuItem
           id="hamMenuSettings"
@@ -97,22 +97,22 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
         />
 
         {userLogged == true 
-        ? (<MenuItem
+          ? (<MenuItem
             id="hamMenuScheduling"
             primaryText="Scheduling"
             leftIcon={<i className="fa fa-calendar drawer-icon" />}
             onClick={() => handleMenuClick(pagesService.SCHEDULING_PAGE)}
             disabled={!userLogged}
           />) 
-        : (<span data-tooltip-right="User must be logged in to view this page">
-          <MenuItem
-            id="hamMenuScheduling"
-            primaryText="Scheduling"
-            leftIcon={<i className="fa fa-calendar drawer-icon" />}
-            onClick={() => handleMenuClick(pagesService.SCHEDULING_PAGE)}
-            disabled={!userLogged}
-          />
-        </span>)}
+          : (<span data-tooltip-right="User must be logged in to view this page">
+            <MenuItem
+              id="hamMenuScheduling"
+              primaryText="Scheduling"
+              leftIcon={<i className="fa fa-calendar drawer-icon" />}
+              onClick={() => handleMenuClick(pagesService.SCHEDULING_PAGE)}
+              disabled={!userLogged}
+            />
+          </span>)}
       </Drawer>
     </div>
   );

@@ -28,14 +28,16 @@ export default class Models extends React.Component {
 
     FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
 
-    // This will be removed - this.props.data needs to be refactored rom the
-    // services/state/ScoreInitialEtc, the initial template must return an object for name
-    // plus the backend part that needs to return the test instance object for the name.
+    /*
+     * This will be removed - this.props.data needs to be refactored rom the
+     * services/state/ScoreInitialEtc, the initial template must return an object for name
+     * plus the backend part that needs to return the test instance object for the name.
+     */
     for ( var i = 0; i < this.props.data.length; i++) {
       let griddleItem = _.clone(this.props.data[i]);
       let newItem = _.clone(this.props.data[i]);
       griddleItem.nameLink = this.props.data[i].name;
-      for ( var j=0; j < this.props.modelClasses.length; j++) {
+      for ( var j = 0; j < this.props.modelClasses.length; j++) {
         if (this.props.modelClasses[j].class_name === this.props.data[i].class) {
           griddleItem.modelClass = this.props.modelClasses[j];
         }
@@ -51,7 +53,7 @@ export default class Models extends React.Component {
       let griddleItem = _.clone(nextProps.data[i]);
       let newItem = _.clone(nextProps.data[i]);
       griddleItem.nameLink = nextProps.data[i].name;
-      for ( var j=0; j < this.props.modelClasses.length; j++) {
+      for ( var j = 0; j < this.props.modelClasses.length; j++) {
         if (this.props.modelClasses[j].class_name === nextProps.data[i].class) {
           griddleItem.modelClass = nextProps.modelClasses[j];
         }

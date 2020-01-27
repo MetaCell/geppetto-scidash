@@ -7,34 +7,22 @@ export default function scidashScheduler (state = {}, action){
 
   switch (action.type){
   case TYPES.ADD_TEST_TO_SCHEDULER:
-    newState = {
-      ...actions.addTestToScheduler(state, action)
-    };
+    newState = { ...actions.addTestToScheduler(state, action) };
     break;
   case TYPES.REMOVE_TEST_FROM_SCHEDULER:
-    newState = {
-      ...actions.removeTestFromScheduler(state, action)
-    };
+    newState = { ...actions.removeTestFromScheduler(state, action) };
     break;
   case TYPES.ADD_MODEL_TO_SCHEDULER:
-    newState = {
-      ...actions.addModelToScheduler(state, action)
-    };
+    newState = { ...actions.addModelToScheduler(state, action) };
     break;
   case TYPES.REMOVE_MODEL_FROM_SCHEDULER:
-    newState = {
-      ...actions.removeModelFromScheduler(state, action)
-    };
+    newState = { ...actions.removeModelFromScheduler(state, action) };
     break;
   case TYPES.CLEAR_SCHEDULER:
-    newState = {
-      ...actions.clearScheduler(state, action)
-    };
+    newState = { ...actions.clearScheduler(state, action) };
     break;
   default:
-    newState = {
-      ...state
-    };
+    newState = { ...state };
     break;
   }
 

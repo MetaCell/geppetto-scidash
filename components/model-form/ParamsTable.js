@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-update-set-state */
 import React from "react";
 import Griddle, { RowDefinition, ColumnDefinition, plugins } from "griddle-react";
 import _ from "underscore";
@@ -102,9 +101,7 @@ export default class ParamsTable extends React.Component {
       });
     });
 
-    this.setState({
-      stateVariablesTableData: tableData
-    });
+    this.setState({ stateVariablesTableData: tableData });
   }
 
   convertToParamsTableData () {
@@ -122,9 +119,7 @@ export default class ParamsTable extends React.Component {
       });
     });
 
-    this.setState({
-      paramsTableData: tableData
-    });
+    this.setState({ paramsTableData: tableData });
   }
 
   render () {
@@ -149,9 +144,7 @@ export default class ParamsTable extends React.Component {
         if (props.hasNext) {
           return (
             <FlatButton
-              label={props.text} onClick={props.getNext} style={{
-                marginLeft: "10px"
-              }}
+              label={props.text} onClick={props.getNext} style={{ marginLeft: "10px" }}
             />
           );
         }
@@ -163,9 +156,7 @@ export default class ParamsTable extends React.Component {
         if (props.hasPrevious) {
           return (
             <FlatButton
-              label={props.text} onClick={props.getPrevious} style={{
-                marginRight: "10px"
-              }}
+              label={props.text} onClick={props.getPrevious} style={{ marginRight: "10px" }}
             />
           );
         }
@@ -255,22 +246,18 @@ export default class ParamsTable extends React.Component {
             label="State Variables" onClick={() => this.setState({
               stateVariablesOpen: true,
               paramsOpen: false
-            })} style={{
-              margin: "10px 0 10px 0"
-            }}
+            })} style={{ margin: "10px 0 10px 0" }}
             backgroundColor={this.state.stateVariablesOpen ? "#ccc" : ""}
           />
           <FlatButton
             label="Parameters" onClick={() => this.setState({
               stateVariablesOpen: false,
               paramsOpen: true
-            })} style={{
-              margin: "10px 0 10px 0"
-            }}
+            })} style={{ margin: "10px 0 10px 0" }}
             backgroundColor={this.state.paramsOpen ? "#ccc" : ""}
           />
-          {this.state.stateVariablesOpen &&
-            (
+          {this.state.stateVariablesOpen
+            && (
               <span>
                 <FlatButton
                   label="Untoggle all" style={{

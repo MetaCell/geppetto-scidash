@@ -7,7 +7,8 @@ import {
   hideSettings,
 } from "../../../actions/creators/header";
 
-const mapStateToProps = state => ({ ...state.header,
+const mapStateToProps = state => ({
+  ...state.header,
   headerLinksStyle: {
     position: "fixed",
     top: 25,

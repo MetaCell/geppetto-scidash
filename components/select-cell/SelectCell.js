@@ -26,12 +26,8 @@ const SelectCell = ({
         fontSize: "12px",
         top: "-14px"
       }}
-      menuStyle={{
-        width: "105px"
-      }}
-      menuItemStyle={{
-        fontSize: "12px"
-      }}
+      menuStyle={{ width: "105px" }}
+      menuItemStyle={{ fontSize: "12px" }}
       onClick={event => {
         event.stopPropagation();
       }}

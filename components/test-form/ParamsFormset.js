@@ -20,44 +20,31 @@ export default class ParamsFormset extends React.Component {
 
   componentDidMount (){
     if (!Array.isArray(this.props.schema)){
-      this.setState({
-        schemaList: [this.props.schema]
-      });
+      this.setState({ schemaList: [this.props.schema] });
     } else {
-      this.setState({
-        schemaList: this.props.schema
-      });
+      this.setState({ schemaList: this.props.schema });
     }
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
     if (
-      (!_.isEqual(this.props.test_class, prevProps.test_class)) ||
-      (!_.isEqual(this.props.schema, prevProps.schema)) 
+      (!_.isEqual(this.props.test_class, prevProps.test_class))
+      || (!_.isEqual(this.props.schema, prevProps.schema)) 
     ){
       if (!Array.isArray(this.props.schema)){
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          schemaList: [this.props.schema],
-        });
+        this.setState({ schemaList: [this.props.schema], });
       } else {
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          schemaList: this.props.schema
-        });
+        this.setState({ schemaList: this.props.schema });
       }
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        unitsMap: this.props.unitsMap
-      });
+      this.setState({ unitsMap: this.props.unitsMap });
     }
   }
 
   render () {
     return (
       <span>
-        {this.state.schemaList.length > 1 &&
-          <SelectField
+        {this.state.schemaList.length > 1
+          && <SelectField
             id="testFormSelectClass"
             labelStyle={{
               position: "relative",
@@ -67,9 +54,7 @@ export default class ParamsFormset extends React.Component {
             iconStyle={styles.firstLine.icon}
             value={this.state.choosedForm}
             onChange={(e, key, value) => {
-              this.setState({
-                choosedForm: value
-              });
+              this.setState({ choosedForm: value });
             }}
             floatingLabelText="Select observation schema"
             floatingLabelFixed={false}
@@ -77,7 +62,6 @@ export default class ParamsFormset extends React.Component {
             disabled={this.props.disabled}
           >
             {this.state.schemaList.map((value, index) =>
-              // eslint-disable-next-line react/no-array-index-key
               <MenuItem label={`${value[0]}`} primaryText={`${value[0]}`} value={index} key={index} />
             )}
           </SelectField>

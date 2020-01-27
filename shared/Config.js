@@ -56,9 +56,7 @@ Config.bannedFilters[MODEL_EDIT_NAMESPACE] = ["with_suites"];
 Config.bannedFilters[TEST_EDIT_NAMESPACE] = ["with_suites"];
 
 
-Config["testParametersUnitsMap"] = {
-  time: "s", voltage: "V", current: "A"
-};
+Config["testParametersUnitsMap"] = { time: "s", voltage: "V", current: "A" };
 
 Config["errorStatuses"] = [
   400, 500

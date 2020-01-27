@@ -24,19 +24,13 @@ const ScoreCell = ({ rowData, colorBlind }) => {
 const TitleHeader = ({ title }) => <div className="scidash-tilted-titles-table-heading-cell-div">{title}</div>;
 
 const HideRowCell = ({ rowData, hideRow, data }) => (
-    <i style={(data && data.length==1) ? {
-        display: "none"
-    } : {
-        display: "initial"
-    }}
-        onClick={() => hideRow(rowData)} className="fa fa-eye-slash eye-icon" title="Hide row"
-    />
+  <i style={(data && data.length == 1) ? { display: "none" } : { display: "initial" }}
+    onClick={() => hideRow(rowData)} className="fa fa-eye-slash eye-icon" title="Hide row"
+  />
 );
 
 const ShowAllHeading = ({ hiddenModels, showAllModels }) => (<RaisedButton
-  id="show-all-button" style={!hiddenModels.length ? {
-    display: "none"
-  } : { minWidth: "45px", width: "45px", maxHeight: "30px" }} onClick={showAllModels} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5 }} />} title="Show all"
+  id="show-all-button" style={!hiddenModels.length ? { display: "none" } : { minWidth: "45px", width: "45px", maxHeight: "30px" }} onClick={showAllModels} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5 }} />} title="Show all"
 />);
 
 export {

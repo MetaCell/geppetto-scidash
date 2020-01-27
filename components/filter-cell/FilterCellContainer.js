@@ -8,8 +8,11 @@ const mapStateToProps = (state, ownProps) => {
   let filterName = ownProps.filterName;
   let value = "";
 
-  if (filterName in currentFilters) value = currentFilters[filterName];
-  else value = "";
+  if (filterName in currentFilters) {
+    value = currentFilters[filterName];
+  } else {
+    value = "";
+  }
 
   return {
     title: ownProps.title,
@@ -19,12 +22,8 @@ const mapStateToProps = (state, ownProps) => {
       height: "28px",
       marginRight: "5px",
     },
-    menuStyle: {
-      width: "180px",
-    },
-    listStyle: {
-      width: "180px",
-    },
+    menuStyle: { width: "180px", },
+    listStyle: { width: "180px", },
     styleInputDefault: {
       width: "100px",
       height: "28px",

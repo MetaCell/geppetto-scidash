@@ -51,9 +51,7 @@ const ScoreDetails = ({
     >
       <div style={{ minWidth: "100px", margin: "15px" }}>
         <h4
-          style={{
-            maxWidth: "360px"
-          }}
+          style={{ maxWidth: "360px" }}
         >
           Test details
         </h4>

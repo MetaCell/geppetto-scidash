@@ -13,9 +13,7 @@ export default class Header extends React.Component {
 
   constructor (props, context) {
     super(props, context);
-    this.state = {
-      open: false,
-    };
+    this.state = { open: false, };
     this.props = props;
     this.wrapperSettings = null;
 
@@ -41,9 +39,7 @@ export default class Header extends React.Component {
   }
 
   handleRequestClose () {
-    this.setState({
-      open: false,
-    });
+    this.setState({ open: false, });
   }
 
   render () {
@@ -54,26 +50,19 @@ export default class Header extends React.Component {
 
     if (activePage == pagesService.TESTS_PAGE) {
       title = "Tests";
-    } 
-    else if (activePage == pagesService.TESTS_CREATE_PAGE){
+    } else if (activePage == pagesService.TESTS_CREATE_PAGE){
       title = "New test";
-    } 
-    else if (activePage == pagesService.MODELS_PAGE) {
+    } else if (activePage == pagesService.MODELS_PAGE) {
       title = "Models";
-    }
-    else if (activePage == pagesService.MODELS_CREATE_PAGE) {
+    } else if (activePage == pagesService.MODELS_CREATE_PAGE) {
       title = "New model";
-    }
-    else if (activePage == pagesService.SCORES_PAGE) {
+    } else if (activePage == pagesService.SCORES_PAGE) {
       title = "Test scores";
-    }
-    else if (activePage == pagesService.SUITES_PAGE) {
+    } else if (activePage == pagesService.SUITES_PAGE) {
       title = "Suite scores";
-    }
-    else if (activePage == pagesService.SETTINGS_PAGE) {
+    } else if (activePage == pagesService.SETTINGS_PAGE) {
       title = "Settings";
-    }
-    else if (activePage == pagesService.SCHEDULING_PAGE) {
+    } else if (activePage == pagesService.SCHEDULING_PAGE) {
       title = "Scheduling";
     }
 
@@ -99,15 +88,15 @@ export default class Header extends React.Component {
     }
     return (
       <div id="header">
-        <div id="scidash-logo" style={{cursor: "pointer", zIndex: 2}} onClick={() => this.props.logoClick()}>
+        <div id="scidash-logo" style={{ cursor: "pointer", zIndex: 2 }} onClick={() => this.props.logoClick()}>
           <h3 style={{ marginLeft: "60px", marginTop: "15px", width: "200px" }}>{title}</h3>
         </div>
         <DrawerContainer />
         <div id="headerLinks">
           <div className="row">
 
-            {this.props.userInfo.isLogged ?
-              <div className="col-md-3 auth-links">
+            {this.props.userInfo.isLogged
+              ? <div className="col-md-3 auth-links">
                 <RaisedButton
                   className="userButton" label={userinitial}
                   buttonStyle={{ borderRadius: 50, backgroundColor: "#37474f" }}
@@ -153,17 +142,12 @@ export default class Header extends React.Component {
                   </Card>
                 </Popover>
               </div>
-              :
-              <div className="col-md-3 auth-links">
+              : <div className="col-md-3 auth-links">
                 <RaisedButton
-                  href="/auth/login/" className="userButton loginButton" label="Login" style={{
-                    marginRight: "10px"
-                  }}
+                  href="/auth/login/" className="userButton loginButton" label="Login" style={{ marginRight: "10px" }}
                 />
                 <RaisedButton
-                  href="/auth/sign-up/" className="userButton signUpButton" label="Sign-Up" style={{
-                    marginRight: "10px"
-                  }}
+                  href="/auth/sign-up/" className="userButton signUpButton" label="Sign-Up" style={{ marginRight: "10px" }}
                 />
               </div>
             }

@@ -11,9 +11,7 @@ export const UPDATE_SCORES = "UPDATE_SCORES";
 export const UPDATE_SCORES_FINISHED = "UPDATE_SCORES_FINISHED";
 
 export function dateFilterChanged (){
-  return {
-    type: DATE_FILTER_CHANGED
-  };
+  return { type: DATE_FILTER_CHANGED };
 }
 
 export function clearDateFilter (filter, dispatch){
@@ -38,8 +36,7 @@ export function filteringScoresStarted (searchText, filterName, dispatch){
 
   if (searchText.length > 0) {
     filteringService.setupFilter(filterName, searchText, namespace);
-  }
-  else {
+  } else {
     filteringService.deleteFilter(filterName, namespace);
   }
 
@@ -56,9 +53,7 @@ export function filteringScoresStarted (searchText, filterName, dispatch){
 
   });
 
-  return {
-    type: FILTERING_SCORES_STARTED
-  };
+  return { type: FILTERING_SCORES_STARTED };
 }
 
 export function updateScoresFinished (result){
@@ -77,7 +72,5 @@ export function updateScores (dispatch){
     dispatch(updateScoresFinished(result));
   });
 
-  return {
-    type: UPDATE_SCORES
-  };
+  return { type: UPDATE_SCORES };
 }

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-update-set-state */
 import { connect } from "react-redux";
 import _ from "underscore";
 import Toggle from "material-ui/Toggle";
@@ -6,18 +5,10 @@ import React from "react";
 import { TOGGLE_ALL, UNTOGGLE_ALL } from "./events";
 
 const styles = {
-  thumbOff: {
-    backgroundColor: "red",
-  },
-  trackOff: {
-    backgroundColor: "#e19183",
-  },
-  thumbSwitched: {
-    backgroundColor: "#008000",
-  },
-  trackSwitched: {
-    backgroundColor: "#83e183",
-  }
+  thumbOff: { backgroundColor: "red", },
+  trackOff: { backgroundColor: "#e19183", },
+  thumbSwitched: { backgroundColor: "#008000", },
+  trackSwitched: { backgroundColor: "#83e183", }
 };
 
 export const rowDataSelector = (state, { griddleKey }) => state
@@ -37,9 +28,7 @@ export class ChooseVarComponent extends React.Component{
   constructor (props, context){
     super(props);
 
-    this.state = {
-      toggled: true
-    };
+    this.state = { toggled: true };
 
     this.onToggle = this.onToggle.bind(this);
     this.switchToggle = this.switchToggle.bind(this);
@@ -53,9 +42,7 @@ export class ChooseVarComponent extends React.Component{
     GEPPETTO.on(TOGGLE_ALL, this.onToggleAll, this);
     GEPPETTO.on(UNTOGGLE_ALL, this.onUntoggleAll, this);
 
-    this.setState({
-      toggled: this.props.value
-    });
+    this.setState({ toggled: this.props.value });
   }
 
   componentWillUnmount (){
@@ -79,9 +66,7 @@ export class ChooseVarComponent extends React.Component{
       callback = () => {};
     }
 
-    this.setState({
-      toggled: toggled
-    }, callback());
+    this.setState({ toggled: toggled }, callback());
   }
 
   render (){

@@ -24,7 +24,7 @@ export default class FilteringService {
     }
 
     setupFilter (key, value, namespace = Config.scoresNamespace, initial = false, writeToStorage = true){
-        console.log(namespace);
+      console.log(namespace);
       if (Config.bannedFilters[namespace].includes(key)){
         console.warn(`${key} is banned for namespace '${namespace}'`);
         return this;
@@ -62,8 +62,8 @@ export default class FilteringService {
 
     setFromGLobalFilters (dispatch) {
       const globalFilterNames = ["owner", "timestamp_from", "timestamp_to"];
-      for(let index in globalFilterNames){
-        const filterName =  globalFilterNames[index];
+      for (let index in globalFilterNames){
+        const filterName = globalFilterNames[index];
         const filterValue = this.getFilter(filterName, Config.globalNamespace);
         dispatch(filterValue, filterName);
       }
@@ -110,9 +110,11 @@ export default class FilteringService {
 
           let date = new Date(filter[1]);
 
-          if (Object.prototype.toString.call(date) === "[object Date]")
-          {if (!isNaN(date.getTime()))
-          {parsedFilters[filter[0]] = date.toISOString();}}
+          if (Object.prototype.toString.call(date) === "[object Date]") {
+            if (!isNaN(date.getTime())) {
+              parsedFilters[filter[0]] = date.toISOString();
+            }
+          }
         } else {
           parsedFilters[filter[0]] = filter[1];
         }

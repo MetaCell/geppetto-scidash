@@ -25,26 +25,20 @@ export default class ScoreMatrix extends React.Component {
       NoResults: () => <table className="model-table scidash-tilted-titles-table"><thead><tr><th><ShowAllHeading /></th></tr></thead></table>,
       SettingsToggle: () => null,
       NextButton: props => {
-        if (props.hasNext)
-        {
+        if (props.hasNext) {
           return (
             <RaisedButton
-              label={props.text} onClick={props.getNext} style={{
-                marginLeft: "10px"
-              }}
+              label={props.text} onClick={props.getNext} style={{ marginLeft: "10px" }}
             />
           );
         }
         return null;
       },
       PreviousButton: props => {
-        if (props.hasPrevious)
-        {
+        if (props.hasPrevious) {
           return (
             <RaisedButton
-              label={props.text} onClick={props.getPrevious} style={{
-                marginRight: "10px"
-              }}
+              label={props.text} onClick={props.getPrevious} style={{ marginRight: "10px" }}
             />
           );
         }
@@ -54,9 +48,7 @@ export default class ScoreMatrix extends React.Component {
 
     return (
       <Card
-        id="table-container-div" style={{
-          overflow: "scroll"
-        }}
+        id="table-container-div" style={{ overflow: "scroll" }}
       >
         <CardText>
           <Griddle

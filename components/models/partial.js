@@ -21,9 +21,7 @@ const styles = {
 export class CustomMenu extends Component {
   constructor (props) {
     super(props);
-    this.state = {
-      anchorEl: null
-    };
+    this.state = { anchorEl: null };
 
     this.isBlocked = this.isBlocked.bind(this);
     this.checkInstance = this.checkInstance.bind(this);
@@ -129,13 +127,13 @@ export class CustomMenu extends Component {
             <MenuItem
               primaryText="Clone"
               onClick={() => {
-                if(this.isUnschedulable()) {
+                if (this.isUnschedulable()) {
                   return false;
                 } else {
                   this.props.clone(this.props.value.get("modelId"))
                 }
               }
-            }
+              }
               leftIcon={<FontIcon className="fa fa-clone" />}
               disabled={this.isUnschedulable()}
             />

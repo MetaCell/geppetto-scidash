@@ -21,7 +21,6 @@ export default class ParamsForm extends React.Component {
 
   componentDidUpdate (prevProps, prevState, snapshot) {
     if (!_.isEqual(this.props.schema, prevProps.schema)) {
-      // eslint-disable-next-line react/no-did-update-set-state
       this.setState(
         {
           model: {},
@@ -80,9 +79,9 @@ export default class ParamsForm extends React.Component {
 
     let result = {};
     for (let key of Object.keys(schema)) {
-      if(this.props.default_params !== null &&
-         this.props.default_params !== undefined && 
-         this.props.default_params[key] !== undefined) {
+      if (this.props.default_params !== null
+         && this.props.default_params !== undefined 
+         && this.props.default_params[key] !== undefined) {
         result[key] = this.props.default_params[key];
       } else {
         result[key] = "";  

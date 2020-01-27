@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
@@ -11,25 +8,19 @@ export default class TestDetailLinkColumn extends React.Component {
   constructor (props, context) {
     super(props, context);
     this.props = props;
-    this.state = {
-      open: false,
-    };
+    this.state = { open: false, };
     this.openTestDetail = this.openTestDetail.bind(this);
     this.closeTestDetail = this.closeTestDetail.bind(this);
   }
 
   openTestDetail (event) {
     event.preventDefault();
-    this.setState({
-      open: true
-    });
+    this.setState({ open: true });
   }
 
   closeTestDetail (event) {
     event.preventDefault();
-    this.setState({
-      open: false
-    });
+    this.setState({ open: false });
   }
 
 
@@ -45,29 +36,27 @@ export default class TestDetailLinkColumn extends React.Component {
 
     return (
       <div>
-          <a
-            onClick={this.openTestDetail}
-            style={{
-              cursor: "pointer",
-            }}
-          >
-            {this.props.testInstanceObject !== undefined && this.props.testInstanceObject !== " "
-              ? this.props.testInstanceObject.get("test_class").get("class_name")
-              : undefined}
-          </a>
-          <Dialog
-            actions={actions}
-            modal
-            autoScrollBodyContent
-            contentStyle={{
-              width: "75%",
-              maxWidth: "none"
-            }}
-            contentClassName="centered-modal"
-            open={this.state.open}
-          >
-            <TestDetailsContainer testInstance={this.props.testInstanceObject} />
-          </Dialog>
+        <a
+          onClick={this.openTestDetail}
+          style={{ cursor: "pointer", }}
+        >
+          {this.props.testInstanceObject !== undefined && this.props.testInstanceObject !== " "
+            ? this.props.testInstanceObject.get("test_class").get("class_name")
+            : undefined}
+        </a>
+        <Dialog
+          actions={actions}
+          modal
+          autoScrollBodyContent
+          contentStyle={{
+            width: "75%",
+            maxWidth: "none"
+          }}
+          contentClassName="centered-modal"
+          open={this.state.open}
+        >
+          <TestDetailsContainer testInstance={this.props.testInstanceObject} />
+        </Dialog>
       </div>
     );
   }

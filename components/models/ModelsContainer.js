@@ -30,9 +30,7 @@ const mapStateToProps = state => ({
       if (props.hasNext) {
         return (
           <RaisedButton
-            label={props.text} onClick={props.getNext} style={{
-              marginLeft: "10px"
-            }}
+            label={props.text} onClick={props.getNext} style={{ marginLeft: "10px" }}
           />
         );
       }
@@ -43,9 +41,7 @@ const mapStateToProps = state => ({
       if (props.hasPrevious) {
         return (
           <RaisedButton
-            label={props.text} onClick={props.getPrevious} style={{
-              marginRight: "10px"
-            }}
+            label={props.text} onClick={props.getPrevious} style={{ marginRight: "10px" }}
           />
         );
       }
@@ -53,9 +49,7 @@ const mapStateToProps = state => ({
       return null;
     }
   },
-  pageProperties: {
-    currentPage: 1
-  },
+  pageProperties: { currentPage: 1 },
   sortProperties: [{
     id: "_timestamp",
     sortAscending: false

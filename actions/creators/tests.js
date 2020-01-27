@@ -21,9 +21,7 @@ export const TEST_EDIT_STARTED = "TEST_EDIT_STARTED";
 export const TEST_EDIT_FINISHED = "TEST_EDIT_FINISHED";
 
 export function dateFilterChanged (){
-  return {
-    type: DATE_FILTER_CHANGED
-  };
+  return { type: DATE_FILTER_CHANGED };
 }
 
 export function clearDateFilter (filter, dispatch){
@@ -58,8 +56,7 @@ export function filteringTestsStarted (searchText, filterName, dispatch){
     window.history.pushState("", "", `${location.pathname}` + filterString);
 
     let uniqueResults = [];
-    result.map((item, index) =>
-    {
+    result.map((item, index) => {
       let flag = true;
       for (let j = 0; j < uniqueResults.length; j++) {
         if (item.id === uniqueResults[j].id) {
@@ -75,9 +72,7 @@ export function filteringTestsStarted (searchText, filterName, dispatch){
     dispatch(filteringTestsFinished(uniqueResults));
   });
 
-  return {
-    type: FILTERING_TESTS_STARTED
-  };
+  return { type: FILTERING_TESTS_STARTED };
 }
 
 
@@ -98,22 +93,20 @@ export function testCreateStarted (model, dispatch){
   copiedModel.hash_id = new Helper().generateHashId(copiedModel);
 
   let d = new Date();
-  copiedModel.timestamp =
-    d.getFullYear() +
-    "-" +
-    ("0" + (d.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + d.getDate()).slice(-2) +
-    "T" +
-    d.getHours() +
-    ":" +
-    d.getMinutes();
+  copiedModel.timestamp
+    = d.getFullYear()
+    + "-"
+    + ("0" + (d.getMonth() + 1)).slice(-2)
+    + "-"
+    + ("0" + d.getDate()).slice(-2)
+    + "T"
+    + d.getHours()
+    + ":"
+    + d.getMinutes();
   let tagObjects = [];
 
   for (let tag of copiedModel.tags){
-    tagObjects.push({
-      name: tag
-    });
+    tagObjects.push({ name: tag });
   }
 
   copiedModel.tags = tagObjects;
@@ -132,9 +125,7 @@ export function testCreateStarted (model, dispatch){
     });
   });
 
-  return {
-    type: TEST_CREATE_STARTED
-  };
+  return { type: TEST_CREATE_STARTED };
 
 }
 
@@ -154,9 +145,7 @@ export function cloneTest (testId, dispatch){
       dispatch(cloneTestFinished(new TestInstance(result)));
     });
 
-  return {
-    type: TEST_CLONE_STARTED
-  };
+  return { type: TEST_CLONE_STARTED };
 
 }
 
@@ -174,9 +163,7 @@ export function startEditTest (testId, dispatch){
     dispatch(changePageWithParams(new PagesService().TESTS_EDIT_PAGE, { "test": result }, dispatch));
   });
 
-  return {
-    type: TEST_EDIT_REDIRECT
-  };
+  return { type: TEST_EDIT_REDIRECT };
 }
 
 export function editTest (test, dispatch){
@@ -187,9 +174,7 @@ export function editTest (test, dispatch){
   let tagObjects = [];
 
   for (let tag of test.tags){
-    tagObjects.push({
-      name: tag
-    });
+    tagObjects.push({ name: tag });
   }
 
   test.tags = tagObjects;
@@ -199,9 +184,7 @@ export function editTest (test, dispatch){
     dispatch(editTestFinished(result, dispatch));
   });
 
-  return {
-    type: TEST_EDIT_STARTED
-  };
+  return { type: TEST_EDIT_STARTED };
 
 }
 

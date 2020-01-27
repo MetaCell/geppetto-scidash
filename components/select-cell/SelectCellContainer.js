@@ -8,8 +8,11 @@ const mapStateToProps = (state, ownProps) => {
   let filterName = ownProps.filterName;
   let value = "";
 
-  if (filterName in currentFilters) value = currentFilters[filterName];
-  else value = "";
+  if (filterName in currentFilters) {
+    value = currentFilters[filterName];
+  } else {
+    value = "";
+  }
 
   return {
     title: ownProps.title,

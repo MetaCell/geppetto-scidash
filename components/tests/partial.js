@@ -22,27 +22,27 @@ export class CustomMenu extends Component {
   constructor (props) {
     super(props);
 
-    this.state = {
-      anchorEl: null
-    };
+    this.state = { anchorEl: null };
 
     this.isBlocked = this.isBlocked.bind(this);
     this.checkInstance = this.checkInstance.bind(this);
     this.checkUserRights = this.checkUserRights.bind(this);
   }
 
-  isBlocked() {
-    if(this.props.value === false) {
+  isBlocked () {
+    if (this.props.value === false) {
       return false;
     }
-    if(this.props.value === undefined) {
+    if (this.props.value === undefined) {
       return false;
     }
     if (this.props.value.get("isBlocked")) {
       return true;
     }
     let instanceId = this.props.value.get("testId");
-    let checkInstance = function (value, index, array) { return value.id === instanceId; };
+    let checkInstance = function (value, index, array) {
+      return value.id === instanceId; 
+    };
     let instance = this.props.data.find(checkInstance);
     if (instance !== undefined){
       if ((instance.tags.indexOf("deprecated") !== -1)) {
@@ -52,15 +52,17 @@ export class CustomMenu extends Component {
     return false;
   }
 
-  isUnschedulable() {
-    if(this.props.value === false) {
+  isUnschedulable () {
+    if (this.props.value === false) {
       return false;
     }
-    if(this.props.value === undefined) {
+    if (this.props.value === undefined) {
       return false;
     }
     let instanceId = this.props.value.get("testId");
-    let checkInstance = function (value, index, array) { return value.id === instanceId; };
+    let checkInstance = function (value, index, array) {
+      return value.id === instanceId; 
+    };
     let instance = this.props.data.find(checkInstance);
     if (instance !== undefined){
       if ((instance.tags.indexOf("unschedulable") !== -1)) {
@@ -71,22 +73,24 @@ export class CustomMenu extends Component {
   }
 
 
-  checkInstance() {
-    if(this.props.value === false || this.props.value === undefined) {
+  checkInstance () {
+    if (this.props.value === false || this.props.value === undefined) {
       return false
     } else {
       return true;
     }
   }
 
-  checkUserRights() {
-    if(this.props.value === false || this.props.value === undefined) {
+  checkUserRights () {
+    if (this.props.value === false || this.props.value === undefined) {
       return false
     } else {
       var instanceId = this.props.value.get("testId");
-      var checkInstance = function(value, index, array) { return value.id === instanceId };
+      var checkInstance = function (value, index, array) {
+        return value.id === instanceId 
+      };
       var instance = this.props.data.find(checkInstance);
-      if(instance.owner === this.props.user.userObject.username) {
+      if (instance.owner === this.props.user.userObject.username) {
         return false;
       }
       return true;
@@ -113,14 +117,13 @@ export class CustomMenu extends Component {
           <Menu>
             <MenuItem
               primaryText="Edit"
-              onClick={() => 
-                {
-                  if(this.checkUserRights()) {
-                    return false;
-                  } else {
-                    this.props.edit(this.props.value.get("testId"));
-                  }
+              onClick={() => {
+                if (this.checkUserRights()) {
+                  return false;
+                } else {
+                  this.props.edit(this.props.value.get("testId"));
                 }
+              }
               }
               leftIcon={<FontIcon className="fa fa-pencil-square-o" />}
               disabled={this.checkUserRights()}
@@ -128,12 +131,12 @@ export class CustomMenu extends Component {
             <MenuItem
               primaryText="Clone"
               onClick={() => {
-                  if(this.isUnschedulable()) {
-                    return false;
-                  } else {
-                    this.props.clone(this.props.value.get("testId"))
-                  }
+                if (this.isUnschedulable()) {
+                  return false;
+                } else {
+                  this.props.clone(this.props.value.get("testId"))
                 }
+              }
               }
               leftIcon={<FontIcon className="fa fa-clone" />}
               disabled={this.isUnschedulable()}

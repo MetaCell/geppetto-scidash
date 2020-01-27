@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import React from "react";
 import Chip from "material-ui/Chip";
 import SvgIcon from "material-ui/SvgIcon";
@@ -116,13 +115,9 @@ export default class ModelForm extends React.Component {
     );
 
     if (responseClasses.length > 0) {
-      this.setState({
-        successClasses: true
-      });
+      this.setState({ successClasses: true });
     } else {
-      this.setState({
-        failClasses: true
-      });
+      this.setState({ failClasses: true });
     }
 
     this.setState({
@@ -137,9 +132,7 @@ export default class ModelForm extends React.Component {
     );
 
     if (responseParams.failed) {
-      this.setState({
-        paramsErrors: [responseParams.message]
-      });
+      this.setState({ paramsErrors: [responseParams.message] });
       this.setState({
         loadingParams: false,
         successParams: false,
@@ -163,8 +156,8 @@ export default class ModelForm extends React.Component {
 
   convertUrl (url) {
     if (
-      url.toLowerCase().indexOf("githubusercontent") === -1 &&
-      url.toLowerCase().indexOf("github") > -1
+      url.toLowerCase().indexOf("githubusercontent") === -1
+      && url.toLowerCase().indexOf("github") > -1
     ) {
       let string1 = url.slice(0, url.indexOf("/blob/"));
       let string2 = url.slice(url.indexOf("/blob/") + 5, url.length);
@@ -176,12 +169,12 @@ export default class ModelForm extends React.Component {
         string1.lastIndexOf("/") + 1,
         string1.length
       );
-      let final_string =
-        "https://raw.githubusercontent.com/" +
-        github_user +
-        "/" +
-        repository +
-        string2;
+      let final_string
+        = "https://raw.githubusercontent.com/"
+        + github_user
+        + "/"
+        + repository
+        + string2;
       return final_string;
     } else {
       return url;
@@ -341,8 +334,8 @@ export default class ModelForm extends React.Component {
     };
     let instance = this.props.data.find(checkInstance);
     if (
-      this.state.isBlocked === false &&
-      (instance.block.isBlocked || instance.tags.indexOf("deprecated") !== -1)
+      this.state.isBlocked === false
+      && (instance.block.isBlocked || instance.tags.indexOf("deprecated") !== -1)
     ) {
       this.setState({ isBlocked: true });
     }
@@ -369,8 +362,8 @@ export default class ModelForm extends React.Component {
               value={this.state.model.name}
               className="model-name"
               errorText={
-                this.state.model.errors !== undefined &&
-                "name" in this.state.model.errors
+                this.state.model.errors !== undefined
+                && "name" in this.state.model.errors
                   ? this.state.model.errors["name"]
                   : ""
               }
@@ -392,8 +385,8 @@ export default class ModelForm extends React.Component {
               className="url"
               floatingLabelText="Source URL"
               errorText={
-                this.state.model.errors !== undefined &&
-                "url" in this.state.model.errors
+                this.state.model.errors !== undefined
+                && "url" in this.state.model.errors
                   ? this.state.model.errors["url"]
                   : ""
               }
@@ -402,8 +395,8 @@ export default class ModelForm extends React.Component {
                 this.updateModel({ url: value }, () => {
                   if (!this.state.model.validate()) {
                     if (
-                      this.state.model.errors !== undefined &&
-                      "url" in this.state.model.errors
+                      this.state.model.errors !== undefined
+                      && "url" in this.state.model.errors
                     ) {
                       this.setState({ validationFailed: true });
                     }
@@ -464,17 +457,13 @@ export default class ModelForm extends React.Component {
                       { model_class: klass },
                       () => {
                         if (!this.state.model.validate()) {
-                          this.setState({
-                            validationFailed: true
-                          });
+                          this.setState({ validationFailed: true });
                         } else {
-                          this.setState({
-                            validationFailed: false
-                          });
+                          this.setState({ validationFailed: false });
                         }
                       },
-                      this.props.actionType == "edit" &&
-                        this.state.isBlocked
+                      this.props.actionType == "edit"
+                        && this.state.isBlocked
                     );
                   }
                 }
@@ -507,7 +496,6 @@ export default class ModelForm extends React.Component {
             />
 
             <div className="tags">
-              {/* eslint-disable-next-line react/no-array-index-key */}
               {this.state.model.tags.map(
                 function (tag, i) {
                   if (typeof tag.name !== "undefined") {
@@ -557,7 +545,6 @@ export default class ModelForm extends React.Component {
 
         <div className="fourth-line">
           <h3>Model parameters</h3>
-          {/* eslint-disable-next-line react/no-array-index-key */}
           {this.state.paramsErrors.map((value, index) => (
             <p key={index} style={{ color: "red" }}>
               {value}
@@ -610,8 +597,8 @@ export default class ModelForm extends React.Component {
             <ParamsTable
               stateVariables={this.state.stateVariables}
               watchedVariables={
-                typeof this.state.model.run_params.watchedVariables !=
-                "undefined"
+                typeof this.state.model.run_params.watchedVariables
+                != "undefined"
                   ? this.state.model.run_params.watchedVariables
                   : []
               }
@@ -629,26 +616,22 @@ export default class ModelForm extends React.Component {
           <RaisedButton
             label="save"
             disabled={
-              this.state.loadingParams ||
-              this.state.loadingClasses ||
-              this.state.validationFailed ||
-              Object.entries(this.state.model.errors).length > 0 ||
-              (this.state.isBlocked && !this.state.changesHappened)
+              this.state.loadingParams
+              || this.state.loadingClasses
+              || this.state.validationFailed
+              || Object.entries(this.state.model.errors).length > 0
+              || (this.state.isBlocked && !this.state.changesHappened)
             }
             className="actions-button"
             onClick={() => {
               if (
-                this.state.model.validate() &&
-                !this.state.loadingParams
+                this.state.model.validate()
+                && !this.state.loadingParams
               ) {
-                this.setState({
-                  validationFailed: false
-                });
+                this.setState({ validationFailed: false });
                 this.onSave(this.state.model);
               } else {
-                this.setState({
-                  validationFailed: true
-                });
+                this.setState({ validationFailed: true });
               }
             }}
           />

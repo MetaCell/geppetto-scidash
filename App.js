@@ -54,9 +54,7 @@ export default class App extends React.Component {
   constructor (props, context) {
     super(props, context);
 
-    this.state = {
-      store: null
-    };
+    this.state = { store: null };
 
     this.history = createBrowserHistory();
     this.pagesService = new PagesService();

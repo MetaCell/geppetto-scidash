@@ -31,9 +31,7 @@ export function filteringSuitesStarted (state, action) {
 
   $(".griddle-page-select").hide();
 
-  let newState = {
-    ...state
-  };
+  let newState = { ...state };
 
   return newState;
 }

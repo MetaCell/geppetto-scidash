@@ -34,9 +34,7 @@ const mapStateToProps = state => ({
           <RaisedButton
             label={props.text}
             onClick={props.getNext}
-            style={{
-              marginLeft: "10px"
-            }}
+            style={{ marginLeft: "10px" }}
           />
         );
       }
@@ -49,9 +47,7 @@ const mapStateToProps = state => ({
           <RaisedButton
             label={props.text}
             onClick={props.getPrevious}
-            style={{
-              marginRight: "10px"
-            }}
+            style={{ marginRight: "10px" }}
           />
         );
       }
@@ -59,9 +55,7 @@ const mapStateToProps = state => ({
       return null;
     }
   },
-  pageProperties: {
-    currentPage: 1
-  },
+  pageProperties: { currentPage: 1 },
   showLoading: state.testSuites.showLoading,
   dateFilterChanged: state.testSuites.dateFilterChanged
 });
@@ -99,10 +93,10 @@ const mapDispatchToProps = dispatch => {
     },
     sortScore: (data, column, sortAscending = true) =>
       data.sort((original, newRecord) => {
-        original =
-          (!!original.get("_sort_key") && original.get("_sort_key")) || "";
-        newRecord =
-          (!!newRecord.get("_sort_key") && newRecord.get("_sort_key")) || "";
+        original
+          = (!!original.get("_sort_key") && original.get("_sort_key")) || "";
+        newRecord
+          = (!!newRecord.get("_sort_key") && newRecord.get("_sort_key")) || "";
 
         if (original === newRecord) {
           return 0;

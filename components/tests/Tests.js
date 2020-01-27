@@ -16,8 +16,8 @@ export default class Tests extends React.Component {
     this.props = props;
   }
 
-  componentWillMount() {
-    if(!this.props.user.isLogged) {
+  componentWillMount () {
+    if (!this.props.user.isLogged) {
       this.props.notLoggedRedirect()
     }
 

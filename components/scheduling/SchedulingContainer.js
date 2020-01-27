@@ -20,7 +20,7 @@ const mapDispatchToProps = dispatch => {
 
   return {
     notLoggedRedirect: () => dispatch(changePage(pagesService.SCORES_PAGE, dispatch)),
-    gotoScorePage: () =>  dispatch(changePage(pagesService.SCORES_PAGE, dispatch)),
+    gotoScorePage: () => dispatch(changePage(pagesService.SCORES_PAGE, dispatch)),
     clearScheduler: () => dispatch(clearScheduler())
   };
 };

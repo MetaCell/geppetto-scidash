@@ -5,9 +5,7 @@ import InitialStateService from "../services/InitialStateService";
 
 export function openTestsView (state, action, type){
 
-  let newState = {
-    ...state
-  };
+  let newState = { ...state };
 
   if (type == "header") {
     newState = {
@@ -33,9 +31,7 @@ export function openTestsView (state, action, type){
 
 export function openSuitesView (state, action, type){
 
-  let newState = {
-    ...state
-  };
+  let newState = { ...state };
 
   if (type == "header") {
     newState = {

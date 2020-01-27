@@ -8,7 +8,7 @@ import CompatibilityTable from "./CompatibilityTable";
 import SchedulingApiService from "../../services/api/SchedulingApiService";
 import Loader from "../loader/Loader";
 import PagesService from "../../services/PagesService";
-import {changePage} from "../../actions/creators/header";
+import { changePage } from "../../actions/creators/header";
 
 
 class Scheduling extends React.Component {
@@ -39,9 +39,7 @@ class Scheduling extends React.Component {
   }
 
   async scheduleTests (matrix) {
-    this.setState({
-      showLoading: true
-    });
+    this.setState({ showLoading: true });
 
     let payload = {
       suiteName: this.state.saveSuites ? this.state.suitesName : "",
@@ -91,9 +89,7 @@ class Scheduling extends React.Component {
       }
     }
 
-    this.setState({
-      compatible: result
-    }, () => console.log(this.state.compatible));
+    this.setState({ compatible: result }, () => console.log(this.state.compatible));
 
     return result;
 
@@ -106,15 +102,17 @@ class Scheduling extends React.Component {
 
     let pagesService = new PagesService();
 
-    if (this.state.scheduled) this.props.gotoScorePage();
+    if (this.state.scheduled) {
+      this.props.gotoScorePage();
+    }
 
     return (
       <span>
         <DDListContainer />
 
 
-        {choosedModels.length > 0 && choosedTests.length > 0 ?
-          <span>
+        {choosedModels.length > 0 && choosedTests.length > 0
+          ? <span>
             <CompatibilityTable // renders a table with compatibility between selected tests and models
               tests={this.getItemByID(choosedTests)}
               models={this.getItemByID(choosedModels)}
@@ -127,8 +125,8 @@ class Scheduling extends React.Component {
                 Run tests
               </RaisedButton>
             </div>
-            {saveSuites ?
-              <div style={styles.saveSubContainer}>
+            {saveSuites
+              ? <div style={styles.saveSubContainer}>
                 <TextField
                   value={suitesName}
                   style={styles.saveRoot}
@@ -170,9 +168,7 @@ const styles = {
     marginTop: "0px",
     position: "relative"
   },
-  saveButton: {
-    display: "inline-block"
-  },
+  saveButton: { display: "inline-block" },
   saveRoot: {
     marginLeft: "10px",
     width: "200px"
@@ -185,7 +181,5 @@ const styles = {
     textAlign: "center",
     width: "160px"
   },
-  checkbox: {
-    marginLeft: "5px"
-  }
+  checkbox: { marginLeft: "5px" }
 };

@@ -46,13 +46,13 @@ export default class ApiService {
       }
 
       let globalFilters = "" + filteringS.stringifyFilters(filteringS.getFilters('global', true));
-      if(globalFilters && globalFilters.length>0){
-          globalFilters = globalFilters + "&";
+      if (globalFilters && globalFilters.length > 0){
+        globalFilters = globalFilters + "&";
       }
       let queryPath = this.endpoint + (filteringS.getFilters(namespace, true)
-          ? "?" + globalFilters
+        ? "?" + globalFilters
                 + filteringS.stringifyFilters(filteringS.getFilters(namespace, true))
-          : "");
+        : "");
 
       if (this.storage.getItem(queryPath) && cache){
         return new Promise(resolve => {

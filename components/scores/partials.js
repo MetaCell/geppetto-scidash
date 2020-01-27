@@ -14,7 +14,9 @@ class StatusIconColumn extends React.Component {
   }
 
   componentDidMount () {
-    if (this.props.value != " ") $(".build-info-cell").tooltip();
+    if (this.props.value != " ") {
+      $(".build-info-cell").tooltip();
+    }
   }
 
   render () {
@@ -54,7 +56,9 @@ class ScidashBuildInfoColumn extends React.Component {
   }
 
   componentDidMount () {
-    if (this.props.value != " ") $(".build-info-cell").tooltip();
+    if (this.props.value != " ") {
+      $(".build-info-cell").tooltip();
+    }
   }
 
   render () {
@@ -76,7 +80,9 @@ class ScidashTimestampColumn extends React.Component {
   }
 
   componentDidMount () {
-    if (this.props.value != " ") $(".timestamp-cell").tooltip();
+    if (this.props.value != " ") {
+      $(".timestamp-cell").tooltip();
+    }
   }
 
   render () {

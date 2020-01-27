@@ -34,9 +34,7 @@ const mapStateToProps = state => ({
               props.getNext();
               window.scoreNextPage();
             }} 
-            style={{
-              marginLeft: "10px"
-            }}
+            style={{ marginLeft: "10px" }}
           />
         );
       }
@@ -52,9 +50,7 @@ const mapStateToProps = state => ({
               props.getPrevious();
               window.scorePreviousPage();
             }} 
-            style={{
-              marginRight: "10px"
-            }}
+            style={{ marginRight: "10px" }}
           />
         );
       }
@@ -62,14 +58,16 @@ const mapStateToProps = state => ({
       return null;
     },
     PageDropdown: props => {
-      const getRange = (number) => {
-        if (!_.isFinite(number)) { return [0] }
+      const getRange = number => {
+        if (!_.isFinite(number)) {
+          return [0] 
+        }
         return Array(number).fill().map((_, i) => i + 1);
       };
       const { currentPage, maxPages } = props;
       return (
         <select
-          onChange={(e) => {
+          onChange={e => {
             props.setPage(e);
             window.setPage(e);
           }}
@@ -80,14 +78,12 @@ const mapStateToProps = state => ({
           {getRange(maxPages)
             .map(num => (
               <option key={num} value={num}>{num}</option>
-          ))}
+            ))}
         </select>
       );
     }
   },
-  pageProperties: {
-    currentPage: 1
-  },
+  pageProperties: { currentPage: 1 },
   sortProperties: [{
     id: "_timestamp",
     sortAscending: false

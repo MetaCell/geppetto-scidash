@@ -9,7 +9,5 @@ export function error (message){
 }
 
 export function clearErrors (){
-  return {
-    type: CLEAR_ERRORS
-  };
+  return { type: CLEAR_ERRORS };
 }

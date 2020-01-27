@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import React from "react";
 import SvgIcon from "material-ui/SvgIcon";
 import _ from "underscore";
@@ -19,28 +18,16 @@ export default class CompatibilityTable extends React.Component {
       models: props.models,
       csvTable: "",
       styles: {
-        tableContainer: {
-          textAlign: "center", marginTop: "40px"
-        },
-        table: {
-          display: "inline-block"
-        },
-        tableFirstHeader: {
-          float: "left", margin: "2px 10px 10px 0px"
-        },
-        tableHeader: {
-          margin: "2px 10px 10px 2px"
-        },
-        tableFirstBody: {
-          borderBottom: "1px solid grey"
-        },
+        tableContainer: { textAlign: "center", marginTop: "40px" },
+        table: { display: "inline-block" },
+        tableFirstHeader: { float: "left", margin: "2px 10px 10px 0px" },
+        tableHeader: { margin: "2px 10px 10px 2px" },
+        tableFirstBody: { borderBottom: "1px solid grey" },
         tableModelName: {
           borderBottom: "1px solid grey",
           textAlign: "left"
         },
-        tableBody: {
-          float: "left", margin: "8px 10px 8px 0px"
-        },
+        tableBody: { float: "left", margin: "8px 10px 8px 0px" },
       }
     };
 
@@ -60,7 +47,6 @@ export default class CompatibilityTable extends React.Component {
 
   componentDidUpdate (prevProps, _prevState, _snapshot) {
     if (!_.isEqual(this.props.tests, prevProps.tests) || !_.isEqual(this.props.models, prevProps.models)) {
-      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         tests: {},
         models: {}
@@ -125,9 +111,7 @@ export default class CompatibilityTable extends React.Component {
     this.getCompatibilityMatrix(preparedData)
       .then(result => result.json())
       .then(result => {
-        this.setState({
-          csvTable: result.compatibility
-        }, () => this.onFinish(result.compatibility));
+        this.setState({ csvTable: result.compatibility }, () => this.onFinish(result.compatibility));
       });
   }
 
@@ -157,15 +141,11 @@ export default class CompatibilityTable extends React.Component {
   }
 
   async getCompatibilityMatrix (modelsVsTests) {
-    this.setState({
-      showLoading: true
-    });
+    this.setState({ showLoading: true });
     let service = new CompatibilityApiService();
     let result = await service.create(modelsVsTests);
 
-    this.setState({
-      showLoading: false
-    });
+    this.setState({ showLoading: false });
 
     return result;
   }

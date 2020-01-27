@@ -55,9 +55,7 @@ export default class Scores extends React.Component {
 
   componentWillMount () {
     if (this.state.intervalId === null) {
-      this.setState({
-        intervalId: setInterval(this.props.updateScores, 15000)
-      });
+      this.setState({ intervalId: setInterval(this.props.updateScores, 15000) });
     }
     FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
   }

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import React from "react";
 import Chip from "material-ui/Chip";
 import MenuItem from "material-ui/MenuItem";
@@ -54,9 +53,7 @@ export default class TestForm extends React.Component {
 
     newModel = new TestInstance(newModel);
 
-    this.setState({
-      model: newModel
-    });
+    this.setState({ model: newModel });
   }
 
   deleteTag (tag) {
@@ -78,7 +75,9 @@ export default class TestForm extends React.Component {
 
   isInstanceBlocked () {
     let testId = this.props.model.id;
-    let checkInstance = function (value, index, array) { return value.id === testId; };
+    let checkInstance = function (value, index, array) {
+      return value.id === testId; 
+    };
     let instance = this.props.data.find(checkInstance);
     if ((this.state.isBlocked === false) && (instance.block.isBlocked || (instance.tags.indexOf("deprecated") !== -1))) {
       this.setState({ isBlocked: true });
@@ -87,14 +86,14 @@ export default class TestForm extends React.Component {
 
 
   render () {
-    let blockedWarning = <div style={{fontSize: '18px'}}>
-                            <p>
-                              <i className="fa fa-lock" style={{fontSize: '25px'}}/> &nbsp;
+    let blockedWarning = <div style={{ fontSize: '18px' }}>
+      <p>
+        <i className="fa fa-lock" style={{ fontSize: '25px' }}/> &nbsp;
                               This model instance is locked because it has already a score
                               associated to it, only tags can be edited.
                               Clone from the grid view to create a different instance.
-                            </p>
-                          </div>;
+      </p>
+    </div>;
     return (
       <span>
         {this.state.isBlocked ? blockedWarning : undefined}
@@ -136,14 +135,13 @@ export default class TestForm extends React.Component {
             onChange={(e, key, value) => {
               for (let klass of this.state.testClasses) {
                 if (klass.id == value) {
-                  this.updateModel({ "test_class": klass,  });
+                  this.updateModel({ "test_class": klass, });
                 }
               }
             }}
             disabled={this.state.isBlocked}
           >
 
-            {/* eslint-disable-next-line react/no-array-index-key */}
             {this.state.testClasses.sort((a, b) => {
               let textA = a.class_name.toLowerCase();
               let textB = b.class_name.toLowerCase();
@@ -167,14 +165,15 @@ export default class TestForm extends React.Component {
         <div style={styles.thirdLine.container}>
           <TextField
             value={this.state.newTag}
-            onChange={(e, value) => { this.setState({ newTag: value }); }}
+            onChange={(e, value) => {
+              this.setState({ newTag: value }); 
+            }}
             floatingLabelText="Add tags"
             style={styles.thirdLine.one}
             underlineStyle={{ borderBottom: "1px solid grey" }}
             onKeyPress={e => e.key === "Enter" ? this.addTag(this.state.newTag.toLowerCase()) : null}
           />
           <div style={styles.thirdLine.two}>
-            {/* eslint-disable-next-line react/no-array-index-key */}
             {this.state.model.tags.map(function (tag, i) {
               if (typeof(tag.name) !== "undefined") {
                 return (
@@ -220,9 +219,7 @@ export default class TestForm extends React.Component {
               unitsMap={this.state.model.getObservationUnitsMap()}
               test_class={this.state.model.test_class}
               onChange={observation => {
-                this.updateModel({
-                  observation
-                });
+                this.updateModel({ observation });
               }}
               model={this.props.actionType === "edit" ? this.state.model.observation : undefined}
               disabled={this.state.isBlocked}
@@ -242,9 +239,7 @@ export default class TestForm extends React.Component {
               unitsMap={this.state.model.getParamsUnitsMap()}
               test_class={this.state.model.test_class}
               onChange={params => {
-                this.updateModel({
-                  params
-                });
+                this.updateModel({ params });
               }}
               model={this.props.actionType === "edit" ? this.state.model.params : undefined}
               disabled={this.state.isBlocked}
@@ -257,14 +252,10 @@ export default class TestForm extends React.Component {
             style={styles.actionsButton}
             onClick={() => {
               if (this.state.model.validate()) {
-                this.setState({
-                  validationFailed: false
-                });
+                this.setState({ validationFailed: false });
                 this.props.onSave(this.state.model);
               } else {
-                this.setState({
-                  validationFailed: true
-                });
+                this.setState({ validationFailed: true });
               }
             }}
           />
@@ -287,9 +278,7 @@ const styles = {
     justifyContent: "center",
     marginTop: "20px"
   },
-  actionsButton: {
-    width: "100px"
-  },
+  actionsButton: { width: "100px" },
   firstLine: {
     container: {
       width: "100%",

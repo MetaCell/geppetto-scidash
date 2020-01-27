@@ -1,7 +1,3 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
@@ -18,23 +14,17 @@ export default class ScoreDetailLinkColumn extends React.Component {
     this.openScoreDetail = this.openScoreDetail.bind(this);
     this.closeScoreDetail = this.closeScoreDetail.bind(this);
 
-    this.state = {
-      open: false,
-    };
+    this.state = { open: false, };
   }
 
   openScoreDetail (e) {
     e.preventDefault();
-    this.setState({
-      open: true
-    });
+    this.setState({ open: true });
   }
 
   closeScoreDetail (e) {
     e.preventDefault();
-    this.setState({
-      open: false
-    });
+    this.setState({ open: false });
   }
 
   getScore (){

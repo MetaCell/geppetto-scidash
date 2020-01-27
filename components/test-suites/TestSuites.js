@@ -8,8 +8,10 @@ import Griddle, {
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
 import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link-column/ModelDetailLinkColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
-// TODO: move this component to shared
-// Also remove all Scidash mentions
+/*
+ * TODO: move this component to shared
+ * Also remove all Scidash mentions
+ */
 import ScidashTimestampColumn from "./partials";
 import SuiteNameLinkColumnContainer from "../griddle-columns/suite-name-link-column/SuiteNameLinkColumnContainer";
 import AvgScoreDetailLinkColumnContainer from "../griddle-columns/avg-score-detail-link-column/AvgScoreDetailLinkColumnContainer";
@@ -24,7 +26,7 @@ export default class TestSuites extends React.Component {
     this.props = props;
   }
 
-  componentWillMount() {
+  componentWillMount () {
     FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
   }
 

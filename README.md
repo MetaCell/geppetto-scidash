@@ -35,4 +35,3 @@ The extension needs to be cloned into the Scidash django-app static folder, afte
 }
 ```
 
-

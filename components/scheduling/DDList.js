@@ -10,12 +10,8 @@ import InfoDialog from "../info-dialog/InfoDialog";
 import Config from "../../shared/Config";
 
 const styles = {
-  header: {
-    position: "relative", left: "20px", top: "9px", color: "black"
-  },
-  divider: {
-    marginTop: "12px"
-  }
+  header: { position: "relative", left: "20px", top: "9px", color: "black" },
+  divider: { marginTop: "12px" }
 };
 
 const brownColors = {
@@ -52,8 +48,7 @@ export default class DDList extends React.Component {
     if (action == "start") {
       if (type == "tests") {
         this.setState({ testsBGC: brownColors.start, dragging: type });
-      }
-      else {
+      } else {
         this.setState({ modelsBGC: blueColors.start, dragging: type });
       }
     } else if (action == "end") {
@@ -67,8 +62,7 @@ export default class DDList extends React.Component {
     } else if (action == "leave") {
       if (type == "tests" && this.state.dragging == "tests") {
         this.setState({ testsBGC: brownColors.start });
-      }
-      else if (type == "models" && this.state.dragging == "models") {
+      } else if (type == "models" && this.state.dragging == "models") {
         this.setState({ modelsBGC: blueColors.start });
       }
     }
@@ -113,10 +107,10 @@ export default class DDList extends React.Component {
             {data
               .filter(
                 item =>
-                  !choosedModels.includes(item.scheduler_id) &&
-                  !choosedTests.includes(item.scheduler_id) &&
-                  this.isSearchable(item) &&
-                  !item.tags.includes(Config.noImportTag)
+                  !choosedModels.includes(item.scheduler_id)
+                  && !choosedTests.includes(item.scheduler_id)
+                  && this.isSearchable(item)
+                  && !item.tags.includes(Config.noImportTag)
               )
               .map(dataItem => (
                 <Draggable
