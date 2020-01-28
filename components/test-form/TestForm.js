@@ -107,6 +107,7 @@ export default class TestForm extends React.Component {
             }
             style={styles.firstLine.one}
             floatingLabelText="Name of the test"
+            id="test-name"
             underlineStyle={{ borderBottom: "1px solid grey" }}
             disabled={this.state.isBlocked}
           />
@@ -149,7 +150,7 @@ export default class TestForm extends React.Component {
               let textB = b.class_name.toLowerCase();
 
               return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-            }).map((klass, index) => <MenuItem value={klass.id} key={index} primaryText={klass.class_name} label={klass.class_name} />)}
+            }).map((klass, index) => <MenuItem value={klass.id} id={klass.class_name} key={index} primaryText={klass.class_name} label={klass.class_name} />)}
           </SelectField>
         </div>
 
@@ -159,6 +160,7 @@ export default class TestForm extends React.Component {
             value={this.state.model.description}
             style={styles.secondLine.one}
             floatingLabelText="Test description"
+            id="test-description"
             underlineStyle={{ borderBottom: "1px solid grey" }}
             disabled={this.state.isBlocked}
           />
@@ -169,11 +171,12 @@ export default class TestForm extends React.Component {
             value={this.state.newTag}
             onChange={(e, value) => { this.setState({ newTag: value }); }}
             floatingLabelText="Add tags"
+            id="test-add-tags"
             style={styles.thirdLine.one}
             underlineStyle={{ borderBottom: "1px solid grey" }}
             onKeyPress={e => e.key === "Enter" ? this.addTag(this.state.newTag.toLowerCase()) : null}
           />
-          <div style={styles.thirdLine.two}>
+          <div className="tags" style={styles.thirdLine.two}>
             {/* eslint-disable-next-line react/no-array-index-key */}
             {this.state.model.tags.map(function (tag, i) {
               if (typeof(tag.name) !== "undefined") {
@@ -254,6 +257,7 @@ export default class TestForm extends React.Component {
         <div style={styles.actionsContainer}>
           <RaisedButton
             label="save"
+            id="save-test"
             style={styles.actionsButton}
             onClick={() => {
               if (this.state.model.validate()) {
@@ -270,6 +274,7 @@ export default class TestForm extends React.Component {
           />
           <RaisedButton
             label="cancel"
+            id="cancel-test"
             style={styles.actionsButton}
             onClick={() => this.props.onCancel()}
           />

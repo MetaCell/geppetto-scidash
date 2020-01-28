@@ -48,18 +48,16 @@ export const makeUserID = (length) => {
 
 export const signUpTests = (page, newUserID, newUserEmail, newUserPassword) => {
 	it('Test Validation Fields', async () => {
-		await page.waitFor(1000);
+		await page.waitFor(2000);
 		await page.evaluate(async () => {
 			document.querySelector(".registration-container button").click()
 		});
+		await page.waitFor(2000);
 		await page.waitForFunction('document.querySelector("small.error").innerText.startsWith("This field is required.")');			
 	})
 
-	it('Username Field Visible', async () => {
-		await wait4selector(page, '#id_username', { visible: true, timeout : 30000 })
-	})
-
 	it('Create Username', async () => {
+		await wait4selector(page, '#id_username', { visible: true, timeout : 30000 })
 		await page.evaluate(async (newUser) => {
 			document.getElementById("id_username").value = newUser;
 		}, newUserID);

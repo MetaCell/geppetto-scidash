@@ -58,7 +58,7 @@ export default class ParamsFormset extends React.Component {
       <span>
         {this.state.schemaList.length > 1 &&
           <SelectField
-            id="testFormSelectClass"
+            id="testFormSelectObservationSchema"
             labelStyle={{
               position: "relative",
               top: "-10px"
@@ -78,7 +78,7 @@ export default class ParamsFormset extends React.Component {
           >
             {this.state.schemaList.map((value, index) =>
               // eslint-disable-next-line react/no-array-index-key
-              <MenuItem label={`${value[0]}`} primaryText={`${value[0]}`} value={index} key={index} />
+              <MenuItem id={`${value[0]}`} label={`${value[0]}`} primaryText={`${value[0]}`} value={index} key={index} />
             )}
           </SelectField>
         }

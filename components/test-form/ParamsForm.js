@@ -118,6 +118,7 @@ export default class ParamsForm extends React.Component {
             return (
               <TextField
                 value={this.state.model[key]}
+                id={`${key} (${this.state.unitsMap[key]})`}
                 key={key}
                 type={this.state.iterable.includes(key) ? "text" : "number"}
                 onKeyDown={(e, value) => {
