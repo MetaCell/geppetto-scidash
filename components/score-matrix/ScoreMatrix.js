@@ -1,7 +1,7 @@
 import React from "react";
 import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
-import { Card, CardText } from "material-ui/Card";
-import RaisedButton from "material-ui/RaisedButton";
+import { Card, CardText } from "@material-ui/core/Card";
+import RaisedButton from "@material-ui/core/RaisedButton";
 import Helper from "../../shared/Helper";
 import { ShowAllHeading, HideRowCell, TitleHeader, ScoreCell } from "./partials";
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import Toggle from 'material-ui/Toggle';
+import RaisedButton from '@material-ui/core/RaisedButton';
+import Toggle from '@material-ui/core/Toggle';
 
 
 const ColorMapToggle = ({ colorBlind, toggleColorBlind }) => (

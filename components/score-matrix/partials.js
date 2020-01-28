@@ -1,6 +1,6 @@
 import React from "react";
-import FontIcon from "material-ui/FontIcon";
-import RaisedButton from "material-ui/RaisedButton";
+import FontIcon from "@material-ui/core/FontIcon";
+import RaisedButton from "@material-ui/core/RaisedButton";
 import Helper from "../../shared/Helper";
 
 const ScoreCell = ({ rowData, colorBlind }) => {

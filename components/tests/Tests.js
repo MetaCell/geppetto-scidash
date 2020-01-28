@@ -1,6 +1,6 @@
 import React from "react";
-import IconButton from "material-ui/IconButton";
-import { brown600, brown500 } from "material-ui/styles/colors";
+import IconButton from "@material-ui/core/IconButton";
+import { brown600, brown500 } from "@material-ui/core/colors";
 import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import RaisedButton from "material-ui/RaisedButton";
+import RaisedButton from "@material-ui/core/RaisedButton";
 import { changePage } from "../../actions/creators/header";
 import ScidashStorage from "../../shared/ScidashStorage";
 
@@ -15,7 +15,7 @@ import {
 
 import Tests from "./Tests";
 import PagesService from "../../services/PagesService";
-import { ActionVerifiedUser } from "material-ui/svg-icons";
+import { ActionVerifiedUser } from "@material-ui/core/svg-icons";
 
 const mapStateToProps = state => ({
   styleConfig: {

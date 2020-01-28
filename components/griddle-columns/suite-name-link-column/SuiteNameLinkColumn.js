@@ -1,7 +1,7 @@
 import React from 'react';
-import Dialog from 'material-ui/Dialog';
-import FontIcon from 'material-ui/FontIcon';
-import FlatButton from 'material-ui/FlatButton';
+import Dialog from '@material-ui/core/Dialog';
+import FontIcon from '@material-ui/core/FontIcon';
+import Button from '@material-ui/core/Button';
 import ScreenShotHelper from '../../../shared/ScreenShotHelper';
 import ScoreMatrixContainer from '../../score-matrix/ScoreMatrixContainer';
 
@@ -27,7 +27,7 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
 
   render (){
     const actions = [
-      <FlatButton
+      <Button
         label="Save As Image"
         primary={true}
         icon={<FontIcon className="fa fa-camera"/>}
@@ -35,7 +35,7 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
           this.screenShotHelper.takeScreenshot(e,"score_matrix_image",true)
         }}
       />,
-      <FlatButton
+      <Button
         label="Close"
         primary={true}
         onClick={this.closeScoreMatrix}

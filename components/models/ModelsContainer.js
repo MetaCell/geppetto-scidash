@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import RaisedButton from "material-ui/RaisedButton";
+import RaisedButton from "@material-ui/core/RaisedButton";
 import { changePage, changePageWithParams } from "../../actions/creators/header";
 import ScidashStorage from "../../shared/ScidashStorage";
 import {

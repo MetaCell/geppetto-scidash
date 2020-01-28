@@ -1,14 +1,14 @@
 import React from "react";
-import Chip from "material-ui/Chip";
-import SvgIcon from "material-ui/SvgIcon";
-import MenuItem from "material-ui/MenuItem";
-import TextField from "material-ui/TextField";
-import SelectField from "material-ui/SelectField";
-import RaisedButton from "material-ui/RaisedButton";
-import CircularProgress from "material-ui/CircularProgress";
-import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
-import { red400, brown500 } from "material-ui/styles/colors";
+import Chip from "@material-ui/core/Chip";
+import SvgIcon from "@material-ui/core/SvgIcon";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+import SelectField from "@material-ui/core/SelectField";
+import RaisedButton from "@material-ui/core/RaisedButton";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
+import { red400, brown500 } from "@material-ui/core/colors";
 import { OKicon, Xicon } from "../../assets/CustomIcons";
 import ModelClassApiService from "../../services/api/ModelClassApiService";
 import FilteringService from "../../services/FilteringService";
@@ -579,7 +579,7 @@ export default class ModelForm extends React.Component {
           <Dialog
             modal
             actions={[
-              <FlatButton
+              <Button
                 label="Close"
                 key="close-button"
                 primary

@@ -1,10 +1,10 @@
 import React from "react";
-import Chip from "material-ui/Chip";
-import MenuItem from "material-ui/MenuItem";
-import TextField from "material-ui/TextField";
-import SelectField from "material-ui/SelectField";
-import RaisedButton from "material-ui/RaisedButton";
-import { red400, brown500 } from "material-ui/styles/colors";
+import Chip from "@material-ui/core/Chip";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+import SelectField from "@material-ui/core/SelectField";
+import RaisedButton from "@material-ui/core/RaisedButton";
+import { red400, brown500 } from "@material-ui/core/colors";
 import ParamsFormset from "./ParamsFormset";
 import TestInstance from "../../models/TestInstance";
 import Helper from "../../shared/Helper";

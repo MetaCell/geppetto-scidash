@@ -1,9 +1,9 @@
 import React from "react";
-import Drawer from "material-ui/Drawer";
-import Divider from "material-ui/Divider";
-import MenuItem from "material-ui/MenuItem";
-import IconButton from "material-ui/IconButton";
-import NavigationMenu from "material-ui/svg-icons/navigation/menu";
+import Drawer from "@material-ui/core/Drawer";
+import Divider from "@material-ui/core/Divider";
+import MenuItem from "@material-ui/core/MenuItem";
+import IconButton from "@material-ui/core/IconButton";
+import NavigationMenu from "@material-ui/core/svg-icons/navigation/menu";
 import ScidashLogo from "../../../assets/scidash_logo.png";
 import PagesService from "../../../services/PagesService";
 

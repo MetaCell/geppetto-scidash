@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import Menu from "material-ui/Menu";
-import Chip from "material-ui/Chip";
-import Popover from "material-ui/Popover";
-import FontIcon from "material-ui/FontIcon";
-import MenuItem from "material-ui/MenuItem";
-import IconButton from "material-ui/IconButton";
-import { red400, brown500 } from "material-ui/styles/colors";
+import Menu from "@material-ui/core/Menu";
+import Chip from "@material-ui/core/Chip";
+import Popover from "@material-ui/core/Popover";
+import FontIcon from "@material-ui/core/FontIcon";
+import MenuItem from "@material-ui/core/MenuItem";
+import IconButton from "@material-ui/core/IconButton";
+import { red400, brown500 } from "@material-ui/core/colors";
 
 const styles = {
   anchorOrigin: {

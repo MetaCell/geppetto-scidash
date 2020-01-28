@@ -1,5 +1,5 @@
 import React from "react";
-import SvgIcon from "material-ui/SvgIcon";
+import SvgIcon from "@material-ui/core/SvgIcon";
 import _ from "underscore";
 import { OKicon, Xicon } from "../../assets/CustomIcons";
 import CompatibilityApiService from "../../services/api/CompatibilityApiService";

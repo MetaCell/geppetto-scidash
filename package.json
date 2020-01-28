@@ -26,6 +26,7 @@
     "@geppettoengine/geppetto-client": "file:geppetto-client",
     "babel-loader": "^8.0.6",
     "babel-polyfill": "^6.26.0",
+    "connected-react-router": "^6.6.0",
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^3.0.0",
     "exports-loader": "^0.6.3",

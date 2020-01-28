@@ -1,10 +1,10 @@
 import React from "react";
-import Divider from "material-ui/Divider";
-import SvgIcon from "material-ui/SvgIcon";
-import TextField from "material-ui/TextField";
-import IconButton from "material-ui/IconButton";
+import Divider from "@material-ui/core/Divider";
+import SvgIcon from "@material-ui/core/SvgIcon";
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
 import { Draggable, Droppable } from "react-drag-and-drop";
-import { brown500, blue500, grey400, grey600, brown200, brown100, blue200, blue100 } from "material-ui/styles/colors";
+import { brown500, blue500, grey400, grey600, brown200, brown100, blue200, blue100 } from "@material-ui/core/colors";
 import { TestIcon, ModelsIcon } from "../../assets/CustomIcons";
 import InfoDialog from "../info-dialog/InfoDialog";
 import Config from "../../shared/Config";

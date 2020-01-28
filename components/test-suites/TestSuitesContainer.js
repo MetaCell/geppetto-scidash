@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import RaisedButton from "material-ui/RaisedButton";
+import RaisedButton from "@material-ui/core/RaisedButton";
 import TestSuites from "./TestSuites";
 import ScidashStorage from "../../shared/ScidashStorage";
 

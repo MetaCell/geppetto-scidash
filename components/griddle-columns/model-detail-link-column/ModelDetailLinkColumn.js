@@ -1,6 +1,6 @@
 import React from "react";
-import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
 
 import ModelDetailsContainer from "../../model-details/ModelDetailsContainer";
 
@@ -27,7 +27,7 @@ export default class ModelDetailLinkColumn extends React.Component {
 
   render () {
     const actions = [
-      <FlatButton
+      <Button
         label="Close"
         primary
         onClick={this.closeModelDetail}

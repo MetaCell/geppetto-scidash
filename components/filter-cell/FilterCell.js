@@ -1,5 +1,5 @@
 import React from "react";
-import AutoComplete from "material-ui/AutoComplete";
+import AutoComplete from "@material-ui/lab/AutoComplete";
 
 const FilterCell = ({
   title,

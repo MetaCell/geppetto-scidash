@@ -1,9 +1,9 @@
 import React from "react";
-import Chip from "material-ui/Chip";
-import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
-import { Card, CardText } from "material-ui/Card";
-import { red400, brown500 } from 'material-ui/styles/colors';
+import Chip from "@material-ui/core/Chip";
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
+import { Card, CardText } from "@material-ui/core/Card";
+import { red400, brown500 } from '@material-ui/core/colors';
 import Helper from "../../shared/Helper";
 
 
@@ -32,7 +32,7 @@ export default class InfoDialog extends React.Component {
     const instanceTags = helper.noneIfEmptyString(this.props.instance.tags);
         
     const actions = [
-      <FlatButton
+      <Button
         label="Close"
         primary
         onClick={this.closeDialog}

@@ -1,11 +1,11 @@
 import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
-import FlatButton from "material-ui/FlatButton";
-import FontIcon from "material-ui/FontIcon";
-import Popover from "material-ui/Popover";
-import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
-import { List, ListItem } from "material-ui/List";
-import Avatar from "material-ui/Avatar";
+import RaisedButton from "@material-ui/core/RaisedButton";
+import Button from "@material-ui/core/Button";
+import FontIcon from "@material-ui/core/FontIcon";
+import Popover from "@material-ui/core/Popover";
+import { Card, CardActions, CardHeader, CardText } from "@material-ui/core/Card";
+import { List, ListItem } from "@material-ui/core/List";
+import Avatar from "@material-ui/core/Avatar";
 import PagesService from "../../../services/PagesService";
 import DrawerContainer from "../Drawer/DrawerContainer";
 
@@ -120,8 +120,8 @@ export default class Header extends React.Component {
                       showExpandableButton
                     />
                     <CardActions>
-                      <FlatButton label="Reset Password" href="/auth/password-reset/" style={{ border: "2px solid lightgrey" }} />
-                      <FlatButton label="Logout" href="/auth/logout/" style={{ border: "2px solid lightgrey" }} />
+                      <Button label="Reset Password" href="/auth/password-reset/" style={{ border: "2px solid lightgrey" }} />
+                      <Button label="Logout" href="/auth/logout/" style={{ border: "2px solid lightgrey" }} />
                     </CardActions>
                     <CardText expandable>
                       <List style={{ textAlign: "center" }}>

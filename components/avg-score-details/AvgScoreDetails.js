@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardText } from "material-ui/Card";
+import { Card, CardText } from "@material-ui/core/Card";
 import ScoreDetails from "../score-details/ScoreDetailsContainer";
 import { AvgScoreTableColumns, AvgScoreTableHeadings } from "./partials"
 

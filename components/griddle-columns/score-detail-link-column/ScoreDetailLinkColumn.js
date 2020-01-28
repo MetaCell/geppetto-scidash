@@ -1,7 +1,6 @@
 import React from "react";
-import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
-import RaisedButton from "material-ui/RaisedButton";
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
 import ScoreDetailsContainer from "../../score-details/ScoreDetailsContainer";
 
 
@@ -33,7 +32,7 @@ export default class ScoreDetailLinkColumn extends React.Component {
 
   render () {
     const actions = [
-      <FlatButton
+      <Button
         label="Close"
         primary
         onClick={this.closeScoreDetail}

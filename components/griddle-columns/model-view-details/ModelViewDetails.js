@@ -1,9 +1,9 @@
 import React from "react";
-import Chip from "material-ui/Chip";
-import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
-import { red400, brown500 } from 'material-ui/styles/colors';
-import { Card, CardHeader, CardText } from "material-ui/Card";
+import Chip from "@material-ui/core/Chip";
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
+import { red400, brown500 } from '@material-ui/core/colors';
+import { Card, CardHeader, CardText } from "@material-ui/core/Card";
 
 export default class ModelViewDetails extends React.Component {
 
@@ -28,7 +28,7 @@ export default class ModelViewDetails extends React.Component {
 
   render () {
     const actions = [
-      <FlatButton
+      <Button
         label="Close"
         primary
         onClick={this.closeModelDetail}

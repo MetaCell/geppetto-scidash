@@ -1,7 +1,7 @@
 import React from "react";
 import Griddle, { RowDefinition, ColumnDefinition, plugins } from "griddle-react";
 import _ from "underscore";
-import FlatButton from "material-ui/FlatButton";
+import Button from "@material-ui/core/Button";
 import { enhancedWithRowData, ChooseVarComponent } from "./partials";
 import { TOGGLE_ALL, UNTOGGLE_ALL, ADDED, REMOVED } from "./events";
 
@@ -143,7 +143,7 @@ export default class ParamsTable extends React.Component {
       NextButton: props => {
         if (props.hasNext) {
           return (
-            <FlatButton
+            <Button
               label={props.text} onClick={props.getNext} style={{ marginLeft: "10px" }}
             />
           );
@@ -155,7 +155,7 @@ export default class ParamsTable extends React.Component {
       PreviousButton: props => {
         if (props.hasPrevious) {
           return (
-            <FlatButton
+            <Button
               label={props.text} onClick={props.getPrevious} style={{ marginRight: "10px" }}
             />
           );
@@ -242,14 +242,14 @@ export default class ParamsTable extends React.Component {
     return (
       <span>
         <div>
-          <FlatButton
+          <Button
             label="State Variables" onClick={() => this.setState({
               stateVariablesOpen: true,
               paramsOpen: false
             })} style={{ margin: "10px 0 10px 0" }}
             backgroundColor={this.state.stateVariablesOpen ? "#ccc" : ""}
           />
-          <FlatButton
+          <Button
             label="Parameters" onClick={() => this.setState({
               stateVariablesOpen: false,
               paramsOpen: true
@@ -259,7 +259,7 @@ export default class ParamsTable extends React.Component {
           {this.state.stateVariablesOpen
             && (
               <span>
-                <FlatButton
+                <Button
                   label="Untoggle all" style={{
                     margin: "10px 0 10px 0",
                     float: "right"
@@ -267,7 +267,7 @@ export default class ParamsTable extends React.Component {
                   disabled={this.props.disabled}
                   onClick={() => GEPPETTO.trigger(UNTOGGLE_ALL)}
                 />
-                <FlatButton
+                <Button
                   label="Toggle all" style={{
                     margin: "10px 0 10px 0",
                     float: "right"

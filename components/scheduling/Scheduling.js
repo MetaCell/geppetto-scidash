@@ -1,7 +1,7 @@
 import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
-import Checkbox from "material-ui/Checkbox";
-import TextField from "material-ui/TextField";
+import RaisedButton from "@material-ui/core/RaisedButton";
+import Checkbox from "@material-ui/core/Checkbox";
+import TextField from "@material-ui/core/TextField";
 import { Redirect } from "react-router-dom";
 import DDListContainer from "./DDListContainer";
 import CompatibilityTable from "./CompatibilityTable";

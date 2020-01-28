@@ -1,8 +1,8 @@
 import React from "react";
-import Chip from "material-ui/Chip";
+import Chip from "@material-ui/core/Chip";
 import { Capabilities, RunParams } from "./partials";
-import { red400, brown500 } from 'material-ui/styles/colors';
-import { Card, CardHeader, CardText } from "material-ui/Card";
+import { red400, brown500 } from '@material-ui/core/colors';
+import { Card, CardHeader, CardText } from "@material-ui/core/Card";
 
 
 const ModelDetails = ({ 
