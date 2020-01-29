@@ -16,13 +16,15 @@ const editedTestName = "Test2";
 const newTestTag ="testing-tag-1";
 const editedTestTag = "test-edited";
 const newTestClass = "InputResistanceTest (neuronunit.tests.passive)";
-const editedTestClass = "LEMSModel";
+const editedTestClass = "c	i";
 const newObservationSchema = "Mean, Standard Deviation, N";
 const secondObservationSchema = "Mean, Standard Error, N";
 const observationValueN = 1;
 const observationValueSTD = 50;
 const observationValueMean = 100;
 const parameterTMax = 10; 
+const observationVVolt = 1;
+const observationIVolt = 1;
 
 // Amount of models in models page
 var tableModelLength = 2;
@@ -415,7 +417,7 @@ describe('Scidash Model Registration Tests', () => {
 			await page.evaluate(async () => {
 				document.querySelector("span.fa-plus").click()
 			});
-			await wait4selector(page, 'div.actions-container', { visible: true , timeout : 5000 })
+			await wait4selector(page, 'div#testFormSelectClass', { visible: true , timeout : 5000 })
 		})
 
 		it('Cancel Test Creation Button Present', async () => {
@@ -431,247 +433,303 @@ describe('Scidash Model Registration Tests', () => {
 		})
 	})
 
-//	// Tests Cloning Model
-//	describe('Clone Model', () => {
-//		it('Models Page Opened, New Model Button Present', async () => {
-//			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
-//		})
-//
-//		it('Open Model Edit/Clone Menu', async () => {
-//			await page.evaluate(async () => {
-//				document.querySelector(".fa-ellipsis-v").click()
-//			});
-//			await wait4selector(page, 'span.fa-clone', { visible: true , timeout : 5000 })
-//		})
-//
-//		it('Clone Model', async () => {
-//			await click(page, 'span.fa-clone');
-//
-//			// Wait for model to clone
-//			await page.waitFor(5000);
-//
-//			const models = await page.evaluate(async () => {
-//				return document.querySelectorAll(".scidash-table tr").length;
-//			});
-//
-//			expect(models).toBeGreaterThanOrEqual(tableModelLength);
-//
-//			const modelName = await page.evaluate(async () => {
-//				return document.querySelectorAll(".scidash-table tr td")[7].innerText;
-//			});
-//
-//			expect(modelName).toEqual(newModelName);
-//
-//			const modelClass = await page.evaluate(async () => {
-//				return document.querySelectorAll(".scidash-table tr td")[8].innerText;
-//			});
-//
-//			expect(modelClass).toEqual("ReducedModel");
-//		})
-//	})
-//
-//	// Tests Model Editing
-//	describe('Edit Model', () => {
-//		it('Models Page Opened, New Model Button Present', async () => {
-//			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
-//		})
-//
-//		it('Open Model Edit/Clone Menu', async () => {
-//			await page.evaluate(async () => {
-//				document.querySelector(".fa-ellipsis-v").click()
-//			});
-//			await wait4selector(page, 'span.fa-pencil-square-o', { visible: true , timeout : 5000 })
-//		})
-//
-//		it('Open Edit Model Form', async () => {
-//			await click(page, 'span.fa-pencil-square-o');
-//
-//			await wait4selector(page, 'div.actions-container', { visible: true , timeout : 5000 })
-//		})
-//
-//		it('Source URL Field Present in Form', async () => {
-//			await wait4selector(page, 'input#source-url', { visible: true , timeout : 5000 })
-//		})
-//
-//		it('Model URL Validated', async () => {
-//			await wait4selector(page, 'span.icons', { visible: true , timeout : 5000 });
-//			// Wait for URL model to validate
-//			await wait4selector(page, '#validating-source-url', { hidden: true , timeout : 60000 })
-//			const modelValidated = await page.evaluate(async () => {
-//				return document.querySelector(".icons svg").style.color;
-//			});
-//			expect(modelValidated).toEqual("green");
-//		})
-//
-//		it('Select Class Dropdown Present in Form', async () => {
-//			await wait4selector(page, '#modelFormSelectClass', { visible: true , timeout : 35000 })
-//		})
-//
-//		it('Open "Select Class" Dropdown Menu', async () => {
-//			await page.evaluate(async () => {
-//				var evt = document.createEvent('MouseEvent');
-//				evt.initEvent('mouseup', true, false);
-//				var elm = document.querySelector('#modelFormSelectClass button')
-//				elm.dispatchEvent(evt);
-//			});
-//			await wait4selector(page, '#LEMSModel', { visible: true , timeout : 35000 })
-//		})
-//
-//		it('Select "LEMSModel" Class', async () => {
-//			await page.evaluate(async () => {
-//				var evt = document.createEvent('MouseEvent');
-//				evt.initEvent('mouseup', true, false);
-//				var elm = document.querySelector('#LEMSModel div')
-//				elm.dispatchEvent(evt);
-//			});
-//			await page.waitForFunction('document.getElementById("modelFormSelectClass").innerText.startsWith("LEMSModel")');
-//		})
-//
-//		it('Add New Tag Present in Form', async () => {
-//			await wait4selector(page, 'input#new-tag', { visible: true , timeout : 5000 })
-//		})
-//
-//		it('Delete Tag', async () => {
-//			await page.evaluate(async (editedModelTag) => {
-//				var elm =document.querySelector(".tags path")
-//				var evt = new CustomEvent('Event');
-//				evt.initEvent('keypress', true, false);
-//				evt.which = 13;
-//				evt.keyCode = 13;
-//				elm.dispatchEvent(evt);
-//			}, editedModelTag);
-//
-//			const testModelTag = await page.evaluate(async () => {
-//				return document.querySelectorAll('.tags svg').length;
-//			});
-//			expect(testModelTag).toEqual(0);
-//		})
-//
-//		it('Enter New Tag', async () => {
-//			await page.evaluate(async (editedModelTag) => {
-//				var elm = document.querySelector('#new-tag')
-//				var ev = new Event('input', { bubbles: true});
-//				ev.simulated = true;
-//				elm.value = editedModelTag;
-//				elm.dispatchEvent(ev);
-//
-//				var evt = new CustomEvent('Event');
-//				evt.initEvent('keypress', true, false);
-//				evt.which = 13;
-//				evt.keyCode = 13;
-//				elm.dispatchEvent(evt);
-//			}, editedModelTag);
-//
-//			const testModelTag = await page.evaluate(async () => {
-//				return document.querySelectorAll('.tags svg').length;
-//			});
-//			expect(testModelTag).toEqual(1);
-//		})
-//
-//		it('Model Name Field Present in Form', async () => {
-//			await wait4selector(page, 'input#model-name', { visible: true , timeout : 5000 })
-//		})
-//
-//		it('Edit Model Name', async () => {
-//			await page.evaluate(async (newModel) => {
-//				var elm = document.querySelector('#model-name')
-//				var ev = new Event('input', { bubbles: true});
-//				ev.simulated = true;
-//				elm.value = newModel;
-//				elm.dispatchEvent(ev);
-//
-//			}, editedModelName);
-//
-//			const testModelName = await page.evaluate(async () => {
-//				return document.getElementById("model-name").value;
-//			});
-//
-//			expect(testModelName).toEqual(editedModelName);
-//		})
-//
-//		it('Model Parameters Button Present', async () => {
-//			await wait4selector(page, '#open-model-parameters', { visible: true , timeout : 5000 })
-//		})
-//
-//		it('Model Parameters Button Enabled', async () => {
-//			await wait4selector(page, '#loading-model-parameters', { hidden: true , timeout : 125000 })
-//
-//			const modelParametersButton = await page.evaluate(async () => {
-//				return document.getElementById("open-model-parameters").disabled;
-//			});
-//
-//			expect(modelParametersButton).toEqual(false);
-//		})
-//		
-//		it('Model Parameters Dialog Open', async () => {
-//			await page.evaluate(async () => {
-//				return document.getElementById("open-model-parameters").click();
-//			});
-//			
-//			await wait4selector(page, '#parameters-table', { visible: true , timeout : 5000 })
-//		})
-//
-//		it('Save Model', async () => {
-//			const saveModelEnabled = await page.evaluate(async () => {
-//				return document.getElementById("save-model").disabled;
-//			});
-//
-//			expect(saveModelEnabled).toEqual(false);
-//
-//			await page.evaluate(async () => {
-//				return document.getElementById("save-model").click();
-//			});
-//
-//			await wait4selector(page, 'table.scidash-table', { visible: true , timeout : 5000 })
-//		})
-//
-//		it('Test Model Present in Models Page', async () => {
-//			await page.waitFor(5000);
-//			const models = await page.evaluate(async () => {
-//				return document.querySelectorAll(".scidash-table tr").length;
-//			});
-//
-//			tableModelLength = tableModelLength+1;
-//			expect(models).toBeGreaterThanOrEqual(tableModelLength);
-//
-//			const modelName = await page.evaluate(async () => {
-//				return document.querySelectorAll(".scidash-table tr td")[0].innerText;
-//			});
-//
-//			expect(modelName).toEqual(editedModelName);
-//
-//			const modelClass = await page.evaluate(async () => {
-//				return document.querySelectorAll(".scidash-table tr td")[1].innerText;
-//			});
-//
-//			expect(modelClass).toEqual(editedModelClass);
-//
-//			const modelTag = await page.evaluate(async () => {
-//				return document.querySelectorAll(".chips span")[1].innerText;
-//			});
-//
-//			expect(modelTag).toEqual(editedModelTag);
-//		})
-//	})
-//
-//	// Tests Model Page Filters
-//	describe('Model Page Filters', () => {
-//		it('Models Page Opened, New Model Button Present', async () => {
-//			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
-//		})
-//
-//		testModelFilters(page, newModelName, 0, 0, tableModelLength);
-//		testModelFilters(page, editedModelName, 0,0, tableModelLength);
-//
-//		testModelFilters(page, newModelClass, 1, 1, tableModelLength);
-//		testModelFilters(page, editedModelClass, 1, 1, tableModelLength);
-//
-//		testModelFilters(page, newModelTag, 2, 3, tableModelLength);
-//		testModelFilters(page, editedModelTag, 2, 3, tableModelLength);
-//	})
-//	
-//	// User Logout
-//	describe('User Logout', () => {
-//		logoutTests(page);
-//	})
+	// Tests Cloning Model
+	describe('Clone Test', () => {
+		it('Tests Page Opened, New Test Button Present', async () => {
+			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+		})
+
+		it('Open Test Edit/Clone Menu', async () => {
+			await page.evaluate(async () => {
+				document.querySelector(".fa-ellipsis-v").click()
+			});
+			await wait4selector(page, 'span.fa-clone', { visible: true , timeout : 5000 })
+		})
+
+		it('Clone Test', async () => {
+			await click(page, 'span.fa-clone');
+
+			// Wait for model to clone
+			await page.waitFor(5000);
+
+			const models = await page.evaluate(async () => {
+				return document.querySelectorAll(".scidash-table tr").length;
+			});
+
+			expect(models).toBeGreaterThanOrEqual(tableModelLength);
+
+			const testName = await page.evaluate(async () => {
+				return document.querySelectorAll(".scidash-table tr td")[6].innerText;
+			});
+
+			expect(testName).toEqual(newTestName);
+
+			const testClass = await page.evaluate(async () => {
+				return document.querySelectorAll(".scidash-table tr td")[7].innerText;
+			});
+
+			expect(testClass).toEqual(newTestClass);
+		})
+	})
+
+	// Tests Editing
+	describe('Edit Model', () => {
+		it('Test Page Opened, New Test Button Present', async () => {
+			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+		})
+
+		it('Open Test Edit/Clone Menu', async () => {
+			await page.evaluate(async () => {
+				document.querySelector(".fa-ellipsis-v").click()
+			});
+			await wait4selector(page, 'span.fa-pencil-square-o', { visible: true , timeout : 5000 })
+		})
+
+		it('Open Edit Test Form', async () => {
+			await page.evaluate(async () => {
+				document.querySelector(".fa-pencil-square-o").click()
+			});
+
+			await page.waitFor(1000);
+			
+			await wait4selector(page, 'div#testFormSelectClass', { visible: true , timeout : 5000 })
+		})
+
+		it('Test Name Field Present in Form', async () => {
+			await wait4selector(page, 'input#test-name', { visible: true , timeout : 5000 })
+		})
+
+		it('Edit Test Name', async () => {
+			await page.evaluate(async (newTest) => {
+				var elm = document.querySelector('#test-name')
+				var ev = new Event('input', { bubbles: true});
+				ev.simulated = true;
+				elm.value = newTest;
+				elm.dispatchEvent(ev);
+			}, editedTestName);
+
+			const testName = await page.evaluate(async () => {
+				return document.getElementById("test-name").value;
+			});
+
+			expect(testName).toEqual(editedTestName);
+		})
+
+		it('Test Class Dropdown Present in Form', async () => {
+			await wait4selector(page, '#testFormSelectClass', { visible: true , timeout : 35000 })
+		})
+
+		it('Select '+  editedTestClass + ' Class', async () => {
+			await page.evaluate(async () => {
+				var evt = document.createEvent('MouseEvent');
+				evt.initEvent('mouseup', true, false);
+				var elm = document.querySelector('#testFormSelectClass button')
+				elm.dispatchEvent(evt);
+			});
+
+			await page.waitFor(2000);
+			
+			await page.evaluate(async (className) => {
+				var evt = document.createEvent('MouseEvent');
+				evt.initEvent('mouseup', true, false);
+				var elm = document.getElementById(className).querySelector("div");
+				elm.dispatchEvent(evt);
+			}, editedTestClass);
+			
+			await page.waitFor(2000);
+			
+			await page.waitForFunction('document.getElementById("testFormSelectClass").innerText.startsWith("'+editedTestClass+'")');
+		})
+
+		it('Test Parameters Populated', async () => {
+			await page.waitFor(2000);
+			
+			const dtParameterValue = await page.evaluate(async () => {
+				return Number(document.getElementById("dt (s)").value);
+			});
+			
+			expect(dtParameterValue).toEqual(0.000025);
+			
+			const tmaxParameterValue = await page.evaluate(async () => {
+				return Number(document.getElementById("tmax (s)").value);
+			});
+
+			expect(tmaxParameterValue).toEqual(0.1);
+			
+			const vmaxParameterValue = await page.evaluate(async () => {
+				return Number(document.getElementById("v_max (V)").value);
+			});
+
+			expect(vmaxParameterValue).toEqual(0.06);
+			
+			const vminParameterValue = await page.evaluate(async () => {
+				return Number(document.getElementById("v_min (V)").value);
+			});
+
+			expect(vminParameterValue).toEqual(-0.08);
+			
+			const vstepParameterValue = await page.evaluate(async () => {
+				return Number(document.getElementById("v_step (V)").value);
+			});
+
+			expect(vstepParameterValue).toEqual(0.02);
+		})
+		
+		it('Add New Tag Present in Form', async () => {
+			await wait4selector(page, 'input#test-add-tags', { visible: true , timeout : 5000 })
+		})
+		
+		it('Delete Tag', async () => {
+			await page.evaluate(async () => {
+				var elm =document.querySelector(".tags path")
+				var evt = new CustomEvent('Event');
+				evt.initEvent('keypress', true, false);
+				evt.which = 13;
+				evt.keyCode = 13;
+				elm.dispatchEvent(evt);
+			});
+
+			const testTag = await page.evaluate(async () => {
+				return document.querySelectorAll('.tags svg').length;
+			});
+			expect(testTag).toEqual(0);
+		})
+
+		it('Enter New Tag', async () => {
+			await page.evaluate(async (testTag) => {
+				var elm = document.querySelector('#test-add-tags')
+				var ev = new Event('input', { bubbles: true});
+				ev.simulated = true;
+				elm.value = testTag;
+				elm.dispatchEvent(ev);
+
+				var evt = new CustomEvent('Event');
+				evt.initEvent('keypress', true, false);
+				evt.which = 13;
+				evt.keyCode = 13;
+				elm.dispatchEvent(evt);
+
+			}, editedTestTag);
+
+			const testTag = await page.evaluate(async () => {
+				return document.querySelectorAll('.tags svg').length;
+			});
+			expect(testTag).toEqual(1);
+		})
+		
+		it('Observation Parameter Fields Present', async () => {
+			await page.waitFor(2000);
+			const iObservationValue = await page.evaluate(async () => {
+				var elm = document.getElementById("i (volt | picoampere)");
+				if(elm == undefined || elm == null){
+					return false;
+				}
+				return true;
+			});
+			
+			expect(iObservationValue).toEqual(true);
+			
+			await page.waitFor(2000);
+			const vObservationValue = await page.evaluate(async () => {
+				var elm = document.getElementById("v (volt | picoampere)");
+				if(elm == undefined || elm == null){
+					return false;
+				}
+				return true;
+			});
+			
+			expect(vObservationValue).toEqual(true);
+		})
+
+		it('Enter Observation Value i (volt | picoampere)', async () => {
+			await page.evaluate(async (value) => {
+				var elm = document.getElementById('i (volt | picoampere)')
+				var ev = new Event('input', { bubbles: true});
+				ev.simulated = true;
+				elm.value = value;
+				elm.dispatchEvent(ev);
+			}, observationIVolt);
+
+			const observationValue = await page.evaluate(async () => {
+				return Number(document.getElementById("i (volt | picoampere)").value);
+			});
+
+			expect(observationValue).toEqual(observationIVolt);
+		})
+		
+		it('Enter Observation Value v (volt | picoampere)', async () => {
+			await page.evaluate(async (value) => {
+				var elm = document.getElementById('v (volt | picoampere)')
+				var ev = new Event('input', { bubbles: true});
+				ev.simulated = true;
+				elm.value = value;
+				elm.dispatchEvent(ev);
+			}, observationVVolt);
+
+			const observationValue = await page.evaluate(async () => {
+				return Number(document.getElementById("v (volt | picoampere)").value);
+			});
+
+			expect(observationValue).toEqual(observationVVolt);
+		})
+		
+
+		it('Save Test', async () => {
+			await page.evaluate(async () => {
+				return document.getElementById("save-test").click();
+			});
+			
+			await page.waitFor(2000);
+
+			await wait4selector(page, 'table.scidash-table', { visible: true , timeout : 5000 })
+		})
+
+		it('New Test Present in Tests Page', async () => {
+			await page.waitFor(5000);
+			const tableModels = await page.evaluate(async () => {
+				return document.querySelectorAll(".scidash-table tr").length;
+			});
+			expect(tableModels).toBeGreaterThanOrEqual(tableModelLength);
+
+			const modelName = await page.evaluate(async () => {
+				return document.querySelectorAll(".scidash-table tr td")[0].innerText;
+			});
+
+			expect(modelName).toEqual(editedTestName);
+
+			const modelClass = await page.evaluate(async () => {
+				return document.querySelectorAll(".scidash-table tr td")[1].innerText;
+			});
+
+			expect(modelClass).toEqual(editedTestClass);
+
+			const modelTag = await page.evaluate(async () => {
+				return document.querySelectorAll(".chips span")[0].innerText;
+			});
+
+			expect(modelTag).toEqual(editedTestTag);
+		})
+
+	})
+
+	// Tests Model Page Filters
+	describe('Test Page Filters', () => {
+		it('Test Page Opened, New Test Button Present', async () => {
+			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+		})
+
+		testModelFilters(page, newTestName, 0, 0, tableModelLength);
+		testModelFilters(page, editedTestName, 0,0, tableModelLength);
+
+		testModelFilters(page, newTestClass, 1, 1, tableModelLength);
+		testModelFilters(page, editedTestClass, 1, 1, tableModelLength);
+
+		testModelFilters(page, newTestTag, 2, 2, tableModelLength);
+		testModelFilters(page, editedTestTag, 2, 2, tableModelLength);
+	})
+	
+	// User Logout
+	describe('User Logout', () => {
+		logoutTests(page);
+	})
 })
