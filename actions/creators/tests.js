@@ -98,7 +98,7 @@ export function testCreateStarted (model, dispatch){
   copiedModel.hash_id = new Helper().generateHashId(copiedModel);
 
   // strip package from class name
-  copiedModel.test_class.class_name = test.test_class.class_name.split(" ")[0];
+  copiedModel.test_class.class_name = copiedModel.test_class.class_name.split(" ")[0];
 
 
   let d = new Date();
