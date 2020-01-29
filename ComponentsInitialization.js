@@ -4,8 +4,10 @@ define(function (require) {
 
     let ReactDOM = require("react-dom");
     let React = require("react");
+    let Sentry = require("@sentry/browser")
     let App = require("./App").default;
 
+    Sentry.init({dsn: GEPPETTO_CONFIGURATION.sentryDSN});
 
     require("./styles/scidash.less");
 
