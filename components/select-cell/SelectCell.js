@@ -1,5 +1,5 @@
 import React from "react";
-import SelectField from "@material-ui/core/SelectField";
+import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Config from "../../shared/Config";
 
@@ -16,7 +16,7 @@ const SelectCell = ({
       {title}
       {icon}
     </p>
-    <SelectField
+    <Select
       value={value}
       underlineStyle={{ borderBottom: "1px solid #ccc", bottom: "0px" }}
       style={styleDefault}
@@ -41,7 +41,7 @@ const SelectCell = ({
           primaryText={Config.scoreStatusMap[value]}
         />
       ))}
-    </SelectField>
+    </Select>
   </span>
 );
 

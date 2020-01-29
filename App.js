@@ -6,8 +6,8 @@ import { connectRouter, routerMiddleware, ConnectedRouter } from "connected-reac
 import { Switch, Route } from "react-router-dom";
 import logger from "redux-logger";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import getMuiTheme from "@material-ui/core/styles/getMuiTheme";
-import { grey500, blueGrey900, brown500 } from "@material-ui/core/colors";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { grey, blueGrey, brown } from "@material-ui/core/colors";
 import injectTapEventPlugin from "react-tap-event-plugin";
 import InitialStateService from "./services/InitialStateService";
 import Loader from "./components/loader/Loader";
@@ -34,19 +34,19 @@ injectTapEventPlugin();
 // list of props here --> https://github.com/mui-org/material-ui/blob/master/src/styles/baseThemes/lightBaseTheme.js
 const customTheme = {
   palette: {
-    primary1Color: grey500,
-    primary2Color: blueGrey900,
+    primary1Color: grey[500],
+    primary2Color: blueGrey[900],
     primary3Color: "#b0ac9a",
     pickerHeaderColor: "#b0ac9a",
   },
   chip: {
-    backgroundColor: brown500,
+    backgroundColor: brown[500],
     textColor: "white",
   },
 };
 
 
-const theme = getMuiTheme(customTheme);
+const theme = createMuiTheme(customTheme);
 
 
 export default class App extends React.Component {

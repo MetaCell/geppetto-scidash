@@ -1,10 +1,9 @@
 import React from "react";
-import RaisedButton from "@material-ui/core/RaisedButton";
 import Button from "@material-ui/core/Button";
-import FontIcon from "@material-ui/core/FontIcon";
+import PersonIcon from '@material-ui/icons/Person';
 import Popover from "@material-ui/core/Popover";
-import { Card, CardActions, CardHeader, CardText } from "@material-ui/core/Card";
-import { List, ListItem } from "@material-ui/core/List";
+import { Card, CardActions, CardHeader, CardContent } from "@material-ui/core";
+import { List, ListItem } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import PagesService from "../../../services/PagesService";
 import DrawerContainer from "../Drawer/DrawerContainer";
@@ -97,14 +96,14 @@ export default class Header extends React.Component {
 
             {this.props.userInfo.isLogged
               ? <div className="col-md-3 auth-links">
-                <RaisedButton
-                  className="userButton" label={userinitial}
+                <Button
+                  className="userButton" label={userinitial} variant="contained"
                   buttonStyle={{ borderRadius: 50, backgroundColor: "#37474f" }}
                   onTouchTap={this.handleTouchTap}
                   style={{ marginRight: "10px", borderRadius: 50, float: "right" }}
                 >
-                  <FontIcon className="fa fa-user loggedIcon" />
-                </RaisedButton>
+                  <PersonIcon className="loggedIcon" />
+                </Button>
                 <Popover
                   open={this.state.open} anchorEl={this.state.anchorEl}
                   anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
@@ -123,7 +122,7 @@ export default class Header extends React.Component {
                       <Button label="Reset Password" href="/auth/password-reset/" style={{ border: "2px solid lightgrey" }} />
                       <Button label="Logout" href="/auth/logout/" style={{ border: "2px solid lightgrey" }} />
                     </CardActions>
-                    <CardText expandable>
+                    <CardContent expandable>
                       <List style={{ textAlign: "center" }}>
                         <ListItem
                           primaryText="Name"
@@ -138,16 +137,24 @@ export default class Header extends React.Component {
                           secondaryText={lastLogin}
                         />
                       </List>
-                    </CardText>
+                    </CardContent>
                   </Card>
                 </Popover>
               </div>
               : <div className="col-md-3 auth-links">
-                <RaisedButton
-                  href="/auth/login/" className="userButton loginButton" label="Login" style={{ marginRight: "10px" }}
+                <Button
+                  variant="contained"
+                  href="/auth/login/"
+                  className="userButton loginButton"
+                  label="Login"
+                  style={{ marginRight: "10px" }}
                 />
-                <RaisedButton
-                  href="/auth/sign-up/" className="userButton signUpButton" label="Sign-Up" style={{ marginRight: "10px" }}
+                <Button
+                  variant="contained"
+                  href="/auth/sign-up/"
+                  className="userButton signUpButton"
+                  label="Sign-Up"
+                  style={{ marginRight: "10px" }}
                 />
               </div>
             }

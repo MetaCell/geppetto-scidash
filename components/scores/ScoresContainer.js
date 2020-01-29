@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import RaisedButton from "@material-ui/core/RaisedButton";
+import Button from "@material-ui/core/Button";
 import Scores from "./Scores";
 import ScidashStorage from "../../shared/ScidashStorage";
 import _ from 'lodash';
@@ -28,7 +28,8 @@ const mapStateToProps = state => ({
     NextButton: props => {
       if (props.hasNext) {
         return (
-          <RaisedButton
+          <Button
+            variant="contained"
             label={props.text} 
             onClick={() => {
               props.getNext();

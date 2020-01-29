@@ -1,6 +1,6 @@
 import React from "react";
-import FontIcon from "@material-ui/core/FontIcon";
-import RaisedButton from "@material-ui/core/RaisedButton";
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import Button from "@material-ui/core/Button";
 import Helper from "../../shared/Helper";
 
 const ScoreCell = ({ rowData, colorBlind }) => {
@@ -29,8 +29,8 @@ const HideRowCell = ({ rowData, hideRow, data }) => (
   />
 );
 
-const ShowAllHeading = ({ hiddenModels, showAllModels }) => (<RaisedButton
-  id="show-all-button" style={!hiddenModels.length ? { display: "none" } : { minWidth: "45px", width: "45px", maxHeight: "30px" }} onClick={showAllModels} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5 }} />} title="Show all"
+const ShowAllHeading = ({ hiddenModels, showAllModels }) => (<Button
+  variant="contained" id="show-all-button" style={!hiddenModels.length ? { display: "none" } : { minWidth: "45px", width: "45px", maxHeight: "30px" }} onClick={showAllModels} icon={<VisibilityIcon className="show-all-icon" style={{ padding: 5 }} />} title="Show all"
 />);
 
 export {

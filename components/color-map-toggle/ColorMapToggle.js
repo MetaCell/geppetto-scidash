@@ -1,15 +1,14 @@
 import React from 'react';
-import RaisedButton from '@material-ui/core/RaisedButton';
-import Toggle from '@material-ui/core/Toggle';
+import Switch from '@material-ui/core/Switch';
 
 
 const ColorMapToggle = ({ colorBlind, toggleColorBlind }) => (
   <div id='controlsContainer'>
     <label>
-      <Toggle
+      <Switch
         label="Color map"
-        onToggle={toggleColorBlind}
-        toggled={colorBlind}
+        onChange={toggleColorBlind}
+        checked={colorBlind}
         labelPosition="right"
         style={{ margin: 2.5 }}
       />

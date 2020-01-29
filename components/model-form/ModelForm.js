@@ -3,12 +3,11 @@ import Chip from "@material-ui/core/Chip";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
-import SelectField from "@material-ui/core/SelectField";
-import RaisedButton from "@material-ui/core/RaisedButton";
+import Select from "@material-ui/core/Select";
+import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Dialog from "@material-ui/core/Dialog";
-import Button from "@material-ui/core/Button";
-import { red400, brown500 } from "@material-ui/core/colors";
+import { red, brown } from "@material-ui/core/colors";
 import { OKicon, Xicon } from "../../assets/CustomIcons";
 import ModelClassApiService from "../../services/api/ModelClassApiService";
 import FilteringService from "../../services/FilteringService";
@@ -424,7 +423,7 @@ export default class ModelForm extends React.Component {
 
         <div className="second-line">
           <div className="container">
-            <SelectField
+            <Select
               id="modelFormSelectClass"
               labelStyle={{
                 position: "relative",
@@ -478,7 +477,7 @@ export default class ModelForm extends React.Component {
                   label={klass.class_name}
                 />
               ))}
-            </SelectField>
+            </Select>
 
             <TextField
               value={this.state.newTag}
@@ -503,8 +502,8 @@ export default class ModelForm extends React.Component {
                       <Chip
                         backgroundColor={
                           (tag.name.toLowerCase() === "deprecated" || tag.name.toLowerCase() === "unschedulable")
-                            ? red400
-                            : brown500
+                            ? red[400]
+                            : brown[500]
                         }
                         style={{
                           marginLeft: 4,
@@ -522,8 +521,8 @@ export default class ModelForm extends React.Component {
                       <Chip
                         backgroundColor={
                           (tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable")
-                            ? red400
-                            : brown500
+                            ? red[400]
+                            : brown[500]
                         }
                         style={{
                           marginLeft: 4,
@@ -553,7 +552,8 @@ export default class ModelForm extends React.Component {
         </div>
 
         <div className="fifth-line">
-          <RaisedButton
+          <Button
+            variant="contained"
             label="Open"
             disabled={this.state.paramsDisabled}
             className="actions-button"
@@ -580,6 +580,7 @@ export default class ModelForm extends React.Component {
             modal
             actions={[
               <Button
+                variant="contained"
                 label="Close"
                 key="close-button"
                 primary
@@ -613,7 +614,8 @@ export default class ModelForm extends React.Component {
         </div>
 
         <div className="actions-container">
-          <RaisedButton
+          <Button
+            variant="contained"
             label="save"
             disabled={
               this.state.loadingParams
@@ -636,7 +638,8 @@ export default class ModelForm extends React.Component {
             }}
           />
 
-          <RaisedButton
+          <Button
+            variant="contained"
             label="cancel"
             className="actions-button"
             onClick={() => this.onCancel()}

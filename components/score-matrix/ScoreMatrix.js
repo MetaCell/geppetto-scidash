@@ -1,7 +1,7 @@
 import React from "react";
 import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
-import { Card, CardText } from "@material-ui/core/Card";
-import RaisedButton from "@material-ui/core/RaisedButton";
+import { Card, CardContent } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import Helper from "../../shared/Helper";
 import { ShowAllHeading, HideRowCell, TitleHeader, ScoreCell } from "./partials";
 
@@ -27,8 +27,8 @@ export default class ScoreMatrix extends React.Component {
       NextButton: props => {
         if (props.hasNext) {
           return (
-            <RaisedButton
-              label={props.text} onClick={props.getNext} style={{ marginLeft: "10px" }}
+            <Button
+              variant="contained" label={props.text} onClick={props.getNext} style={{ marginLeft: "10px" }}
             />
           );
         }
@@ -37,8 +37,8 @@ export default class ScoreMatrix extends React.Component {
       PreviousButton: props => {
         if (props.hasPrevious) {
           return (
-            <RaisedButton
-              label={props.text} onClick={props.getPrevious} style={{ marginRight: "10px" }}
+            <Button
+              variant="contained" label={props.text} onClick={props.getPrevious} style={{ marginRight: "10px" }}
             />
           );
         }
@@ -50,7 +50,7 @@ export default class ScoreMatrix extends React.Component {
       <Card
         id="table-container-div" style={{ overflow: "scroll" }}
       >
-        <CardText>
+        <CardContent>
           <Griddle
             data={this.props.scoreMatrixTableData}
             components={GriddleComponents}
@@ -100,7 +100,7 @@ export default class ScoreMatrix extends React.Component {
               })}
             </RowDefinition>
           </Griddle>
-        </CardText>
+        </CardContent>
       </Card>
     );
   }

@@ -28,6 +28,7 @@ export default class ModelDetailLinkColumn extends React.Component {
   render () {
     const actions = [
       <Button
+        variant="contained"
         label="Close"
         primary
         onClick={this.closeModelDetail}

@@ -1,7 +1,7 @@
 import React from "react";
 import Chip from "@material-ui/core/Chip";
-import { red400, brown500 } from "@material-ui/core/colors";
-import { Card, CardHeader, CardText } from "@material-ui/core/Card";
+import { red, brown } from "@material-ui/core/colors";
+import { Card, CardHeader, CardContent } from "@material-ui/core";
 
 import { Observation, BuildInfoLine } from "./partials";
 
@@ -35,7 +35,7 @@ const TestDetails = ({
           Test details
     </h4>
     <Card>
-      <CardText>
+      <CardContent>
         <div>
           <strong>Test name: </strong>
           {instanceTestName}
@@ -57,7 +57,7 @@ const TestDetails = ({
             <Chip
               containerElement="span"
               backgroundColor={
-                tag.toLowerCase() === "deprecated" ? red400 : brown500
+                tag.toLowerCase() === "deprecated" ? red[400] : brown[500]
               }
               style={{
                 marginTop: 6,
@@ -76,7 +76,7 @@ const TestDetails = ({
           <strong>Observation: </strong>
           <Observation observation={observation} />
         </div>
-      </CardText>
+      </CardContent>
     </Card>
   </div>
 );

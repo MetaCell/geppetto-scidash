@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import Menu from "@material-ui/core/Menu";
 import Chip from "@material-ui/core/Chip";
 import Popover from "@material-ui/core/Popover";
-import FontIcon from "@material-ui/core/FontIcon";
+import LockIcon from '@material-ui/icons/Lock';
+import CreateIcon from '@material-ui/icons/Create';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
-import { red400, brown500 } from "@material-ui/core/colors";
+import { red, brown } from "@material-ui/core/colors";
 
 const styles = {
   anchorOrigin: {
@@ -96,7 +98,7 @@ export class CustomMenu extends Component {
     const { anchorEl } = this.state;
     return (
       <span className="edit-clone-test">
-        {this.isBlocked() && <FontIcon className="fa fa-lock" />}
+        {this.isBlocked() && <LockIcon />}
         {this.checkInstance() && (
           <IconButton
             iconClassName="fa fa-ellipsis-v"
@@ -121,7 +123,7 @@ export class CustomMenu extends Component {
                   this.props.edit(this.props.value.get("modelId"));
                 }
               }}
-              leftIcon={<FontIcon className="fa fa-pencil-square-o" />}
+              leftIcon={<CreateIcon />}
               disabled={this.checkUserRights()}
             />
             <MenuItem
@@ -134,7 +136,7 @@ export class CustomMenu extends Component {
                 }
               }
               }
-              leftIcon={<FontIcon className="fa fa-clone" />}
+              leftIcon={<FileCopyIcon />}
               disabled={this.isUnschedulable()}
             />
           </Menu>
@@ -148,7 +150,7 @@ export const CustomTagComponent = ({ value }) => (
   <span className="chips">
     {value.map((tag, i) => (
       <Chip
-        backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red400 : brown500}
+        backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red[400] : brown[500]}
         containerElement="span"
         key={i}
       >

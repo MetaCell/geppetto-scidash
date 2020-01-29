@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import RaisedButton from "@material-ui/core/RaisedButton";
+import Button from "@material-ui/core/Button";
 import TestSuites from "./TestSuites";
 import ScidashStorage from "../../shared/ScidashStorage";
 
@@ -31,7 +31,8 @@ const mapStateToProps = state => ({
     NextButton: props => {
       if (props.hasNext) {
         return (
-          <RaisedButton
+          <Button
+            variant="contained"
             label={props.text}
             onClick={props.getNext}
             style={{ marginLeft: "10px" }}
@@ -44,7 +45,8 @@ const mapStateToProps = state => ({
     PreviousButton: props => {
       if (props.hasPrevious) {
         return (
-          <RaisedButton
+          <Button
+            variant="contained"
             label={props.text}
             onClick={props.getPrevious}
             style={{ marginRight: "10px" }}

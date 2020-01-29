@@ -1,6 +1,6 @@
+/* eslint-disable no-use-before-define */
 import React from "react";
-import AutoComplete from "@material-ui/lab/AutoComplete";
-
+import Autocomplete from "@material-ui/lab/Autocomplete";
 const FilterCell = ({
   title,
   icon,
@@ -19,7 +19,7 @@ const FilterCell = ({
       {title}
       {icon}
     </p>
-    <AutoComplete
+    <Autocomplete
       className="scidash-materialui-field"
       searchText={value}
       popoverProps={{
@@ -27,7 +27,7 @@ const FilterCell = ({
         backgroundColor: "blue",
         className: "autosuggest"
       }}
-      filter={AutoComplete.caseInsensitiveFilter}
+      filter={Autocomplete.caseInsensitiveFilter}
       onClick={event => {
         event.stopPropagation();
       }}

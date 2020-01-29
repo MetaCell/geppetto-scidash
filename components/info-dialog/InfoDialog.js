@@ -2,8 +2,8 @@ import React from "react";
 import Chip from "@material-ui/core/Chip";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
-import { Card, CardText } from "@material-ui/core/Card";
-import { red400, brown500 } from '@material-ui/core/colors';
+import { Card, CardContent } from "@material-ui/core";
+import { red, brown } from '@material-ui/core/colors';
 import Helper from "../../shared/Helper";
 
 
@@ -54,7 +54,7 @@ export default class InfoDialog extends React.Component {
         <div style={{ minWidth: "100px", margin: "15px" }}>
           <h4 style={{ maxWidth: "360px" }}>{instanceSource !== "None" ? "Model" : "Test"}{" details"}</h4>
           <Card>
-            <CardText>
+            <CardContent>
               <p><strong>Name: </strong>
                 {instanceName}
               </p>
@@ -76,7 +76,7 @@ export default class InfoDialog extends React.Component {
                   {instanceTags === "None" ? undefined : instanceTags.map((tag, i) =>
                     <Chip
                       containerElement={'span'}
-                      backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
+                      backgroundColor={tag.toLowerCase() === "deprecated" ? red[400] : brown[500]}
                       style={{ marginTop: 6, marginBottom: 0 }}
                       key={`${tag}-${i}`}>
                       {tag}
@@ -84,7 +84,7 @@ export default class InfoDialog extends React.Component {
                   )}
                 </span>
               </p>
-            </CardText>
+            </CardContent>
           </Card>
         </div>
       </Dialog>

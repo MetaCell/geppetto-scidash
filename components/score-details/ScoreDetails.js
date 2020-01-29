@@ -1,7 +1,7 @@
 import React from "react";
 import Chip from "@material-ui/core/Chip";
-import { red400, brown500 } from "@material-ui/core/colors";
-import { Card, CardHeader, CardText } from "@material-ui/core/Card";
+import { red, brown } from "@material-ui/core/colors";
+import { Card, CardHeader, CardContent } from "@material-ui/core";
 import ModelDetailsContainer from "../model-details/ModelDetailsContainer";
 
 import { Observation, BuildInfoLine } from "./partials";
@@ -40,7 +40,7 @@ const ScoreDetails = ({
   instanceTestName
 }) => (
   <Card>
-    <CardText
+    <CardContent
       style={{
         wordWrap: "break-word",
         display: "flex",
@@ -56,7 +56,7 @@ const ScoreDetails = ({
           Test details
         </h4>
         <Card>
-          <CardText>
+          <CardContent>
             <div>
               <strong>Test name: </strong>
               {instanceTestName}
@@ -126,7 +126,7 @@ const ScoreDetails = ({
                 <Chip
                   containerElement="span"
                   backgroundColor={
-                    tag.toLowerCase() === "deprecated" ? red400 : brown500
+                    tag.toLowerCase() === "deprecated" ? red[400] : brown[500]
                   }
                   style={{
                     marginTop: 6,
@@ -149,7 +149,7 @@ const ScoreDetails = ({
               <strong>Simulator: </strong>
               {modelBackend}
             </div>
-          </CardText>
+          </CardContent>
         </Card>
       </div>
       <div
@@ -158,7 +158,7 @@ const ScoreDetails = ({
         <h4>Model details</h4>
         <ModelDetailsContainer model={modelInstance} />
       </div>
-    </CardText>
+    </CardContent>
   </Card>
 );
 

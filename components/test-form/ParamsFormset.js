@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "underscore";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import ParamsForm from "./ParamsForm";
 
 export default class ParamsFormset extends React.Component {
@@ -44,7 +44,7 @@ export default class ParamsFormset extends React.Component {
     return (
       <span>
         {this.state.schemaList.length > 1
-          && <SelectField
+          && <Select
             id="testFormSelectClass"
             labelStyle={{
               position: "relative",
@@ -64,7 +64,7 @@ export default class ParamsFormset extends React.Component {
             {this.state.schemaList.map((value, index) =>
               <MenuItem label={`${value[0]}`} primaryText={`${value[0]}`} value={index} key={index} />
             )}
-          </SelectField>
+          </Select>
         }
 
         <ParamsForm

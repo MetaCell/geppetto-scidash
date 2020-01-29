@@ -1,8 +1,8 @@
 import React from "react";
 import Chip from "@material-ui/core/Chip";
 import { Capabilities, RunParams } from "./partials";
-import { red400, brown500 } from '@material-ui/core/colors';
-import { Card, CardHeader, CardText } from "@material-ui/core/Card";
+import { red, brown } from '@material-ui/core/colors';
+import { Card, CardHeader, CardContent } from "@material-ui/core";
 
 
 const ModelDetails = ({ 
@@ -15,7 +15,7 @@ const ModelDetails = ({
   modelTags
 }) => (
   <Card>
-    <CardText>
+    <CardContent>
       <p><strong>Class name: </strong>
         {modelClassName}
       </p>
@@ -41,7 +41,7 @@ const ModelDetails = ({
       <p className="model-url"><strong>Instance Tags: </strong>
         {modelTags.map((tag, i) => <Chip
           containerElement={'span'}
-          backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
+          backgroundColor={tag.toLowerCase() === "deprecated" ? red[400] : brown[500]}
           style={{ 
             marginTop: 6, 
             marginBottom: 0,
@@ -57,7 +57,7 @@ const ModelDetails = ({
       {runParameters != "None" ? <RunParams
         runParams={runParameters}
       /> : runParameters}
-    </CardText>
+    </CardContent>
   </Card>
 );
 

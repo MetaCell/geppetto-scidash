@@ -4,7 +4,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import { Draggable, Droppable } from "react-drag-and-drop";
-import { brown500, blue500, grey400, grey600, brown200, brown100, blue200, blue100 } from "@material-ui/core/colors";
+import { grey, brown, blue } from "@material-ui/core/colors";
 import { TestIcon, ModelsIcon } from "../../assets/CustomIcons";
 import InfoDialog from "../info-dialog/InfoDialog";
 import Config from "../../shared/Config";
@@ -15,14 +15,14 @@ const styles = {
 };
 
 const brownColors = {
-  start: brown200,
-  hover: brown100,
+  start: brown[200],
+  hover: brown[100],
   end: "inherit"
 };
 
 const blueColors = {
-  start: blue200,
-  hover: blue100,
+  start: blue[200],
+  hover: blue[100],
   end: "inherit"
 };
 // DONT USE UPPERCASE FOR DRAGGABLE NOT DROPPABLE TYPES
@@ -144,7 +144,7 @@ export default class DDList extends React.Component {
                         : addModel(dataItem.scheduler_id);
                     }}
                     leftIconSVG={!dataItem.source ? TestIcon : ModelsIcon}
-                    leftIconColor={!dataItem.source ? brown500 : blue500}
+                    leftIconColor={!dataItem.source ? brown[500] : blue[500]}
                   />
                 </Draggable>
               ))}
@@ -176,7 +176,7 @@ export default class DDList extends React.Component {
                   secondAction={() => {
                     removeTest(test.scheduler_id);
                   }}
-                  leftIconColor={brown500}
+                  leftIconColor={brown[500]}
                   leftIconSVG={TestIcon}
                 />
               ))}
@@ -211,7 +211,7 @@ export default class DDList extends React.Component {
                     this.openDialog(model);
                   }}
                   secondAction={() => removeModel(model.scheduler_id)}
-                  leftIconColor={blue500}
+                  leftIconColor={blue[500]}
                   leftIconSVG={ModelsIcon}
                 />
               ))}
@@ -242,17 +242,17 @@ const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firs
 
     <IconButton
       style={{ borderRadius: "40px" }}
-      iconStyle={{ color: grey600 }}
+      iconStyle={{ color: grey[600] }}
       onClick={() => firstAction()}
-      hoveredStyle={{ backgroundColor: grey400 }}
+      hoveredStyle={{ backgroundColor: grey[400] }}
       iconClassName={firstActionClass}
     />
 
     <IconButton
       style={{ borderRadius: "40px" }}
-      iconStyle={{ color: grey600 }}
+      iconStyle={{ color: grey[600] }}
       onClick={scheduler_id => secondAction(scheduler_id)}
-      hoveredStyle={{ backgroundColor: grey400 }}
+      hoveredStyle={{ backgroundColor: grey[400] }}
       iconClassName={secondActionClass}
     />
   </div>

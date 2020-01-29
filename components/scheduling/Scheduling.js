@@ -1,14 +1,12 @@
 import React from "react";
-import RaisedButton from "@material-ui/core/RaisedButton";
+import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
-import { Redirect } from "react-router-dom";
 import DDListContainer from "./DDListContainer";
 import CompatibilityTable from "./CompatibilityTable";
 import SchedulingApiService from "../../services/api/SchedulingApiService";
 import Loader from "../loader/Loader";
 import PagesService from "../../services/PagesService";
-import { changePage } from "../../actions/creators/header";
 
 
 class Scheduling extends React.Component {
@@ -119,11 +117,12 @@ class Scheduling extends React.Component {
               onFinish={this.saveCompatible}
             />
             <div style={styles.saveContainer}>
-              <RaisedButton
+              <Button
+                variant="contained"
                 onClick={() => this.scheduleTests(this.state.compatible)}
               >
                 Run tests
-              </RaisedButton>
+              </Button>
             </div>
             {saveSuites
               ? <div style={styles.saveSubContainer}>

@@ -2,8 +2,8 @@ import React from "react";
 import Chip from "@material-ui/core/Chip";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
-import { red400, brown500 } from '@material-ui/core/colors';
-import { Card, CardHeader, CardText } from "@material-ui/core/Card";
+import { red, brown } from '@material-ui/core/colors';
+import { Card, CardHeader, CardContent } from "@material-ui/core";
 
 export default class ModelViewDetails extends React.Component {
 
@@ -59,7 +59,7 @@ export default class ModelViewDetails extends React.Component {
 
 
           <Card>
-            <CardText>
+            <CardContent>
               <p><strong>Class name: </strong>
                 {(this.props.modelInstance.get("class") !== undefined) 
                   ? this.props.modelInstance.get("class")
@@ -93,7 +93,7 @@ export default class ModelViewDetails extends React.Component {
               <p className="model-url"><strong>Instance Tags: </strong>
                 {modelTags.map((tag, i) => <Chip
                   containerElement={'span'}
-                  backgroundColor={tag.toLowerCase() === "deprecated" ? red400 : brown500}
+                  backgroundColor={tag.toLowerCase() === "deprecated" ? red[400] : brown[500]}
                   style={{ 
                     marginTop: 6, 
                     marginBottom: 0,
@@ -104,7 +104,7 @@ export default class ModelViewDetails extends React.Component {
                   {tag}
                 </Chip>) }
               </p>
-            </CardText>
+            </CardContent>
           </Card>
 
 

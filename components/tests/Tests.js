@@ -1,6 +1,6 @@
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
-import { brown600, brown500 } from "@material-ui/core/colors";
+import { brown } from "@material-ui/core/colors";
 import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
@@ -32,8 +32,8 @@ export default class Tests extends React.Component {
           onClick={() => this.props.toggleCreateTest()}
           iconClassName="fa fa-plus"
           iconStyle={{ color: "white" }}
-          hoveredStyle={{ backgroundColor: brown500 }}
-          style={{ float: "right", borderRadius: "40px", backgroundColor: brown600 }}
+          hoveredStyle={{ backgroundColor: brown[500] }}
+          style={{ float: "right", borderRadius: "40px", backgroundColor: brown[600] }}
         />
 
         <Griddle

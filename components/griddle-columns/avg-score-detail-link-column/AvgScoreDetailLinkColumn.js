@@ -1,6 +1,6 @@
 import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
-import FontIcon from '@material-ui/core/FontIcon';
+import LockIcon from '@material-ui/icons/Lock';
 import Button from '@material-ui/core/Button';
 import AvgScoreDetailsContainer from '../../avg-score-details/AvgScoreDetailsContainer';
 
@@ -26,13 +26,15 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
   render (){
     const actions = [
       <Button
+        variant="contained"
         label="Save As Image"
         primary={true}
-        icon={<FontIcon className="fa fa-camera"/>}
+        icon={<LockIcon />}
         onClick={e => {
           this.props.takeScreenshot(e)
         }} />,
       <Button
+        variant="contained"
         label="Close"
         primary={true}
         onClick={this.closeAvgScoreDetail}

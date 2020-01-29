@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import _ from "underscore";
-import Toggle from "material-ui/Toggle";
+import Switch from "@material-ui/core/Switch";
 import React from "react";
 import { TOGGLE_ALL, UNTOGGLE_ALL } from "./events";
 
@@ -72,11 +72,11 @@ export class ChooseVarComponent extends React.Component{
   render (){
     return (
       <div style={{ float: "right" }}>
-        <Toggle
-          toggled={
+        <Switch
+          checked={
             this.state.toggled
           }
-          onToggle={this.onToggle}
+          onChange={this.onToggle}
           disabled={this.props.disabled}
           thumbStyle={styles.thumbOff}
           thumbSwitchedStyle={styles.thumbSwitched}

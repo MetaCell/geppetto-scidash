@@ -2,9 +2,9 @@ import React from "react";
 import Chip from "@material-ui/core/Chip";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
-import SelectField from "@material-ui/core/SelectField";
-import RaisedButton from "@material-ui/core/RaisedButton";
-import { red400, brown500 } from "@material-ui/core/colors";
+import Select from "@material-ui/core/Select";
+import Button from "@material-ui/core/Button";
+import { red, brown } from "@material-ui/core/colors";
 import ParamsFormset from "./ParamsFormset";
 import TestInstance from "../../models/TestInstance";
 import Helper from "../../shared/Helper";
@@ -110,7 +110,7 @@ export default class TestForm extends React.Component {
             disabled={this.state.isBlocked}
           />
 
-          <SelectField
+          <Select
             id="testFormSelectClass"
             labelStyle={{
               position: "relative",
@@ -148,7 +148,7 @@ export default class TestForm extends React.Component {
 
               return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
             }).map((klass, index) => <MenuItem value={klass.id} key={index} primaryText={klass.class_name} label={klass.class_name} />)}
-          </SelectField>
+          </Select>
         </div>
 
         <div style={styles.secondLine.container}>
@@ -178,7 +178,7 @@ export default class TestForm extends React.Component {
               if (typeof(tag.name) !== "undefined") {
                 return (
                   <Chip
-                    backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
+                    backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red[400] : brown[500]}
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag.name}-${i}`}
                     onRequestDelete={() => this.deleteTag(tag)}
@@ -189,7 +189,7 @@ export default class TestForm extends React.Component {
               } else {
                 return (
                   <Chip
-                    backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red400 : brown500}
+                    backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red[400] : brown[500]}
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag}-${i}`}
                     onRequestDelete={() => this.deleteTag(tag)}
@@ -247,7 +247,8 @@ export default class TestForm extends React.Component {
           </div>
         </div>
         <div style={styles.actionsContainer}>
-          <RaisedButton
+          <Button
+            variant="contained"
             label="save"
             style={styles.actionsButton}
             onClick={() => {
@@ -259,7 +260,8 @@ export default class TestForm extends React.Component {
               }
             }}
           />
-          <RaisedButton
+          <Button
+            variant="contained"
             label="cancel"
             style={styles.actionsButton}
             onClick={() => this.props.onCancel()}
