@@ -20,7 +20,8 @@ export default class ParamsForm extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
-    if (!_.isEqual(this.props.schema, prevProps.schema)) {
+    if (!_.isEqual(this.props.schema, prevProps.schema) ||
+        !_.isEqual(this.props.default_params, prevProps.default_params)) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(
         {
