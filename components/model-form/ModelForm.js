@@ -119,45 +119,46 @@ export default class ModelForm extends React.Component {
       this.setState({
         successClasses: true
       });
+      this.setState({
+        loadingClasses: false,
+        modelClasses: responseClasses,
+        loadingParams: true
+      });
+
+      let responseParams = await paramsService.getList(
+        false,
+        Config.modelCreateNamespace
+      );
+
+      if (responseParams.failed) {
+        this.setState({
+          paramsErrors: [responseParams.message]
+        });
+        this.setState({
+          loadingParams: false,
+          successParams: false,
+          paramsDisabled: true
+        });
+      } else {
+        this.processModel(JSON.parse(responseParams.data));
+        this.updateModel(
+          { url: this.convertUrl(url) },
+          () => {
+            this.setState({
+              loadingParams: false,
+              successParams: true,
+              paramsDisabled: false
+            });
+          },
+          true
+        );
+      }
     } else {
       this.setState({
+        loadingClasses: false,
+        loadingParams: false,
         failClasses: true
       });
-    }
-
-    this.setState({
-      loadingClasses: false,
-      modelClasses: responseClasses,
-      loadingParams: true
-    });
-
-    let responseParams = await paramsService.getList(
-      false,
-      Config.modelCreateNamespace
-    );
-
-    if (responseParams.failed) {
-      this.setState({
-        paramsErrors: [responseParams.message]
-      });
-      this.setState({
-        loadingParams: false,
-        successParams: false,
-        paramsDisabled: true
-      });
-    } else {
-      this.processModel(JSON.parse(responseParams.data));
-      this.updateModel(
-        { url: this.convertUrl(url) },
-        () => {
-          this.setState({
-            loadingParams: false,
-            successParams: true,
-            paramsDisabled: false
-          });
-        },
-        true
-      );
     }
   }
 
@@ -406,11 +407,13 @@ export default class ModelForm extends React.Component {
                       "url" in this.state.model.errors
                     ) {
                       this.setState({ validationFailed: true });
+                    } else {
+                      this.checkUrl(value);
                     }
                   } else {
                     this.setState({ validationFailed: false });
+                    this.checkUrl(value);
                   }
-                  this.checkUrl(value);
                 });
               }}
               disabled={this.state.isBlocked}
