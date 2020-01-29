@@ -8,7 +8,7 @@ import logger from "redux-logger";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { grey, blueGrey, brown } from "@material-ui/core/colors";
-import injectTapEventPlugin from "react-tap-event-plugin";
+// import injectTapEventPlugin from "react-tap-event-plugin";
 import InitialStateService from "./services/InitialStateService";
 import Loader from "./components/loader/Loader";
 import PagesService from "./services/PagesService";
@@ -28,7 +28,7 @@ import ModelCreateContainer from "./components/model-create/ModelCreateContainer
 import ModelEditContainer from "./components/model-edit/ModelEditContainer";
 import TestEditContainer from "./components/test-edit/TestEditContainer";
 
-injectTapEventPlugin();
+// injectTapEventPlugin();
 
 
 // list of props here --> https://github.com/mui-org/material-ui/blob/master/src/styles/baseThemes/lightBaseTheme.js

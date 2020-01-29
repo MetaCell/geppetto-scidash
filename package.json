@@ -23,6 +23,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.8.3",
     "@geppettoengine/geppetto-client": "file:geppetto-client",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.40",
@@ -41,7 +42,6 @@
     "mini-css-extract-plugin": "^0.7.0",
     "puppeteer": "^1.17.0",
     "react-redux": "^7.0.3",
-    "react-tap-event-plugin": "^3.0.3",
     "redux-logger": "^3.0.6",
     "style-loader": "^0.13.2",
     "url-join": "^4.0.0",
@@ -50,6 +50,7 @@
     "webpack-cli": "^3.3.5"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-stage-2": "^7.0.0",
     "@types/jasmine": "^2.8.8",
     "@types/material-ui": "^0.21.5",
@@ -61,8 +62,8 @@
     "babel-plugin-transform-object-assign": "^6.8.0",
     "babel-plugin-transform-runtime": "^6.15.0",
     "eslint": "^6.0.1",
-    "jasmine": "^3.2.0",
     "eslint-plugin-jest": "^22.17.0",
+    "jasmine": "^3.2.0",
     "json-loader": "^0.5.4",
     "raw-loader": "^0.5.1",
     "react-drag-and-drop": "^2.4.0",
