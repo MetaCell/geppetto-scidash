@@ -49,7 +49,8 @@ export default class TestForm extends React.Component {
 
     newModel = {
       ...this.state.model,
-      ...data
+      ...data,
+      "unitsMaps": this.state.model.getObservationUnitsMap()
     };
 
     newModel = new TestInstance(newModel);
@@ -137,7 +138,7 @@ export default class TestForm extends React.Component {
             onChange={(e, key, value) => {
               for (let klass of this.state.testClasses) {
                 if (klass.id == value) {
-                  this.updateModel({ "test_class": klass,  });
+                  this.updateModel({ "test_class": klass, "params": klass.default_params, "observation": []});
                 }
               }
             }}
@@ -234,7 +235,7 @@ export default class TestForm extends React.Component {
               test_class={this.state.model.test_class}
               onChange={observation => {
                 this.updateModel({
-                  observation
+                  observation,
                 });
               }}
               model={this.props.actionType === "edit" ? this.state.model.observation : undefined}

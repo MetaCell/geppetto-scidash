@@ -113,7 +113,7 @@ export default class ParamsForm extends React.Component {
     }
     return (
       <span>
-        {Object.keys(this.state.model).map(
+        {Object.keys(this.state.unitsMap).map(
           function (key, index) {
             return (
               <TextField
