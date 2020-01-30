@@ -185,6 +185,11 @@ export default class TestForm extends React.Component {
                     backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag.name}-${i}`}
+                    onKeyPress={e =>
+                      e.key === "Enter"
+                      ? this.deleteTag(tag)
+                      : null
+                    }
                     onRequestDelete={() => this.deleteTag(tag)}
                   >
                     {tag.name.toString()}
@@ -196,6 +201,11 @@ export default class TestForm extends React.Component {
                     backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red400 : brown500}
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag}-${i}`}
+	                onKeyPress={e =>
+	                  e.key === "Enter"
+	                    ? this.deleteTag(tag)
+	                    : null
+	                }
                     onRequestDelete={() => this.deleteTag(tag)}
                   >
                     {tag}

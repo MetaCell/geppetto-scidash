@@ -242,7 +242,7 @@ export const resetPasswordTests = (page, newUserEmail) => {
 	})
 }
 
-export const testModelFilters = (page, filterWord, filterPosition, resultPosition, tableModelLength) => {
+export const testFilters = (page, filterWord, filterPosition, resultPosition, tableModelLength) => {
 	it('Filter By ' + filterWord, async () => {
 		await page.evaluate(async (name, position) => {
 			var elm = document.querySelectorAll(".scidash-materialui-field input")[position]
