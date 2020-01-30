@@ -2,8 +2,10 @@ const puppeteer = require('puppeteer');
 const { TimeoutError } = require('puppeteer/Errors');
 
 import { wait4selector, testFilters} from './utils';
-import { makeUserID, signUpTests, logoutTests } from './user-auth-utils';
+import { makeUserID, signUpTests } from './user-auth-utils';
+import { modelCreation, editModel, cloneModel} from './model-utils';
 import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest} from './tests-creation-utils';
+import { testOpenDialog, addTestsAndModels } from './scheduling-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 
@@ -11,6 +13,15 @@ const scidashURL = process.env.url ||  'http://localhost:8000';
 let newUserID = makeUserID(6);
 const newUserEmail = "test_user@gmail.com";
 const newUserPassword = "Password_2020";
+
+//Variables used for Model registration form
+const newModelName = "TestModel1";
+const editedModelName = "TestModel2";
+const newModelURL = "https://github.com/ddelpiano/neuronunit/blob/dev/neuronunit/models/NeuroML2/LEMS_2007One.xml";
+const newModelTag ="auto-testing";
+const editedModelTag = "test-edited";
+const newModelClass = "ReducedModel";
+const editedModelClass = "LEMSModel";
 
 // Variables used for Model registration form
 const newTestName = "Test1";
@@ -116,14 +127,24 @@ describe('Scidash Model Registration Tests', () => {
 	})
 
 	// Tests New Model Creation
+	describe('Test New Model Creation', () => {
+		modelCreation(page, newModelName, newModelURL, newModelClass, newModelTag, tableModelLength);
+	})
+
+	// Tests Cloning Model
+	describe('Clone Model', () => {
+		cloneModel(page);
+	})
+
+	// Tests Model Editing
+	describe('Edit Model', () => {
+		editModel(page, editedModelName, editedModelClass, editedModelTag, tableModelLength);
+	})
+	
+	// Tests New Model Creation
 	describe('New Test Registration', () => {
 		newTestCreation(page, newTestName, newTestClass, newTestTag, newObservationSchema, secondObservationSchema, 
 				observationValueN, observationValueSTD, observationValueMean, parameterTMax, tableModelLength);
-	})
-
-	// Tests Cancel Model Creation
-	describe('Cancel Test Creation', () => {
-		cancelTestCreation(page);
 	})
 
 	// Tests Cloning Model
@@ -135,25 +156,48 @@ describe('Scidash Model Registration Tests', () => {
 	describe('Edit Test', () => {
 		editTest(page, editedTestName, editedTestClass, editedTestTag, observationVVolt, observationIVolt, tableModelLength)
 	})
-
-	// Tests Model Page Filters
-	describe('Test Page Filters', () => {
-		it('Test Page Opened, New Test Button Present', async () => {
-			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+	
+	describe('Scheduling Page Tests', () => {
+		it('Sidebar Component Opened, Scheduling Option Present', async () => {
+			await click(page, 'button#hamMenu');
+			await wait4selector(page, 'span#hamMenuScheduling', { visible: true })
 		})
 
-		testFilters(page, newTestName, 0, 0, tableModelLength);
-		testFilters(page, editedTestName, 0,0, tableModelLength);
-
-		testFilters(page, newTestClass, 1, 1, tableModelLength);
-		testFilters(page, editedTestClass, 1, 1, tableModelLength);
-
-		testFilters(page, newTestTag, 2, 2, tableModelLength);
-		testFilters(page, editedTestTag, 2, 2, tableModelLength);
+		it('Scheduling Page Opened', async () => {
+			await click(page, '#hamMenuScheduling');
+			await page.waitForFunction('document.getElementById("scidash-logo").innerText.startsWith("Scheduling")');
+			await wait4selector(page, 'div.Droppable', { visible: true })
+		})
+		
+		it(' Models and Test Present in Scheduling Page', async () => {
+			await wait4selector(page, 'div#TestModel1', { visible: true, timeout : 5000})
+			await wait4selector(page, 'div#Test1', { visible: true, timeout : 5000 })
+			await wait4selector(page, 'div#TestModel2', { visible: true, timeout : 5000 })
+			await wait4selector(page, 'div#Test2', { visible: true, timeout : 5000 })
+		})
+		
+		testOpenDialog(page, newModelName, newModelClass);
+		
+		testOpenDialog(page, newTestName, newTestClass);
 	})
 	
-	// User Logout
-	describe('User Logout', () => {
-		logoutTests(page);
+	describe('Scheduling New Score Tests', () => {
+		addTestsAndModels(page);
+		
+		it('Click Save As Suite', async () => {
+			await page.waitFor(5000);
+			await click(page, '#save-as-suite');
+			await wait4selector(page, '#enter-name', { visible: true, timeout : 5000})
+		})
+		
+		it('Run Tests', async () => {
+			await page.waitFor(2000);
+			await click(page, '#run-tests');
+			await page.waitForFunction('document.getElementById("scidash-logo").innerText.startsWith("Test scores")');
+		})
+		
+		it('Wait for Tests Scores Simulation', async () => {
+			await page.waitFor(30000);
+		})
 	})
 })

@@ -400,165 +400,165 @@ export const editTest = (page, name, className, tag, observationVVolt, observati
 		expect(testName).toEqual(name);
 	})
 
-	it('Test Class Dropdown Present in Form', async () => {
-		await wait4selector(page, '#testFormSelectClass', { visible: true , timeout : 35000 })
-	})
-
-	it('Select '+  className + ' Class', async () => {
-		await page.evaluate(async () => {
-			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
-			var elm = document.querySelector('#testFormSelectClass button')
-			elm.dispatchEvent(evt);
-		});
-
-		await page.waitFor(2000);
-		
-		await page.evaluate(async (className) => {
-			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
-			var elm = document.getElementById(className).querySelector("div");
-			elm.dispatchEvent(evt);
-		}, className);
-		
-		await page.waitFor(2000);
-		
-		await page.waitForFunction('document.getElementById("testFormSelectClass").innerText.startsWith("'+className+'")');
-	})
-
-	it('Test Parameters Populated', async () => {
-		await page.waitFor(2000);
-		
-		const dtParameterValue = await page.evaluate(async () => {
-			return Number(document.getElementById("dt (s)").value);
-		});
-		
-		expect(dtParameterValue).toEqual(0.000025);
-		
-		const tmaxParameterValue = await page.evaluate(async () => {
-			return Number(document.getElementById("tmax (s)").value);
-		});
-
-		expect(tmaxParameterValue).toEqual(0.1);
-		
-		const vmaxParameterValue = await page.evaluate(async () => {
-			return Number(document.getElementById("v_max (V)").value);
-		});
-
-		expect(vmaxParameterValue).toEqual(0.06);
-		
-		const vminParameterValue = await page.evaluate(async () => {
-			return Number(document.getElementById("v_min (V)").value);
-		});
-
-		expect(vminParameterValue).toEqual(-0.08);
-		
-		const vstepParameterValue = await page.evaluate(async () => {
-			return Number(document.getElementById("v_step (V)").value);
-		});
-
-		expect(vstepParameterValue).toEqual(0.02);
-	})
-	
-	it('Add New Tag Present in Form', async () => {
-		await wait4selector(page, 'input#test-add-tags', { visible: true , timeout : 5000 })
-	})
-	
-	it('Delete Tag', async () => {
-		await page.waitFor(2000);
-		
-		await page.evaluate(async () => {
-			var elm =document.querySelector(".tags path")
-			var evt = new CustomEvent('Event');
-			evt.initEvent('keypress', true, false);
-			evt.which = 13;
-			evt.keyCode = 13;
-			elm.dispatchEvent(evt);
-		});
-
-		const testTag = await page.evaluate(async () => {
-			return document.querySelectorAll('.tags svg').length;
-		});
-		expect(testTag).toEqual(0);
-	})
-
-	it('Enter New Tag', async () => {
-		await page.evaluate(async (testTag) => {
-			var elm = document.querySelector('#test-add-tags')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = testTag;
-			elm.dispatchEvent(ev);
-
-			var evt = new CustomEvent('Event');
-			evt.initEvent('keypress', true, false);
-			evt.which = 13;
-			evt.keyCode = 13;
-			elm.dispatchEvent(evt);
-
-		}, tag);
-
-		const testTag = await page.evaluate(async () => {
-			return document.querySelectorAll('.tags svg').length;
-		});
-		expect(testTag).toEqual(1);
-	})
-	
-	it('Observation Parameter Fields Present', async () => {
-		await page.waitFor(2000);
-		const iObservationValue = await page.evaluate(async () => {
-			var elm = document.getElementById("i (volt | picoampere)");
-			if(elm == undefined || elm == null){
-				return false;
-			}
-			return true;
-		});
-		
-		expect(iObservationValue).toEqual(true);
-		
-		await page.waitFor(2000);
-		const vObservationValue = await page.evaluate(async () => {
-			var elm = document.getElementById("v (volt | picoampere)");
-			if(elm == undefined || elm == null){
-				return false;
-			}
-			return true;
-		});
-		
-		expect(vObservationValue).toEqual(true);
-	})
-
-	it('Enter Observation Value i (volt | picoampere)', async () => {
-		await page.evaluate(async (value) => {
-			var elm = document.getElementById('i (volt | picoampere)')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = value;
-			elm.dispatchEvent(ev);
-		}, observationIVolt);
-
-		const observationValue = await page.evaluate(async () => {
-			return Number(document.getElementById("i (volt | picoampere)").value);
-		});
-
-		expect(observationValue).toEqual(observationIVolt);
-	})
-	
-	it('Enter Observation Value v (volt | picoampere)', async () => {
-		await page.evaluate(async (value) => {
-			var elm = document.getElementById('v (volt | picoampere)')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = value;
-			elm.dispatchEvent(ev);
-		}, observationVVolt);
-
-		const observationValue = await page.evaluate(async () => {
-			return Number(document.getElementById("v (volt | picoampere)").value);
-		});
-
-		expect(observationValue).toEqual(observationVVolt);
-	})
+//	it('Test Class Dropdown Present in Form', async () => {
+//		await wait4selector(page, '#testFormSelectClass', { visible: true , timeout : 35000 })
+//	})
+//
+//	it('Select '+  className + ' Class', async () => {
+//		await page.evaluate(async () => {
+//			var evt = document.createEvent('MouseEvent');
+//			evt.initEvent('mouseup', true, false);
+//			var elm = document.querySelector('#testFormSelectClass button')
+//			elm.dispatchEvent(evt);
+//		});
+//
+//		await page.waitFor(2000);
+//		
+//		await page.evaluate(async (className) => {
+//			var evt = document.createEvent('MouseEvent');
+//			evt.initEvent('mouseup', true, false);
+//			var elm = document.getElementById(className).querySelector("div");
+//			elm.dispatchEvent(evt);
+//		}, className);
+//		
+//		await page.waitFor(2000);
+//		
+//		await page.waitForFunction('document.getElementById("testFormSelectClass").innerText.startsWith("'+className+'")');
+//	})
+//
+//	it('Test Parameters Populated', async () => {
+//		await page.waitFor(2000);
+//		
+//		const dtParameterValue = await page.evaluate(async () => {
+//			return Number(document.getElementById("dt (s)").value);
+//		});
+//		
+//		expect(dtParameterValue).toEqual(0.000025);
+//		
+//		const tmaxParameterValue = await page.evaluate(async () => {
+//			return Number(document.getElementById("tmax (s)").value);
+//		});
+//
+//		expect(tmaxParameterValue).toEqual(0.1);
+//		
+//		const vmaxParameterValue = await page.evaluate(async () => {
+//			return Number(document.getElementById("v_max (V)").value);
+//		});
+//
+//		expect(vmaxParameterValue).toEqual(0.06);
+//		
+//		const vminParameterValue = await page.evaluate(async () => {
+//			return Number(document.getElementById("v_min (V)").value);
+//		});
+//
+//		expect(vminParameterValue).toEqual(-0.08);
+//		
+//		const vstepParameterValue = await page.evaluate(async () => {
+//			return Number(document.getElementById("v_step (V)").value);
+//		});
+//
+//		expect(vstepParameterValue).toEqual(0.02);
+//	})
+//	
+//	it('Add New Tag Present in Form', async () => {
+//		await wait4selector(page, 'input#test-add-tags', { visible: true , timeout : 5000 })
+//	})
+//	
+//	it('Delete Tag', async () => {
+//		await page.waitFor(2000);
+//		
+//		await page.evaluate(async () => {
+//			var elm =document.querySelector(".tags path")
+//			var evt = new CustomEvent('Event');
+//			evt.initEvent('keypress', true, false);
+//			evt.which = 13;
+//			evt.keyCode = 13;
+//			elm.dispatchEvent(evt);
+//		});
+//
+//		const testTag = await page.evaluate(async () => {
+//			return document.querySelectorAll('.tags svg').length;
+//		});
+//		expect(testTag).toEqual(0);
+//	})
+//
+//	it('Enter New Tag', async () => {
+//		await page.evaluate(async (testTag) => {
+//			var elm = document.querySelector('#test-add-tags')
+//			var ev = new Event('input', { bubbles: true});
+//			ev.simulated = true;
+//			elm.value = testTag;
+//			elm.dispatchEvent(ev);
+//
+//			var evt = new CustomEvent('Event');
+//			evt.initEvent('keypress', true, false);
+//			evt.which = 13;
+//			evt.keyCode = 13;
+//			elm.dispatchEvent(evt);
+//
+//		}, tag);
+//
+//		const testTag = await page.evaluate(async () => {
+//			return document.querySelectorAll('.tags svg').length;
+//		});
+//		expect(testTag).toEqual(1);
+//	})
+//	
+//	it('Observation Parameter Fields Present', async () => {
+//		await page.waitFor(2000);
+//		const iObservationValue = await page.evaluate(async () => {
+//			var elm = document.getElementById("i (volt | picoampere)");
+//			if(elm == undefined || elm == null){
+//				return false;
+//			}
+//			return true;
+//		});
+//		
+//		expect(iObservationValue).toEqual(true);
+//		
+//		await page.waitFor(2000);
+//		const vObservationValue = await page.evaluate(async () => {
+//			var elm = document.getElementById("v (volt | picoampere)");
+//			if(elm == undefined || elm == null){
+//				return false;
+//			}
+//			return true;
+//		});
+//		
+//		expect(vObservationValue).toEqual(true);
+//	})
+//
+//	it('Enter Observation Value i (volt | picoampere)', async () => {
+//		await page.evaluate(async (value) => {
+//			var elm = document.getElementById('i (volt | picoampere)')
+//			var ev = new Event('input', { bubbles: true});
+//			ev.simulated = true;
+//			elm.value = value;
+//			elm.dispatchEvent(ev);
+//		}, observationIVolt);
+//
+//		const observationValue = await page.evaluate(async () => {
+//			return Number(document.getElementById("i (volt | picoampere)").value);
+//		});
+//
+//		expect(observationValue).toEqual(observationIVolt);
+//	})
+//	
+//	it('Enter Observation Value v (volt | picoampere)', async () => {
+//		await page.evaluate(async (value) => {
+//			var elm = document.getElementById('v (volt | picoampere)')
+//			var ev = new Event('input', { bubbles: true});
+//			ev.simulated = true;
+//			elm.value = value;
+//			elm.dispatchEvent(ev);
+//		}, observationVVolt);
+//
+//		const observationValue = await page.evaluate(async () => {
+//			return Number(document.getElementById("v (volt | picoampere)").value);
+//		});
+//
+//		expect(observationValue).toEqual(observationVVolt);
+//	})
 	
 
 	it('Save Test', async () => {

@@ -122,6 +122,7 @@ class Scheduling extends React.Component {
             />
             <div style={styles.saveContainer}>
               <RaisedButton
+                id="run-tests"
                 onClick={() => this.scheduleTests(this.state.compatible)}
               >
                 Run tests
@@ -131,6 +132,7 @@ class Scheduling extends React.Component {
               <div style={styles.saveSubContainer}>
                 <TextField
                   value={suitesName}
+                  id="enter-name"
                   style={styles.saveRoot}
                   placeholder='Name the suites'
                   floatingLabelText="Enter a name"
@@ -143,6 +145,7 @@ class Scheduling extends React.Component {
             <div style={styles.checkboxContainer}>
               <Checkbox
                 checked={saveSuites}
+                id="save-as-suite"
                 label="Save as Suite"
                 style={styles.checkbox}
                 onClick={e => this.setState(oldState => ({ saveSuites: !oldState.saveSuites }))}

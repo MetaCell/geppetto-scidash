@@ -1,7 +1,8 @@
 const puppeteer = require('puppeteer');
 const { TimeoutError } = require('puppeteer/Errors');
 
-import { wait4selector, click, logoutTests} from './utils';
+import { wait4selector, click } from './utils';
+import { logoutTests} from './user-auth-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 const testScoresURL = scidashURL + '/?timestamp_to=2018-07-12T05%3A00%3A00.000Z&timestamp_from=2018-05-05T05%3A00%3A00.000Z&status=c'; 

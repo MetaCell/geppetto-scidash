@@ -1,7 +1,8 @@
 const puppeteer = require('puppeteer');
 const { TimeoutError } = require('puppeteer/Errors');
 
-import { wait4selector , makeUserID, signUpTests, logoutTests, testFilters} from './utils';
+import { wait4selector, testFilters} from './utils';
+import { makeUserID, signUpTests, logoutTests } from './user-auth-utils';
 import { modelCreation, editModel, cancelModelCreation, cloneModel} from './model-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
