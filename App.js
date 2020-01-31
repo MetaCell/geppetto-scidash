@@ -5,8 +5,8 @@ import { createBrowserHistory } from "history";
 import { connectRouter, routerMiddleware, ConnectedRouter } from "connected-react-router";
 import { Switch, Route } from "react-router-dom";
 import logger from "redux-logger";
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme } from '@material-ui/core/styles';
 import { grey, blueGrey, brown } from "@material-ui/core/colors";
 // import injectTapEventPlugin from "react-tap-event-plugin";
 import InitialStateService from "./services/InitialStateService";
@@ -65,7 +65,7 @@ export default class App extends React.Component {
     InitialStateService.getInstance().generateInitialState().then(initialState => {
       this.setState({
         store: createStore(
-          connectRouter(this.history)(scidashApp),
+          scidashApp(this.history),
           initialState,
           compose(
             applyMiddleware(
@@ -87,7 +87,7 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <MuiThemeProvider muiTheme={theme}>
+        <MuiThemeProvider theme={theme}>
           <Provider store={this.state.store}>
             <ConnectedRouter history={this.history}>
               <div className="mainContainer">

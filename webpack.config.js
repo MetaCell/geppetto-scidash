@@ -60,7 +60,7 @@ module.exports = function (env){
   console.log(JSON.stringify(geppettoConfig, null, 2), '\n');
 
   var entries = {
-    main: path.resolve(__dirname, "App.js"),
+    main: path.resolve(__dirname, "ComponentsInitialization.js"),
     admin: path.resolve(__dirname, geppetto_client_path, "js/pages/admin/admin.js"),
   };
 
@@ -107,29 +107,29 @@ module.exports = function (env){
          */
         chunks: []
       }),
-      new HtmlWebpackPlugin({
-        filename: 'admin.vm',
-        template: path.resolve(__dirname, geppetto_client_path, 'js/pages/admin/admin.ejs'),
-        GEPPETTO_CONFIGURATION: geppettoConfig,
-        /*
-         * chunks: ['admin'] Not specifying the chunk since its not possible
-         * yet (need to go to Webpack2) to specify UTF-8 as charset without
-         * which we have errors
-         */
-        chunks: []
-      }),
-      new HtmlWebpackPlugin({
-        filename: 'dashboard.vm',
-        template: path.resolve(__dirname, geppetto_client_path, 'js/pages/dashboard/dashboard.ejs'),
-        GEPPETTO_CONFIGURATION: geppettoConfig,
-        chunks: []
-      }),
-      new HtmlWebpackPlugin({
-        filename: '../WEB-INF/web.xml',
-        template: path.resolve(__dirname, 'WEB-INF/web.ejs'),
-        GEPPETTO_CONFIGURATION: geppettoConfig,
-        chunks: []
-      }),
+      // new HtmlWebpackPlugin({
+      //   filename: 'admin.vm',
+      //   template: path.resolve(__dirname, geppetto_client_path, 'js/pages/admin/admin.ejs'),
+      //   GEPPETTO_CONFIGURATION: geppettoConfig,
+      //   /*
+      //    * chunks: ['admin'] Not specifying the chunk since its not possible
+      //    * yet (need to go to Webpack2) to specify UTF-8 as charset without
+      //    * which we have errors
+      //    */
+      //   chunks: []
+      // }),
+      // new HtmlWebpackPlugin({
+      //   filename: 'dashboard.vm',
+      //   template: path.resolve(__dirname, geppetto_client_path, 'js/pages/dashboard/dashboard.ejs'),
+      //   GEPPETTO_CONFIGURATION: geppettoConfig,
+      //   chunks: []
+      // }),
+      // new HtmlWebpackPlugin({
+      //   filename: '../WEB-INF/web.xml',
+      //   template: path.resolve(__dirname, 'WEB-INF/web.ejs'),
+      //   GEPPETTO_CONFIGURATION: geppettoConfig,
+      //   chunks: []
+      // }),
       new webpack.DefinePlugin({ 'process.env': { 'NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'), } }),
       new MiniCssExtractPlugin({ filename: '[name].css' })
     ],

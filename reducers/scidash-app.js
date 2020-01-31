@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { connectRouter } from "connected-react-router";
 import scidashGlobal from "./scidash-global";
 import scidashHeader from "./scidash-header";
 import scidashScores from "./scidash-scores";
@@ -10,7 +11,8 @@ import scidashUser from "./scidash-user";
 import scidashTestSuites from "./scidash-test-suites";
 import scidashScheduler from "./scidash-scheduler";
 
-const scidashApp = combineReducers({
+const scidashApp = history => combineReducers({
+  router: connectRouter(history),
   global: scidashGlobal,
   header: scidashHeader,
   user: scidashUser,
