@@ -1,3 +1,5 @@
+import { wait4selector, click } from './utils';
+
 export const testOpenDialog = (page, name, className) => {
 	it('TestModel1 Info Modal Opened', async () => {
 		await click(page, '#TestModel1');
@@ -22,6 +24,7 @@ export const testOpenDialog = (page, name, className) => {
 
 export const addTestsAndModels = (page) => {
 	it('Add Tests and Models', async () => {
+		await page.waitFor(150000);
 
 		await page.evaluate(async () => {
 			document.querySelectorAll("#TestModel1 button")[1].click()

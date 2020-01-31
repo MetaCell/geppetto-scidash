@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { TimeoutError } = require('puppeteer/Errors');
 
-import { wait4selector, testFilters} from './utils';
+import { wait4selector, click, testFilters} from './utils';
 import { makeUserID, signUpTests } from './user-auth-utils';
 import { modelCreation, editModel, cloneModel} from './model-utils';
 import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest} from './tests-creation-utils';
@@ -179,6 +179,7 @@ describe('Scidash Model Registration Tests', () => {
 		testOpenDialog(page, newModelName, newModelClass);
 		
 		testOpenDialog(page, newTestName, newTestClass);
+		
 	})
 	
 	describe('Scheduling New Score Tests', () => {
