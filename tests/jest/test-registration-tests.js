@@ -25,7 +25,7 @@ const observationValueN = 1;
 const observationValueSTD = 50;
 const observationValueMean = 100;
 const parameterTMax = 10; 
-const observationVVolt = 1;
+const observationVVolt = 10;
 const observationIVolt = 1;
 
 // Amount of models in models page
