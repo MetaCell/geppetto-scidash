@@ -3,7 +3,7 @@ const { TimeoutError } = require('puppeteer/Errors');
 
 import { wait4selector, testFilters} from './utils';
 import { makeUserID, signUpTests, logoutTests } from './user-auth-utils';
-import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest} from './tests-creation-utils';
+import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest1} from './tests-creation-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 
@@ -133,7 +133,7 @@ describe('Scidash Model Registration Tests', () => {
 
 	// Tests Editing
 	describe('Edit Test', () => {
-		editTest(page, editedTestName, editedTestClass, editedTestTag, observationVVolt, observationIVolt, tableModelLength)
+		editTest1(page, editedTestName, editedTestClass, editedTestTag, observationVVolt, observationIVolt, tableModelLength)
 	})
 
 	// Tests Model Page Filters

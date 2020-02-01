@@ -1,6 +1,6 @@
 import { wait4selector, click} from './utils';
 
-export const newTestCreation = (page, name, className, tag, newObservationSchema, secondObservationSchema, 
+export const newTestCreation = async (page, name, className, tag, newObservationSchema, secondObservationSchema, 
 		observationValueN, observationValueSTD, observationValueMean, parameterTMax, tableModelLength) => {
 	
 	it('Sidebar Component Opened, Tests Registration Option Present', async () => {
@@ -295,7 +295,7 @@ export const newTestCreation = (page, name, className, tag, newObservationSchema
 	})
 }
 
-export const cancelTestCreation = (page) => {
+export const cancelTestCreation = async (page) => {
 	it('Test Creation Page Opened, New Test Button Present', async () => {
 		await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
 	})
@@ -320,7 +320,7 @@ export const cancelTestCreation = (page) => {
 	})
 }
 
-export const cloneTestCreation = (page, name, className, tableModelLength) => {
+export const cloneTestCreation = async (page, name, className, tableModelLength) => {
 	it('Tests Page Opened, New Test Button Present', async () => {
 		await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
 	})
@@ -358,7 +358,7 @@ export const cloneTestCreation = (page, name, className, tableModelLength) => {
 	})
 }
 
-export const editTest = (page, name, className, tag, observationVVolt, observationIVolt, tableModelLength) => {
+export const editTest1 = async (page, name, className, tag, observationVVolt, observationIVolt, tableModelLength) => {
 	it('Test Page Opened, New Test Button Present', async () => {
 		await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
 	})

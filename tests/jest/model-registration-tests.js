@@ -21,6 +21,9 @@ const editedModelTag = "test-edited";
 const newModelClass = "ReducedModel";
 const editedModelClass = "LEMSModel";
 
+const variable1 = "net1.RS_pop[0].u";
+const variable2= "net1.RS_pop[0].v";
+
 // Amount of models in models page
 var tableModelLength = 2;
 
@@ -110,7 +113,7 @@ describe('Scidash Model Registration Tests', () => {
 
 	// Tests New Model Creation
 	describe('Test New Model Creation', () => {
-		modelCreation(page, newModelName, newModelURL, newModelClass, newModelTag, tableModelLength);
+		modelCreation(page, newModelName, newModelURL, newModelClass, newModelTag,variable1, variable2,  tableModelLength);
 	})
 
 	// Tests Cancel Model Creation
@@ -120,12 +123,12 @@ describe('Scidash Model Registration Tests', () => {
 
 	// Tests Cloning Model
 	describe('Clone Model', () => {
-		cloneModel(page);
+		cloneModel(page, newModelName, newModelClass, tableModelLength);
 	})
 
 	// Tests Model Editing
 	describe('Edit Model', () => {
-		editModel(page, editedModelName, editedModelClass, editedModelTag, tableModelLength);
+		editModel(page, editedModelName, editedModelClass, editedModelTag, variable1, variable2, tableModelLength);
 	})
 
 	// Tests Model Page Filters

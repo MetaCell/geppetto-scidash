@@ -4,8 +4,8 @@ const { TimeoutError } = require('puppeteer/Errors');
 import { wait4selector, click, testFilters} from './utils';
 import { makeUserID, signUpTests } from './user-auth-utils';
 import { modelCreation, editModel, cloneModel} from './model-utils';
-import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest} from './tests-creation-utils';
-import { testOpenDialog, addTestsAndModels } from './scheduling-utils';
+import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest1} from './tests-creation-utils';
+import { testOpenDialog, modelOpenDialog, addTestsAndModels } from './scheduling-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 
@@ -22,6 +22,9 @@ const newModelTag ="auto-testing";
 const editedModelTag = "test-edited";
 const newModelClass = "ReducedModel";
 const editedModelClass = "LEMSModel";
+
+const variable1 = "net1.RS_pop[0].u";
+const variable2= "net1.RS_pop[0].v";
 
 // Variables used for Model registration form
 const newTestName = "Test1";
@@ -128,17 +131,17 @@ describe('Scidash Model Registration Tests', () => {
 
 	// Tests New Model Creation
 	describe('Test New Model Creation', () => {
-		modelCreation(page, newModelName, newModelURL, newModelClass, newModelTag, tableModelLength);
+		modelCreation(page, newModelName, newModelURL, newModelClass, newModelTag, variable1, variable2, tableModelLength);
 	})
 
 	// Tests Cloning Model
 	describe('Clone Model', () => {
-		cloneModel(page);
+		cloneModel(page, newModelName, newModelClass, tableModelLength);
 	})
 
 	// Tests Model Editing
 	describe('Edit Model', () => {
-		editModel(page, editedModelName, editedModelClass, editedModelTag, tableModelLength);
+		editModel(page, editedModelName, editedModelClass, editedModelTag, variable1, variable2, tableModelLength);
 	})
 	
 	// Tests New Model Creation
@@ -154,7 +157,7 @@ describe('Scidash Model Registration Tests', () => {
 
 	// Tests Editing
 	describe('Edit Test', () => {
-		editTest(page, editedTestName, editedTestClass, editedTestTag, observationVVolt, observationIVolt, tableModelLength)
+		editTest1(page, editedTestName, editedTestClass, editedTestTag, observationVVolt, observationIVolt, tableModelLength)
 	})
 	
 	describe('Scheduling Page Tests', () => {
@@ -176,14 +179,74 @@ describe('Scidash Model Registration Tests', () => {
 			await wait4selector(page, 'div#Test2', { visible: true, timeout : 5000 })
 		})
 		
-		testOpenDialog(page, newModelName, newModelClass);
-		
 		testOpenDialog(page, newTestName, newTestClass);
+		
+		modelOpenDialog(page, newModelName, newModelClass);
 		
 	})
 	
 	describe('Scheduling New Score Tests', () => {
-		addTestsAndModels(page);
+		addTestsAndModels(page, 'TestModel1');
+		addTestsAndModels(page, 'TestModel2');
+		addTestsAndModels(page, 'Test1');
+		
+		it('Updating Matrix with TestModel1, TestModel2, Test1', async () => {
+			await wait4selector(page, 'i.fa-spin', { visible: true, timeout : 30000})
+		})
+		
+		it('Matrix Done Updating with TestModel1, TestModel2, Test1', async () => {
+			await wait4selector(page, 'i.fa-spin', { hidden: true, timeout : 100000})
+		})
+		
+		it('Matrix Table Present', async () => {
+			const table = await page.evaluate(async () => {
+				return document.querySelectorAll("table").length;
+			});
+			
+			expect(table).toBe(1);
+		})
+		
+		it('Test1 and Models 1 Compatible', async () => {			
+			var firstMatrixModel = await page.evaluate(async () => {
+				return document.querySelectorAll("table td span")[1].getAttribute("data-tooltip");
+			});
+			
+			expect(firstMatrixModel).toEqual("Test compatible with model");
+		})
+		
+		it('Test1 and Model 2 Incompatible', async () => {			
+			var secondMatrixModel = await page.evaluate(async () => {
+				return document.querySelectorAll("table td span")[3].getAttribute("data-tooltip");
+			});
+			
+			expect(secondMatrixModel).toEqual("Test incompatible with model");
+		})
+		
+		addTestsAndModels(page, 'Test2');
+		
+		it('Updating Matrix with TestModel1, TestModel2, Test1', async () => {
+			await wait4selector(page, 'i.fa-spin', { visible: true, timeout : 30000})
+		})
+		
+		it('Done updating Matrix with TestModel1, TestModel2, Test1', async () => {
+			await wait4selector(page, 'i.fa-spin', { hidden: true, timeout : 100000})
+		})
+		
+        it('Test1 and Models 1 Compatible', async () => {			
+			var firstMatrixModel = await page.evaluate(async () => {
+				return document.querySelectorAll("table td span")[1].getAttribute("data-tooltip");
+			});
+			
+			expect(firstMatrixModel).toEqual("Test compatible with model");
+		})
+		
+		it('Test1 and Model 2 Incompatible', async () => {			
+			var secondMatrixModel = await page.evaluate(async () => {
+				return document.querySelectorAll("table td span")[3].getAttribute("data-tooltip");
+			});
+			
+			expect(secondMatrixModel).toEqual("Test incompatible with model");
+		})
 		
 		it('Click Save As Suite', async () => {
 			await page.waitFor(5000);

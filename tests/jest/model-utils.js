@@ -1,6 +1,6 @@
 import { wait4selector, click} from './utils';
 
-export const modelCreation = (page, newModelName, newModelURL, newModelClass, newModelTag, tableModelLength) => {
+export const modelCreation = (page, newModelName, newModelURL, newModelClass, newModelTag, var1, var2, tableModelLength) => {
 	it('Sidebar Component Opened, Models Option Present', async () => {
 		await click(page, 'button#hamMenu');
 		await wait4selector(page, 'span#hamMenuModels', { visible: true })
@@ -130,6 +130,62 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 
 		expect(modelParametersButton).toEqual(false);
 	})
+	
+	it('Model Parameters Dialog Open', async () => {
+		await page.evaluate(async () => {
+			return document.getElementById("open-model-parameters").click();
+		});
+		
+		await wait4selector(page, 'div.centered-modal', { visible: true , timeout : 20000 })
+	})
+	
+	it('Select State Variables', async () => {
+		await page.evaluate(async (var1, var2) => {
+			var tableRows = document.querySelectorAll(".scidash-table td");
+			for(var i =0; i< tableRows.length; i++){
+			   if(tableRows[i].innerText ==var1 || tableRows[i].innerText ==var2){
+			       document.querySelectorAll(".scidash-table td")[i+1].querySelector("input").click();
+			   }
+			}
+		}, var1, var2);
+		
+		await page.waitFor(5000);
+		
+		var var1Selected = await page.evaluate(async (var1) => {
+			var tableRows = document.querySelectorAll(".scidash-table td");
+			for(var i =0; i< tableRows.length; i++){
+			   if(tableRows[i].innerText ==var1){
+				   var parentDiv = document.querySelectorAll(".scidash-table td")[i+1].querySelector("input").parentNode;
+				   return parentDiv.querySelector("div").querySelector("div").querySelectorAll("div")[1].style.backgroundColor;
+			   }
+			}
+			return "";
+		}, var1);
+		
+		expect(var1Selected).toEqual("rgb(0, 128, 0)");
+		
+		var var2Selected = await page.evaluate(async (var2) => {
+			var tableRows = document.querySelectorAll(".scidash-table td");
+			for(var i =0; i< tableRows.length; i++){
+			   if(tableRows[i].innerText ==var2){
+				   var parentDiv = document.querySelectorAll(".scidash-table td")[i+1].querySelector("input").parentNode;
+				   return parentDiv.querySelector("div").querySelector("div").querySelectorAll("div")[1].style.backgroundColor;
+			   }
+			}
+			
+			return "";
+		}, var2);
+		
+		expect(var2Selected).toEqual("rgb(0, 128, 0)");
+	})
+	
+	it('Model Parameters Dialog Closed', async () => {
+		await page.evaluate(async () => {
+			return document.querySelectorAll(".centered-modal button")[4].click();
+		});
+		
+		await wait4selector(page, 'div.centered-modal', { hidden: true , timeout : 20000 })
+	})
 
 	it('Save Model', async () => {
 		const saveModelEnabled = await page.evaluate(async () => {
@@ -172,7 +228,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	})
 }
 
-export const editModel = (page, editedModelName, editedModelClass, editedModelTag, tableModelLength) => {
+export const editModel = (page, editedModelName, editedModelClass, editedModelTag, var1, var2, tableModelLength) => {
 	it('Models Page Opened, New Model Button Present', async () => {
 		await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
 	})
@@ -309,7 +365,44 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 			return document.getElementById("open-model-parameters").click();
 		});
 		
-		await wait4selector(page, '#parameters-table', { visible: true , timeout : 5000 })
+		await wait4selector(page, 'div.centered-modal', { visible: true , timeout : 20000 })
+	})
+	
+	it('Check State Variables', async () => {		
+		var var1Selected = await page.evaluate(async (var1) => {
+			var tableRows = document.querySelectorAll(".scidash-table td");
+			for(var i =0; i< tableRows.length; i++){
+			   if(tableRows[i].innerText ==var1){
+				   var parentDiv = document.querySelectorAll(".scidash-table td")[i+1].querySelector("input").parentNode;
+				   return parentDiv.querySelector("div").querySelector("div").querySelectorAll("div")[1].style.backgroundColor;
+			   }
+			}
+			return "";
+		}, var1);
+		
+		expect(var1Selected).toEqual("rgb(0, 128, 0)");
+		
+		var var2Selected = await page.evaluate(async (var2) => {
+			var tableRows = document.querySelectorAll(".scidash-table td");
+			for(var i =0; i< tableRows.length; i++){
+			   if(tableRows[i].innerText ==var2){
+				   var parentDiv = document.querySelectorAll(".scidash-table td")[i+1].querySelector("input").parentNode;
+				   return parentDiv.querySelector("div").querySelector("div").querySelectorAll("div")[1].style.backgroundColor;
+			   }
+			}
+			
+			return "";
+		}, var2);
+		
+		expect(var2Selected).toEqual("rgb(0, 128, 0)");
+	})
+	
+	it('Model Parameters Dialog Closed', async () => {
+		await page.evaluate(async () => {
+			return document.querySelectorAll(".centered-modal button")[4].click();
+		});
+		
+		await wait4selector(page, 'div.centered-modal', { hidden: true , timeout : 20000 })
 	})
 
 	it('Save Model', async () => {
