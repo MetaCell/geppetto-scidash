@@ -136,7 +136,9 @@ export default class TestForm extends React.Component {
             onChange={(e, key, value) => {
               for (let klass of this.state.testClasses) {
                 if (klass.id == value) {
-                  this.updateModel({ "test_class": klass,  });
+                  this.updateModel({ "test_class": klass,
+                    "observation": {}
+                  });
                 }
               }
             }}
@@ -216,7 +218,7 @@ export default class TestForm extends React.Component {
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.observation_schema}
-              default_params={this.state.model.test_class.default_params}
+              default_params={{}}
               unitsMap={this.state.model.getObservationUnitsMap()}
               test_class={this.state.model.test_class}
               onChange={observation => {
@@ -224,7 +226,7 @@ export default class TestForm extends React.Component {
                   observation
                 });
               }}
-              model={this.props.actionType === "edit" ? this.state.model.observation : undefined}
+              model={this.props.actionType === "edit" && this.props.model.test_class.class_name === this.state.model.test_class.class_name  ? this.props.model.observation : undefined}
               disabled={this.state.isBlocked}
             />
           </div>
@@ -246,7 +248,7 @@ export default class TestForm extends React.Component {
                   params
                 });
               }}
-              model={this.props.actionType === "edit" ? this.state.model.params : undefined}
+              model={this.props.actionType === "edit" && this.props.model.test_class.class_name === this.state.model.test_class.class_name ? this.props.model.params : this.state.model.test_class.default_params}
               disabled={this.state.isBlocked}
             />
           </div>
