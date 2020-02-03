@@ -62,7 +62,7 @@ export const testFilters = (page, filterWord, filterPosition, resultPosition, ta
 			return document.querySelectorAll(".scidash-table tr td")[position].innerText;
 		}, resultPosition);
 
-		expect(modelName).toEqual(filterWord);
+		expect(modelName.replace(/ *\([^)]*\) */g, "")).toEqual(filterWord);
 	})
 
 	it('Reset Name Filters', async () => {

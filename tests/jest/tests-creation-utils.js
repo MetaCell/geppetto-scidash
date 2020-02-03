@@ -533,15 +533,15 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			var elm = document.getElementById('i (volt | picoampere)')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
-			elm.value = value;
+			elm.value = "["+value+"]";
 			elm.dispatchEvent(ev);
 		}, observationIVolt);
 
 		const observationValue = await page.evaluate(async () => {
-			return Number(document.getElementById("i (volt | picoampere)").value);
+			return document.getElementById("i (volt | picoampere)").value;
 		});
 
-		expect(observationValue).toEqual(observationIVolt);
+		expect(observationValue).toEqual("["+observationIVolt.toString()+"]");
 	})
 	
 	it('Enter Observation Value v (volt | picoampere)', async () => {
@@ -549,15 +549,15 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			var elm = document.getElementById('v (volt | picoampere)')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
-			elm.value = value;
+			elm.value = "["+value+"]";;
 			elm.dispatchEvent(ev);
 		}, observationVVolt);
 
 		const observationValue = await page.evaluate(async () => {
-			return Number(document.getElementById("v (volt | picoampere)").value);
+			return document.getElementById("v (volt | picoampere)").value;
 		});
 
-		expect(observationValue).toEqual(observationVVolt);
+		expect(observationValue).toEqual("["+observationVVolt.toString()+"]");
 	})
 	
 

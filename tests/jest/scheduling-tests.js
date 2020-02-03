@@ -17,7 +17,7 @@ const newUserPassword = "Password_2020";
 //Variables used for Model registration form
 const newModelName = "TestModel1";
 const editedModelName = "TestModel2";
-const newModelURL = "https://github.com/ddelpiano/neuronunit/blob/dev/neuronunit/models/NeuroML2/LEMS_2007One.xml";
+const newModelURL = "https://raw.githubusercontent.com/ddelpiano/neuronunit/dev/neuronunit/models/NeuroML2/LEMS_2007One.xml";
 const newModelTag ="auto-testing";
 const editedModelTag = "test-edited";
 const newModelClass = "ReducedModel";
@@ -39,8 +39,8 @@ const observationValueN = 1;
 const observationValueSTD = 50;
 const observationValueMean = 100;
 const parameterTMax = 10; 
-const observationVVolt = 1;
-const observationIVolt = 1;
+const observationVVolt = [10];
+const observationIVolt = [1];
 
 // Amount of models in models page
 var tableModelLength = 2;
@@ -181,13 +181,15 @@ describe('Scidash Model Registration Tests', () => {
 		
 		testOpenDialog(page, newTestName, newTestClass);
 		
-		modelOpenDialog(page, newModelName, newModelClass);
+		modelOpenDialog(page, newModelName, newModelClass, newModelURL);
 		
 	})
 	
 	describe('Scheduling New Score Tests', () => {
 		addTestsAndModels(page, 'TestModel1');
+		page.waitFor(5000)
 		addTestsAndModels(page, 'TestModel2');
+		page.waitFor(5000)
 		addTestsAndModels(page, 'Test1');
 		
 		it('Updating Matrix with TestModel1, TestModel2, Test1', async () => {
@@ -206,7 +208,10 @@ describe('Scidash Model Registration Tests', () => {
 			expect(table).toBe(1);
 		})
 		
+		
 		it('Test1 and Models 1 Compatible', async () => {			
+			await page.waitFor(5000);
+
 			var firstMatrixModel = await page.evaluate(async () => {
 				return document.querySelectorAll("table td span")[1].getAttribute("data-tooltip");
 			});
@@ -223,6 +228,7 @@ describe('Scidash Model Registration Tests', () => {
 		})
 		
 		addTestsAndModels(page, 'Test2');
+		page.waitFor(5000)
 		
 		it('Updating Matrix with TestModel1, TestModel2, Test1', async () => {
 			await wait4selector(page, 'i.fa-spin', { visible: true, timeout : 30000})
@@ -231,18 +237,36 @@ describe('Scidash Model Registration Tests', () => {
 		it('Done updating Matrix with TestModel1, TestModel2, Test1', async () => {
 			await wait4selector(page, 'i.fa-spin', { hidden: true, timeout : 100000})
 		})
-		
-        it('Test1 and Models 1 Compatible', async () => {			
-			var firstMatrixModel = await page.evaluate(async () => {
+				
+        it('Test1 and Model 1 Compatible', async () => {			
+    		await page.waitFor(5000);
+
+        	var firstMatrixModel = await page.evaluate(async () => {
 				return document.querySelectorAll("table td span")[1].getAttribute("data-tooltip");
 			});
 			
-			expect(firstMatrixModel).toEqual("Test compatible with model");
+			expect(firstMatrixModel).toEqual("Test incompatible with model");
+		})
+		
+		it('Test2 and Model 1 Incompatible', async () => {			
+			var secondMatrixModel = await page.evaluate(async () => {
+				return document.querySelectorAll("table td span")[2].getAttribute("data-tooltip");
+			});
+			
+			expect(secondMatrixModel).toEqual("Test compatible with model");
+		})
+		
+		it('Test1 and Model 1 Incompatible', async () => {			
+			var secondMatrixModel = await page.evaluate(async () => {
+				return document.querySelectorAll("table td span")[4].getAttribute("data-tooltip");
+			});
+			
+			expect(secondMatrixModel).toEqual("Test incompatible with model");
 		})
 		
 		it('Test1 and Model 2 Incompatible', async () => {			
 			var secondMatrixModel = await page.evaluate(async () => {
-				return document.querySelectorAll("table td span")[3].getAttribute("data-tooltip");
+				return document.querySelectorAll("table td span")[5].getAttribute("data-tooltip");
 			});
 			
 			expect(secondMatrixModel).toEqual("Test incompatible with model");

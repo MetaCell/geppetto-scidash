@@ -24,7 +24,7 @@ export const testOpenDialog = (page, name, className) => {
 	});
 }
 
-export const modelOpenDialog = (page, name, className) => {
+export const modelOpenDialog = (page, name, className, source) => {
 	it('TestModel1 Info Modal Opened', async () => {
 		await page.evaluate(async (name) => {
 			document.querySelector("#"+name+" button").click()
@@ -36,7 +36,7 @@ export const modelOpenDialog = (page, name, className) => {
 		await page.waitForFunction('document.getElementById("name").innerText.endsWith("'+name+'")');
 		await page.waitForFunction('document.getElementById("class").innerText.endsWith("'+className+'")');
 		await page.waitForFunction('document.getElementById("owner").innerText.startsWith("Owner")');
-		//await page.waitForFunction('document.getElementById("source").innerText.startsWith("Source")');
+		await page.waitForFunction('document.getElementsByClassName("model-url")[0].innerText.endsWith("'+source+'")');
 		await page.waitForFunction('document.getElementById("timestamp").innerText.startsWith("Timestamp")');
 		await page.waitForFunction('document.getElementById("tags").innerText.startsWith("Tags")');
 

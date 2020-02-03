@@ -25,8 +25,8 @@ const observationValueN = 1;
 const observationValueSTD = 50;
 const observationValueMean = 100;
 const parameterTMax = 10; 
-const observationVVolt = 10;
-const observationIVolt = 1;
+const observationVVolt = [10];
+const observationIVolt = [1];
 
 // Amount of models in models page
 var tableModelLength = 2;
@@ -145,8 +145,8 @@ describe('Scidash Model Registration Tests', () => {
 		testFilters(page, newTestName, 0, 0, tableModelLength);
 		testFilters(page, editedTestName, 0,0, tableModelLength);
 
-		testFilters(page, newTestClass, 1, 1, tableModelLength);
-		testFilters(page, editedTestClass, 1, 1, tableModelLength);
+		testFilters(page, newTestClass.replace(/ *\([^)]*\) */g, ""), 1, 1, tableModelLength);
+		testFilters(page, editedTestClass.replace(/ *\([^)]*\) */g, ""), 1, 1, tableModelLength);
 
 		testFilters(page, newTestTag, 2, 2, tableModelLength);
 		testFilters(page, editedTestTag, 2, 2, tableModelLength);
