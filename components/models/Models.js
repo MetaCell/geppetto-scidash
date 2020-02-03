@@ -46,7 +46,7 @@ export default class Models extends React.Component {
   }
 
   componentWillUpdate (nextProps, nextState) {
-    if(this.props.data.length !== nextProps.data.length) {
+    if( this.props.data.length !== nextProps.data.length ) {
       this.griddleData = [];
       for ( var i = 0; i < nextProps.data.length; i++) {
       let griddleItem = _.clone(nextProps.data[i]);

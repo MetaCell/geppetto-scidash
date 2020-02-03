@@ -45,7 +45,7 @@ export class CustomMenu extends Component {
       return value.id === instanceId;
     };
     let instance = this.props.data.find(checkInstance);
-    if(instance!=undefined){
+    if(instance != undefined){
     	if (instance.tags.indexOf("deprecated") !== -1) {
     		return true;
     	}
@@ -65,7 +65,7 @@ export class CustomMenu extends Component {
       return value.id === instanceId;
     };
     let instance = this.props.data.find(checkInstance);
-    if(instance!=undefined){
+    if(instance != undefined){
     	if (instance.tags.indexOf("unschedulable") !== -1) {
     		return true;
     	}
@@ -91,7 +91,7 @@ export class CustomMenu extends Component {
         return value.id === instanceId;
       };
       let instance = this.props.data.find(checkInstance);
-      if(instance!=undefined){
+      if(instance != undefined){
     	  if (instance.owner === this.props.user.userObject.username) {
     		  return false;
     	  }
