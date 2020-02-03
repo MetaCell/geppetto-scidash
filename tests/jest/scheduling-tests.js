@@ -5,7 +5,7 @@ import { wait4selector, click, testFilters} from './utils';
 import { makeUserID, signUpTests } from './user-auth-utils';
 import { modelCreation, editModel, cloneModel} from './model-utils';
 import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest1} from './tests-creation-utils';
-import { testOpenDialog, modelOpenDialog, addTestsAndModels } from './scheduling-utils';
+import { testOpenDialog, modelOpenDialog, addTestsAndModels, testScoreDetails, testModelDetails } from './scheduling-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 
@@ -209,22 +209,20 @@ describe('Scidash Model Registration Tests', () => {
 		})
 		
 		
-		it('Test1 and Models 1 Compatible', async () => {			
-			await page.waitFor(5000);
-
-			var firstMatrixModel = await page.evaluate(async () => {
-				return document.querySelectorAll("table td span")[1].getAttribute("data-tooltip");
+		it('Test1 and Models 1 and 2 Compatibility Check', async () => {			
+			var matrixModelCompatibility = await page.evaluate(async () => {
+				var matrixChecks = document.querySelectorAll("table td span")
+				var incompatible = 0;			
+				for(var i =0; i< matrixChecks.length; i++){
+					if(matrixChecks[i].getAttribute("data-tooltip") == "Test incompatible with model"){
+						incompatible ++;
+					}
+				}
+				
+				return incompatible;
 			});
 			
-			expect(firstMatrixModel).toEqual("Test compatible with model");
-		})
-		
-		it('Test1 and Model 2 Incompatible', async () => {			
-			var secondMatrixModel = await page.evaluate(async () => {
-				return document.querySelectorAll("table td span")[3].getAttribute("data-tooltip");
-			});
-			
-			expect(secondMatrixModel).toEqual("Test incompatible with model");
+			expect(matrixModelCompatibility).toEqual(1);
 		})
 		
 		addTestsAndModels(page, 'Test2');
@@ -291,7 +289,10 @@ describe('Scidash Model Registration Tests', () => {
 
 			expect(score).not.toEqual("N/A");
 			
-			await page.waitFor(5000);
+			await page.waitFor(2000);
 		})
+		
+		testScoreDetails(page, newTestName, newTestClass, newModelClass, newModelURL);
+		testModelDetails(page, newModelClass, newModelURL)
 	})
 })
