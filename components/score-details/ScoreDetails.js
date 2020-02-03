@@ -49,7 +49,7 @@ const ScoreDetails = ({
         alignItems: "flex-start"
       }}
     >
-      <div style={{ minWidth: "100px", margin: "15px" }}>
+      <div id="test-details-dialog" style={{ minWidth: "100px", margin: "15px" }}>
         <h4
           style={{
             maxWidth: "360px"
@@ -59,7 +59,7 @@ const ScoreDetails = ({
         </h4>
         <Card>
           <CardText>
-            <div>
+            <div id="test-score">
               <strong>Test name: </strong>
               {instanceTestName}
             </div>
@@ -75,7 +75,7 @@ const ScoreDetails = ({
                 {score.toFixed(2)}
               </span>
             </div>
-            <div>
+            <div id="normalized-score">
               <strong>Normalized score: </strong>
               <span
                 style={{
@@ -87,7 +87,7 @@ const ScoreDetails = ({
                 {sortKey.toFixed(2)}
               </span>
             </div>
-            <div>
+            <div id="test-class">
               <strong>Test class: </strong>
               {testClassName}
             </div>
@@ -95,22 +95,22 @@ const ScoreDetails = ({
               <strong>Score type: </strong>
               {scoreType}
             </div>
-            <div>
+            <div id="test-suite">
               <strong>Test suite: </strong>
               N/A
             </div>
-            <div>
+            <div id="build-info">
               <strong>Build info: </strong>
               <BuildInfoLine
                 buildInfo={buildInfo.text}
                 iconClass={buildInfo.icon}
               />
             </div>
-            <div>
+            <div id="hostname">
               <strong>Hostname: </strong>
               {hostname}
             </div>
-            <div style={{
+            <div id="errors" style={{
               wordWrap: "break-word",
               width: "230px"
             }}
@@ -118,11 +118,11 @@ const ScoreDetails = ({
               <strong>Errors: </strong>
               {unpackError(error)}
             </div>
-            <div>
+            <div id="timestamp">
               <strong>Timestamp: </strong>
               {timestamp}
             </div>
-            <div>
+            <div id="tags">
               <strong>Tags: </strong>
               {testTags.map((tag, i) => (
                 <Chip
@@ -143,11 +143,11 @@ const ScoreDetails = ({
               ))}
             </div>
             <hr />
-            <div>
+            <div id="observation">
               <strong>Observation: </strong>
               <Observation observation={observation} />
             </div>
-            <div>
+            <div id="simulator">
               <strong>Simulator: </strong>
               {modelBackend}
             </div>
