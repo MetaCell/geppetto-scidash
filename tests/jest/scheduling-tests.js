@@ -238,38 +238,20 @@ describe('Scidash Model Registration Tests', () => {
 			await wait4selector(page, 'i.fa-spin', { hidden: true, timeout : 100000})
 		})
 				
-        it('Test1 and Model 1 Compatible', async () => {			
-    		await page.waitFor(5000);
-
-        	var firstMatrixModel = await page.evaluate(async () => {
-				return document.querySelectorAll("table td span")[1].getAttribute("data-tooltip");
+		it('Test1,Test2 and Model 1, Model 2 Compatability Check', async () => {			
+			var matrixModelCompatibility = await page.evaluate(async () => {
+				var matrixChecks = document.querySelectorAll("table td span")
+				var incompatible = 0;			
+				for(var i =0; i< matrixChecks.length; i++){
+					if(matrixChecks[i].getAttribute("data-tooltip") == "Test incompatible with model"){
+						incompatible ++;
+					}
+				}
+				
+				return incompatible;
 			});
 			
-			expect(firstMatrixModel).toEqual("Test incompatible with model");
-		})
-		
-		it('Test2 and Model 1 Incompatible', async () => {			
-			var secondMatrixModel = await page.evaluate(async () => {
-				return document.querySelectorAll("table td span")[2].getAttribute("data-tooltip");
-			});
-			
-			expect(secondMatrixModel).toEqual("Test compatible with model");
-		})
-		
-		it('Test1 and Model 1 Incompatible', async () => {			
-			var secondMatrixModel = await page.evaluate(async () => {
-				return document.querySelectorAll("table td span")[4].getAttribute("data-tooltip");
-			});
-			
-			expect(secondMatrixModel).toEqual("Test incompatible with model");
-		})
-		
-		it('Test1 and Model 2 Incompatible', async () => {			
-			var secondMatrixModel = await page.evaluate(async () => {
-				return document.querySelectorAll("table td span")[5].getAttribute("data-tooltip");
-			});
-			
-			expect(secondMatrixModel).toEqual("Test incompatible with model");
+			expect(matrixModelCompatibility).toEqual(3);
 		})
 		
 		it('Click Save As Suite', async () => {
@@ -284,8 +266,32 @@ describe('Scidash Model Registration Tests', () => {
 			await page.waitForFunction('document.getElementById("scidash-logo").innerText.startsWith("Test scores")');
 		})
 		
-		it('Wait for Tests Scores Simulation', async () => {
-			await page.waitFor(30000);
+		it('Test Submitted for Simulation', async () => {
+			await page.waitFor(5000);
+			
+			const scores = await page.evaluate(async () => {
+				return document.querySelectorAll(".scidash-table tr").length;
+			});
+
+			expect(scores).toBeGreaterThanOrEqual(2);
+			
+			const modelName = await page.evaluate(async () => {
+				return document.querySelectorAll(".scidash-table tr td")[0].innerText;
+			});
+
+			expect(modelName).toEqual(newTestClass);
+		})
+		
+		it('Test Score Succesfully Simulated', async () => {
+			await wait4selector(page, 'i.fa-check', { visible: true, timeout : 450000})
+			
+			const score = await page.evaluate(async () => {
+				return document.querySelectorAll(".scidash-table tr td")[1].innerText;
+			});
+
+			expect(score).not.toEqual("N/A");
+			
+			await page.waitFor(5000);
 		})
 	})
 })
