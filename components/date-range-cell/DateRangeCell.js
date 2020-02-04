@@ -12,7 +12,8 @@ export default class DateRangeCell extends React.Component {
     }
 
     render(){
-        return (
+        var self = this;
+    	return (
             <span style={{
                 textAlign: "center"
             }}>
@@ -30,11 +31,12 @@ export default class DateRangeCell extends React.Component {
                 </p>
 
                 <div className="datepicker-wrapper">
-                    <div className=" date-range-tooltip" title="From">
+                    <div id="fromDatePicker" className="date-range-tooltip" title="From" onClick={function(){self.fromDatePicker.openDialog();}}>
                         <DatePicker
                             hintText="From"
                             title="From"
                             onClick={this.props.stopPropagation}
+                            ref={(instance) => this.fromDatePicker = instance}
                             className="scidash-materialui-field"
                             style={this.props.styleWrapper}
                             textFieldStyle={this.props.styleTextField}
@@ -43,10 +45,11 @@ export default class DateRangeCell extends React.Component {
                         />
                     </div>
 
-                    <div className="date-range-tooltip" title="To">
+                    <div id="toDatePicker" className="date-range-tooltip" title="To" onClick={function(){self.toDatePicker.openDialog();}}>
                         <DatePicker
                             hintText="To"
                             title="To"
+                            ref={(instance) => this.toDatePicker = instance}
                             className="scidash-materialui-field date-range-tooltip"
                             onClick={this.props.stopPropagation}
                             style={this.props.styleWrapper}

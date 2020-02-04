@@ -17,14 +17,14 @@ const ModelDetails = ({
     modelTags
   }) => (
   <Card>
-    <CardText>
-      <p><strong>Class name: </strong>
+    <CardText id="model-details-dialog">
+      <p id="model-class-name"><strong>Class name: </strong>
         {modelClassName}
       </p>
-      <p><strong>Class source: </strong>
+      <p id="model-class-source"><strong>Class source: </strong>
         <a target='_blank' className="model-url" href={modelClassUrl}> {modelClassUrl}</a>
       </p>
-      <p>
+      <p id="model-class-capabilities">
         <strong>
             Class capabilities:
         </strong>
@@ -32,15 +32,15 @@ const ModelDetails = ({
       {classCapabilities != "None" ? <Capabilities
         capabilities={classCapabilities}
       /> : classCapabilities}
-      <p><strong>Instance name: </strong>
+      <p id="model-instance-name"><strong>Instance name: </strong>
         {instanceName}
       </p>
-      <p className="model-url"><strong>Instance source: </strong>
+      <p id="model-url" className="model-url"><strong>Instance source: </strong>
         {instanceSource.search(/http/) > -1 ? 
           <a target='_blank' className="model-url" href={instanceSource}> {instanceSource}</a> : 
           instanceSource}
       </p>
-      <p className="model-url"><strong>Instance Tags: </strong>
+      <p id="model-tags" className="model-url"><strong>Instance Tags: </strong>
         {modelTags.map((tag, i) => 
         {
           return <Chip
@@ -57,7 +57,7 @@ const ModelDetails = ({
           </Chip>
         }) }
       </p>
-      <p><strong>Instance - Run parameters: </strong>
+      <p id="model-parameters"><strong>Instance - Run parameters: </strong>
       </p>
       {runParameters != "None" ? <RunParams
         runParams={runParameters}

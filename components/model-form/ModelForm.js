@@ -375,6 +375,7 @@ export default class ModelForm extends React.Component {
                   : ""
               }
               floatingLabelText="Name of the model"
+              id="model-name"
               underlineStyle={{ borderBottom: "1px solid grey" }}
               onChange={(event, value) => {
                 this.updateModel({ name: value }, () => {
@@ -391,6 +392,7 @@ export default class ModelForm extends React.Component {
               value={this.state.model.url}
               className="url"
               floatingLabelText="Source URL"
+              id="source-url"
               errorText={
                 this.state.model.errors !== undefined &&
                 "url" in this.state.model.errors
@@ -423,7 +425,7 @@ export default class ModelForm extends React.Component {
                 <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
               ) : null}
               {this.state.loadingClasses ? (
-                <CircularProgress size={36} />
+                <CircularProgress id="validating-source-url" size={36} />
               ) : null}
             </span>
           </div>
@@ -485,6 +487,7 @@ export default class ModelForm extends React.Component {
                 <MenuItem
                   value={klass.id}
                   key={klass.id}
+                  id={klass.class_name}
                   primaryText={klass.class_name}
                   label={klass.class_name}
                 />
@@ -498,6 +501,7 @@ export default class ModelForm extends React.Component {
               }}
               className="new-tag"
               floatingLabelText="Add a new tag"
+              id="new-tag"
               underlineStyle={{ borderBottom: "1px solid grey" }}
               onKeyPress={e =>
                 e.key === "Enter"
@@ -524,6 +528,11 @@ export default class ModelForm extends React.Component {
                           float: "left"
                         }}
                         key={tag.name + "-" + i}
+                        onKeyPress={e =>
+                             e.key === "Enter"
+                             ? this.deleteTag(tag)
+                             : null
+                        }
                         onRequestDelete={() => this.deleteTag(tag)}
                       >
                         {tag.name.toString()}
@@ -543,6 +552,11 @@ export default class ModelForm extends React.Component {
                           float: "left"
                         }}
                         key={tag + "-" + i}
+                        onKeyPress={e =>
+                          e.key === "Enter"
+                          ? this.deleteTag(tag)
+                          : null
+                        }
                         onRequestDelete={() => this.deleteTag(tag)}
                       >
                         {tag}
@@ -568,6 +582,7 @@ export default class ModelForm extends React.Component {
         <div className="fifth-line">
           <RaisedButton
             label="Open"
+            id="open-model-parameters"
             disabled={this.state.paramsDisabled}
             className="actions-button"
             style={{
@@ -585,7 +600,7 @@ export default class ModelForm extends React.Component {
               <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
             ) : null}
             {this.state.loadingParams ? (
-              <CircularProgress size={36} />
+              <CircularProgress id="loading-model-parameters" size={36} />
             ) : null}
           </span>
 
@@ -615,6 +630,7 @@ export default class ModelForm extends React.Component {
                   ? this.state.model.run_params.watchedVariables
                   : []
               }
+              id="parameters-table"
               params={this.state.params}
               onCheck={this.saveChecked}
               onUncheck={this.removeChecked}
@@ -628,6 +644,7 @@ export default class ModelForm extends React.Component {
         <div className="actions-container">
           <RaisedButton
             label="save"
+            id="save-model"
             disabled={
               this.state.loadingParams ||
               this.state.loadingClasses ||
@@ -655,6 +672,7 @@ export default class ModelForm extends React.Component {
 
           <RaisedButton
             label="cancel"
+            id="cancel-model"
             className="actions-button"
             onClick={() => this.onCancel()}
           />
