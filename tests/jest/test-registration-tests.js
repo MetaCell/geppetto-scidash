@@ -12,7 +12,7 @@ let newUserID = makeUserID(6);
 const newUserEmail = "test_user@gmail.com";
 const newUserPassword = "Password_2020";
 
-// Variables used for Model registration form
+// Variables used for Test registration form
 const newTestName = "Test1";
 const editedTestName = "Test2";
 const newTestTag ="testing-tag-1";

@@ -5,7 +5,7 @@ import { wait4selector, click, testFilters} from './utils';
 import { makeUserID, signUpTests } from './user-auth-utils';
 import { modelCreation, editModel, cloneModel} from './model-utils';
 import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest1} from './tests-creation-utils';
-import { testOpenDialog, modelOpenDialog, addTestsAndModels, testScoreDetails, testModelDetails } from './scheduling-utils';
+import { testOpenDialog, modelOpenDialog, addTestsAndModels, testScoreDetails, testModelDetails, testSuiteScore } from './scheduling-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 
@@ -26,7 +26,7 @@ const editedModelClass = "LEMSModel";
 const variable1 = "net1.RS_pop[0].u";
 const variable2= "net1.RS_pop[0].v";
 
-// Variables used for Model registration form
+// Variables used for Test registration form
 const newTestName = "Test1";
 const editedTestName = "Test2";
 const newTestTag ="testing-tag-1";
@@ -46,9 +46,9 @@ const observationIVolt = [1];
 var tableModelLength = 2;
 
 /**
- * Model Registration Tests
+ * Scheduling Tests
  */
-describe('Scidash Model Registration Tests', () => {
+describe('Scidash Scheduling Tests', () => {
 	beforeAll(async () => {
 		jest.setTimeout(125000);
 		await page.setViewport({ width: 1280, height: 800 })
@@ -109,7 +109,7 @@ describe('Scidash Model Registration Tests', () => {
 	})
 
 	// Tests User Registration/Sign-Up Works using the Sign-Up Button,
-	// Needed to Generate User for Model Registration
+	// Needed to Generate User to continue testing
 	describe('Create User Account', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
@@ -144,7 +144,7 @@ describe('Scidash Model Registration Tests', () => {
 		editModel(page, editedModelName, editedModelClass, editedModelTag, variable1, variable2, tableModelLength);
 	})
 	
-	// Tests New Model Creation
+	// Tests New Test Creation
 	describe('New Test Registration', () => {
 		newTestCreation(page, newTestName, newTestClass, newTestTag, newObservationSchema, secondObservationSchema, 
 				observationValueN, observationValueSTD, observationValueMean, parameterTMax, tableModelLength);
@@ -160,6 +160,7 @@ describe('Scidash Model Registration Tests', () => {
 		editTest1(page, editedTestName, editedTestClass, editedTestTag, observationVVolt, observationIVolt, tableModelLength)
 	})
 	
+	// Schedule Test Simulation
 	describe('Scheduling Page Tests', () => {
 		it('Sidebar Component Opened, Scheduling Option Present', async () => {
 			await click(page, 'button#hamMenu');
@@ -292,7 +293,51 @@ describe('Scidash Model Registration Tests', () => {
 			await page.waitFor(2000);
 		})
 		
+		it('Test Score Details Dialog Opened', async () => {
+			await page.evaluate(async () => {
+				document.querySelectorAll(".scidash-table tr td")[1].querySelector("a").click();
+			});
+			
+			await wait4selector(page, '#test-details-dialog', { visible: true, timeout : 5000})
+
+			await page.waitFor(1000);
+		})
+		
 		testScoreDetails(page, newTestName, newTestClass, newModelClass, newModelURL);
-		testModelDetails(page, newModelClass, newModelURL)
+		
+		it('Test Score Details Dialog Closed', async () => {
+			await page.evaluate(async () => {
+				document.querySelector(".centered-modal button").click()
+			});
+			await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
+			
+			await page.waitFor(1000);
+		})
+		
+		it('Test Score Model Details Dialog Opened', async () => {
+			await page.evaluate(async () => {
+				document.querySelectorAll(".scidash-table tr td")[3].querySelector("a").click();
+			});
+			
+			await wait4selector(page, '#model-class-name', { visible: true, timeout : 5000})
+
+			await page.waitFor(1000);
+		})
+		
+		testModelDetails(page, newModelClass, newModelURL);
+		
+		it('Test Score Model Details Dialog Closed', async () => {
+			await page.evaluate(async () => {
+				var buttons = document.querySelectorAll("button");
+				buttons[buttons.length-1].click();
+			});
+			await wait4selector(page, '#model-class-name', { hidden: true, timeout : 5000 })
+			
+			await page.waitFor(1000);
+		})
+		
+		testSuiteScore(page, newTestName, newTestClass, newModelName, newModelClass, newModelURL);
+		
+		page.waitFor(200000);
 	})
 })
