@@ -107,6 +107,7 @@ export default class TestForm extends React.Component {
             }
             style={styles.firstLine.one}
             floatingLabelText="Name of the test"
+            id="test-name"
             underlineStyle={{ borderBottom: "1px solid grey" }}
             disabled={this.state.isBlocked}
           />
@@ -136,7 +137,9 @@ export default class TestForm extends React.Component {
             onChange={(e, key, value) => {
               for (let klass of this.state.testClasses) {
                 if (klass.id == value) {
-                  this.updateModel({ "test_class": klass,  });
+                  this.updateModel({ "test_class": klass,
+                    "observation": {}
+                  });
                 }
               }
             }}
@@ -149,7 +152,7 @@ export default class TestForm extends React.Component {
               let textB = b.class_name.toLowerCase();
 
               return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-            }).map((klass, index) => <MenuItem value={klass.id} key={index} primaryText={klass.class_name} label={klass.class_name} />)}
+            }).map((klass, index) => <MenuItem value={klass.id} id={klass.class_name} key={index} primaryText={klass.class_name} label={klass.class_name} />)}
           </SelectField>
         </div>
 
@@ -159,6 +162,7 @@ export default class TestForm extends React.Component {
             value={this.state.model.description}
             style={styles.secondLine.one}
             floatingLabelText="Test description"
+            id="test-description"
             underlineStyle={{ borderBottom: "1px solid grey" }}
             disabled={this.state.isBlocked}
           />
@@ -169,11 +173,12 @@ export default class TestForm extends React.Component {
             value={this.state.newTag}
             onChange={(e, value) => { this.setState({ newTag: value }); }}
             floatingLabelText="Add tags"
+            id="test-add-tags"
             style={styles.thirdLine.one}
             underlineStyle={{ borderBottom: "1px solid grey" }}
             onKeyPress={e => e.key === "Enter" ? this.addTag(this.state.newTag.toLowerCase()) : null}
           />
-          <div style={styles.thirdLine.two}>
+          <div className="tags" style={styles.thirdLine.two}>
             {/* eslint-disable-next-line react/no-array-index-key */}
             {this.state.model.tags.map(function (tag, i) {
               if (typeof(tag.name) !== "undefined") {
@@ -182,6 +187,11 @@ export default class TestForm extends React.Component {
                     backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag.name}-${i}`}
+                    onKeyPress={e =>
+                      e.key === "Enter"
+                      ? this.deleteTag(tag)
+                      : null
+                    }
                     onRequestDelete={() => this.deleteTag(tag)}
                   >
                     {tag.name.toString()}
@@ -193,6 +203,11 @@ export default class TestForm extends React.Component {
                     backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red400 : brown500}
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag}-${i}`}
+	                onKeyPress={e =>
+	                  e.key === "Enter"
+	                    ? this.deleteTag(tag)
+	                    : null
+	                }
                     onRequestDelete={() => this.deleteTag(tag)}
                   >
                     {tag}
@@ -216,7 +231,7 @@ export default class TestForm extends React.Component {
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.observation_schema}
-              default_params={this.state.model.test_class.default_params}
+              default_params={{}}
               unitsMap={this.state.model.getObservationUnitsMap()}
               test_class={this.state.model.test_class}
               onChange={observation => {
@@ -224,7 +239,7 @@ export default class TestForm extends React.Component {
                   observation
                 });
               }}
-              model={this.props.actionType === "edit" ? this.state.model.observation : undefined}
+              model={this.props.actionType === "edit" && this.props.model.test_class.class_name === this.state.model.test_class.class_name  ? this.props.model.observation : undefined}
               disabled={this.state.isBlocked}
             />
           </div>
@@ -246,7 +261,7 @@ export default class TestForm extends React.Component {
                   params
                 });
               }}
-              model={this.props.actionType === "edit" ? this.state.model.params : undefined}
+              model={this.props.actionType === "edit" && this.props.model.test_class.class_name === this.state.model.test_class.class_name ? this.props.model.params : this.state.model.test_class.default_params}
               disabled={this.state.isBlocked}
             />
           </div>
@@ -254,6 +269,7 @@ export default class TestForm extends React.Component {
         <div style={styles.actionsContainer}>
           <RaisedButton
             label="save"
+            id="save-test"
             style={styles.actionsButton}
             onClick={() => {
               if (this.state.model.validate()) {
@@ -270,6 +286,7 @@ export default class TestForm extends React.Component {
           />
           <RaisedButton
             label="cancel"
+            id="cancel-test"
             style={styles.actionsButton}
             onClick={() => this.props.onCancel()}
           />

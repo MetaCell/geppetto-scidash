@@ -29,7 +29,8 @@ const mapStateToProps = state => ({
       if (props.hasNext) {
         return (
           <RaisedButton
-            label={props.text} 
+            label={props.text}
+            id={"nextPage"}
             onClick={() => {
               props.getNext();
               window.scoreNextPage();
@@ -48,6 +49,7 @@ const mapStateToProps = state => ({
         return (
           <RaisedButton
             label={props.text} 
+            id={"previousPage"}
             onClick={() => {
               props.getPrevious();
               window.scorePreviousPage();

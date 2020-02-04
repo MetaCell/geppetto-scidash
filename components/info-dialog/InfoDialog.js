@@ -59,23 +59,23 @@ export default class InfoDialog extends React.Component {
                     }}>{instanceSource !== "None" ? "Model" : "Test"}{" details"}</h4>
                     <Card>
                         <CardText>
-                            <p><strong>Name: </strong>
+                            <p id='name'><strong>Name: </strong>
                                 {instanceName}
                             </p>
-                            <p><strong>Class: </strong>
+                            <p id='class'><strong>Class: </strong>
                                 {instanceClassName}
                             </p>
-                            <p><strong>Owner: </strong>
+                            <p id='owner'><strong>Owner: </strong>
                                 {instanceOwner}
                             </p>
                             {instanceSource !== "None" ?
                                 <p><strong>Source: </strong>
                                     <a target='_blank' className="model-url" href={instanceSource}> {instanceSource}</a>
                                 </p> : undefined}
-                            <p><strong>Timestamp: </strong>
+                            <p id='timestamp'><strong>Timestamp: </strong>
                                 {instanceTimestamp}
                             </p>
-                            <p><strong>Tags: </strong>
+                            <p id='tags'><strong>Tags: </strong>
                             <span style={{display: "flex"}}>
                                 {instanceTags === "None" ? undefined : instanceTags.map((tag, i) =>
                                     <Chip
