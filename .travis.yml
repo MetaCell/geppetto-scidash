@@ -32,6 +32,7 @@ install:
   - docker pull $GEPPETTO_IMAGE:$PULL_TAG
   - docker tag $GEPPETTO_IMAGE:$PULL_TAG $GEPPETTO_IMAGE:$TAG
 script:
+  - jest --verbose
   - git clone https://github.com/ddelpiano/travis_utils
   - travis_utils/copy.sh https://github.com/Metacell/scidash.git $TRAVIS_BRANCH $BRANCH $DEFAULT_BRANCH
   - travis_fold start "building_scidash_database_container"
