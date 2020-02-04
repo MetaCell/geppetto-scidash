@@ -5,7 +5,7 @@ import { wait4selector, click, testFilters} from './utils';
 import { makeUserID, signUpTests } from './user-auth-utils';
 import { modelCreation, editModel, cloneModel} from './model-utils';
 import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest1} from './tests-creation-utils';
-import { testOpenDialog, modelOpenDialog, addTestsAndModels, testScoreDetails, testModelDetails, testSuiteScore } from './scheduling-utils';
+import { testOpenDialog, modelOpenDialog, addTestsAndModels, testScoreDetails, testModelDetails } from './scheduling-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 
@@ -336,8 +336,5 @@ describe('Scidash Scheduling Tests', () => {
 			await page.waitFor(1000);
 		})
 		
-		testSuiteScore(page, newTestName, newTestClass, newModelName, newModelClass, newModelURL);
-		
-		page.waitFor(2000);
 	})
 })
