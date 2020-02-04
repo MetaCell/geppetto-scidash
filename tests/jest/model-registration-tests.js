@@ -137,12 +137,15 @@ describe('Scidash Model Registration Tests', () => {
 			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
 		})
 
+		// Test page filters fields by searching by model name
 		testFilters(page, newModelName, 0, 0, tableModelLength);
 		testFilters(page, editedModelName, 0,0, tableModelLength);
 
+		// Test page filters fields by searching by model class name
 		testFilters(page, newModelClass, 1, 1, tableModelLength);
 		testFilters(page, editedModelClass, 1, 1, tableModelLength);
 
+		// Test page filters fields by searching by tag name
 		testFilters(page, newModelTag, 2, 3, tableModelLength);
 		testFilters(page, editedModelTag, 2, 3, tableModelLength);
 	})

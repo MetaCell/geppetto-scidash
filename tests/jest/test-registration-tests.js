@@ -28,13 +28,13 @@ const parameterTMax = 10;
 const observationVVolt = [10];
 const observationIVolt = [1];
 
-// Amount of models in models page
-var tableModelLength = 2;
+// Amount of tests in tests page
+var tableTestLengh = 2;
 
 /**
- * Model Registration Tests
+ * Tests Registration
  */
-describe('Scidash Model Registration Tests', () => {
+describe('Scidash Tests Registration', () => {
 	beforeAll(async () => {
 		jest.setTimeout(125000);
 		await page.setViewport({ width: 1280, height: 800 })
@@ -95,7 +95,7 @@ describe('Scidash Model Registration Tests', () => {
 	})
 
 	// Tests User Registration/Sign-Up Works using the Sign-Up Button,
-	// Needed to Generate User for Model Registration
+	// Needed to Generate User for Test Registration
 	describe('Create User Account', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
@@ -115,25 +115,25 @@ describe('Scidash Model Registration Tests', () => {
 
 	})
 
-	// Tests New Model Creation
+	// Create New Test
 	describe('New Test Registration', () => {
 		newTestCreation(page, newTestName, newTestClass, newTestTag, newObservationSchema, secondObservationSchema, 
-				observationValueN, observationValueSTD, observationValueMean, parameterTMax, tableModelLength);
+				observationValueN, observationValueSTD, observationValueMean, parameterTMax, tableTestLengh);
 	})
 
-	// Tests Cancel Model Creation
+	// Cancel Test Creation
 	describe('Cancel Test Creation', () => {
 		cancelTestCreation(page);
 	})
 
-	// Tests Cloning Model
+	// Clone Test
 	describe('Clone Test', () => {
-		cloneTestCreation(page, newTestName, newTestClass, tableModelLength);
+		cloneTestCreation(page, newTestName, newTestClass, tableTestLengh);
 	})
 
 	// Tests Editing
 	describe('Edit Test', () => {
-		editTest1(page, editedTestName, editedTestClass, editedTestTag, observationVVolt, observationIVolt, tableModelLength)
+		editTest1(page, editedTestName, editedTestClass, editedTestTag, observationVVolt, observationIVolt, tableTestLengh)
 	})
 
 	// Tests Model Page Filters
@@ -142,14 +142,17 @@ describe('Scidash Model Registration Tests', () => {
 			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
 		})
 
-		testFilters(page, newTestName, 0, 0, tableModelLength);
-		testFilters(page, editedTestName, 0,0, tableModelLength);
+		// Test Filters fields work by searching for new test
+		testFilters(page, newTestName, 0, 0, tableTestLengh);
+		testFilters(page, editedTestName, 0,0, tableTestLengh);
 
-		testFilters(page, newTestClass.replace(/ *\([^)]*\) */g, ""), 1, 1, tableModelLength);
-		testFilters(page, editedTestClass.replace(/ *\([^)]*\) */g, ""), 1, 1, tableModelLength);
+		// Test Filters fields work by searching for new class
+		testFilters(page, newTestClass.replace(/ *\([^)]*\) */g, ""), 1, 1, tableTestLengh);
+		testFilters(page, editedTestClass.replace(/ *\([^)]*\) */g, ""), 1, 1, tableTestLengh);
 
-		testFilters(page, newTestTag, 2, 2, tableModelLength);
-		testFilters(page, editedTestTag, 2, 2, tableModelLength);
+		// Test Filters fields work by searching by tag
+		testFilters(page, newTestTag, 2, 2, tableTestLengh);
+		testFilters(page, editedTestTag, 2, 2, tableTestLengh);
 	})
 	
 	// User Logout
