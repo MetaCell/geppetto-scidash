@@ -338,6 +338,6 @@ describe('Scidash Scheduling Tests', () => {
 		
 		testSuiteScore(page, newTestName, newTestClass, newModelName, newModelClass, newModelURL);
 		
-		page.waitFor(200000);
+		page.waitFor(2000);
 	})
 })
