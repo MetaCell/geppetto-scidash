@@ -346,7 +346,7 @@ describe('Scidash Scheduling Tests', () => {
 			
 			await page.waitFor(1000);
 		})
-		
+				
 		// Open Test Suites view and test dialog with matrix comes up
 		testSuiteScore(page, newTestName, newTestClass, newModelName, newModelClass, newModelURL);
 		
