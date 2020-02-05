@@ -335,6 +335,5 @@ describe('Scidash Scheduling Tests', () => {
 			
 			await page.waitFor(1000);
 		})
-		
 	})
 })
