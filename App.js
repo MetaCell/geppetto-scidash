@@ -96,16 +96,16 @@ export default class App extends React.Component {
                   <div className="row">
                     <div className="col-md-12">
                       <Switch>
-                        <Route path={this.pagesService.SCORES_PAGE} component={ScoresContainer} exact />
-                        <Route path={this.pagesService.SUITES_PAGE} component={TestSuitesContainer} exact />
-                        <Route path={this.pagesService.TESTS_PAGE} component={TestsContainer} exact />
-                        <Route path={this.pagesService.TESTS_CREATE_PAGE} component={TestCreateContainer} exact />
-                        <Route path={this.pagesService.MODELS_PAGE} component={ModelsContainer} exact />
-                        <Route path={this.pagesService.MODELS_CREATE_PAGE} component={ModelCreateContainer} exact />
-                        <Route path={this.pagesService.SETTINGS_PAGE} component={Settings} exact />
-                        <Route path={this.pagesService.SCHEDULING_PAGE} component={SchedulingContainer} exact />
-                        <Route path={this.pagesService.MODELS_EDIT_PAGE} component={ModelEditContainer} exact />
-                        <Route path={this.pagesService.TESTS_EDIT_PAGE} component={TestEditContainer} exact />
+                        <Route path={this.pagesService.SCORES_PAGE} render={ScoresContainer.render} exact={true} />
+                        <Route path={this.pagesService.SUITES_PAGE} render={TestSuitesContainer.render} exact={true} />
+                        <Route path={this.pagesService.TESTS_PAGE} render={TestsContainer.render} exact={true} />
+                        <Route path={this.pagesService.TESTS_CREATE_PAGE} render={TestCreateContainer.render} exact={true} />
+                        <Route path={this.pagesService.MODELS_PAGE} render={ModelsContainer.render} exact={true} />
+                        <Route path={this.pagesService.MODELS_CREATE_PAGE} render={ModelCreateContainer.render} exact={true} />
+                        <Route path={this.pagesService.SETTINGS_PAGE} render={Settings.render} exact={true} />
+                        <Route path={this.pagesService.SCHEDULING_PAGE} render={SchedulingContainer.render} exact={true} />
+                        <Route path={this.pagesService.MODELS_EDIT_PAGE} render={ModelEditContainer.render} exact={true} />
+                        <Route path={this.pagesService.TESTS_EDIT_PAGE} render={TestEditContainer.render} exact={true} />
                       </Switch>
                     </div>
                   </div>
