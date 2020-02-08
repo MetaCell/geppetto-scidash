@@ -27,8 +27,7 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
     <div>
       <IconButton
         id="hamMenu"
-        onClick={() => toggleDrawer()}
-      >
+        onClick={() => toggleDrawer()}>
         <Icon className="fa fa-bars" />
       </IconButton>
       <Drawer
