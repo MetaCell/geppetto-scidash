@@ -98,7 +98,6 @@ export default class Header extends React.Component {
               ? <div className="col-md-3 auth-links">
                 <Button
                   className="userButton" label={userinitial} variant="contained"
-                  onTouchTap={this.handleTouchTap}
                   style={{ marginRight: "10px", borderRadius: 50, float: "right", backgroundColor: "#37474f" }}
                 >
                   <PersonIcon className="loggedIcon" />
