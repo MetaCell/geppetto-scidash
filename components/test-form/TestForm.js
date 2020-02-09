@@ -29,9 +29,7 @@ export default class TestForm extends React.Component {
     this.deleteTag = this.deleteTag.bind(this);
     this.addTag = this.addTag.bind(this);
     this.isInstanceBlocked = this.isInstanceBlocked.bind(this);
-  }
 
-  componentWillMount () {
     if (this.props.actionType === "edit") {
       this.isInstanceBlocked();
     }
@@ -106,22 +104,15 @@ export default class TestForm extends React.Component {
             }
             style={styles.firstLine.one}
             floatingLabelText="Name of the test"
-            underlineStyle={{ borderBottom: "1px solid grey" }}
             disabled={this.state.isBlocked}
           />
 
           <Select
             id="testFormSelectClass"
-            labelStyle={{
-              position: "relative",
-              top: "-10px"
-            }}
             style={styles.firstLine.two}
-            iconStyle={styles.firstLine.icon}
             value={this.state.model.test_class.id}
             floatingLabelText="Select test class"
             floatingLabelFixed={false}
-            underlineStyle={{ borderBottom: "1px solid grey" }}
             dropDownMenuProps={{
               menuStyle: {
                 border: "1px solid black",
@@ -157,7 +148,6 @@ export default class TestForm extends React.Component {
             value={this.state.model.description}
             style={styles.secondLine.one}
             floatingLabelText="Test description"
-            underlineStyle={{ borderBottom: "1px solid grey" }}
             disabled={this.state.isBlocked}
           />
         </div>
@@ -170,7 +160,6 @@ export default class TestForm extends React.Component {
             }}
             floatingLabelText="Add tags"
             style={styles.thirdLine.one}
-            underlineStyle={{ borderBottom: "1px solid grey" }}
             onKeyPress={e => e.key === "Enter" ? this.addTag(this.state.newTag.toLowerCase()) : null}
           />
           <div style={styles.thirdLine.two}>

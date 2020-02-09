@@ -127,7 +127,6 @@ export default class ParamsForm extends React.Component {
                 onChange={(e, newValue) => this.updateForm(key, newValue)}
                 style={{ width: "100%" }}
                 floatingLabelText={`${key} (${this.state.unitsMap[key]})`}
-                underlineStyle={{ borderBottom: "1px solid grey" }}
                 disabled={this.props.disabled}
               />
             );

@@ -9,12 +9,12 @@ import PagesService from "../../../services/PagesService";
 
 class SciDashMenuItem extends React.Component {
   render() {
-    return <MenuItem id={this.props.id}
-                     onClick={this.props.onClick}
-           >
-                {this.props.leftIcon}
-                <div>{this.props.primaryText}</div>
-           </MenuItem>;
+    return (
+      <MenuItem id={this.props.id} onClick={this.props.onClick}>
+        {this.props.leftIcon}
+        <div>{this.props.primaryText}</div>
+      </MenuItem>
+    )
   }
 }
 

@@ -18,16 +18,7 @@ const SelectCell = ({
     </p>
     <Select
       value={value}
-      underlineStyle={{ borderBottom: "1px solid #ccc", bottom: "0px" }}
       style={styleDefault}
-      iconStyle={styles.firstLine.icon}
-      labelStyle={{
-        fontWeight: "normal",
-        fontSize: "12px",
-        top: "-14px"
-      }}
-      menuStyle={{ width: "105px" }}
-      menuItemStyle={{ fontSize: "12px" }}
       onClick={event => {
         event.stopPropagation();
       }}

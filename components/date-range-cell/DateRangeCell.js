@@ -1,5 +1,6 @@
 import React from "react";
 import DatePicker from "@material-ui/pickers/DatePicker";
+import TextField from "@material-ui/core/TextField";
 import { ClearButton } from "./partials";
 
 
@@ -29,9 +30,10 @@ export default class DateRangeCell extends React.Component {
 
         <div className="datepicker-wrapper">
           <div className=" date-range-tooltip" title="From">
-            <DatePicker
+            <TextField
               hintText="From"
               title="From"
+              type="date"
               onClick={this.props.stopPropagation}
               className="scidash-materialui-field"
               style={this.props.styleWrapper}
@@ -42,9 +44,10 @@ export default class DateRangeCell extends React.Component {
           </div>
 
           <div className="date-range-tooltip" title="To">
-            <DatePicker
+            <TextField
               hintText="To"
               title="To"
+              type="date"
               className="scidash-materialui-field date-range-tooltip"
               onClick={this.props.stopPropagation}
               style={this.props.styleWrapper}

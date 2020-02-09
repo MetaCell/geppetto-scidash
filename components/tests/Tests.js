@@ -14,16 +14,13 @@ export default class Tests extends React.Component {
   constructor (props, context){
     super(props, context);
     this.props = props;
-  }
-
-  componentWillMount () {
-    if (!this.props.user.isLogged) {
+    if (!props.user.isLogged) {
       this.props.notLoggedRedirect()
     }
 
     FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
-
   }
+
 
   render (){
     return (
@@ -31,7 +28,6 @@ export default class Tests extends React.Component {
         <IconButton
           onClick={() => this.props.toggleCreateTest()}
           iconClassName="fa fa-plus"
-          iconStyle={{ color: "white" }}
           hoveredStyle={{ backgroundColor: brown[500] }}
           style={{ float: "right", borderRadius: "40px", backgroundColor: brown[600] }}
         />

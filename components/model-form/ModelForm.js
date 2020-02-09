@@ -53,13 +53,12 @@ export default class ModelForm extends React.Component {
     this.addTag = this.addTag.bind(this);
     this.isInstanceBlocked = this.isInstanceBlocked.bind(this);
     this.convertUrl = this.convertUrl.bind(this);
-  }
 
-  componentWillMount () {
     if (this.props.actionType === "edit") {
       this.checkUrl(this.state.model.url);
       this.isInstanceBlocked();
     }
+
   }
 
   componentDidUpdate () {
@@ -367,7 +366,6 @@ export default class ModelForm extends React.Component {
                   : ""
               }
               floatingLabelText="Name of the model"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
               onChange={(event, value) => {
                 this.updateModel({ name: value }, () => {
                   if (!this.state.model.validate()) {
@@ -389,7 +387,6 @@ export default class ModelForm extends React.Component {
                   ? this.state.model.errors["url"]
                   : ""
               }
-              underlineStyle={{ borderBottom: "1px solid grey" }}
               onChange={(event, value) => {
                 this.updateModel({ url: value }, () => {
                   if (!this.state.model.validate()) {
@@ -425,20 +422,9 @@ export default class ModelForm extends React.Component {
           <div className="container">
             <Select
               id="modelFormSelectClass"
-              labelStyle={{
-                position: "relative",
-                top: "-10px"
-              }}
               floatingLabelText="Select class"
               errorText={this.getModelClassError().map(value => value)}
-              iconStyle={{
-                background: "#000",
-                padding: "2px",
-                width: "28px",
-                height: "28px"
-              }}
               value={this.state.model.model_class.id}
-              underlineStyle={{ borderBottom: "1px solid grey" }}
               dropDownMenuProps={{
                 menuStyle: {
                   border: "1px solid black",
@@ -486,7 +472,6 @@ export default class ModelForm extends React.Component {
               }}
               className="new-tag"
               floatingLabelText="Add a new tag"
-              underlineStyle={{ borderBottom: "1px solid grey" }}
               onKeyPress={e =>
                 e.key === "Enter"
                   ? this.addTag(this.state.newTag.toLowerCase())

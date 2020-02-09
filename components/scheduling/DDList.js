@@ -100,7 +100,6 @@ export default class DDList extends React.Component {
           <TextField
             floatingLabelText="Search"
             value={this.state.searchable}
-            underlineStyle={{ borderBottom: "1px solid grey" }}
             onChange={(e, value) => this.setState({ searchable: value })}
           />
           <div className="scrolling3">
@@ -242,7 +241,6 @@ const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firs
 
     <IconButton
       style={{ borderRadius: "40px" }}
-      iconStyle={{ color: grey[600] }}
       onClick={() => firstAction()}
       hoveredStyle={{ backgroundColor: grey[400] }}
       iconClassName={firstActionClass}
@@ -250,7 +248,6 @@ const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firs
 
     <IconButton
       style={{ borderRadius: "40px" }}
-      iconStyle={{ color: grey[600] }}
       onClick={scheduler_id => secondAction(scheduler_id)}
       hoveredStyle={{ backgroundColor: grey[400] }}
       iconClassName={secondActionClass}

@@ -24,9 +24,6 @@ export default class TestSuites extends React.Component {
   constructor (props, context) {
     super(props, context);
     this.props = props;
-  }
-
-  componentWillMount () {
     FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
   }
 

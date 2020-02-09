@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from '@material-ui/core/TextField';
 const FilterCell = ({
   title,
   icon,
@@ -21,23 +22,15 @@ const FilterCell = ({
     </p>
     <Autocomplete
       className="scidash-materialui-field"
-      searchText={value}
-      popoverProps={{
-        color: "red",
-        backgroundColor: "blue",
-        className: "autosuggest"
-      }}
       filter={Autocomplete.caseInsensitiveFilter}
       onClick={event => {
         event.stopPropagation();
       }}
-      hintText={"Filter " + title}
       style={styleDefault}
-      textFieldStyle={styleInputDefault}
-      menuStyle={menuStyle}
-      listStyle={listStyle}
-      onUpdateInput={searchText => onFilterUpdate(searchText, filterName)}
-      dataSource={autoCompleteData[columnId]}
+      options={autoCompleteData[columnId]}
+      renderInput={params => (
+        <TextField {...params} label="Combo box" variant="outlined" fullWidth />
+      )}
     />
   </span>
 );

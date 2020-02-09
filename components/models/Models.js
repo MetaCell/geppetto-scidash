@@ -19,27 +19,25 @@ export default class Models extends React.Component {
     this.props = props;
 
     this.griddleData = [];
-  }
 
-  componentWillMount () {
-    if (!this.props.user.isLogged) {
+    if (!props.user.isLogged) {
       this.props.notLoggedRedirect();
     }
 
-    FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
+    FilteringService.getInstance().setFromGLobalFilters( props.onFilterUpdate);
 
     /*
      * This will be removed - this.props.data needs to be refactored rom the
      * services/state/ScoreInitialEtc, the initial template must return an object for name
      * plus the backend part that needs to return the test instance object for the name.
      */
-    for ( var i = 0; i < this.props.data.length; i++) {
-      let griddleItem = _.clone(this.props.data[i]);
-      let newItem = _.clone(this.props.data[i]);
-      griddleItem.nameLink = this.props.data[i].name;
-      for ( var j = 0; j < this.props.modelClasses.length; j++) {
-        if (this.props.modelClasses[j].class_name === this.props.data[i].class) {
-          griddleItem.modelClass = this.props.modelClasses[j];
+    for ( let i = 0; i < props.data.length; i++) {
+      let griddleItem = _.clone(props.data[i]);
+      let newItem = _.clone(props.data[i]);
+      griddleItem.nameLink = props.data[i].name;
+      for ( let j = 0; j < props.modelClasses.length; j++) {
+        if (this.props.modelClasses[j].class_name === props.data[i].class) {
+          griddleItem.modelClass = props.modelClasses[j];
         }
       }
       newItem.name = griddleItem;
@@ -71,7 +69,6 @@ export default class Models extends React.Component {
         <IconButton
           onClick={() => toggleCreateModel()}
           iconClassName="fa fa-plus"
-          iconStyle={{ color: "white" }}
           hoveredStyle={{ backgroundColor: brown[400] }}
           style={{ float: "right", borderRadius: "40px", backgroundColor: brown[500] }}
         />

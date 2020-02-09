@@ -96,7 +96,7 @@ export default class App extends React.Component {
                   <div className="row">
                     <div className="col-md-12">
                       <Switch>
-                        <Route path={this.pagesService.SCORES_PAGE} render={ScoresContainer.render} exact />
+                        <Route path={this.pagesService.SCORES_PAGE} component={props => <ScoresContainer {...props} />} exact />
                         <Route path={this.pagesService.SUITES_PAGE} render={TestSuitesContainer.render} exact />
                         <Route path={this.pagesService.TESTS_PAGE} render={TestsContainer.render} exact />
                         <Route path={this.pagesService.TESTS_CREATE_PAGE} render={TestCreateContainer.render} exact />

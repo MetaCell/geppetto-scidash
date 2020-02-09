@@ -24,9 +24,6 @@ class Scheduling extends React.Component {
 
     this.saveCompatible = this.saveCompatible.bind(this);
 
-  }
-
-  componentWillMount () {
     if (!this.props.user.isLogged) {
       this.props.notLoggedRedirect();
     }

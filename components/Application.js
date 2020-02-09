@@ -31,6 +31,10 @@ export default class Application extends Component {
     this.passThroughDataFilter = function (entities) {
       return entities;
     };
+
+    window.voltage_color = function (x) {
+      return this.voltage_color(x);
+    }.bind(this);
   }
 
   voltage_color (x) {
@@ -53,12 +57,6 @@ export default class Application extends Component {
   }
 
   /* React functions */
-
-  componentWillMount () {
-    window.voltage_color = function (x) {
-      return this.voltage_color(x);
-    }.bind(this);
-  }
 
   componentDidMount () {
     GEPPETTO.G.setIdleTimeOut(-1);
