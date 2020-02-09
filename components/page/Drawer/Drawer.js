@@ -7,6 +7,17 @@ import IconButton from "@material-ui/core/IconButton";
 import ScidashLogo from "../../../assets/scidash_logo.png";
 import PagesService from "../../../services/PagesService";
 
+class SciDashMenuItem extends React.Component {
+  render() {
+    return <MenuItem id={this.props.id}
+                     onClick={this.props.onClick}
+           >
+                {this.props.leftIcon}
+                <div>{this.props.primaryText}</div>
+           </MenuItem>;
+  }
+}
+
 export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelActive, editTestActive, userLogged }) => {
   const pagesService = new PagesService();
 
@@ -38,30 +49,30 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
       >
         <img style={styles.logo} src={ScidashLogo} alt="" />
         <Divider />
-        <MenuItem
+        <SciDashMenuItem
           id="hamMenuScores"
           primaryText="Test scores"
           leftIcon={<i className="fa fa-star-half-o drawer-icon" />}
           onClick={() => handleMenuClick(pagesService.SCORES_PAGE)}
         />
 
-        <MenuItem
+        <SciDashMenuItem
           id="hamMenuSuites"
           primaryText="Suite scores"
           leftIcon={<i className="fa fa-suitcase drawer-icon" />}
           onClick={() => handleMenuClick(pagesService.SUITES_PAGE)}
         />
 
-        {userLogged == true 
-          ? (<MenuItem
+        {userLogged == true
+          ? (<SciDashMenuItem
             id="hamMenuTests"
             primaryText="Tests"
             onClick={() => handleMenuClick(pagesService.TESTS_PAGE)}
             leftIcon={<i className="fa fa-laptop drawer-icon" />}
             disabled={!userLogged}
-          />) 
+          />)
           : (<span data-tooltip-right="User must be logged in to view this page">
-            <MenuItem
+            <SciDashMenuItem
               id="hamMenuTests"
               primaryText="Tests"
               onClick={() => handleMenuClick(pagesService.TESTS_PAGE)}
@@ -70,16 +81,16 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
             />
           </span>)}
 
-        {userLogged == true 
-          ? (<MenuItem
+        {userLogged == true
+          ? (<SciDashMenuItem
             id="hamMenuModels"
             primaryText="Models"
             onClick={() => handleMenuClick(pagesService.MODELS_PAGE)}
             leftIcon={<i id="gpt-3dshow" className="gpt-3dshow drawer-icon" />}
             disabled={!userLogged}
-          />) 
+          />)
           : (<span data-tooltip-right="User must be logged in to view this page">
-            <MenuItem
+            <SciDashMenuItem
               id="hamMenuModels"
               primaryText="Models"
               onClick={() => handleMenuClick(pagesService.MODELS_PAGE)}
@@ -88,23 +99,23 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
             />
           </span>)}
 
-        <MenuItem
+        <SciDashMenuItem
           id="hamMenuSettings"
           primaryText="Settings"
           leftIcon={<i className="fa fa-cogs drawer-icon" />}
           onClick={() => handleMenuClick(pagesService.SETTINGS_PAGE)}
         />
 
-        {userLogged == true 
-          ? (<MenuItem
+        {userLogged == true
+          ? (<SciDashMenuItem
             id="hamMenuScheduling"
             primaryText="Scheduling"
             leftIcon={<i className="fa fa-calendar drawer-icon" />}
             onClick={() => handleMenuClick(pagesService.SCHEDULING_PAGE)}
             disabled={!userLogged}
-          />) 
+          />)
           : (<span data-tooltip-right="User must be logged in to view this page">
-            <MenuItem
+            <SciDashMenuItem
               id="hamMenuScheduling"
               primaryText="Scheduling"
               leftIcon={<i className="fa fa-calendar drawer-icon" />}
@@ -124,6 +135,7 @@ const styles = {
     width: 205,
     marginTop: 5,
     marginLeft: 25,
+    marginRight: 35,
     marginBottom: 8,
   },
 };

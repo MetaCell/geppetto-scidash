@@ -102,6 +102,7 @@ export default class Header extends React.Component {
                   style={{ marginRight: "10px", borderRadius: 50, float: "right", backgroundColor: "#37474f" }}
                 >
                   <PersonIcon className="loggedIcon" />
+                  {userinitial}
                 </Button>
                 <Popover
                   open={this.state.open} anchorEl={this.state.anchorEl}

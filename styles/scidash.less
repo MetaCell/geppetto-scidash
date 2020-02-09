@@ -1,4 +1,7 @@
 @import "colors";
+html {
+    font-size: 14px;
+}
 body {
     background: #ada996;
     /* fallback for old browsers */
@@ -6,6 +9,7 @@ body {
     /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to top, #ada996, #f2f2f2, #dbdbdb, #eaeaea);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    font-size: 16px;
 }
 
 .mainContainer {
@@ -118,6 +122,15 @@ body {
     &:hover {
         background-color: #BDBDBD !important;
     }
+}
+
+.MuiDrawer-root{
+    line-height: 48px;
+}
+
+.MuiMenuItem-root {
+    font-size: 1.2rem !important;
+    line-height: 36px !important;
 }
 
 .chips {
@@ -291,7 +304,7 @@ input {
 }
 
 // /* Autosuggest adjustments */
-// span[role=menuitem]{
+// span[role=mdata:enuitem]{
 //     font-size: 13px !important;
 //     min-height: 30px !important;
 //     line-height: 30px !important;
@@ -672,6 +685,7 @@ div[role=menu] {
 
 .loggedIcon{
     left: 10px;
+    font-size: 2em;
 }
 
 .signUpButton {
@@ -688,6 +702,7 @@ div[role=menu] {
 
 .drawer-icon{
     font-size: 30px;
+    margin-right: 30px;
 }
 
 .scidash-table-filter{
