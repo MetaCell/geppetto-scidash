@@ -2,6 +2,7 @@
 import React from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from '@material-ui/core/TextField';
+
 const FilterCell = ({
   title,
   icon,
@@ -21,18 +22,15 @@ const FilterCell = ({
       {icon}
     </p>
     <Autocomplete
-      className="scidash-materialui-field"
-      filter={Autocomplete.caseInsensitiveFilter}
-      onClick={event => {
-        event.stopPropagation();
-      }}
-      style={styleDefault}
       options={autoCompleteData[columnId]}
+      value={value}
+      onInputChange={(event, value, reason) => onFilterUpdate(value, filterName)}
       renderInput={params => (
-        <TextField {...params} label="Combo box" variant="outlined" fullWidth />
+        <TextField {...params} label="" margin="normal" fullWidth />
       )}
     />
   </span>
 );
+
 
 export default FilterCell;
