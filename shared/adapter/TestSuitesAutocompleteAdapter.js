@@ -1,5 +1,6 @@
 import BaseAdapter from "./BaseAdapter";
 import TestSuitesInitialStateService from "../../services/state/TestSuitesInitialStateService";
+import React from "react";
 
 export default class TestSuitesAutocompleteAdapter extends BaseAdapter {
 
@@ -16,6 +17,12 @@ export default class TestSuitesAutocompleteAdapter extends BaseAdapter {
           case "suiteObject":
             if (!autoCompleteData[key].includes(item[key].name)) {
               autoCompleteData[key].push(item[key].name);
+            }
+            break;
+          case "model":
+            const name = item[key].model_class !== undefined ? item[key].model_class.class_name : ''
+            if (!autoCompleteData[key].includes(name)) {
+              autoCompleteData[key].push(name);
             }
             break;
           default:
