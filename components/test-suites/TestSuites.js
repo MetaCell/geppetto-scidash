@@ -19,6 +19,7 @@ import Config from "../../shared/Config";
 import FilteringService from "../../services/FilteringService";
 
 import Loader from "../loader/Loader";
+import {ScidashBuildInfoColumn} from "../scores/partials";
 
 export default class TestSuites extends React.Component {
   constructor (props, context) {
@@ -84,7 +85,7 @@ export default class TestSuites extends React.Component {
             <ColumnDefinition
               id="model"
               title="Model"
-              customComponent={ModelDetailLinkColumnContainer}
+              customComponent={props => <ModelDetailLinkColumnContainer {...props} />}
               customHeadingComponent={props => (
                 <FilterCellContainer
                   filterName="model"
@@ -115,7 +116,7 @@ export default class TestSuites extends React.Component {
               width="100px"
               sortMethod={this.props.sortTimestamp}
               title="Timestamp"
-              customComponent={ScidashTimestampColumn}
+              customComponent={props => <ScidashTimestampColumn {...props} />}
               customHeadingComponent={props => (
                 <DateRangeCellContainer
                   onFilterUpdate={this.props.onFilterUpdate}
@@ -128,7 +129,6 @@ export default class TestSuites extends React.Component {
               order={5}
             />
             <ColumnDefinition
-              isMetadata="true"
               id="_timestamp"
               title="_timestamp"
             />

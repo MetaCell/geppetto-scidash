@@ -141,7 +141,6 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="_sort_key"
               title="_sort_key"
-              isMetadata={true}
             />
             <ColumnDefinition
               id="score_type"
@@ -248,7 +247,6 @@ export default class Scores extends React.Component {
               order={11}
             />
             <ColumnDefinition
-              isMetadata={true}
               id="_timestamp"
               title="_timestamp"
             />

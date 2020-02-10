@@ -43,9 +43,7 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
       </IconButton>
       <Drawer
         width={265}
-        docked={false}
         open={drawerActive}
-        onRequestChange={() => toggleDrawer()}
       >
         <img style={styles.logo} src={ScidashLogo} alt="" />
         <Divider />

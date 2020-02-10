@@ -117,7 +117,6 @@ export default class Tests extends React.Component {
             />
 
             <ColumnDefinition
-              isMetadata
               id="_timestamp"
               title="_timestamp"
             />

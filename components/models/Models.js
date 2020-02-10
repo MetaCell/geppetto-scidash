@@ -168,7 +168,6 @@ export default class Models extends React.Component {
               order={6}
             />
             <ColumnDefinition
-              isMetadata="true"
               id="_timestamp"
               title="_timestamp"
             />

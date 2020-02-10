@@ -97,15 +97,15 @@ export default class App extends React.Component {
                     <div className="col-md-12">
                       <Switch>
                         <Route path={this.pagesService.SCORES_PAGE} component={props => <ScoresContainer {...props} />} exact />
-                        <Route path={this.pagesService.SUITES_PAGE} render={TestSuitesContainer.render} exact />
-                        <Route path={this.pagesService.TESTS_PAGE} render={TestsContainer.render} exact />
-                        <Route path={this.pagesService.TESTS_CREATE_PAGE} render={TestCreateContainer.render} exact />
-                        <Route path={this.pagesService.MODELS_PAGE} render={ModelsContainer.render} exact />
-                        <Route path={this.pagesService.MODELS_CREATE_PAGE} render={ModelCreateContainer.render} exact />
-                        <Route path={this.pagesService.SETTINGS_PAGE} render={Settings.render} exact />
-                        <Route path={this.pagesService.SCHEDULING_PAGE} render={SchedulingContainer.render} exact />
-                        <Route path={this.pagesService.MODELS_EDIT_PAGE} render={ModelEditContainer.render} exact />
-                        <Route path={this.pagesService.TESTS_EDIT_PAGE} render={TestEditContainer.render} exact />
+                        <Route path={this.pagesService.SUITES_PAGE} render={props => <TestSuitesContainer {...props} />} exact />
+                        <Route path={this.pagesService.TESTS_PAGE} render={props => <TestsContainer {...props} />} exact />
+                        <Route path={this.pagesService.TESTS_CREATE_PAGE} render={props => <TestCreateContainer {...props} />} exact />
+                        <Route path={this.pagesService.MODELS_PAGE} render={props => <ModelsContainer {...props} />} exact />
+                        <Route path={this.pagesService.MODELS_CREATE_PAGE} render={props => <ModelCreateContainer {...props} />} exact />
+                        <Route path={this.pagesService.SETTINGS_PAGE} render={props => <Settings {...props} />} exact />
+                        <Route path={this.pagesService.SCHEDULING_PAGE} render={props => <SchedulingContainer {...props} />} exact />
+                        <Route path={this.pagesService.MODELS_EDIT_PAGE} render={props => <ModelEditContainer {...props} />} exact />
+                        <Route path={this.pagesService.TESTS_EDIT_PAGE} render={props => <TestEditContainer {...props} />} exact />
                       </Switch>
                     </div>
                   </div>
