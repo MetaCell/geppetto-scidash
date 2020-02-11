@@ -57,3 +57,30 @@ export const addTestsAndModels = (page, test) => {
 		await wait4selector(page, '#'+test, { hidden: true, timeout : 5000 })
 	})
 }
+
+export const testScoreDetails = (page, testName, testClassName, modelClassName, modelURL) => {
+	it('Test Score Details Correctly Populated', async () => {		
+		await page.waitForFunction('document.getElementById("test-score").innerText.endsWith("'+testName+'")');
+		await page.waitForFunction('document.getElementById("test-class").innerText.endsWith("'+testClassName+'")');
+		await page.waitForFunction('document.getElementById("normalized-score").innerText.startsWith("Normalized score")');
+		await page.waitForFunction('document.getElementById("test-suite").innerText.startsWith("Test suite")');
+		await page.waitForFunction('document.getElementById("build-info").innerText.startsWith("Build info")');
+		await page.waitForFunction('document.getElementById("hostname").innerText.startsWith("Hostname")');
+		await page.waitForFunction('document.getElementById("errors").innerText.startsWith("Errors")');
+		await page.waitForFunction('document.getElementById("timestamp").innerText.startsWith("Timestamp")');
+		
+		await page.waitForFunction('document.getElementById("model-class-name").innerText.endsWith("'+modelClassName+'")');
+		await page.waitForFunction('document.getElementById("model-url").innerText.endsWith("'+modelURL+'")');
+		await page.waitForFunction('document.getElementById("model-class-source").innerText.startsWith("Class source")');
+		await page.waitForFunction('document.getElementById("model-class-capabilities").innerText.startsWith("Class capabilities")');
+	});
+}
+
+export const testModelDetails = (page, modelClassName, modelURL) => {
+	it('Test Score Model Details Correctly Populated', async () => {		
+		await page.waitForFunction('document.getElementById("model-class-name").innerText.endsWith("'+modelClassName+'")');
+		await page.waitForFunction('document.getElementById("model-url").innerText.endsWith("'+modelURL+'")');
+		await page.waitForFunction('document.getElementById("model-class-source").innerText.startsWith("Class source")');
+		await page.waitForFunction('document.getElementById("model-class-capabilities").innerText.startsWith("Class capabilities")');
+	});
+}

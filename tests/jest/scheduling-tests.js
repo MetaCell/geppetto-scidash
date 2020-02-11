@@ -5,7 +5,7 @@ import { wait4selector, click, testFilters} from './utils';
 import { makeUserID, signUpTests } from './user-auth-utils';
 import { modelCreation, editModel, cloneModel} from './model-utils';
 import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest1} from './tests-creation-utils';
-import { testOpenDialog, modelOpenDialog, addTestsAndModels } from './scheduling-utils';
+import { testOpenDialog, modelOpenDialog, addTestsAndModels, testScoreDetails, testModelDetails } from './scheduling-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 
@@ -291,6 +291,49 @@ describe('Scidash Scheduling Tests', () => {
 			expect(score).not.toEqual("N/A");
 			
 			await page.waitFor(2000);
+		})
+		
+		it('Test Score Details Dialog Opened', async () => {
+			await page.evaluate(async () => {
+				document.querySelectorAll(".scidash-table tr td")[1].querySelector("a").click();
+			});
+			
+			await wait4selector(page, '#test-details-dialog', { visible: true, timeout : 5000})
+
+			await page.waitFor(1000);
+		})
+		
+		testScoreDetails(page, newTestName, newTestClass, newModelClass, newModelURL);
+		
+		it('Test Score Details Dialog Closed', async () => {
+			await page.evaluate(async () => {
+				document.querySelector(".centered-modal button").click()
+			});
+			await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
+			
+			await page.waitFor(1000);
+		})
+		
+		it('Test Score Model Details Dialog Opened', async () => {
+			await page.evaluate(async () => {
+				document.querySelectorAll(".scidash-table tr td")[3].querySelector("a").click();
+			});
+			
+			await wait4selector(page, '#model-class-name', { visible: true, timeout : 5000})
+
+			await page.waitFor(1000);
+		})
+		
+		testModelDetails(page, newModelClass, newModelURL);
+		
+		it('Test Score Model Details Dialog Closed', async () => {
+			await page.evaluate(async () => {
+				var buttons = document.querySelectorAll("button");
+				buttons[buttons.length-1].click();
+			});
+			await wait4selector(page, '#model-class-name', { hidden: true, timeout : 5000 })
+			
+			await page.waitFor(1000);
 		})
 	})
 })
