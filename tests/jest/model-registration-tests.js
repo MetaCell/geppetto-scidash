@@ -1,9 +1,6 @@
-const puppeteer = require('puppeteer');
-const { TimeoutError } = require('puppeteer/Errors');
-
 import { wait4selector, testFilters} from './utils';
 import { makeUserID, signUpTests, logoutTests } from './user-auth-utils';
-import { modelCreation, editModel, cancelModelCreation, cloneModel} from './model-utils';
+import { modelCreation, saveModel, editModel, cancelModelCreation, cloneModel} from './model-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 
@@ -113,7 +110,12 @@ describe('Scidash Model Registration Tests', () => {
 
 	// Tests New Model Creation
 	describe('Test New Model Creation', () => {
-		modelCreation(page, newModelName, newModelURL, newModelClass, newModelTag,variable1, variable2,  tableModelLength);
+		modelCreation(page, newModelName, newModelURL, newModelClass, newModelTag,variable1, variable2);
+	})
+
+	// Save New Model
+	describe('Test New Model Creation', () => {
+		saveModel(page, newModelName, newModelClass, newModelTag, tableModelLength);
 	})
 
 	// Tests Cancel Model Creation
