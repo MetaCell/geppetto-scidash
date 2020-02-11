@@ -42,13 +42,7 @@ export default class InfoDialog extends React.Component {
     return (
       <Dialog
         actions={actions}
-        modal
-        autoScrollBodyContent
-        contentStyle={{
-          width: "75%",
-          maxWidth: "none"
-        }}
-        contentClassName="centered-modal"
+        maxWidth={false}
         open={this.props.dialogOpened}
       >
         <div style={{ minWidth: "100px", margin: "15px" }}>

@@ -2,6 +2,7 @@ import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 import ScoreDetailsContainer from "../../score-details/ScoreDetailsContainer";
+import {DialogActions} from "@material-ui/core";
 
 
 export default class ScoreDetailLinkColumn extends React.Component {
@@ -67,17 +68,12 @@ export default class ScoreDetailLinkColumn extends React.Component {
             {this.getScore()}
           </a>
           <Dialog
-            actions={actions}
-            modal
-            autoScrollBodyContent
-            contentStyle={{
-              width: "75%",
-              maxWidth: "none"
-            }}
-            contentClassName="centered-modal"
             open={this.state.open}
           >
             <ScoreDetailsContainer score={this.props.scoreObject} colorBlind={this.props.colorBlind} />
+            <DialogActions>
+              {actions}
+            </DialogActions>
           </Dialog>
         </div>
       </div>

@@ -4,6 +4,7 @@ import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import Button from '@material-ui/core/Button';
 import ScreenShotHelper from '../../../shared/ScreenShotHelper';
 import ScoreMatrixContainer from '../../score-matrix/ScoreMatrixContainer';
+import {DialogActions} from "@material-ui/core";
 
 export default class ScidashSuiteNameLinkColumn extends React.Component {
   constructor (props, context){
@@ -30,16 +31,15 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
       <Button
         label="Save As Image"
         primary={true}
-        icon={<CameraAltIcon />}
         onClick={e => {
           this.screenShotHelper.takeScreenshot(e,"score_matrix_image",true)
         }}
-      />,
+      ><CameraAltIcon /><CameraAltIcon />Save As Image</Button>,
       <Button
         label="Close"
         primary={true}
         onClick={this.closeScoreMatrix}
-      />
+      >Close</Button>
     ];
 
     return (
@@ -53,14 +53,7 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
           }}
         >{ this.props.value != " " && this.props.value.get("name") }</a>
         <Dialog
-          actions={actions}
-          modal={true}
-          autoScrollBodyContent={true}
-          contentStyle={{
-            width: "75%",
-            maxWidth: "none"
-          }}
-          contentClassName="centered-modal"
+          maxWidth={false}
           open={this.state.open}
         >
           <ScoreMatrixContainer
@@ -71,6 +64,9 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
             hideRow={this.props.hideRow}
             showAllModels={this.props.showAllModels}
           />
+          <DialogActions>
+            {actions}
+          </DialogActions>
         </Dialog>
       </div>
     );

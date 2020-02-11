@@ -51,9 +51,7 @@ export default class ModelViewDetails extends React.Component {
         <Dialog
           title={ this.props.modelInstance.get("name") + " details"}
           actions={actions}
-          modal
-          contentStyle={this.props.customContentStyle}
-          autoScrollBodyContent
+          // contentStyle={this.props.customContentStyle}
           open={this.state.open}
         >
 

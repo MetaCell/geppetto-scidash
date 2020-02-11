@@ -3,6 +3,8 @@ import Dialog from '@material-ui/core/Dialog';
 import LockIcon from '@material-ui/icons/Lock';
 import Button from '@material-ui/core/Button';
 import AvgScoreDetailsContainer from '../../avg-score-details/AvgScoreDetailsContainer';
+import {DialogActions} from "@material-ui/core";
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
 
 export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
   constructor (props, context){
@@ -29,16 +31,15 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
         variant="contained"
         label="Save As Image"
         primary={true}
-        icon={<LockIcon />}
         onClick={e => {
           this.props.takeScreenshot(e)
-        }} />,
+        }}><CameraAltIcon />Save As Image</Button>,
       <Button
         variant="contained"
         label="Close"
         primary={true}
         onClick={this.closeAvgScoreDetail}
-      />
+      >Close</Button>
     ];
 
     return (
@@ -65,17 +66,13 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
             }}
           >{this.props.avgScore}</a>
           <Dialog
-            actions={actions}
-            modal={true}
-            autoScrollBodyContent={true}
-            contentStyle={{
-              width: "51%",
-              maxWidth: "none"
-            }}
-            contentClassName="centered-modal"
+            maxWidth={false}
             open={this.state.open}
           >
             <AvgScoreDetailsContainer scoreList={this.props.scoreList} style={{ overflowY: "scroll" }} colorBlind={this.props.colorBlind}/>
+            <DialogActions>
+                {actions}
+            </DialogActions>
           </Dialog>
         </div>
       </div>

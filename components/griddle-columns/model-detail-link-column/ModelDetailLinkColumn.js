@@ -3,6 +3,7 @@ import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 
 import ModelDetailsContainer from "../../model-details/ModelDetailsContainer";
+import {DialogActions} from "@material-ui/core";
 
 export default class ModelDetailLinkColumn extends React.Component {
 
@@ -46,13 +47,12 @@ export default class ModelDetailLinkColumn extends React.Component {
         </a>
         <Dialog
           title={this.props.className + " details"}
-          actions={actions}
-          modal
-          contentStyle={this.props.customContentStyle}
-          autoScrollBodyContent
           open={this.state.open}
         >
           <ModelDetailsContainer model={this.props.modelInstance} />
+          <DialogActions>
+            {actions}
+          </DialogActions>
         </Dialog>
       </div>
     );

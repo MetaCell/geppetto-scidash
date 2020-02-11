@@ -562,7 +562,6 @@ export default class ModelForm extends React.Component {
           </span>
 
           <Dialog
-            modal
             actions={[
               <Button
                 variant="contained"
@@ -572,12 +571,7 @@ export default class ModelForm extends React.Component {
                 onClick={() => this.setState({ modelParamsOpen: false })}
               />
             ]}
-            autoScrollBodyContent
-            contentStyle={{
-              width: "75%",
-              maxWidth: "none"
-            }}
-            contentClassName="centered-modal"
+            maxWidth={false}
             open={this.state.modelParamsOpen}
           >
             <ParamsTable

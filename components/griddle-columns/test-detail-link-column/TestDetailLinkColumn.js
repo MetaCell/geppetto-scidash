@@ -46,13 +46,7 @@ export default class TestDetailLinkColumn extends React.Component {
         </a>
         <Dialog
           actions={actions}
-          modal
-          autoScrollBodyContent
-          contentStyle={{
-            width: "75%",
-            maxWidth: "none"
-          }}
-          contentClassName="centered-modal"
+          maxWidth={false}
           open={this.state.open}
         >
           <TestDetailsContainer testInstance={this.props.testInstanceObject} />
