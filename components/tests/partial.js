@@ -105,7 +105,7 @@ export class CustomMenu extends Component {
       <span className="edit-clone-test">
         { this.isBlocked() && <LockIcon /> }
         { this.checkInstance() && <IconButton
-          iconClassName="fa fa-ellipsis-v"
+          className="fa fa-ellipsis-v"
           onClick={e => this.setState({ anchorEl: e.currentTarget })}
         /> }
 

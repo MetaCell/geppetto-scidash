@@ -27,7 +27,7 @@ export default class Tests extends React.Component {
       <div>
         <IconButton
           onClick={() => this.props.toggleCreateTest()}
-          iconClassName="fa fa-plus"
+          className="fa fa-plus"
           hoveredStyle={{ backgroundColor: brown[500] }}
           style={{ float: "right", borderRadius: "40px", backgroundColor: brown[600] }}
         />
@@ -119,6 +119,7 @@ export default class Tests extends React.Component {
             <ColumnDefinition
               id="_timestamp"
               title="_timestamp"
+              visible={false}
             />
           </RowDefinition>
         </Griddle>

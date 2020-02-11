@@ -243,14 +243,14 @@ const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firs
       style={{ borderRadius: "40px" }}
       onClick={() => firstAction()}
       hoveredStyle={{ backgroundColor: grey[400] }}
-      iconClassName={firstActionClass}
+      className={firstActionClass}
     />
 
     <IconButton
       style={{ borderRadius: "40px" }}
       onClick={scheduler_id => secondAction(scheduler_id)}
       hoveredStyle={{ backgroundColor: grey[400] }}
-      iconClassName={secondActionClass}
+      className={secondActionClass}
     />
   </div>
 );

@@ -19,7 +19,7 @@ import Config from "../../shared/Config";
 import FilteringService from "../../services/FilteringService";
 
 import Loader from "../loader/Loader";
-import {ScidashBuildInfoColumn} from "../scores/partials";
+import { ScidashBuildInfoColumn } from "../scores/partials";
 
 export default class TestSuites extends React.Component {
   constructor (props, context) {
@@ -131,6 +131,7 @@ export default class TestSuites extends React.Component {
             <ColumnDefinition
               id="_timestamp"
               title="_timestamp"
+              visible={false}
             />
           </RowDefinition>
         </Griddle>

@@ -141,6 +141,7 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="_sort_key"
               title="_sort_key"
+              visible={false}
             />
             <ColumnDefinition
               id="score_type"
@@ -249,6 +250,7 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="_timestamp"
               title="_timestamp"
+              visible={false}
             />
           </RowDefinition>
         </Griddle>

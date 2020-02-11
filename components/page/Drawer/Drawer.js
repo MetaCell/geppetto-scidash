@@ -8,7 +8,7 @@ import ScidashLogo from "../../../assets/scidash_logo.png";
 import PagesService from "../../../services/PagesService";
 
 class SciDashMenuItem extends React.Component {
-  render() {
+  render () {
     return (
       <MenuItem id={this.props.id} onClick={this.props.onClick}>
         {this.props.leftIcon}

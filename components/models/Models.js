@@ -68,8 +68,8 @@ export default class Models extends React.Component {
       <div>
         <IconButton
           onClick={() => toggleCreateModel()}
-          iconClassName="fa fa-plus"
-          hoveredStyle={{ backgroundColor: brown[400] }}
+          className="fa fa-plus"
+          // hoveredStyle={{ backgroundColor: brown[400] }}
           style={{ float: "right", borderRadius: "40px", backgroundColor: brown[500] }}
         />
         <Griddle
@@ -170,6 +170,7 @@ export default class Models extends React.Component {
             <ColumnDefinition
               id="_timestamp"
               title="_timestamp"
+              visible={false}
             />
             <ColumnDefinition
               title=""
