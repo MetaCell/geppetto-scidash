@@ -3,7 +3,7 @@ import Chip from "@material-ui/core/Chip";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 import { red, brown } from '@material-ui/core/colors';
-import { Card, CardHeader, CardContent } from "@material-ui/core";
+import {Card, CardHeader, CardContent, DialogActions} from "@material-ui/core";
 
 export default class ModelViewDetails extends React.Component {
 
@@ -33,7 +33,7 @@ export default class ModelViewDetails extends React.Component {
         primary
         onClick={this.closeModelDetail}
         key='button'
-      />
+      >Close</Button>
     ];
 
     var modelTags = [];
@@ -50,7 +50,6 @@ export default class ModelViewDetails extends React.Component {
         </a>
         <Dialog
           title={ this.props.modelInstance.get("name") + " details"}
-          actions={actions}
           // contentStyle={this.props.customContentStyle}
           open={this.state.open}
         >
@@ -105,7 +104,9 @@ export default class ModelViewDetails extends React.Component {
             </CardContent>
           </Card>
 
-
+          <DialogActions>
+            {actions}
+          </DialogActions>
         </Dialog>
       </div>
     );

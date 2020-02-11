@@ -37,7 +37,7 @@ export default class ScoreDetailLinkColumn extends React.Component {
         label="Close"
         primary
         onClick={this.closeScoreDetail}
-      />,
+      >Close</Button>,
     ];
 
     return (

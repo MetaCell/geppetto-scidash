@@ -2,7 +2,7 @@ import React from "react";
 import Chip from "@material-ui/core/Chip";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
-import { Card, CardContent } from "@material-ui/core";
+import {Card, CardContent, DialogActions} from "@material-ui/core";
 import { red, brown } from '@material-ui/core/colors';
 import Helper from "../../shared/Helper";
 
@@ -36,12 +36,11 @@ export default class InfoDialog extends React.Component {
         label="Close"
         primary
         onClick={this.closeDialog}
-      />,
+      >Close</Button>,
     ];
 
     return (
       <Dialog
-        actions={actions}
         maxWidth={false}
         open={this.props.dialogOpened}
       >
@@ -81,6 +80,9 @@ export default class InfoDialog extends React.Component {
             </CardContent>
           </Card>
         </div>
+        <DialogActions>
+          {actions}
+        </DialogActions>
       </Dialog>
     );
   }

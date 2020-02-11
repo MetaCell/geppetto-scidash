@@ -2,6 +2,7 @@ import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 import TestDetailsContainer from "../../test-details/TestDetailsContainer";
+import {DialogActions} from "@material-ui/core";
 
 export default class TestDetailLinkColumn extends React.Component {
 
@@ -31,7 +32,7 @@ export default class TestDetailLinkColumn extends React.Component {
         primary
         onClick={this.closeTestDetail}
         key='button'
-      />
+      >Close</Button>
     ];
 
     return (
@@ -45,11 +46,13 @@ export default class TestDetailLinkColumn extends React.Component {
             : undefined}
         </a>
         <Dialog
-          actions={actions}
           maxWidth={false}
           open={this.state.open}
         >
           <TestDetailsContainer testInstance={this.props.testInstanceObject} />
+          <DialogActions>
+            {actions}
+          </DialogActions>
         </Dialog>
       </div>
     );

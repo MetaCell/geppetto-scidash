@@ -34,7 +34,7 @@ export default class ModelDetailLinkColumn extends React.Component {
         primary
         onClick={this.closeModelDetail}
         key='button'
-      />
+      >Close</Button>
     ];
 
     return (
