@@ -28,7 +28,7 @@ install:
   - docker pull $GEPPETTO_IMAGE:$PULL_TAG
   - docker tag $GEPPETTO_IMAGE:$PULL_TAG $GEPPETTO_IMAGE:$TAG
 script:
-  - echo "### Travis env variables ###"
+  - echo "- Travis env variables -"
   - echo $TRAVIS_BRANCH
   - echo $BRANCH
   - echo $DEFAULT_BRANCH
