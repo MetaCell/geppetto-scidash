@@ -22,26 +22,31 @@ class StatusIconColumn extends React.Component {
   render () {
     let statusIcon = undefined;
     switch (this.props.value) {
-    case "Calculated":
-      statusIcon = <i className="fa fa-check" style={{ fontSize: "18px" }} />;
+    case "Calculated": {
+      statusIcon = <i className="fa fa-check" style={{fontSize: "18px"}}/>;
       break;
-    case "Scheduled":
+    }
+    case "Scheduled": {
       statusIcon = (
-        <i className="fa fa-clock-o" style={{ fontSize: "18px" }} />
+          <i className="fa fa-clock-o" style={{fontSize: "18px"}}/>
       );
       break;
-    case "Locked":
-      statusIcon = <i className="fa fa-lock" style={{ fontSize: "18px" }} />;
+    }
+    case "Locked": {
+      statusIcon = <i className="fa fa-lock" style={{fontSize: "18px"}}/>;
       break;
-    case "Failed":
-      statusIcon = <i className="fa fa-times" style={{ fontSize: "18px" }} />;
+    }
+    case "Failed": {
+      statusIcon = <i className="fa fa-times" style={{fontSize: "18px"}}/>;
       break;
-    default:
+    }
+    default: {
       if (this.props.value !== undefined && this.props.value !== "") {
         statusIcon = (
-          <i className="fa fa-question" style={{ fontSize: "18px" }} />
+            <i className="fa fa-question" style={{fontSize: "18px"}}/>
         );
       }
+    }
     }
 
     return <div title={this.props.value}>{statusIcon}</div>;

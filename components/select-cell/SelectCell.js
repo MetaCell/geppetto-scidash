@@ -22,15 +22,15 @@ const SelectCell = ({
       onClick={event => {
         event.stopPropagation();
       }}
-      onChange={(event, key, value) => onFilterUpdate(value, filterName)}
+      onChange={(event) => onFilterUpdate(event.target.value, filterName)}
     >
-      <MenuItem value="" primaryText="All" />
+      <MenuItem value="">
+          All
+      </MenuItem>
       {Object.keys(Config.scoreStatusMap).map((value, index) => (
-        <MenuItem
-          value={value}
-          key={value}
-          primaryText={Config.scoreStatusMap[value]}
-        />
+        <MenuItem value={value} key={value}>
+          {Config.scoreStatusMap[value]}
+        </MenuItem>
       ))}
     </Select>
   </span>
