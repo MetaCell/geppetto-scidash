@@ -53,7 +53,8 @@ export default class Scores extends React.Component {
   }
 
   setPage (e) {
-    this.setState({ page: parseInt(e.target.value) });
+    const pagenr = parseInt(e.target.value);
+    this.setState({ page: pagenr });
   }
 
   componentDidMount () {

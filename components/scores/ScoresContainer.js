@@ -35,8 +35,9 @@ const mapStateToProps = state => ({
               props.getNext();
               window.scoreNextPage();
             }} 
-            style={{ marginLeft: "10px" }}
-          />
+            style={{ marginLeft: "10px" }}>
+            {props.text}
+          </Button>
         );
       }
 
@@ -45,14 +46,16 @@ const mapStateToProps = state => ({
     PreviousButton: props => {
       if (props.hasPrevious) {
         return (
-          <RaisedButton
-            label={props.text} 
+          <Button
+            label={props.text}
+            variant="contained"
             onClick={() => {
               props.getPrevious();
               window.scorePreviousPage();
             }} 
-            style={{ marginRight: "10px" }}
-          />
+            style={{ marginRight: "10px" }}>
+            {props.text}
+          </Button>
         );
       }
 
@@ -69,8 +72,7 @@ const mapStateToProps = state => ({
       return (
         <select
           onChange={e => {
-            props.setPage(e);
-            window.setPage(e);
+            props.setPage(parseInt(e.target.value));
           }}
           value={currentPage}
           style={props.style}
