@@ -5,7 +5,7 @@ import { wait4selector, click, testFilters} from './utils';
 import { makeUserID, signUpTests } from './user-auth-utils';
 import { modelCreation, editModel, cloneModel} from './model-utils';
 import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest1} from './tests-creation-utils';
-import { testOpenDialog, modelOpenDialog, addTestsAndModels, testScoreDetails, testModelDetails } from './scheduling-utils';
+import { testOpenDialog, modelOpenDialog, addTestsAndModels, testScoreDetails, testModelDetails, testSuiteScore } from './scheduling-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 
@@ -150,7 +150,7 @@ describe('Scidash Scheduling Tests', () => {
 				observationValueN, observationValueSTD, observationValueMean, parameterTMax, tableModelLength);
 	})
 
-	// Tests Cloning Model
+	// Clone Test
 	describe('Clone Test', () => {
 		cloneTestCreation(page, newTestName, newTestClass, tableModelLength);
 	})
@@ -173,24 +173,29 @@ describe('Scidash Scheduling Tests', () => {
 			await wait4selector(page, 'div.Droppable', { visible: true })
 		})
 		
-		it(' Models and Test Present in Scheduling Page', async () => {
+		it(' Models and Tests Present in Scheduling Page', async () => {
 			await wait4selector(page, 'div#TestModel1', { visible: true, timeout : 5000})
 			await wait4selector(page, 'div#Test1', { visible: true, timeout : 5000 })
 			await wait4selector(page, 'div#TestModel2', { visible: true, timeout : 5000 })
 			await wait4selector(page, 'div#Test2', { visible: true, timeout : 5000 })
 		})
 		
+		// Open Test Dialog with information icon and test it's populated
 		testOpenDialog(page, newTestName, newTestClass);
 		
+		// Open Model Dialog with information icon and test it's populated
 		modelOpenDialog(page, newModelName, newModelClass, newModelURL);
 		
 	})
 	
 	describe('Scheduling New Score Tests', () => {
+		// Add TestModel1 for Scheduling
 		addTestsAndModels(page, 'TestModel1');
-		page.waitFor(5000)
+		page.waitFor(5000);
+		// Add TestModel2 for Scheduling
 		addTestsAndModels(page, 'TestModel2');
-		page.waitFor(5000)
+		page.waitFor(5000);
+		// Add Test1 for Scheduling
 		addTestsAndModels(page, 'Test1');
 		
 		it('Updating Matrix with TestModel1, TestModel2, Test1', async () => {
@@ -211,6 +216,8 @@ describe('Scidash Scheduling Tests', () => {
 		
 		
 		it('Test1 and Models 1 and 2 Compatibility Check', async () => {			
+			
+			// Check there's only one Test/Model compatible
 			var matrixModelCompatibility = await page.evaluate(async () => {
 				var matrixChecks = document.querySelectorAll("table td span")
 				var incompatible = 0;			
@@ -226,8 +233,9 @@ describe('Scidash Scheduling Tests', () => {
 			expect(matrixModelCompatibility).toEqual(1);
 		})
 		
+		// Add Test2 for Scheduling
 		addTestsAndModels(page, 'Test2');
-		page.waitFor(5000)
+		page.waitFor(5000);
 		
 		it('Updating Matrix with TestModel1, TestModel2, Test1', async () => {
 			await wait4selector(page, 'i.fa-spin', { visible: true, timeout : 30000})
@@ -238,6 +246,7 @@ describe('Scidash Scheduling Tests', () => {
 		})
 				
 		it('Test1,Test2 and Model 1, Model 2 Compatability Check', async () => {			
+			// Check there's only one compatible Test/Model compatible in the matrix
 			var matrixModelCompatibility = await page.evaluate(async () => {
 				var matrixChecks = document.querySelectorAll("table td span")
 				var incompatible = 0;			
@@ -303,6 +312,7 @@ describe('Scidash Scheduling Tests', () => {
 			await page.waitFor(1000);
 		})
 		
+		// Click on Score name and test dialog comes up populated
 		testScoreDetails(page, newTestName, newTestClass, newModelClass, newModelURL);
 		
 		it('Test Score Details Dialog Closed', async () => {
@@ -324,6 +334,7 @@ describe('Scidash Scheduling Tests', () => {
 			await page.waitFor(1000);
 		})
 		
+		// Click on Model name and test dialog comes up populated
 		testModelDetails(page, newModelClass, newModelURL);
 		
 		it('Test Score Model Details Dialog Closed', async () => {
@@ -335,5 +346,10 @@ describe('Scidash Scheduling Tests', () => {
 			
 			await page.waitFor(1000);
 		})
+				
+		// Open Test Suites view and test dialog with matrix comes up
+		testSuiteScore(page, newTestName, newTestClass, newModelName, newModelClass, newModelURL);
+		
+		page.waitFor(2000);
 	})
 })
