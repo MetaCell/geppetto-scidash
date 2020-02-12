@@ -34,35 +34,30 @@ export default class ParamsFormset extends React.Component {
   }
 
 
-  updateStateModel(schema){
-    let newmodel = Object.assign({},
-        ...Object.keys(schema).
+  updateStateModel(){
+    let schemaList = {};
+    if (!Array.isArray(this.props.schema)) {
+      schemaList = [this.props.schema]
+    } else {
+      schemaList = this.props.schema
+    }
+    const newModel = Object.assign({},
+        ...Object.keys(schemaList.length > 1 ? schemaList[this.state.choosedForm][1] : schemaList[0]).
         map((key) => (
             {
               [key]: (this.props.model && key in this.props.model ? this.props.model[key] : ""),
             }
             ))
-      )
+    );
     this.setState({
-      model2: newmodel ? newmodel : {}
+      schemaList: schemaList,
+      model2: newModel ? newModel : {}
     });
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
     if (!_.isEqual(this.props.schema, prevProps.schema)) {
-      if (!Array.isArray(this.props.schema)) {
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          schemaList: [this.props.schema],
-        });
-        this.updateStateModel(this.props.schema);
-      } else {
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          schemaList: this.props.schema
-        });
-        this.updateStateModel(this.props.schema[this.props.schema.length > 1 ? this.state.choosedForm : 0][1]);
-      }
+      this.updateStateModel();
     }
     if (!_.isEqual(this.props.unitsMap, prevProps.unitsMap)) {
       // eslint-disable-next-line react/no-did-update-set-state
@@ -76,7 +71,7 @@ export default class ParamsFormset extends React.Component {
       })
     }
     if(this.state.choosedForm !== prevState.choosedForm){
-      this.updateStateModel(this.state.schemaList[this.state.choosedForm][1]);
+      this.updateStateModel();
     }
   }
 
