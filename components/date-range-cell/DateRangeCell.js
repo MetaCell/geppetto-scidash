@@ -37,7 +37,7 @@ export default class DateRangeCell extends React.Component {
               className="scidash-materialui-field"
               style={this.props.styleWrapper}
               defaultValue={this.props.value.from.toISOString().slice(0,10)}
-              onChange={(event) => this.props.onFilterUpdate(new Date(event.target.value).toISOString(), this.props.filterNameFrom)}
+              onChange={event => this.props.onFilterUpdate(new Date(event.target.value).toISOString(), this.props.filterNameFrom)}
             >From</TextField>
           </div>
 
@@ -49,7 +49,7 @@ export default class DateRangeCell extends React.Component {
               onClick={this.props.stopPropagation}
               style={this.props.styleWrapper}
               defaultValue={this.props.value.to.toISOString().slice(0,10)}
-              onChange={(event) => this.props.onFilterUpdate(new Date(event.target.value).toISOString(), this.props.filterNameTo)}
+              onChange={event => this.props.onFilterUpdate(new Date(event.target.value).toISOString(), this.props.filterNameTo)}
             >To</TextField>
           </div>
         </div>

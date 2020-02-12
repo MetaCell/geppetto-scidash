@@ -2,7 +2,7 @@ import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 import TestDetailsContainer from "../../test-details/TestDetailsContainer";
-import {DialogActions} from "@material-ui/core";
+import DialogActions from "@material-ui/core/DialogActions";
 
 export default class TestDetailLinkColumn extends React.Component {
 

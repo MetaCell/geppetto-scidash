@@ -4,7 +4,7 @@ import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import Button from '@material-ui/core/Button';
 import ScreenShotHelper from '../../../shared/ScreenShotHelper';
 import ScoreMatrixContainer from '../../score-matrix/ScoreMatrixContainer';
-import {DialogActions} from "@material-ui/core";
+import DialogActions from "@material-ui/core/DialogActions";
 
 export default class ScidashSuiteNameLinkColumn extends React.Component {
   constructor (props, context){

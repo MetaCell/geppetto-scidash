@@ -2,7 +2,7 @@ import React from "react";
 import Chip from "@material-ui/core/Chip";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
-import {Card, CardContent, DialogActions} from "@material-ui/core";
+import { Card, CardContent, DialogActions } from "@material-ui/core";
 import { red, brown } from '@material-ui/core/colors';
 import Helper from "../../shared/Helper";
 

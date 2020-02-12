@@ -2,7 +2,7 @@ import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 import ScoreDetailsContainer from "../../score-details/ScoreDetailsContainer";
-import {DialogActions} from "@material-ui/core";
+import DialogActions from "@material-ui/core/DialogActions";
 
 
 export default class ScoreDetailLinkColumn extends React.Component {

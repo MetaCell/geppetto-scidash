@@ -3,7 +3,7 @@ import Dialog from '@material-ui/core/Dialog';
 import LockIcon from '@material-ui/icons/Lock';
 import Button from '@material-ui/core/Button';
 import AvgScoreDetailsContainer from '../../avg-score-details/AvgScoreDetailsContainer';
-import {DialogActions} from "@material-ui/core";
+import DialogActions from "@material-ui/core/DialogActions";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 
 export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
@@ -71,7 +71,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
           >
             <AvgScoreDetailsContainer scoreList={this.props.scoreList} style={{ overflowY: "scroll" }} colorBlind={this.props.colorBlind}/>
             <DialogActions>
-                {actions}
+              {actions}
             </DialogActions>
           </Dialog>
         </div>

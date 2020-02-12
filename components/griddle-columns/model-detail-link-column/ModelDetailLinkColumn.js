@@ -3,7 +3,7 @@ import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 
 import ModelDetailsContainer from "../../model-details/ModelDetailsContainer";
-import {DialogActions} from "@material-ui/core";
+import DialogActions from "@material-ui/core/DialogActions";
 
 export default class ModelDetailLinkColumn extends React.Component {
 

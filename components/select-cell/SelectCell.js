@@ -22,7 +22,7 @@ const SelectCell = ({
       onClick={event => {
         event.stopPropagation();
       }}
-      onChange={(event) => onFilterUpdate(event.target.value, filterName)}
+      onChange={event => onFilterUpdate(event.target.value, filterName)}
     >
       <MenuItem value="">
           All
