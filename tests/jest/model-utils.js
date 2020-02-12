@@ -1,6 +1,6 @@
 import { wait4selector, click} from './utils';
 
-export const modelCreation = (page, newModelName, newModelURL, newModelClass, newModelTag, var1, var2, tableModelLength) => {
+export const modelCreation = (page, newModelName, newModelURL, newModelClass, newModelTag, var1, var2) => {
 	it('Sidebar Component Opened, Models Option Present', async () => {
 		await click(page, 'button#hamMenu');
 		await wait4selector(page, 'span#hamMenuModels', { visible: true })
@@ -58,17 +58,17 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 			var elm = document.querySelector('#modelFormSelectClass button')
 			elm.dispatchEvent(evt);
 		});
-		await wait4selector(page, '#ReducedModel', { visible: true , timeout : 35000 })
+		await wait4selector(page, "#"+newModelClass , { visible: true , timeout : 35000 })
 	})
 
-	it('Select "ReducedModel" Class', async () => {
-		await page.evaluate(async () => {
+	it('Select "' + newModelClass + '" Class', async () => {
+		await page.evaluate(async (className) => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
-			var elm = document.querySelector('#ReducedModel div')
+			var elm = document.querySelector("#" + className + " div")
 			elm.dispatchEvent(evt);
-		});
-		await page.waitForFunction('document.getElementById("modelFormSelectClass").innerText.startsWith("ReducedModel")');
+		},newModelClass);
+		await page.waitForFunction('document.getElementById("modelFormSelectClass").innerText.startsWith("'+newModelClass+'")');
 	})
 
 	it('Add New Tag Present in Form', async () => {
@@ -181,12 +181,15 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	
 	it('Model Parameters Dialog Closed', async () => {
 		await page.evaluate(async () => {
-			return document.querySelectorAll(".centered-modal button")[4].click();
+			let buttons = document.querySelectorAll(".centered-modal button");
+			return document.querySelectorAll(".centered-modal button")[buttons.length-1].click();
 		});
 		
 		await wait4selector(page, 'div.centered-modal', { hidden: true , timeout : 20000 })
 	})
+}
 
+export const saveModel = (page, newModelName, newModelClass, newModelTag, tableModelLength) => {
 	it('Save Model', async () => {
 		const saveModelEnabled = await page.evaluate(async () => {
 			return document.getElementById("save-model").disabled;
@@ -198,7 +201,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 			return document.getElementById("save-model").click();
 		});
 
-		await wait4selector(page, 'table.scidash-table', { visible: true , timeout : 5000 })
+		await wait4selector(page, 'table.scidash-table', { visible: true, timeout: 5000 })
 	})
 
 	it('Test Model Present in Models Page', async () => {

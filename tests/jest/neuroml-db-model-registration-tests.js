@@ -1,6 +1,6 @@
-import { wait4selector, testFilters} from './utils';
+import { wait4selector} from './utils';
 import { makeUserID, signUpTests, logoutTests } from './user-auth-utils';
-import { newTestCreation, cancelTestCreation, cloneTestCreation, editTest1} from './tests-creation-utils';
+import { modelCreation, saveModel, cancelModelCreation} from './model-utils';
 
 const scidashURL = process.env.url ||  'http://localhost:8000';
 
@@ -9,29 +9,22 @@ let newUserID = makeUserID(6);
 const newUserEmail = "test_user@gmail.com";
 const newUserPassword = "Password_2020";
 
-// Variables used for Test registration form
-const newTestName = "Test1";
-const editedTestName = "Test2";
-const newTestTag ="testing-tag-1";
-const editedTestTag = "test-edited";
-const newTestClass = "InputResistanceTest (neuronunit.tests.passive)";
-const editedTestClass = "IVCurvePeakTest (neuronunit.tests.channel)";
-const newObservationSchema = "Mean, Standard Deviation, N";
-const secondObservationSchema = "Mean, Standard Error, N";
-const observationValueN = 1;
-const observationValueSTD = 50;
-const observationValueMean = 100;
-const parameterTMax = 10; 
-const observationVVolt = [10];
-const observationIVolt = [1];
+// Variables used for Model registration form
+const newModelName = "GranuleModel";
+const newModelURL = "https://neuroml-db.org/model_info?model_id=NMLCL000002";
+const newModelTag ="auto-testing";
+const newModelClass = "ChannelModel";
 
-// Amount of tests in tests page
-var tableTestLengh = 2;
+const variable1 = "Granule_98_3D.biophys.membraneProperties.Gran_CaHVA_98_soma_group.Gran_CaHVA_98.m.forwardRate.r";
+const variable2= "Granule_98_3D.biophys.membraneProperties.Gran_CaHVA_98_soma_group.Gran_CaHVA_98.m.reverseRate.r";
+
+// Amount of models in models page
+var tableModelLength = 2;
 
 /**
- * Tests Registration
+ * Neuroml DB Model Registration Tests
  */
-describe('Scidash Tests Registration', () => {
+describe('Scidash Neuroml DB Model Registration Tests', () => {
 	beforeAll(async () => {
 		jest.setTimeout(125000);
 		await page.setViewport({ width: 1280, height: 800 })
@@ -92,7 +85,7 @@ describe('Scidash Tests Registration', () => {
 	})
 
 	// Tests User Registration/Sign-Up Works using the Sign-Up Button,
-	// Needed to Generate User for Test Registration
+	// Needed to Generate User for Model Registration
 	describe('Create User Account', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
@@ -112,44 +105,48 @@ describe('Scidash Tests Registration', () => {
 
 	})
 
-	// Create New Test
-	describe('New Test Registration', () => {
-		newTestCreation(page, newTestName, newTestClass, newTestTag, newObservationSchema, secondObservationSchema, 
-				observationValueN, observationValueSTD, observationValueMean, parameterTMax, tableTestLengh);
+	// Tests New Model Creation
+	describe('Test New Model Creation', () => {
+		modelCreation(page, newModelName, newModelURL, newModelClass, newModelTag,variable1, variable2);
 	})
 
-	// Cancel Test Creation
-	describe('Cancel Test Creation', () => {
-		cancelTestCreation(page);
-	})
+	describe('Test Model Parameters Pages', () => {
+		it('Model Parameters Dialog Open', async () => {
+			await page.evaluate(async () => {
+				return document.getElementById("open-model-parameters").click();
+			});
 
-	// Clone Test
-	describe('Clone Test', () => {
-		cloneTestCreation(page, newTestName, newTestClass, tableTestLengh);
-	})
-
-	// Tests Editing
-	describe('Edit Test', () => {
-		editTest1(page, editedTestName, editedTestClass, editedTestTag, observationVVolt, observationIVolt, tableTestLengh)
-	})
-
-	// Tests Model Page Filters
-	describe('Test Page Filters', () => {
-		it('Test Page Opened, New Test Button Present', async () => {
-			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+			await wait4selector(page, 'div.centered-modal', { visible: true, timeout: 20000 })
 		})
 
-		// Test Filters fields work by searching for new test
-		testFilters(page, newTestName, 0, 0, tableTestLengh);
-		testFilters(page, editedTestName, 0,0, tableTestLengh);
+		// Click Sign-Up button and wait for registration form to show up
+		it('Parameters Drop Down 16 Pages Available', async () => {
+			let dropdown = await page.evaluate(async () => {
+				return document.querySelectorAll("select option").length;
+			});
 
-		// Test Filters fields work by searching for new class
-		testFilters(page, newTestClass.replace(/ *\([^)]*\) */g, ""), 1, 1, tableTestLengh);
-		testFilters(page, editedTestClass.replace(/ *\([^)]*\) */g, ""), 1, 1, tableTestLengh);
+			expect(dropdown).toEqual(16);
+		})
 
-		// Test Filters fields work by searching by tag
-		testFilters(page, newTestTag, 2, 2, tableTestLengh);
-		testFilters(page, editedTestTag, 2, 2, tableTestLengh);
+		it('Model Parameters Dialog Closed', async () => {
+			await page.evaluate(async () => {
+				let buttons = document.querySelectorAll(".centered-modal button");
+				return document.querySelectorAll(".centered-modal button")[buttons.length - 1].click();
+			});
+
+			await wait4selector(page, 'div.centered-modal', { hidden: true, timeout: 20000 })
+		})
+
+	})
+
+	// Save New Model
+	describe('Test New Model Creation', () => {
+		saveModel(page, newModelName, newModelClass, newModelTag, tableModelLength);
+	})
+
+	// Tests Cancel Model Creation
+	describe('Cancel Model Creation', () => {
+		cancelModelCreation(page);
 	})
 	
 	// User Logout
