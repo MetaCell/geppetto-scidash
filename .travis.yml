@@ -17,10 +17,6 @@ env:
 services:
   - docker
 before_install:
-  - export BUILD_TYPE=`if [ "$TRAVIS_BRANCH" == "vfb_geppetto_application" ]; then echo
-    "development"; else echo "release"; fi`
-  - export VFB_REPO=$(echo ${TRAVIS_REPO_SLUG##*/} | awk '{gsub(/\-/,"_",$0);gsub(/\./,"_",$0);print
-    toupper($0)}')
   - export REPO=$(echo ${TRAVIS_REPO_SLUG} | awk '{gsub(/\./,"_",$0);print tolower($0)}')
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH;
     else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
@@ -32,6 +28,11 @@ install:
   - docker pull $GEPPETTO_IMAGE:$PULL_TAG
   - docker tag $GEPPETTO_IMAGE:$PULL_TAG $GEPPETTO_IMAGE:$TAG
 script:
+  - echo "- Travis env variables -"
+  - echo $TRAVIS_BRANCH
+  - echo $BRANCH
+  - echo $DEFAULT_BRANCH
+  - echo "############################"
   - git clone https://github.com/ddelpiano/travis_utils
   - travis_utils/copy.sh https://github.com/Metacell/scidash.git $TRAVIS_BRANCH $BRANCH $DEFAULT_BRANCH
   - travis_fold start "building_scidash_database_container"
