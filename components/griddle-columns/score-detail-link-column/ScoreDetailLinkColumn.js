@@ -35,8 +35,10 @@ export default class ScoreDetailLinkColumn extends React.Component {
     const actions = [
       <Button
         label="Close"
+        variant="contained"
         primary
         onClick={this.closeScoreDetail}
+        key='button'
       >Close</Button>,
     ];
 

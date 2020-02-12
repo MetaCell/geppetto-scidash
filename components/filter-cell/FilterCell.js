@@ -8,6 +8,7 @@ const FilterCell = ({
   icon,
   value,
   filterName,
+  onClick,
   styleDefault,
   styleInputDefault,
   menuStyle,
@@ -17,7 +18,7 @@ const FilterCell = ({
   onFilterUpdate
 }) => (
   <span>
-    <p>
+    <p onClick={onClick}>
       {title}
       {icon}
     </p>
