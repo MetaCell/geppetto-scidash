@@ -575,7 +575,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		});
 
 		const scidashTable = await page.evaluate(async () => {
-			return document.querySelector(".scidash-table").innerText;
+			return document.querySelector("body").innerText;
 		});
 
 		expect(scidashTable).toEqual("");
