@@ -568,13 +568,17 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			return document.getElementById("save-test").disabled;
 		});
 
-		console.log("Save model enabled test " + saveModelEnabled);
-
 		expect(saveModelEnabled).toEqual(false);
 		
 		await page.evaluate(async () => {
 			return document.getElementById("save-test").click();
 		});
+
+		const scidashTable = await page.evaluate(async () => {
+			return document.querySelector(".scidash-table").innerText;
+		});
+
+		expect(scidashTable).toEqual("");
 	})
 
 	it('Test Page Opened after Saved', async () => {
