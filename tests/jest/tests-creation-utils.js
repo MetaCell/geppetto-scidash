@@ -562,7 +562,13 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	
 
 	it('Save Test', async () => {
-		await page.waitFor(5000);
+		await page.waitFor(25000);
+		
+		const observationValue = await page.evaluate(async () => {
+			return document.getElementById("v (volt | picoampere)").value;
+		});
+
+		expect(observationValue).toEqual("["+observationVVolt.toString()+"]");
 		
 		const saveModelEnabled = await page.evaluate(async () => {
 			return document.getElementById("save-test").disabled;
@@ -577,10 +583,10 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		await page.waitFor(5000);
 
 		const dis = await page.evaluate(async () => {
-			return document.getElementById("save-test").disabled;
+			return document.getElementById("save-test").innerText;
 		});
 
-		expect(dis).toEqual("");
+		expect(dis).toEqual("SAVE");
 
 		const scidashTable = await page.evaluate(async () => {
 			return document.querySelector("body").innerText;
