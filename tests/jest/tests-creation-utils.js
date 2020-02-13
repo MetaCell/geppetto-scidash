@@ -562,21 +562,25 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	
 
 	it('Save Test', async () => {
-		await page.waitFor(15000);
+		await page.waitFor(5000);
 		
 		const saveModelEnabled = await page.evaluate(async () => {
 			return document.getElementById("save-test").disabled;
 		});
+
+		console.log("Save model enabled test " + saveModelEnabled);
 
 		expect(saveModelEnabled).toEqual(false);
 		
 		await page.evaluate(async () => {
 			return document.getElementById("save-test").click();
 		});
-		
-		await page.waitFor(10000);
+	})
 
-		await wait4selector(page, 'table.scidash-table', { visible: true , timeout : 15000 })
+	it('Test Page Opened after Saved', async () => {
+		await page.waitFor(5000);
+
+		await wait4selector(page, 'table.scidash-table', { visible: true , timeout : 5000 })
 	})
 
 	it('New Test Present in Tests Page', async () => {
