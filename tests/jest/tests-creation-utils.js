@@ -574,6 +574,14 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			return document.getElementById("save-test").click();
 		});
 
+		await page.waitFor(5000);
+
+		const dis = await page.evaluate(async () => {
+			return document.getElementById("save-test").disabled;
+		});
+
+		expect(dis).toEqual("");
+
 		const scidashTable = await page.evaluate(async () => {
 			return document.querySelector("body").innerText;
 		});
