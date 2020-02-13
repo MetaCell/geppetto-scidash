@@ -42,8 +42,8 @@ script:
   - travis_fold end "building_scidash_database_container"
   - sleep 5
   - travis_fold start "building_scidash_container"
-  - travis_retry docker build --build-arg targetBranch=$TRAVIS_BRANCH
-    --build-arg originBranch=$BRANCH --build-arg defaultBranch=feature/472 -f ./scidash/service/docker/Dockerfile-scidash
+  - travis_retry docker build --build-arg targetBranch=feature/472
+    --build-arg originBranch=$BRANCH --build-arg defaultBranch=$DEFAULT_BRANCH -f ./scidash/service/docker/Dockerfile-scidash
     -t=$SCIDASH_IMAGE:$TAG $DOCKER_FOLDER || travis_terminate 1
   - travis_fold end "building_scidash_container"
   - sleep 5
