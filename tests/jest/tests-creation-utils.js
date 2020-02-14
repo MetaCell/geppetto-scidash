@@ -529,13 +529,11 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	})
 
 	it('Enter Observation Value i (volt | picoampere)', async () => {
-		await page.waitFor(15000);
 		await page.evaluate(async (value) => {
 			var elm = document.getElementById('i (volt | picoampere)')
-			var ev = document.createEvent('Event');
-			ev.initEvent('input', true, true);
+			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
-			elm.value = "["+value+"]";
+			elm.value = value;
 			elm.dispatchEvent(ev);
 		}, observationIVolt);
 
@@ -547,13 +545,11 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	})
 	
 	it('Enter Observation Value v (volt | picoampere)', async () => {
-		await page.waitFor(15000);
 		await page.evaluate(async (value) => {
 			var elm = document.getElementById('v (volt | picoampere)')
-			var ev = document.createEvent('Event');
-			ev.initEvent('input', true, true);
+			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
-			elm.value = "["+value+"]";;
+			elm.value = value;
 			elm.dispatchEvent(ev);
 		}, observationVVolt);
 
@@ -577,23 +573,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		await page.evaluate(async () => {
 			return document.getElementById("save-test").click();
 		});
-
-		await page.waitFor(5000);
-
-		const dis = await page.evaluate(async () => {
-			return document.getElementById("save-test").innerText;
-		});
-
-		expect(dis).toEqual("SAVE");
-
-		const scidashTable = await page.evaluate(async () => {
-			return document.querySelector("body").innerText;
-		});
-
-		expect(scidashTable).toEqual("");
-	})
-
-	it('Test Page Opened after Saved', async () => {
+		
 		await page.waitFor(5000);
 
 		await wait4selector(page, 'table.scidash-table', { visible: true , timeout : 5000 })
