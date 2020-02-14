@@ -529,9 +529,10 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	})
 
 	it('Enter Observation Value i (volt | picoampere)', async () => {
+		await page.waitFor(15000);
 		await page.evaluate(async (value) => {
 			var elm = document.getElementById('i (volt | picoampere)')
-			var ev = new Event('input', { bubbles: true});
+			var ev = new Event('input', { bubbles: true, cancelable : true});
 			ev.simulated = true;
 			elm.value = "["+value+"]";
 			elm.dispatchEvent(ev);
@@ -545,9 +546,10 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	})
 	
 	it('Enter Observation Value v (volt | picoampere)', async () => {
+		await page.waitFor(15000);
 		await page.evaluate(async (value) => {
 			var elm = document.getElementById('v (volt | picoampere)')
-			var ev = new Event('input', { bubbles: true});
+			var ev = new Event('input', { bubbles: true, cancelable : true});
 			ev.simulated = true;
 			elm.value = "["+value+"]";;
 			elm.dispatchEvent(ev);
@@ -562,13 +564,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	
 
 	it('Save Test', async () => {
-		await page.waitFor(25000);
-		
-		const observationValue = await page.evaluate(async () => {
-			return document.getElementById("v (volt | picoampere)").value;
-		});
-
-		expect(observationValue).toEqual("["+observationVVolt.toString()+"]");
+		await page.waitFor(5000);
 		
 		const saveModelEnabled = await page.evaluate(async () => {
 			return document.getElementById("save-test").disabled;
