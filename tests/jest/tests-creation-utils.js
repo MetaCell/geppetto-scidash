@@ -532,7 +532,8 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		await page.waitFor(15000);
 		await page.evaluate(async (value) => {
 			var elm = document.getElementById('i (volt | picoampere)')
-			var ev = new Event('input', { bubbles: true, cancelable : true});
+			var ev = document.createEvent('Event');
+			ev.initEvent('input', true, true);
 			ev.simulated = true;
 			elm.value = "["+value+"]";
 			elm.dispatchEvent(ev);
@@ -549,7 +550,8 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		await page.waitFor(15000);
 		await page.evaluate(async (value) => {
 			var elm = document.getElementById('v (volt | picoampere)')
-			var ev = new Event('input', { bubbles: true, cancelable : true});
+			var ev = document.createEvent('Event');
+			ev.initEvent('input', true, true);
 			ev.simulated = true;
 			elm.value = "["+value+"]";;
 			elm.dispatchEvent(ev);
