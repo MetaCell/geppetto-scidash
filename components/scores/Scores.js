@@ -52,8 +52,7 @@ export default class Scores extends React.Component {
     this.setState({ page: this.state.page - 1 });
   }
 
-  setPage (e) {
-    const pagenr = parseInt(e.target.value);
+  setPage (pagenr) {
     this.setState({ page: pagenr });
   }
 
@@ -71,11 +70,11 @@ export default class Scores extends React.Component {
 
   onFilterUpdate (searchText, filterName){
     this.setState(state => {
-      state = {
-        ...state,
-        page: 1
-      };
+      state = { ...state };
 
+      if (state.page !== 1) {
+        state.page = 1;
+      }
       return state;
     }, () => this.props.onFilterUpdate(searchText, filterName));
   }

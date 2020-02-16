@@ -1,9 +1,10 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import PersonIcon from '@material-ui/icons/Person';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Popover from "@material-ui/core/Popover";
-import { Card, CardActions, CardHeader, CardContent } from "@material-ui/core";
-import { List, ListItem } from "@material-ui/core";
+import { Card, CardActions, CardHeader, CardContent, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
+import { List, ListItemText } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import PagesService from "../../../services/PagesService";
 import DrawerContainer from "../Drawer/DrawerContainer";
@@ -12,7 +13,7 @@ export default class Header extends React.Component {
 
   constructor (props, context) {
     super(props, context);
-    this.state = { open: false, };
+    this.state = { open: false };
     this.props = props;
     this.wrapperSettings = null;
 
@@ -36,7 +37,7 @@ export default class Header extends React.Component {
   }
 
   handleRequestClose () {
-    this.setState({ open: false, });
+    this.setState({ open: false });
   }
 
   render () {
@@ -95,8 +96,10 @@ export default class Header extends React.Component {
             {this.props.userInfo.isLogged
               ? <div className="col-md-3 auth-links">
                 <Button
+                  id="user-button"
                   className="userButton" label={userinitial} variant="contained"
                   style={{ marginRight: "10px", borderRadius: 50, float: "right", backgroundColor: "#37474f" }}
+                  onClick={this.handleTouchTap}
                 >
                   <PersonIcon className="loggedIcon" />
                   {userinitial}
@@ -104,37 +107,45 @@ export default class Header extends React.Component {
                 <Popover
                   open={this.state.open} anchorEl={this.state.anchorEl}
                   anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-                  targetOrigin={{ horizontal: "left", vertical: "top" }}
-                  onRequestClose={this.handleRequestClose} style={{ marginTop: "10px" }}
+                  transformOrigin={{ horizontal: "left", vertical: "top" }}
+                  onClose={this.handleRequestClose} style={{ marginTop: "10px" }}
                 >
                   <Card>
                     <CardHeader
                       title={this.props.userInfo.userObject.username}
                       subtitle={this.props.userInfo.userObject.email}
                       avatar={<Avatar>{userinitial}</Avatar>}
-                      actAsExpander
-                      showExpandableButton
                     />
-                    <CardActions>
-                      <Button label="Reset Password" href="/auth/password-reset/" style={{ border: "2px solid lightgrey" }} />
-                      <Button label="Logout" href="/auth/logout/" style={{ border: "2px solid lightgrey" }} />
-                    </CardActions>
-                    <CardContent expandable>
-                      <List style={{ textAlign: "center" }}>
-                        <ListItem
-                          primaryText="Name"
-                          secondaryText={this.props.userInfo.userObject.first_name}
-                        />
-                        <ListItem
-                          primaryText="Date Joined"
-                          secondaryText={dateJoined}
-                        />
-                        <ListItem
-                          primaryText="Last Login"
-                          secondaryText={lastLogin}
-                        />
-                      </List>
-                    </CardContent>
+                    <ExpansionPanel>
+                      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <CardActions>
+                          <Button label="Reset Password" href="/auth/password-reset/" style={{ border: "2px solid lightgrey" }}>
+                            Reset Password
+                          </Button>
+                          <Button label="Logout" href="/auth/logout/" style={{ border: "2px solid lightgrey" }}>
+                            Logout
+                          </Button>
+                        </CardActions>
+                      </ExpansionPanelSummary>
+                      <ExpansionPanelDetails>
+                        <CardContent>
+                          <List style={{ textAlign: "center" }}>
+                            <ListItemText
+                              primary="Name"
+                              secondary={this.props.userInfo.userObject.first_name}
+                            />
+                            <ListItemText
+                              primary="Date Joined"
+                              secondary={dateJoined}
+                            />
+                            <ListItemText
+                              primary="Last Login"
+                              secondary={lastLogin}
+                            />
+                          </List>
+                        </CardContent>
+                      </ExpansionPanelDetails>
+                    </ExpansionPanel>
                   </Card>
                 </Popover>
               </div>

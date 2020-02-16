@@ -40,7 +40,7 @@ const mapStateToProps = state => ({
             label={props.text} 
             onClick={() => {
               props.getNext();
-              window.scoreNextPage();
+              // window.scoreNextPage();
             }} 
             style={{ marginLeft: "10px" }}>
             {props.text}
@@ -80,6 +80,7 @@ const mapStateToProps = state => ({
         <select
           onChange={e => {
             props.setPage(parseInt(e.target.value));
+            window.setPage(parseInt(e.target.value));
           }}
           value={currentPage}
           style={props.style}
