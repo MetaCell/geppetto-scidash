@@ -69,11 +69,11 @@ export default class InfoDialog extends React.Component {
                   {instanceTags === "None" ? undefined : instanceTags.map((tag, i) =>
                     <Chip
                       containerElement={'span'}
-                      backgroundColor={tag.toLowerCase() === "deprecated" ? red[400] : brown[500]}
+                      color={tag.toLowerCase() === "deprecated" ? "secondary" : "primary"}
                       style={{ marginTop: 6, marginBottom: 0 }}
-                      key={`${tag}-${i}`}>
-                      {tag}
-                    </Chip>
+                      key={`${tag}-${i}`}
+                      label={tag}
+                    />
                   )}
                 </span>
               </p>

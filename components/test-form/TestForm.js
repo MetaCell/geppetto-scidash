@@ -171,9 +171,8 @@ export default class TestForm extends React.Component {
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag.name}-${i}`}
                     onRequestDelete={() => this.deleteTag(tag)}
-                  >
-                    {tag.name.toString()}
-                  </Chip>
+                    label={tag.name.toString()}
+                  />
                 );
               } else {
                 return (
@@ -182,9 +181,8 @@ export default class TestForm extends React.Component {
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag}-${i}`}
                     onRequestDelete={() => this.deleteTag(tag)}
-                  >
-                    {tag}
-                  </Chip>
+                    label={tag}
+                  />
                 );
               }
 

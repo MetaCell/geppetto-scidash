@@ -150,12 +150,11 @@ export const CustomTagComponent = ({ value }) => (
   <span className="chips">
     {value.map((tag, i) => (
       <Chip
-        backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red[400] : brown[500]}
+        color={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? "secundary" : "primary"}
         containerElement="span"
         key={i}
-      >
-        {tag}
-      </Chip>
+        label={tag}
+      />
     ))}
   </span>
 );

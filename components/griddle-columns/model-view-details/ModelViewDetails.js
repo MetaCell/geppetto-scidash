@@ -90,16 +90,15 @@ export default class ModelViewDetails extends React.Component {
               <p className="model-url"><strong>Instance Tags: </strong>
                 {modelTags.map((tag, i) => <Chip
                   containerElement={'span'}
-                  backgroundColor={tag.toLowerCase() === "deprecated" ? red[400] : brown[500]}
+                  color={tag.toLowerCase() === "deprecated" ? "secondary" : "primary"}
                   style={{ 
                     marginTop: 6, 
                     marginBottom: 0,
-                    whiteSpace: "nowrap",
-                    display: "inline-block"
+                    whiteSpace: "nowrap"
                   }}
-                  key={`${tag}-${i}`}>
-                  {tag}
-                </Chip>) }
+                  key={`${tag}-${i}`}
+                  label={tag}
+                />) }
               </p>
             </CardContent>
           </Card>

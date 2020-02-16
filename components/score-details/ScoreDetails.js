@@ -125,19 +125,17 @@ const ScoreDetails = ({
               {testTags.map((tag, i) => (
                 <Chip
                   containerElement="span"
-                  backgroundColor={
-                    tag.toLowerCase() === "deprecated" ? red[400] : brown[500]
+                  color={
+                    tag.toLowerCase() === "deprecated" ? "secondary" : "primary"
                   }
                   style={{
                     marginTop: 6,
                     marginBottom: 0,
-                    whiteSpace: "nowrap",
-                    display: "inline-block"
+                    whiteSpace: "nowrap"
                   }}
                   key={`${tag}-${i}`}
-                >
-                  {tag}
-                </Chip>
+                  label={tag}
+                />
               ))}
             </div>
             <hr />

@@ -485,10 +485,10 @@ export default class ModelForm extends React.Component {
                   if (typeof tag.name !== "undefined") {
                     return (
                       <Chip
-                        backgroundColor={
+                        color={
                           (tag.name.toLowerCase() === "deprecated" || tag.name.toLowerCase() === "unschedulable")
-                            ? red[400]
-                            : brown[500]
+                            ? "secondary"
+                            : "primary"
                         }
                         style={{
                           marginLeft: 4,
@@ -497,17 +497,16 @@ export default class ModelForm extends React.Component {
                         }}
                         key={tag.name + "-" + i}
                         onRequestDelete={() => this.deleteTag(tag)}
-                      >
-                        {tag.name.toString()}
-                      </Chip>
+                        label={tag.name.toString()}
+                      />
                     );
                   } else {
                     return (
                       <Chip
-                        backgroundColor={
+                        color={
                           (tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable")
-                            ? red[400]
-                            : brown[500]
+                            ? "secondary"
+                            : "primary"
                         }
                         style={{
                           marginLeft: 4,
@@ -516,9 +515,8 @@ export default class ModelForm extends React.Component {
                         }}
                         key={tag + "-" + i}
                         onRequestDelete={() => this.deleteTag(tag)}
-                      >
-                        {tag}
-                      </Chip>
+                        label={tag}
+                      />
                     );
                   }
                 }.bind(this)
