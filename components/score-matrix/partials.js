@@ -31,7 +31,7 @@ const HideRowCell = ({ rowData, hideRow, data }) => (
 
 const ShowAllHeading = ({ hiddenModels, showAllModels }) => (<Button
   variant="contained" id="show-all-button" style={!hiddenModels.length ? { display: "none" } : { minWidth: "45px", width: "45px", maxHeight: "30px" }} onClick={showAllModels} icon={<VisibilityIcon className="show-all-icon" style={{ padding: 5 }} />} title="Show all"
-/>);
+>Show all</Button>);
 
 export {
   ScoreCell,

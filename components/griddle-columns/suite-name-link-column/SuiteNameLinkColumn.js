@@ -29,15 +29,14 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
   render (){
     const actions = [
       <Button
-        label="Save As Image"
-        primary={true}
+        key="snlcb-1"
         onClick={e => {
           this.screenShotHelper.takeScreenshot(e,"score_matrix_image",true)
         }}
-      ><CameraAltIcon /><CameraAltIcon />Save As Image</Button>,
+      ><CameraAltIcon/>Save As Image
+      </Button>,
       <Button
-        label="Close"
-        primary={true}
+        key="snlcb-2"
         onClick={this.closeScoreMatrix}
       >Close</Button>
     ];
@@ -53,8 +52,9 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
           }}
         >{ this.props.value != " " && this.props.value.get("name") }</a>
         <Dialog
-          maxWidth={false}
           open={this.state.open}
+          maxWidth='xl'
+          width="75%"
         >
           <ScoreMatrixContainer
             colorBlind={this.props.colorBlind}

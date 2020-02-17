@@ -28,6 +28,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
   render (){
     const actions = [
       <Button
+        key="1"
         variant="contained"
         label="Save As Image"
         primary={true}
@@ -35,6 +36,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
           this.props.takeScreenshot(e)
         }}><CameraAltIcon />Save As Image</Button>,
       <Button
+        key="2"
         variant="contained"
         label="Close"
         primary={true}
@@ -66,8 +68,8 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
             }}
           >{this.props.avgScore}</a>
           <Dialog
-            maxWidth={false}
             open={this.state.open}
+            maxWidth={false}
           >
             <AvgScoreDetailsContainer scoreList={this.props.scoreList} style={{ overflowY: "scroll" }} colorBlind={this.props.colorBlind}/>
             <DialogActions>

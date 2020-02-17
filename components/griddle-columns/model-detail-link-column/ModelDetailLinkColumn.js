@@ -31,7 +31,6 @@ export default class ModelDetailLinkColumn extends React.Component {
       <Button
         variant="contained"
         label="Close"
-        primary
         onClick={this.closeModelDetail}
         key='button'
       >Close</Button>
@@ -48,6 +47,7 @@ export default class ModelDetailLinkColumn extends React.Component {
         <Dialog
           title={this.props.className + " details"}
           open={this.state.open}
+          maxWidth={false}
         >
           <ModelDetailsContainer model={this.props.modelInstance} />
           <DialogActions>

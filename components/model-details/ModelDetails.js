@@ -16,31 +16,30 @@ const ModelDetails = ({
 }) => (
   <Card>
     <CardContent>
-      <p><strong>Class name: </strong>
+      <div><strong>Class name: </strong>
         {modelClassName}
-      </p>
-      <p><strong>Class source: </strong>
+      </div>
+      <div><strong>Class source: </strong>
         <a target='_blank' className="model-url" href={modelClassUrl}> {modelClassUrl}</a>
-      </p>
-      <p>
+      </div>
+      <div>
         <strong>
             Class capabilities:
         </strong>
-      </p>
+      </div>
       {classCapabilities != "None" ? <Capabilities
         capabilities={classCapabilities}
       /> : classCapabilities}
-      <p><strong>Instance name: </strong>
+      <div><strong>Instance name: </strong>
         {instanceName}
-      </p>
-      <p className="model-url"><strong>Instance source: </strong>
+      </div>
+      <div className="model-url"><strong>Instance source: </strong>
         {instanceSource.search(/http/) > -1 
           ? <a target='_blank' className="model-url" href={instanceSource}> {instanceSource}</a> 
           : instanceSource}
-      </p>
-      <p className="model-url"><strong>Instance Tags: </strong>
+      </div>
+      <div className="model-url"><strong>Instance Tags: </strong>
         {modelTags.map((tag, i) => <Chip
-          containerElement={'span'}
           color={tag.toLowerCase() === "deprecated" ? "secondary" : "primary"}
           style={{ 
             marginTop: 6, 
@@ -50,9 +49,9 @@ const ModelDetails = ({
           key={`${tag}-${i}`}
           label={tag}
         />) }
-      </p>
-      <p><strong>Instance - Run parameters: </strong>
-      </p>
+      </div>
+      <div><strong>Instance - Run parameters: </strong>
+      </div>
       {runParameters != "None" ? <RunParams
         runParams={runParameters}
       /> : runParameters}

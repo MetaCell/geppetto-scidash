@@ -29,7 +29,8 @@ export default class ScoreMatrix extends React.Component {
           return (
             <Button
               variant="contained" label={props.text} onClick={props.getNext} style={{ marginLeft: "10px" }}
-            />
+            >{props.text}
+            </Button>
           );
         }
         return null;
@@ -39,7 +40,8 @@ export default class ScoreMatrix extends React.Component {
           return (
             <Button
               variant="contained" label={props.text} onClick={props.getPrevious} style={{ marginRight: "10px" }}
-            />
+            >{props.text}
+            </Button>
           );
         }
         return null;

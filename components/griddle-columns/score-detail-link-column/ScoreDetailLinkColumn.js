@@ -36,7 +36,6 @@ export default class ScoreDetailLinkColumn extends React.Component {
       <Button
         label="Close"
         variant="contained"
-        primary
         onClick={this.closeScoreDetail}
         key='button'
       >Close</Button>,
@@ -71,8 +70,9 @@ export default class ScoreDetailLinkColumn extends React.Component {
           </a>
           <Dialog
             open={this.state.open}
+            maxWidth={false}
           >
-            <ScoreDetailsContainer score={this.props.scoreObject} colorBlind={this.props.colorBlind} />
+            <ScoreDetailsContainer score={this.props.scoreObject} colorBlind={this.props.colorBlind}/>
             <DialogActions>
               {actions}
             </DialogActions>

@@ -34,15 +34,14 @@ export default class InfoDialog extends React.Component {
     const actions = [
       <Button
         label="Close"
-        primary
         onClick={this.closeDialog}
       >Close</Button>,
     ];
 
     return (
       <Dialog
-        maxWidth={false}
         open={this.props.dialogOpened}
+        maxWidth={false}
       >
         <div style={{ minWidth: "100px", margin: "15px" }}>
           <h4 style={{ maxWidth: "360px" }}>{instanceSource !== "None" ? "Model" : "Test"}{" details"}</h4>
@@ -68,7 +67,6 @@ export default class InfoDialog extends React.Component {
                 <span style={{ display: "flex" }}>
                   {instanceTags === "None" ? undefined : instanceTags.map((tag, i) =>
                     <Chip
-                      containerElement={'span'}
                       color={tag.toLowerCase() === "deprecated" ? "secondary" : "primary"}
                       style={{ marginTop: 6, marginBottom: 0 }}
                       key={`${tag}-${i}`}

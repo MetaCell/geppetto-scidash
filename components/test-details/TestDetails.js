@@ -55,7 +55,6 @@ const TestDetails = ({
           <strong>Tags: </strong>
           {testTags.map((tag, i) => (
             <Chip
-              containerElement="span"
               color={
                 tag.toLowerCase() === "deprecated" ? "secondary" : "primary"
               }

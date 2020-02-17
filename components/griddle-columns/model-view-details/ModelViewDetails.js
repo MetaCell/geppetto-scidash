@@ -30,7 +30,6 @@ export default class ModelViewDetails extends React.Component {
     const actions = [
       <Button
         label="Close"
-        primary
         onClick={this.closeModelDetail}
         key='button'
       >Close</Button>
@@ -52,6 +51,7 @@ export default class ModelViewDetails extends React.Component {
           title={ this.props.modelInstance.get("name") + " details"}
           // contentStyle={this.props.customContentStyle}
           open={this.state.open}
+          maxWidth={false}
         >
 
 
@@ -89,7 +89,6 @@ export default class ModelViewDetails extends React.Component {
               </p>
               <p className="model-url"><strong>Instance Tags: </strong>
                 {modelTags.map((tag, i) => <Chip
-                  containerElement={'span'}
                   color={tag.toLowerCase() === "deprecated" ? "secondary" : "primary"}
                   style={{ 
                     marginTop: 6, 

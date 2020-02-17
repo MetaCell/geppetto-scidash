@@ -565,7 +565,6 @@ export default class ModelForm extends React.Component {
                 variant="contained"
                 label="Close"
                 key="close-button"
-                primary
                 onClick={() => this.setState({ modelParamsOpen: false })}
               />
             ]}

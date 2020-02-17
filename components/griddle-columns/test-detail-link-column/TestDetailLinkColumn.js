@@ -29,7 +29,6 @@ export default class TestDetailLinkColumn extends React.Component {
     const actions = [
       <Button
         label="Close"
-        primary
         onClick={this.closeTestDetail}
         key='button'
       >Close</Button>
@@ -46,8 +45,8 @@ export default class TestDetailLinkColumn extends React.Component {
             : undefined}
         </a>
         <Dialog
-          maxWidth={false}
           open={this.state.open}
+          maxWidth={false}
         >
           <TestDetailsContainer testInstance={this.props.testInstanceObject} />
           <DialogActions>
