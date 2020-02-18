@@ -246,7 +246,7 @@ input {
 .hideAll-column {
     /* Adjustments to column with hide all buttons*/
     th:last-child {
-        padding-left: 5px;
+        padding-left: 0px;
     }
 }
 
@@ -389,6 +389,21 @@ div[role=menu] {
     font-size: 25px;
     display: block;
     cursor: pointer;
+}
+
+.plus-icon {
+    float: right;
+    border-radius: 40px;
+    width: 48px;
+    background-color: rgb(109, 76, 65);
+    font-size: 24px;
+    line-height: 48px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+.plus-icon:hover {
+  background-color: rgb(121, 85, 72)
 }
 
 .table .score-matrix-cell {
@@ -753,4 +768,6 @@ div[role=menu] {
     text-align: right;
 }
 
-
+#show-all-button {
+    margin-left: 0 !important;
+}

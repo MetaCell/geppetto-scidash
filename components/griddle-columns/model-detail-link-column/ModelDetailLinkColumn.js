@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 
 import ModelDetailsContainer from "../../model-details/ModelDetailsContainer";
 import DialogActions from "@material-ui/core/DialogActions";
+import { DialogContent, DialogTitle } from "@material-ui/core";
 
 export default class ModelDetailLinkColumn extends React.Component {
 
@@ -47,9 +48,12 @@ export default class ModelDetailLinkColumn extends React.Component {
         <Dialog
           title={this.props.className + " details"}
           open={this.state.open}
-          maxWidth={false}
+          maxWidth="xl"
         >
-          <ModelDetailsContainer model={this.props.modelInstance} />
+          <DialogTitle>{this.props.className + " details"}</DialogTitle>
+          <DialogContent>
+            <ModelDetailsContainer model={this.props.modelInstance} />
+          </DialogContent>
           <DialogActions>
             {actions}
           </DialogActions>

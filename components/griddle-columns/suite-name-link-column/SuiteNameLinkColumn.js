@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import ScreenShotHelper from '../../../shared/ScreenShotHelper';
 import ScoreMatrixContainer from '../../score-matrix/ScoreMatrixContainer';
 import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
 
 export default class ScidashSuiteNameLinkColumn extends React.Component {
   constructor (props, context){
@@ -30,6 +31,8 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
     const actions = [
       <Button
         key="snlcb-1"
+        variant="contained"
+        primary={true}
         onClick={e => {
           this.screenShotHelper.takeScreenshot(e,"score_matrix_image",true)
         }}
@@ -37,6 +40,8 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
       </Button>,
       <Button
         key="snlcb-2"
+        variant="contained"
+        primary={true}
         onClick={this.closeScoreMatrix}
       >Close</Button>
     ];
@@ -53,17 +58,19 @@ export default class ScidashSuiteNameLinkColumn extends React.Component {
         >{ this.props.value != " " && this.props.value.get("name") }</a>
         <Dialog
           open={this.state.open}
-          maxWidth='xl'
-          width="75%"
+          maxWidth="xl"
         >
-          <ScoreMatrixContainer
-            colorBlind={this.props.colorBlind}
-            scoreMatrix={this.props.scoreMatrix}
-            scoreMatrixTableData={this.props.scoreMatrixTableData}
-            hiddenModels={this.props.hiddenModels}
-            hideRow={this.props.hideRow}
-            showAllModels={this.props.showAllModels}
-          />
+          <DialogContent>
+            <ScoreMatrixContainer
+              width="75%"
+              colorBlind={this.props.colorBlind}
+              scoreMatrix={this.props.scoreMatrix}
+              scoreMatrixTableData={this.props.scoreMatrixTableData}
+              hiddenModels={this.props.hiddenModels}
+              hideRow={this.props.hideRow}
+              showAllModels={this.props.showAllModels}
+            />
+          </DialogContent>
           <DialogActions>
             {actions}
           </DialogActions>

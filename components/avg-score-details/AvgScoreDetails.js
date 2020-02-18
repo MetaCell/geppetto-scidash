@@ -5,7 +5,7 @@ import { AvgScoreTableColumns, AvgScoreTableHeadings } from "./partials"
 
 export default class AvgScoreDetails extends React.Component {
 
-  constructor (props, context){
+  constructor (props, context) {
     super(props, context);
     this.state = {
       detailsShowing: false,
@@ -41,8 +41,8 @@ export default class AvgScoreDetails extends React.Component {
 
     return (
       <div>
-        <Card id="table-container-div">
-          <CardContent style={{ overflowX: "scroll", }}>
+        <Card style={{ overflowX: "scroll", width: "calc(100vw - 50vw)" }}>
+          <CardContent id="table-container-div">
             <table className="modal-table scidash-tilted-titles-table">
               <AvgScoreTableHeadings
                 scoreList={this.props.scoreList}

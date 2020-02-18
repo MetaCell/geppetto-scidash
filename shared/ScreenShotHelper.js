@@ -51,7 +51,7 @@ export default class ScreenShotHelper {
 
   takeScreenshot (e,title, toggleColumn){
     e.preventDefault();
-    var table = document.querySelector("#table-container-div").parentElement;
+    var table = document.querySelector("#table-container-div");
     var self = this;
 
     if (table !== null){

@@ -1,5 +1,6 @@
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
+import Icon from "@material-ui/core/Icon";
 import { brown } from "@material-ui/core/colors";
 import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
@@ -25,11 +26,10 @@ export default class Tests extends React.Component {
   render (){
     return (
       <div>
-        <IconButton
+        <i
           onClick={() => this.props.toggleCreateTest()}
-          className="fa fa-plus"
-          hoveredStyle={{ backgroundColor: brown[500] }}
-          style={{ float: "right", borderRadius: "40px", backgroundColor: brown[600] }}
+          className="plus-icon fa fa-plus"
+          title="New Test"
         />
 
         <Griddle

@@ -14,7 +14,7 @@ const ModelDetails = ({
   runParameters,
   modelTags
 }) => (
-  <Card>
+  <Card style={{ overflow: "scroll", width: "calc(100vw - 50vw)" }}>
     <CardContent>
       <div><strong>Class name: </strong>
         {modelClassName}

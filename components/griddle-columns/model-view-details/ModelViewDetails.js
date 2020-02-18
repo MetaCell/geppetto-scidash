@@ -55,7 +55,7 @@ export default class ModelViewDetails extends React.Component {
         >
 
 
-          <Card>
+          <Card style={{ overflow: "scroll", width: "calc(100vw - 25vw)" }}>
             <CardContent>
               <p><strong>Class name: </strong>
                 {(this.props.modelInstance.get("class") !== undefined) 

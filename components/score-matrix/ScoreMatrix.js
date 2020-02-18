@@ -17,8 +17,6 @@ export default class ScoreMatrix extends React.Component {
 
 
   render () {
-    console.log(this.props);
-
     const GriddleComponents = {
       Filter: () => null,
       PageDropdown: () => null,
@@ -50,9 +48,9 @@ export default class ScoreMatrix extends React.Component {
 
     return (
       <Card
-        id="table-container-div" style={{ overflow: "scroll" }}
+        style={{ overflow: "scroll", width: "calc(100vw - 25vw)" }}
       >
-        <CardContent>
+        <CardContent id="table-container-div">
           <Griddle
             data={this.props.scoreMatrixTableData}
             components={GriddleComponents}
