@@ -5,8 +5,8 @@ import { editModel } from "../../actions/creators/models";
 import { changePage } from "../../actions/creators/header";
 import PagesService from "../../services/PagesService";
 
-const mapStateToProps = state => ({
-  model: new ModelInstance(state.router.location.state.model),
+const mapStateToProps = (state, ownprops) => ({
+  model: new ModelInstance(ownprops.location.state.model),
   modelClasses: state.modelClasses.data,
   errors: state.global.errors,
   data: state.models.data,

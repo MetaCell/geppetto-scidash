@@ -66,11 +66,10 @@ export default class Models extends React.Component {
 
     return (
       <div>
-        <IconButton
-          onClick={() => toggleCreateModel()}
-          className="fa fa-plus"
-          // hoveredStyle={{ backgroundColor: brown[400] }}
-          style={{ float: "right", borderRadius: "40px", backgroundColor: brown[500] }}
+        <i
+          onClick={() => this.props.toggleCreateModel()}
+          className="plus-icon fa fa-plus"
+          title="New Model"
         />
         <Griddle
           data={this.griddleData}

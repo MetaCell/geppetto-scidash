@@ -4,6 +4,9 @@ import _ from "underscore";
 import Button from "@material-ui/core/Button";
 import { enhancedWithRowData, ChooseVarComponent } from "./partials";
 import { TOGGLE_ALL, UNTOGGLE_ALL, ADDED, REMOVED } from "./events";
+import AvgScoreDetailLinkColumnContainer
+  from "../griddle-columns/avg-score-detail-link-column/AvgScoreDetailLinkColumnContainer";
+import ModelViewDetailsContainer from "../griddle-columns/model-view-details/ModelViewDetailsContainer";
 
 export default class ParamsTable extends React.Component {
 
@@ -145,7 +148,9 @@ export default class ParamsTable extends React.Component {
           return (
             <Button
               label={props.text} onClick={props.getNext} style={{ marginLeft: "10px" }}
-            />
+            >
+              {props.text}
+            </Button>
           );
         }
 
@@ -157,7 +162,9 @@ export default class ParamsTable extends React.Component {
           return (
             <Button
               label={props.text} onClick={props.getPrevious} style={{ marginRight: "10px" }}
-            />
+            >
+              {props.text}
+            </Button>
           );
         }
 
@@ -193,18 +200,33 @@ export default class ParamsTable extends React.Component {
               title="Watch"
               id="toggled"
               headerCssClassName="toggleHeaderClass"
-              customComponent={enhancedWithRowData(
-                this.props.onCheck,
-                this.props.onUncheck,
-                this.props.disabled
-              )(
-                ChooseVarComponent
-              )}
+              customComponent={props => {
+    //
+    // OLD code:
+    //
+    //customComponent={enhancedWithRowData(
+    //            this.props.onCheck,
+    //            this.props.onUncheck,
+    //            this.props.disabled
+    //          )(
+    //            ChooseVarComponent
+    //          )}
+
+                let comp = enhancedWithRowData(
+                  this.props.onCheck,
+                  this.props.onUncheck,
+                  this.props.disabled
+                )(
+                  ChooseVarComponent
+                );
+                return (<comp.WrappedComponent />);
+              }}
             />
           </RowDefinition>
         </Griddle>
       </span>
     );
+
 
     let paramsTable = (
       <Griddle
@@ -246,16 +268,18 @@ export default class ParamsTable extends React.Component {
             label="State Variables" onClick={() => this.setState({
               stateVariablesOpen: true,
               paramsOpen: false
-            })} style={{ margin: "10px 0 10px 0" }}
-            backgroundColor={this.state.stateVariablesOpen ? "#ccc" : ""}
-          />
+            })} style={{ margin: "10px 0 10px 0", backgroundColor: this.state.stateVariablesOpen ? "#ccc" : "" }}
+          >
+            State Variables
+          </Button>
           <Button
             label="Parameters" onClick={() => this.setState({
               stateVariablesOpen: false,
               paramsOpen: true
-            })} style={{ margin: "10px 0 10px 0" }}
-            backgroundColor={this.state.paramsOpen ? "#ccc" : ""}
-          />
+            })} style={{ margin: "10px 0 10px 0", backgroundColor: this.state.paramsOpen ? "#ccc" : "" }}
+          >
+            Parameters
+          </Button>
           {this.state.stateVariablesOpen
             && (
               <span>
@@ -266,7 +290,9 @@ export default class ParamsTable extends React.Component {
                   }}
                   disabled={this.props.disabled}
                   onClick={() => GEPPETTO.trigger(UNTOGGLE_ALL)}
-                />
+                >
+                  Untoggle all
+                </Button>
                 <Button
                   label="Toggle all" style={{
                     margin: "10px 0 10px 0",
@@ -274,7 +300,9 @@ export default class ParamsTable extends React.Component {
                   }}
                   disabled={this.props.disabled}
                   onClick={() => GEPPETTO.trigger(TOGGLE_ALL)}
-                />
+                >
+                    Toggle all
+                </Button>
               </span>
             )
           }

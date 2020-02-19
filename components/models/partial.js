@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import Menu from "@material-ui/core/Menu";
 import Chip from "@material-ui/core/Chip";
-import Popover from "@material-ui/core/Popover";
 import LockIcon from '@material-ui/icons/Lock';
 import CreateIcon from '@material-ui/icons/Create';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
-import { red, brown } from "@material-ui/core/colors";
+import { ListItemIcon, ListItemText } from "@material-ui/core";
 
 const styles = {
   anchorOrigin: {
@@ -106,41 +105,39 @@ export class CustomMenu extends Component {
           />
         )}
 
-        <Popover
-          open={!!anchorEl}
+        <Menu
+          open={anchorEl != null}
           anchorEl={anchorEl}
-          anchorOrigin={styles.anchorOrigin}
-          targetOrigin={styles.targetOrigin}
-          onRequestClose={() => this.setState({ anchorEl: null })}
+          onClose={() => this.setState({ anchorEl: null })}
         >
-          <Menu>
-            <MenuItem
-              primaryText="Edit"
-              onClick={() => {
-                if (this.checkUserRights()) {
-                  return false;
-                } else {
-                  this.props.edit(this.props.value.get("modelId"));
-                }
-              }}
-              leftIcon={<CreateIcon />}
-              disabled={this.checkUserRights()}
-            />
-            <MenuItem
-              primaryText="Clone"
-              onClick={() => {
-                if (this.isUnschedulable()) {
-                  return false;
-                } else {
-                  this.props.clone(this.props.value.get("modelId"))
-                }
+          <MenuItem
+            onClick={() => {
+              if (this.checkUserRights()) {
+                return false;
+              } else {
+                this.props.edit(this.props.value.get("modelId"));
               }
+            }}
+            disabled={this.checkUserRights()}
+          >
+            <ListItemIcon>{<CreateIcon />}</ListItemIcon>
+            <ListItemText>Edit</ListItemText>
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              if (this.isUnschedulable()) {
+                return false;
+              } else {
+                this.props.clone(this.props.value.get("modelId"))
               }
-              leftIcon={<FileCopyIcon />}
-              disabled={this.isUnschedulable()}
-            />
-          </Menu>
-        </Popover>
+            }
+            }
+            disabled={this.isUnschedulable()}
+          >
+            <ListItemIcon>{<FileCopyIcon />}</ListItemIcon>
+            <ListItemText>Clone</ListItemText>
+          </MenuItem>
+        </Menu>
       </span>
     );
   }

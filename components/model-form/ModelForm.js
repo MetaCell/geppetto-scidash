@@ -54,11 +54,13 @@ export default class ModelForm extends React.Component {
     this.isInstanceBlocked = this.isInstanceBlocked.bind(this);
     this.convertUrl = this.convertUrl.bind(this);
 
+  }
+
+  componentDidMount () {
     if (this.props.actionType === "edit") {
       this.checkUrl(this.state.model.url);
       this.isInstanceBlocked();
     }
-
   }
 
   componentDidUpdate () {
@@ -68,20 +70,14 @@ export default class ModelForm extends React.Component {
   }
 
   getModelClassError () {
-    let errors = [];
+    let errors = "";
 
-    if (this.state.model.errors !== undefined) {
-      errors.push(
-        "model_class" in this.state.model.errors
-          ? this.state.model.errors["model_class"]
-          : ""
-      );
+    if (this.state.model.errors !== undefined && "model_class" in this.state.model.errors) {
+      errors += this.state.model.errors["model_class"];
     }
-    errors.push(
-      this.state.failClasses
-        ? " / No compatible class found for this model"
-        : ""
-    );
+    if (this.state.failClasses) {
+      errors += " / No compatible class found for this model"
+    }
 
     return errors;
   }
@@ -359,15 +355,16 @@ export default class ModelForm extends React.Component {
             <TextField
               value={this.state.model.name}
               className="model-name"
-              errorText={
+              error={this.state.model.errors !== undefined && "name" in this.state.model.errors}
+              helperText={
                 this.state.model.errors !== undefined
                 && "name" in this.state.model.errors
                   ? this.state.model.errors["name"]
                   : ""
               }
-              floatingLabelText="Name of the model"
-              onChange={(event, value) => {
-                this.updateModel({ name: value }, () => {
+              label="Name of the model"
+              onChange={event => {
+                this.updateModel({ name: event.target.value }, () => {
                   if (!this.state.model.validate()) {
                     this.setState({ validationFailed: true });
                   } else {
@@ -380,15 +377,16 @@ export default class ModelForm extends React.Component {
             <TextField
               value={this.state.model.url}
               className="url"
-              floatingLabelText="Source URL"
-              errorText={
+              label="Source URL"
+              error={this.state.model.errors !== undefined && "url" in this.state.model.errors}
+              helperText={
                 this.state.model.errors !== undefined
                 && "url" in this.state.model.errors
                   ? this.state.model.errors["url"]
                   : ""
               }
-              onChange={(event, value) => {
-                this.updateModel({ url: value }, () => {
+              onChange={event => {
+                this.updateModel({ url: event.target.value }, () => {
                   if (!this.state.model.validate()) {
                     if (
                       this.state.model.errors !== undefined
@@ -399,7 +397,7 @@ export default class ModelForm extends React.Component {
                   } else {
                     this.setState({ validationFailed: false });
                   }
-                  this.checkUrl(value);
+                  this.checkUrl(event.target.value);
                 });
               }}
               disabled={this.state.isBlocked}
@@ -422,22 +420,11 @@ export default class ModelForm extends React.Component {
           <div className="container">
             <Select
               id="modelFormSelectClass"
-              floatingLabelText="Select class"
-              errorText={this.getModelClassError().map(value => value)}
+              label="Select class"
               value={this.state.model.model_class.id}
-              dropDownMenuProps={{
-                menuStyle: {
-                  border: "1px solid black",
-                  backgroundColor: "#f5f1f1"
-                },
-                anchorOrigin: {
-                  vertical: "center",
-                  horizontal: "left"
-                }
-              }}
-              onChange={(event, key, value) => {
+              onChange={event => {
                 for (let klass of this.state.modelClasses) {
-                  if (klass.id == value) {
+                  if (klass.id == event.target.value) {
                     this.updateModel(
                       { model_class: klass },
                       () => {
@@ -459,19 +446,24 @@ export default class ModelForm extends React.Component {
                 <MenuItem
                   value={klass.id}
                   key={klass.id}
-                  primaryText={klass.class_name}
                   label={klass.class_name}
-                />
+                >
+                  {klass.class_name}
+                </MenuItem>
               ))}
             </Select>
+            {this.getModelClassError().length > 0
+              ? <FormHelperText>{this.getModelClassError()}</FormHelperText>
+              : ""
+            }
 
             <TextField
               value={this.state.newTag}
-              onChange={(e, value) => {
-                this.setState({ newTag: value });
+              onChange={e => {
+                this.setState({ newTag: e.target.value });
               }}
               className="new-tag"
-              floatingLabelText="Add a new tag"
+              label="Add a new tag"
               onKeyPress={e =>
                 e.key === "Enter"
                   ? this.addTag(this.state.newTag.toLowerCase())
@@ -496,7 +488,7 @@ export default class ModelForm extends React.Component {
                           float: "left"
                         }}
                         key={tag.name + "-" + i}
-                        onRequestDelete={() => this.deleteTag(tag)}
+                        onDelete={() => this.deleteTag(tag)}
                         label={tag.name.toString()}
                       />
                     );
@@ -514,7 +506,7 @@ export default class ModelForm extends React.Component {
                           float: "left"
                         }}
                         key={tag + "-" + i}
-                        onRequestDelete={() => this.deleteTag(tag)}
+                        onDelete={() => this.deleteTag(tag)}
                         label={tag}
                       />
                     );
@@ -545,7 +537,9 @@ export default class ModelForm extends React.Component {
               margin: "10px 0 0 0"
             }}
             onClick={() => this.setState({ modelParamsOpen: true })}
-          />
+          >
+            Open
+          </Button>
 
           <span className="icons">
             {this.state.successParams ? (
@@ -566,7 +560,9 @@ export default class ModelForm extends React.Component {
                 label="Close"
                 key="close-button"
                 onClick={() => this.setState({ modelParamsOpen: false })}
-              />
+              >
+                Close
+              </Button>
             ]}
             maxWidth={false}
             open={this.state.modelParamsOpen}
@@ -612,14 +608,18 @@ export default class ModelForm extends React.Component {
                 this.setState({ validationFailed: true });
               }
             }}
-          />
+          >
+            save
+          </Button>
 
           <Button
             variant="contained"
             label="cancel"
             className="actions-button"
             onClick={() => this.onCancel()}
-          />
+          >
+            cancel
+          </Button>
         </div>
       </span>
     );

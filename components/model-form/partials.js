@@ -78,10 +78,6 @@ export class ChooseVarComponent extends React.Component{
           }
           onChange={this.onToggle}
           disabled={this.props.disabled}
-          thumbStyle={styles.thumbOff}
-          thumbSwitchedStyle={styles.thumbSwitched}
-          trackStyle={styles.trackOff}
-          trackSwitchedStyle={styles.trackSwitched}
         />
       </div>
     );
