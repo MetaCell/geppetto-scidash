@@ -48,15 +48,14 @@ export default class ParamsFormset extends React.Component {
             id="testFormSelectClass"
             style={styles.firstLine.two}
             value={this.state.choosedForm}
-            onChange={(e, key, value) => {
-              this.setState({ choosedForm: value });
+            onChange={e => {
+              this.setState({ choosedForm: e.target.value });
             }}
-            floatingLabelText="Select observation schema"
-            floatingLabelFixed={false}
+            label="Select observation schema"
             disabled={this.props.disabled}
           >
             {this.state.schemaList.map((value, index) =>
-              <MenuItem label={`${value[0]}`} primaryText={`${value[0]}`} value={index} key={index} />
+              <MenuItem label={`${value[0]}`} value={index} key={index}>{`${value[0]}`}</MenuItem>
             )}
           </Select>
         }

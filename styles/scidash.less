@@ -1,6 +1,6 @@
 @import "colors";
 html {
-    font-size: 14px;
+    font-size: 16px;
 }
 body {
     background: #ada996;
@@ -9,7 +9,7 @@ body {
     /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to top, #ada996, #f2f2f2, #dbdbdb, #eaeaea);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .mainContainer {
@@ -167,6 +167,12 @@ input {
     box-shadow: none !important;
 }
 
+
+input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .uneditable-input {
+    line-height: 1.5rem !important;
+    font-size: 1rem !important;
+}
+
 .edit-clone-test {
     float: right;
     display: flex;
@@ -270,7 +276,6 @@ input {
 }
 
 .datepicker-wrapper {
-    margin-top: -9px;
     display: flex;
     justify-content: center;
 }
@@ -304,7 +309,7 @@ input {
 /* Input fields adjustments */
 
 .scidash-materialui-field {
-    font-size: 13px !important;
+    font-size: initial !important;
     font-weight: normal !important;
     padding-left: 3px !important;
 }
@@ -389,6 +394,11 @@ div[role=menu] {
     font-size: 25px;
     display: block;
     cursor: pointer;
+}
+
+.btn-clear {
+  font-size: 0.75rem !important;
+  padding: 0 16px !important;
 }
 
 .plus-icon {
@@ -749,7 +759,7 @@ div[role=menu] {
 
 #testFormSelectClass,
 #modelFormSelectClass {
-    margin-top: 28px !important;
+    margin-top: 12px !important;
 }
 
 .timeStampCss {

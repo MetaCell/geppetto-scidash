@@ -98,34 +98,24 @@ export default class TestForm extends React.Component {
         <div style={styles.firstLine.container}>
           <TextField
             value={this.state.model.name}
-            onChange={(e, value) => this.updateModel({ "name": value })}
-            errorText={
+            onChange={e => this.updateModel({ "name": e.target.value })}
+            error={ this.state.model.errors !== undefined && "name" in this.state.model.errors }
+            helperText={
               (this.state.model.errors !== undefined && "name" in this.state.model.errors) ? this.state.model.errors["name"] : ""
             }
             style={styles.firstLine.one}
-            floatingLabelText="Name of the test"
+            label="Name of the test"
             disabled={this.state.isBlocked}
           />
 
           <Select
             id="testFormSelectClass"
             style={styles.firstLine.two}
-            value={this.state.model.test_class.id}
-            floatingLabelText="Select test class"
-            floatingLabelFixed={false}
-            dropDownMenuProps={{
-              menuStyle: {
-                border: "1px solid black",
-                backgroundColor: "#f5f1f1"
-              },
-              anchorOrigin: {
-                vertical: "center",
-                horizontal: "left"
-              }
-            }}
-            onChange={(e, key, value) => {
+            value={ this.state.model.test_class.id ? this.state.model.test_class.id : "" }
+            label="Select test class"
+            onChange={e => {
               for (let klass of this.state.testClasses) {
-                if (klass.id == value) {
+                if (klass.id == e.target.value) {
                   this.updateModel({ "test_class": klass, });
                 }
               }
@@ -138,16 +128,16 @@ export default class TestForm extends React.Component {
               let textB = b.class_name.toLowerCase();
 
               return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-            }).map((klass, index) => <MenuItem value={klass.id} key={index} primaryText={klass.class_name} label={klass.class_name} />)}
+            }).map((klass, index) => <MenuItem value={klass.id} key={index} label={klass.class_name}>{klass.class_name}</MenuItem>)}
           </Select>
         </div>
 
         <div style={styles.secondLine.container}>
           <TextField
-            onChange={(e, value) => this.updateModel({ "description": value })}
+            onChange={e => this.updateModel({ "description": e.target.value })}
             value={this.state.model.description}
             style={styles.secondLine.one}
-            floatingLabelText="Test description"
+            label="Test description"
             disabled={this.state.isBlocked}
           />
         </div>
@@ -155,10 +145,10 @@ export default class TestForm extends React.Component {
         <div style={styles.thirdLine.container}>
           <TextField
             value={this.state.newTag}
-            onChange={(e, value) => {
-              this.setState({ newTag: value }); 
+            onChange={e => {
+              this.setState({ newTag: e.target.value });
             }}
-            floatingLabelText="Add tags"
+            label="Add tags"
             style={styles.thirdLine.one}
             onKeyPress={e => e.key === "Enter" ? this.addTag(this.state.newTag.toLowerCase()) : null}
           />
@@ -167,20 +157,20 @@ export default class TestForm extends React.Component {
               if (typeof(tag.name) !== "undefined") {
                 return (
                   <Chip
-                    backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red[400] : brown[500]}
+                    color={(tag.name.toLowerCase() === "deprecated") ? "secondary" : "primary"}
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag.name}-${i}`}
-                    onRequestDelete={() => this.deleteTag(tag)}
+                    onDelete={() => this.deleteTag(tag)}
                     label={tag.name.toString()}
                   />
                 );
               } else {
                 return (
                   <Chip
-                    backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red[400] : brown[500]}
+                    color={tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable" ? "secondary" : "primary"}
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag}-${i}`}
-                    onRequestDelete={() => this.deleteTag(tag)}
+                    onDelete={() => this.deleteTag(tag)}
                     label={tag}
                   />
                 );
@@ -246,13 +236,13 @@ export default class TestForm extends React.Component {
                 this.setState({ validationFailed: true });
               }
             }}
-          />
+          >save</Button>
           <Button
             variant="contained"
             label="cancel"
             style={styles.actionsButton}
             onClick={() => this.props.onCancel()}
-          />
+          >cancel</Button>
         </div>
       </span>
     );
@@ -281,7 +271,7 @@ const styles = {
     icon: { background: "#000", padding: "2px", width: "28px", height: "28px" }
   },
   secondLine: {
-    container: { width: "100%", marginTop: 12 },
+    container: { width: "100%", marginTop: 16 },
     one: { width: "100%" }
   },
   thirdLine: {
@@ -290,7 +280,8 @@ const styles = {
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
+      marginTop: 16
     },
     one: { width: "20%" },
     two: { float: "right", width: "79%" }
