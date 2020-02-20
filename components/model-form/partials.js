@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import _ from "underscore";
 import Switch from "@material-ui/core/Switch";
-import React from "react";
+import React, { useState } from "react";
 import { TOGGLE_ALL, UNTOGGLE_ALL } from "./events";
 
 const styles = {

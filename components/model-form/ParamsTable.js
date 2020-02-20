@@ -4,9 +4,6 @@ import _ from "underscore";
 import Button from "@material-ui/core/Button";
 import { enhancedWithRowData, ChooseVarComponent } from "./partials";
 import { TOGGLE_ALL, UNTOGGLE_ALL, ADDED, REMOVED } from "./events";
-import AvgScoreDetailLinkColumnContainer
-  from "../griddle-columns/avg-score-detail-link-column/AvgScoreDetailLinkColumnContainer";
-import ModelViewDetailsContainer from "../griddle-columns/model-view-details/ModelViewDetailsContainer";
 
 export default class ParamsTable extends React.Component {
 
@@ -200,27 +197,13 @@ export default class ParamsTable extends React.Component {
               title="Watch"
               id="toggled"
               headerCssClassName="toggleHeaderClass"
-              customComponent={props => {
-    //
-    // OLD code:
-    //
-    //customComponent={enhancedWithRowData(
-    //            this.props.onCheck,
-    //            this.props.onUncheck,
-    //            this.props.disabled
-    //          )(
-    //            ChooseVarComponent
-    //          )}
-
-                let comp = enhancedWithRowData(
-                  this.props.onCheck,
-                  this.props.onUncheck,
-                  this.props.disabled
-                )(
-                  ChooseVarComponent
-                );
-                return (<comp.WrappedComponent />);
-              }}
+              customComponent={enhancedWithRowData(
+                this.props.onCheck,
+                this.props.onUncheck,
+                this.props.disabled
+              )(
+                ChooseVarComponent
+              )}
             />
           </RowDefinition>
         </Griddle>
