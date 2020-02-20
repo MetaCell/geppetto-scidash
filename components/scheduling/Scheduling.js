@@ -7,6 +7,7 @@ import CompatibilityTable from "./CompatibilityTable";
 import SchedulingApiService from "../../services/api/SchedulingApiService";
 import Loader from "../loader/Loader";
 import PagesService from "../../services/PagesService";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 class Scheduling extends React.Component {
@@ -127,7 +128,7 @@ class Scheduling extends React.Component {
                   value={suitesName}
                   style={styles.saveRoot}
                   placeholder='Name the suites'
-                  floatingLabelText="Enter a name"
+                  label="Enter a name"
                   onChange={e => this.setState({ suitesName: e.target.value })}
                   onKeyPress={e => e.key === "Enter" ? () => { } : null}
                 />
@@ -135,11 +136,15 @@ class Scheduling extends React.Component {
               : null
             }
             <div style={styles.checkboxContainer}>
-              <Checkbox
-                checked={saveSuites}
-                label="Save as Suite"
-                style={styles.checkbox}
-                onClick={e => this.setState(oldState => ({ saveSuites: !oldState.saveSuites }))}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={saveSuites}
+                    onClick={e => this.setState(oldState => ({ saveSuites: !oldState.saveSuites }))}
+                    style={styles.checkbox}
+                  />
+                }
+                label="Save as suite"
               />
             </div>
           </span>
@@ -167,7 +172,8 @@ const styles = {
   saveButton: { display: "inline-block" },
   saveRoot: {
     marginLeft: "10px",
-    width: "200px"
+    marginTop: "16px",
+    width: "250px"
   },
   checkboxContainer: {
     marginLeft: "auto",

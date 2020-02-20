@@ -98,8 +98,9 @@ export default class DDList extends React.Component {
       <div className="scrolling">
         <div className="scrolling2">
           <TextField
-            floatingLabelText="Search"
+            label="Search"
             value={this.state.searchable}
+            style={{ marginTop: "16px" }}
             onChange={(e, value) => this.setState({ searchable: value })}
           />
           <div className="scrolling3">
@@ -231,7 +232,7 @@ const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firs
 
   <div style={{ display: "flex", flexDirection: "row", justifyItems: "center", alignItems: "center", margin: "3px 8px 0px" }}>
     <span style={{ width: "40px", height: "40px", borderRadius: "40px", backgroundColor: leftIconColor, display: "flex", alignItems:"center", justifyContent:"center" }}>
-      <SvgIcon color="white" style={{ backgroundColor: leftIconColor }}>{leftIconSVG}</SvgIcon>
+      <SvgIcon style={{ color: "white", backgroundColor: leftIconColor }}>{leftIconSVG}</SvgIcon>
     </span>
 
     <span style={{ flex: 1, marginLeft: "10px", display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
@@ -242,14 +243,12 @@ const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firs
     <IconButton
       style={{ borderRadius: "40px" }}
       onClick={() => firstAction()}
-      hoveredStyle={{ backgroundColor: grey[400] }}
       className={firstActionClass}
     />
 
     <IconButton
       style={{ borderRadius: "40px" }}
       onClick={scheduler_id => secondAction(scheduler_id)}
-      hoveredStyle={{ backgroundColor: grey[400] }}
       className={secondActionClass}
     />
   </div>

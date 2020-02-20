@@ -34,6 +34,7 @@ export default class InfoDialog extends React.Component {
     const actions = [
       <Button
         label="Close"
+        variant="contained"
         onClick={this.closeDialog}
       >Close</Button>,
     ];
