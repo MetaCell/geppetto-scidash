@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Dialog from "@material-ui/core/Dialog";
 import { red, brown } from "@material-ui/core/colors";
 import { OKicon, Xicon } from "../../assets/CustomIcons";
@@ -386,7 +387,8 @@ export default class ModelForm extends React.Component {
                   : ""
               }
               onChange={event => {
-                this.updateModel({ url: event.target.value }, () => {
+                const url = event.target.value;
+                this.updateModel({ url: url }, () => {
                   if (!this.state.model.validate()) {
                     if (
                       this.state.model.errors !== undefined
@@ -397,7 +399,7 @@ export default class ModelForm extends React.Component {
                   } else {
                     this.setState({ validationFailed: false });
                   }
-                  this.checkUrl(event.target.value);
+                  this.checkUrl(url);
                 });
               }}
               disabled={this.state.isBlocked}
@@ -421,7 +423,7 @@ export default class ModelForm extends React.Component {
             <Select
               id="modelFormSelectClass"
               label="Select class"
-              value={this.state.model.model_class.id}
+              value={this.state.model.model_class.id !== null ? this.state.model.model_class.id : undefined}
               onChange={event => {
                 for (let klass of this.state.modelClasses) {
                   if (klass.id == event.target.value) {
