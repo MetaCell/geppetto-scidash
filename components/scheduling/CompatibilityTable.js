@@ -61,7 +61,7 @@ export default class CompatibilityTable extends React.Component {
 
 
   getTableCell (cellInfo) {
-    if (cellInfo == "TBD" || cellInfo == "N/A"  || cellInfo == "None"){
+    if (cellInfo == "TBD" || cellInfo == "N/A" || cellInfo == "None"){
       return (
         <span
           data-tooltip={cellInfo == "TBD"
