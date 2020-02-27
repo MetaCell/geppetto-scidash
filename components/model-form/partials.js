@@ -3,6 +3,7 @@ import _ from "underscore";
 import Switch from "@material-ui/core/Switch";
 import React, { useState } from "react";
 import { TOGGLE_ALL, UNTOGGLE_ALL } from "./events";
+import { selectors, GriddleComponents } from 'griddle-react';
 
 const styles = {
   thumbOff: { backgroundColor: "red", },
@@ -11,17 +12,14 @@ const styles = {
   trackSwitched: { backgroundColor: "#83e183", }
 };
 
-export const rowDataSelector = (state, { griddleKey }) => state
-  .get("data")
-  .find(rowMap => rowMap.get("griddleKey") === griddleKey)
-  .toJSON();
-
-export const enhancedWithRowData = (onCheck, onUncheck, disabled) => connect((state, props) => ({
-  rowData: rowDataSelector(state, props),
-  onCheck,
-  onUncheck,
-  disabled
-}));
+export const enhancedWithRowData = (onCheck, onUncheck, disabled) => {
+  return (
+    <ChooseVarComponent
+      onCheck={onCheck}
+      onUncheck={onUncheck}
+      disabled={disabled} />
+  );
+}
 
 export class ChooseVarComponent extends React.Component{
 
@@ -42,7 +40,7 @@ export class ChooseVarComponent extends React.Component{
     GEPPETTO.on(TOGGLE_ALL, this.onToggleAll, this);
     GEPPETTO.on(UNTOGGLE_ALL, this.onUntoggleAll, this);
 
-    this.setState({ toggled: this.props.value });
+    this.setState({ toggled: this.props.value.get("status") });
   }
 
   componentWillUnmount (){
@@ -53,9 +51,9 @@ export class ChooseVarComponent extends React.Component{
   onToggle (ev, toggled){
     this.switchToggle(toggled, () => {
       if (toggled) {
-        this.props.onCheck(this.props.rowData.name);
+        this.props.onCheck(this.props.value.get("item"));
       } else {
-        this.props.onUncheck(this.props.rowData.name);
+        this.props.onUncheck(this.props.value.get("item"));
       }
     });
   }
