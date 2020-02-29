@@ -9,7 +9,7 @@ jQuery(function () {
   let Sentry = require("@sentry/browser")
   let App = require("./App").default;
 
-  Sentry.init({dsn: GEPPETTO_CONFIGURATION.sentryDSN});
+  Sentry.init({ dsn: GEPPETTO_CONFIGURATION.sentryDSN });
 
   require("./styles/scidash.less");
 

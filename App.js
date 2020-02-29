@@ -17,6 +17,7 @@ import FooterContainer from "./components/page/footer/FooterContainer";
 
 // Needed for onTouchTap
 import scidashApp from "./reducers/scidash-app";
+import SentryErrorBoundary from "./components/sentry/SentryErrorBoundary"
 import ScoresContainer from "./components/scores/ScoresContainer";
 import TestSuitesContainer from "./components/test-suites/TestSuitesContainer";
 import ModelsContainer from "./components/models/ModelsContainer";
@@ -87,34 +88,36 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <MuiThemeProvider theme={theme}>
-          <Provider store={this.state.store}>
-            <ConnectedRouter history={this.history}>
-              <div className="mainContainer">
-                <HeaderContainer />
-                <div className="midContainer">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <Switch>
-                        <Route path={this.pagesService.SCORES_PAGE} component={props => <ScoresContainer {...props} />} exact />
-                        <Route path={this.pagesService.SUITES_PAGE} component={props => <TestSuitesContainer {...props} />} exact />
-                        <Route path={this.pagesService.TESTS_PAGE} component={props => <TestsContainer {...props} />} exact />
-                        <Route path={this.pagesService.TESTS_CREATE_PAGE} component={props => <TestCreateContainer {...props} />} exact />
-                        <Route path={this.pagesService.MODELS_PAGE} component={props => <ModelsContainer {...props} />} exact />
-                        <Route path={this.pagesService.MODELS_CREATE_PAGE} component={props => <ModelCreateContainer {...props} />} exact />
-                        <Route path={this.pagesService.SETTINGS_PAGE} component={props => <Settings {...props} />} exact />
-                        <Route path={this.pagesService.SCHEDULING_PAGE} component={props => <SchedulingContainer {...props} />} exact />
-                        <Route path={this.pagesService.MODELS_EDIT_PAGE} component={props => <ModelEditContainer {...props} />} exact />
-                        <Route path={this.pagesService.TESTS_EDIT_PAGE} component={props => <TestEditContainer {...props} />} exact />
-                      </Switch>
+        <SentryErrorBoundary>
+          <MuiThemeProvider theme={theme}>
+            <Provider store={this.state.store}>
+              <ConnectedRouter history={this.history}>
+                <div className="mainContainer">
+                  <HeaderContainer />
+                  <div className="midContainer">
+                    <div className="row">
+                      <div className="col-md-12">
+                        <Switch>
+                          <Route path={this.pagesService.SCORES_PAGE} component={props => <ScoresContainer {...props} />} exact />
+                          <Route path={this.pagesService.SUITES_PAGE} component={props => <TestSuitesContainer {...props} />} exact />
+                          <Route path={this.pagesService.TESTS_PAGE} component={props => <TestsContainer {...props} />} exact />
+                          <Route path={this.pagesService.TESTS_CREATE_PAGE} component={props => <TestCreateContainer {...props} />} exact />
+                          <Route path={this.pagesService.MODELS_PAGE} component={props => <ModelsContainer {...props} />} exact />
+                          <Route path={this.pagesService.MODELS_CREATE_PAGE} component={props => <ModelCreateContainer {...props} />} exact />
+                          <Route path={this.pagesService.SETTINGS_PAGE} component={props => <Settings {...props} />} exact />
+                          <Route path={this.pagesService.SCHEDULING_PAGE} component={props => <SchedulingContainer {...props} />} exact />
+                          <Route path={this.pagesService.MODELS_EDIT_PAGE} component={props => <ModelEditContainer {...props} />} exact />
+                          <Route path={this.pagesService.TESTS_EDIT_PAGE} component={props => <TestEditContainer {...props} />} exact />
+                        </Switch>
+                      </div>
                     </div>
                   </div>
+                  <FooterContainer />
                 </div>
-                <FooterContainer />
-              </div>
-            </ConnectedRouter>
-          </Provider>
-        </MuiThemeProvider>
+              </ConnectedRouter>
+            </Provider>
+          </MuiThemeProvider>
+        </SentryErrorBoundary>
       );
     }
 
