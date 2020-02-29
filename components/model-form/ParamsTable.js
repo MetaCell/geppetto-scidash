@@ -201,14 +201,13 @@ export default class ParamsTable extends React.Component {
               title="Watch"
               id="toggled"
               headerCssClassName="toggleHeaderClass"
-              customComponent={(props) => {
-                return (
+              customComponent={props => (
                 <ChooseVarComponent
                   onCheck={this.props.onCheck}
                   onUncheck={this.props.onUncheck}
                   disabled={this.props.disabled}
                   {...props}
-                />)}}
+                />)}
             />
           </RowDefinition>
         </Griddle>

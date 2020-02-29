@@ -351,7 +351,7 @@ export default class ModelForm extends React.Component {
       </div>
     );
 
-    const actions=[
+    const actions = [
       <Button
         variant="contained"
         label="Close"
