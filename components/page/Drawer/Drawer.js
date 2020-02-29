@@ -42,9 +42,9 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
         <Icon className="fa fa-bars" />
       </IconButton>
       <Drawer
-        width={400}
         open={drawerActive}
         onClose={() => toggleDrawer()}
+        style={{width: "350px"}}
       >
         <img style={styles.logo} src={ScidashLogo} alt="" />
         <Divider />

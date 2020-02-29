@@ -2,9 +2,8 @@ import React from "react";
 import Griddle, { RowDefinition, ColumnDefinition, plugins } from "griddle-react";
 import _ from "underscore";
 import Button from "@material-ui/core/Button";
-import { enhancedWithRowData, ChooseVarComponent } from "./partials";
+import { ChooseVarComponent } from "./partials";
 import { TOGGLE_ALL, UNTOGGLE_ALL, ADDED, REMOVED } from "./events";
-import mapProps from 'recompose/mapProps';
 
 export default class ParamsTable extends React.Component {
 
@@ -203,12 +202,12 @@ export default class ParamsTable extends React.Component {
               headerCssClassName="toggleHeaderClass"
               customComponent={(props) => {
                 return (
-                <ChooseVarComponent
-                  onCheck={this.props.onCheck}
-                  onUncheck={this.props.onUncheck}
-                  disabled={this.props.disabled}
-                  {...props}
-                />)}}
+                  <ChooseVarComponent
+                    onCheck={this.props.onCheck}
+                    onUncheck={this.props.onUncheck}
+                    disabled={this.props.disabled}
+                    {...props}
+                  />)}}
             />
           </RowDefinition>
         </Griddle>

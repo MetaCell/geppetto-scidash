@@ -4,7 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
-import { red, brown } from "@material-ui/core/colors";
+import FormControl from '@material-ui/core/FormControl';
 import ParamsFormset from "./ParamsFormset";
 import TestInstance from "../../models/TestInstance";
 import Helper from "../../shared/Helper";
@@ -96,50 +96,53 @@ export default class TestForm extends React.Component {
       <span>
         {this.state.isBlocked ? blockedWarning : undefined}
         <div style={styles.firstLine.container}>
-          <TextField
-            value={this.state.model.name}
-            onChange={e => this.updateModel({ "name": e.target.value })}
-            error={ this.state.model.errors !== undefined && "name" in this.state.model.errors }
-            helperText={
-              (this.state.model.errors !== undefined && "name" in this.state.model.errors) ? this.state.model.errors["name"] : ""
-            }
-            style={styles.firstLine.one}
-            label="Name of the test"
-            disabled={this.state.isBlocked}
-          />
-
-          <Select
-            id="testFormSelectClass"
-            style={styles.firstLine.two}
-            value={ this.state.model.test_class.id ? this.state.model.test_class.id : "" }
-            label="Select test class"
-            onChange={e => {
-              for (let klass of this.state.testClasses) {
-                if (klass.id == e.target.value) {
-                  this.updateModel({ "test_class": klass, });
-                }
+          <FormControl
+            disabled={this.state.isBlocked}>
+            <TextField
+              value={this.state.model.name}
+              onChange={e => this.updateModel({ "name": e.target.value })}
+              error={ this.state.model.errors !== undefined && "name" in this.state.model.errors }
+              helperText={
+                (this.state.model.errors !== undefined && "name" in this.state.model.errors) ? this.state.model.errors["name"] : ""
               }
-            }}
-            disabled={this.state.isBlocked}
-          >
+              style={styles.firstLine.one}
+              label="Name of the test"
+            />
 
-            {this.state.testClasses.sort((a, b) => {
-              let textA = a.class_name.toLowerCase();
-              let textB = b.class_name.toLowerCase();
+            <Select
+              id="testFormSelectClass"
+              style={styles.firstLine.two}
+              value={ this.state.model.test_class.id ? this.state.model.test_class.id : "" }
+              label="Select test class"
+              onChange={e => {
+                for (let klass of this.state.testClasses) {
+                  if (klass.id == e.target.value) {
+                    this.updateModel({ "test_class": klass, });
+                  }
+                }
+              }}
+            >
 
-              return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-            }).map((klass, index) => <MenuItem value={klass.id} key={index} label={klass.class_name}>{klass.class_name}</MenuItem>)}
-          </Select>
+              {this.state.testClasses.sort((a, b) => {
+                let textA = a.class_name.toLowerCase();
+                let textB = b.class_name.toLowerCase();
+
+                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+              }).map((klass, index) => <MenuItem value={klass.id} key={index} label={klass.class_name}>{klass.class_name}</MenuItem>)}
+            </Select>
+          </FormControl>
         </div>
 
         <div style={styles.secondLine.container}>
-          <TextField
-            onChange={e => this.updateModel({ "description": e.target.value })}
-            value={this.state.model.description}
-            style={styles.secondLine.one}
-            label="Test description"
-            disabled={this.state.isBlocked}
-          />
+          <FormControl
+            disabled={this.state.isBlocked}>
+            <TextField
+              onChange={e => this.updateModel({ "description": e.target.value })}
+              value={this.state.model.description}
+              style={styles.secondLine.one}
+              label="Test description"
+            />
+          </FormControl>
         </div>
 
         <div style={styles.thirdLine.container}>
@@ -190,17 +193,19 @@ export default class TestForm extends React.Component {
                 (this.state.model.errors !== undefined && "observation" in this.state.model.errors) ? this.state.model.errors["observation"] : ""
               }
             </p>
-            <ParamsFormset
-              schema={this.state.model.test_class.observation_schema}
-              default_params={this.state.model.test_class.default_params}
-              unitsMap={this.state.model.getObservationUnitsMap()}
-              test_class={this.state.model.test_class}
-              onChange={observation => {
-                this.updateModel({ observation });
-              }}
-              model={this.props.actionType === "edit" ? this.state.model.observation : undefined}
-              disabled={this.state.isBlocked}
-            />
+            <FormControl
+              disabled={this.state.isBlocked}>
+              <ParamsFormset
+                schema={this.state.model.test_class.observation_schema}
+                default_params={this.state.model.test_class.default_params}
+                unitsMap={this.state.model.getObservationUnitsMap()}
+                test_class={this.state.model.test_class}
+                onChange={observation => {
+                  this.updateModel({ observation });
+                }}
+                model={this.props.actionType === "edit" ? this.state.model.observation : undefined}
+              />
+            </FormControl>
           </div>
 
           <div style={styles.fourthLine.column}>
@@ -210,17 +215,19 @@ export default class TestForm extends React.Component {
                 (this.state.model.errors !== undefined && "params" in this.state.model.errors) ? this.state.model.errors["params"] : ""
               }
             </p>
-            <ParamsFormset
-              schema={this.state.model.test_class.test_parameters_schema}
-              default_params={this.state.model.test_class.default_params}
-              unitsMap={this.state.model.getParamsUnitsMap()}
-              test_class={this.state.model.test_class}
-              onChange={params => {
-                this.updateModel({ params });
-              }}
-              model={this.props.actionType === "edit" ? this.state.model.params : undefined}
-              disabled={this.state.isBlocked}
-            />
+            <FormControl
+              disabled={this.state.isBlocked}>
+              <ParamsFormset
+                schema={this.state.model.test_class.test_parameters_schema}
+                default_params={this.state.model.test_class.default_params}
+                unitsMap={this.state.model.getParamsUnitsMap()}
+                test_class={this.state.model.test_class}
+                onChange={params => {
+                  this.updateModel({ params });
+                }}
+                model={this.props.actionType === "edit" ? this.state.model.params : undefined}
+              />
+            </FormControl>
           </div>
         </div>
         <div style={styles.actionsContainer}>

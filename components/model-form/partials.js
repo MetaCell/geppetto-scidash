@@ -12,15 +12,6 @@ const styles = {
   trackSwitched: { backgroundColor: "#83e183", }
 };
 
-export const enhancedWithRowData = (onCheck, onUncheck, disabled) => {
-  return (
-    <ChooseVarComponent
-      onCheck={onCheck}
-      onUncheck={onUncheck}
-      disabled={disabled} />
-  );
-}
-
 export class ChooseVarComponent extends React.Component{
 
   constructor (props, context){

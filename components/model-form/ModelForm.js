@@ -10,7 +10,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import { red, brown } from "@material-ui/core/colors";
+import FormControl from '@material-ui/core/FormControl';
 import { OKicon, Xicon } from "../../assets/CustomIcons";
 import ModelClassApiService from "../../services/api/ModelClassApiService";
 import FilteringService from "../../services/FilteringService";
@@ -351,7 +351,7 @@ export default class ModelForm extends React.Component {
       </div>
     );
 
-    const actions=[
+    const actions = [
       <Button
         variant="contained"
         label="Close"
@@ -365,112 +365,115 @@ export default class ModelForm extends React.Component {
       <span className="model-form">
         <div className="first-line">
           {this.state.isBlocked ? blockedWarning : undefined}
-          <div className="container">
-            <TextField
-              value={this.state.model.name}
-              className="model-name"
-              error={this.state.model.errors !== undefined && "name" in this.state.model.errors}
-              helperText={
-                this.state.model.errors !== undefined
-                && "name" in this.state.model.errors
-                  ? this.state.model.errors["name"]
-                  : ""
-              }
-              label="Name of the model"
-              onChange={event => {
-                this.updateModel({ name: event.target.value }, () => {
-                  if (!this.state.model.validate()) {
-                    this.setState({ validationFailed: true });
-                  } else {
-                    this.setState({ validationFailed: false });
-                  }
-                });
-              }}
-              disabled={this.state.isBlocked}
-            />
-            <TextField
-              value={this.state.model.url}
-              className="url"
-              label="Source URL"
-              error={this.state.model.errors !== undefined && "url" in this.state.model.errors}
-              helperText={
-                this.state.model.errors !== undefined
-                && "url" in this.state.model.errors
-                  ? this.state.model.errors["url"]
-                  : ""
-              }
-              onChange={event => {
-                const url = event.target.value;
-                this.updateModel({ url: url }, () => {
-                  if (!this.state.model.validate()) {
-                    if (
-                      this.state.model.errors !== undefined
-                      && "url" in this.state.model.errors
-                    ) {
+          <FormControl
+            disabled={this.state.isBlocked}>
+            <div className="container">
+              <TextField
+                value={this.state.model.name}
+                className="model-name"
+                error={this.state.model.errors !== undefined && "name" in this.state.model.errors}
+                helperText={
+                  this.state.model.errors !== undefined
+                  && "name" in this.state.model.errors
+                    ? this.state.model.errors["name"]
+                    : ""
+                }
+                label="Name of the model"
+                onChange={event => {
+                  this.updateModel({ name: event.target.value }, () => {
+                    if (!this.state.model.validate()) {
                       this.setState({ validationFailed: true });
+                    } else {
+                      this.setState({ validationFailed: false });
                     }
-                  } else {
-                    this.setState({ validationFailed: false });
-                  }
-                  this.checkUrl(url);
-                });
-              }}
-              disabled={this.state.isBlocked}
-            />
-            <span className="icons">
-              {this.state.successClasses ? (
-                <SvgIcon style={{ color: "green" }}>{OKicon}</SvgIcon>
-              ) : null}
-              {this.state.failClasses ? (
-                <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
-              ) : null}
-              {this.state.loadingClasses ? (
-                <CircularProgress size={36} />
-              ) : null}
-            </span>
-          </div>
+                  });
+                }}
+              />
+              <TextField
+                value={this.state.model.url}
+                className="url"
+                label="Source URL"
+                error={this.state.model.errors !== undefined && "url" in this.state.model.errors}
+                helperText={
+                  this.state.model.errors !== undefined
+                  && "url" in this.state.model.errors
+                    ? this.state.model.errors["url"]
+                    : ""
+                }
+                onChange={event => {
+                  const url = event.target.value;
+                  this.updateModel({ url: url }, () => {
+                    if (!this.state.model.validate()) {
+                      if (
+                        this.state.model.errors !== undefined
+                        && "url" in this.state.model.errors
+                      ) {
+                        this.setState({ validationFailed: true });
+                      }
+                    } else {
+                      this.setState({ validationFailed: false });
+                    }
+                    this.checkUrl(url);
+                  });
+                }}
+              />
+              <span className="icons">
+                {this.state.successClasses ? (
+                  <SvgIcon style={{ color: "green" }}>{OKicon}</SvgIcon>
+                ) : null}
+                {this.state.failClasses ? (
+                  <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
+                ) : null}
+                {this.state.loadingClasses ? (
+                  <CircularProgress size={36} />
+                ) : null}
+              </span>
+            </div>
+          </FormControl>
         </div>
 
         <div className="second-line">
           <div className="container">
-            <Select
-              id="modelFormSelectClass"
-              label="Select class"
-              value={this.state.model.model_class.id !== null ? this.state.model.model_class.id : undefined}
-              onChange={event => {
-                for (let klass of this.state.modelClasses) {
-                  if (klass.id == event.target.value) {
-                    this.updateModel(
-                      { model_class: klass },
-                      () => {
-                        if (!this.state.model.validate()) {
-                          this.setState({ validationFailed: true });
-                        } else {
-                          this.setState({ validationFailed: false });
-                        }
-                      },
-                      this.props.actionType == "edit"
-                        && this.state.isBlocked
-                    );
+            <FormControl
+              disabled={this.state.isBlocked}>
+              <Select
+                id="modelFormSelectClass"
+                label="Select class"
+                value={this.state.model.model_class.id !== null ? this.state.model.model_class.id : undefined}
+                onChange={event => {
+                  for (let klass of this.state.modelClasses) {
+                    if (klass.id == event.target.value) {
+                      this.updateModel(
+                        { model_class: klass },
+                        () => {
+                          if (!this.state.model.validate()) {
+                            this.setState({ validationFailed: true });
+                          } else {
+                            this.setState({ validationFailed: false });
+                          }
+                        },
+                        this.props.actionType == "edit"
+                          && this.state.isBlocked
+                      );
+                    }
                   }
-                }
-              }}
-              disabled={this.state.isBlocked}
-            >
-              {this.state.modelClasses.map(klass => (
-                <MenuItem
-                  value={klass.id}
-                  key={klass.id}
-                  label={klass.class_name}
-                >
-                  {klass.class_name}
-                </MenuItem>
-              ))}
-            </Select>
-            {this.getModelClassError().length > 0
-              ? <FormHelperText>{this.getModelClassError()}</FormHelperText>
-              : ""
-            }
+                }}
+              >
+                {this.state.modelClasses.map(klass => (
+                  <MenuItem
+                    value={klass.id}
+                    key={klass.id}
+                    label={klass.class_name}
+                  >
+                    {klass.class_name}
+                  </MenuItem>
+                ))}
+              </Select>
+              {this.getModelClassError().length > 0
+                ? <FormHelperText>{this.getModelClassError()}</FormHelperText>
+                : ""
+              }
+            </FormControl>
 
             <TextField
               value={this.state.newTag}
