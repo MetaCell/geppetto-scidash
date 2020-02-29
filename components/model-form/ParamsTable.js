@@ -4,6 +4,7 @@ import _ from "underscore";
 import Button from "@material-ui/core/Button";
 import { enhancedWithRowData, ChooseVarComponent } from "./partials";
 import { TOGGLE_ALL, UNTOGGLE_ALL, ADDED, REMOVED } from "./events";
+import mapProps from 'recompose/mapProps';
 
 export default class ParamsTable extends React.Component {
 
@@ -97,7 +98,10 @@ export default class ParamsTable extends React.Component {
     this.state.stateVariables.map(item => {
       tableData.push({
         name: item,
-        toggled: this.state.watchedVariables.includes(item)
+        toggled: {
+          status: this.state.watchedVariables.includes(item),
+          item: item
+        }
       });
     });
 
@@ -197,13 +201,14 @@ export default class ParamsTable extends React.Component {
               title="Watch"
               id="toggled"
               headerCssClassName="toggleHeaderClass"
-              customComponent={enhancedWithRowData(
-                this.props.onCheck,
-                this.props.onUncheck,
-                this.props.disabled
-              )(
-                ChooseVarComponent
-              )}
+              customComponent={(props) => {
+                return (
+                <ChooseVarComponent
+                  onCheck={this.props.onCheck}
+                  onUncheck={this.props.onUncheck}
+                  disabled={this.props.disabled}
+                  {...props}
+                />)}}
             />
           </RowDefinition>
         </Griddle>

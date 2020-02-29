@@ -8,6 +8,8 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
 import { red, brown } from "@material-ui/core/colors";
 import { OKicon, Xicon } from "../../assets/CustomIcons";
 import ModelClassApiService from "../../services/api/ModelClassApiService";
@@ -348,6 +350,17 @@ export default class ModelForm extends React.Component {
         </p>
       </div>
     );
+
+    const actions=[
+      <Button
+        variant="contained"
+        label="Close"
+        key="close-button"
+        onClick={() => this.setState({ modelParamsOpen: false })}
+      >
+        Close
+      </Button>
+    ];
     return (
       <span className="model-form">
         <div className="first-line">
@@ -556,34 +569,28 @@ export default class ModelForm extends React.Component {
           </span>
 
           <Dialog
-            actions={[
-              <Button
-                variant="contained"
-                label="Close"
-                key="close-button"
-                onClick={() => this.setState({ modelParamsOpen: false })}
-              >
-                Close
-              </Button>
-            ]}
             maxWidth={false}
-            open={this.state.modelParamsOpen}
-          >
-            <ParamsTable
-              stateVariables={this.state.stateVariables}
-              watchedVariables={
-                typeof this.state.model.run_params.watchedVariables
-                != "undefined"
-                  ? this.state.model.run_params.watchedVariables
-                  : []
-              }
-              params={this.state.params}
-              onCheck={this.saveChecked}
-              onUncheck={this.removeChecked}
-              removeAll={this.removeAll}
-              addAll={this.addAll}
-              disabled={this.state.isBlocked}
-            />
+            open={this.state.modelParamsOpen}>
+            <DialogContent>
+              <ParamsTable
+                stateVariables={this.state.stateVariables}
+                watchedVariables={
+                  typeof this.state.model.run_params.watchedVariables
+                  != "undefined"
+                    ? this.state.model.run_params.watchedVariables
+                    : []
+                }
+                params={this.state.params}
+                onCheck={this.saveChecked}
+                onUncheck={this.removeChecked}
+                removeAll={this.removeAll}
+                addAll={this.addAll}
+                disabled={this.state.isBlocked}
+              />
+            </DialogContent>
+            <DialogActions>
+              {actions}
+            </DialogActions>
           </Dialog>
         </div>
 
