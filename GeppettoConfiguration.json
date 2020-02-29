@@ -7,6 +7,7 @@
   "rootRedirect":"",
   "noTest": false,
   "themes": "css/colors",
+  "sentryDSN": "https://81d007aa741d46ada0741f1a4f1cfd1c@sentry.io/2069800",,
   "properties": {
     "title": "SciDash",
     "description": "SciDash is a project that enables the reproducible execution and visualization of data-driven unit test (SciUnit) for assessing model quality.",
