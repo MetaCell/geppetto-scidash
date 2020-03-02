@@ -6,11 +6,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import ScidashLogo from "../../../assets/scidash_logo.png";
 import PagesService from "../../../services/PagesService";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({ drawerPaper: { width: 320, }, });
 
 class SciDashMenuItem extends React.Component {
   render () {
     return (
-      <MenuItem id={this.props.id} onClick={this.props.onClick}>
+      <MenuItem id={this.props.id} onClick={this.props.onClick} disabled={this.props.disabled}>
         {this.props.leftIcon}
         <div>{this.props.primaryText}</div>
       </MenuItem>
@@ -34,6 +37,8 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
     }
   }
 
+  const classes = useStyles();
+
   return (
     <div>
       <IconButton
@@ -44,7 +49,7 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
       <Drawer
         open={drawerActive}
         onClose={() => toggleDrawer()}
-        style={{width: "350px"}}
+        classes={{ paper: classes.drawerPaper, }}
       >
         <img style={styles.logo} src={ScidashLogo} alt="" />
         <Divider />
