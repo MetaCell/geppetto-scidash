@@ -39,7 +39,7 @@ const ScoreDetails = ({
   testTags,
   instanceTestName
 }) => (
-  <Card style={{ overflow: "scroll"}}>
+  <Card style={{ overflow: "scroll" }}>
     <CardContent
       style={{
         wordWrap: "break-word",

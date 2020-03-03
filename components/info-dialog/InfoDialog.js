@@ -66,12 +66,12 @@ export default class InfoDialog extends React.Component {
 
               {(instanceSource !== "None")
                 ? (<span>
-                    <p />
-                    <strong className="dialogTitle">Source: </strong>
-                    <div className="dialogText">
-                      <a target='_blank' className="model-url" href={instanceSource}> {instanceSource} </a>
-                    </div>
-                  </span>)
+                  <p />
+                  <strong className="dialogTitle">Source: </strong>
+                  <div className="dialogText">
+                    <a target='_blank' className="model-url" href={instanceSource}> {instanceSource} </a>
+                  </div>
+                </span>)
                 : undefined}
 
               <p />

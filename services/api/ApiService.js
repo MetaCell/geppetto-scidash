@@ -91,6 +91,10 @@ export default class ApiService {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(model)
+      }).then( data => {
+        if (data.status != 200) {
+          throw "Error: " + data.statusText;
+        }
       });
     }
 

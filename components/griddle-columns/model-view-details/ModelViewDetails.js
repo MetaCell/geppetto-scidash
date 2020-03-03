@@ -1,7 +1,7 @@
 import React from "react";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
-import { Card, CardContent} from "@material-ui/core";
+import { Card, CardContent } from "@material-ui/core";
 import { Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
 
 export default class ModelViewDetails extends React.Component {
@@ -54,9 +54,9 @@ export default class ModelViewDetails extends React.Component {
         >
 
           <DialogTitle>
-          {(this.props.modelInstance.get("class") !== undefined) 
-            ? this.props.modelInstance.get("class") + " details"
-            : "Model details"}
+            {(this.props.modelInstance.get("class") !== undefined)
+              ? this.props.modelInstance.get("class") + " details"
+              : "Model details"}
           </DialogTitle>
 
           <DialogContent>

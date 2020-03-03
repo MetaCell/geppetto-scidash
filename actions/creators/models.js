@@ -88,34 +88,40 @@ function modelCreateFinished (result, dispatch){
 }
 
 export function modelCreateStarted (model, dispatch){
-  let apiService = new ModelsApiService();
-  let copiedModel = Object.assign({}, model);
-  copiedModel.hash_id = new Helper().generateHashId(copiedModel);
+  try {
+    let apiService = new ModelsApiService();
+    let copiedModel = Object.assign({}, model);
+    copiedModel.hash_id = new Helper().generateHashId(copiedModel);
 
-  let d = new Date();
-  copiedModel.timestamp
-    = d.getFullYear()
-    + "-"
-    + ("0" + (d.getMonth() + 1)).slice(-2)
-    + "-"
-    + ("0" + d.getDate()).slice(-2)
-    + "T"
-    + d.getHours()
-    + ":"
-    + d.getMinutes();
-  let tagObjects = [];
+    let d = new Date();
+    copiedModel.timestamp
+      = d.getFullYear()
+      + "-"
+      + ("0" + (d.getMonth() + 1)).slice(-2)
+      + "-"
+      + ("0" + d.getDate()).slice(-2)
+      + "T"
+      + d.getHours()
+      + ":"
+      + d.getMinutes();
+    let tagObjects = [];
 
-  for (let tag of copiedModel.tags){
-    tagObjects.push({ name: tag });
+    for (let tag of copiedModel.tags){
+      tagObjects.push({ name: tag });
+    }
+
+    copiedModel.tags = tagObjects;
+
+    apiService.create(copiedModel).then(result => result.json()).then(result => {
+      dispatch(modelCreateFinished(result, dispatch));
+    });
+
+    return { type: MODEL_CREATE_STARTED };
+  } catch (error) {
+    this.setState(() => {
+      throw "modelCreateStarted threw error " + error
+    });
   }
-
-  copiedModel.tags = tagObjects;
-
-  apiService.create(copiedModel).then(result => result.json()).then(result => {
-    dispatch(modelCreateFinished(result, dispatch));
-  });
-
-  return { type: MODEL_CREATE_STARTED };
 }
 
 export function cloneModelFinished (model){

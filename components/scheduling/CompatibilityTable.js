@@ -141,13 +141,19 @@ export default class CompatibilityTable extends React.Component {
   }
 
   async getCompatibilityMatrix (modelsVsTests) {
-    this.setState({ showLoading: true });
-    let service = new CompatibilityApiService();
-    let result = await service.create(modelsVsTests);
+    try {
+      this.setState({ showLoading: true });
+      let service = new CompatibilityApiService();
+      let result = await service.create(modelsVsTests);
 
-    this.setState({ showLoading: false });
+      this.setState({ showLoading: false });
 
-    return result;
+      return result;
+    } catch (error) {
+      this.setState(() => {
+        throw "Compatibility API service threw error " + error
+      });
+    }
   }
 
   render () {

@@ -34,27 +34,33 @@ class Scheduling extends React.Component {
   }
 
   async scheduleTests (matrix) {
-    this.setState({ showLoading: true });
+    try {
+      this.setState({ showLoading: true });
 
-    let payload = {
-      suiteName: this.state.saveSuites ? this.state.suitesName : "",
-      matrix,
-    };
+      let payload = {
+        suiteName: this.state.saveSuites ? this.state.suitesName : "",
+        matrix,
+      };
 
-    let schedulingService = new SchedulingApiService();
+      let schedulingService = new SchedulingApiService();
 
-    schedulingService.clearCache(schedulingService.storage);
+      schedulingService.clearCache(schedulingService.storage);
 
-    let result = await schedulingService.create(payload);
+      let result = await schedulingService.create(payload);
 
-    this.setState({
-      showLoading: false,
-      scheduled: true
-    });
+      this.setState({
+        showLoading: false,
+        scheduled: true
+      });
 
-    this.props.clearScheduler();
+      this.props.clearScheduler();
 
-    return result;
+      return result;
+    } catch (error) {
+      this.setState(() => {
+        throw "scheduleTests threw error " + error
+      });
+    }
   }
 
   saveCompatible (csvMatrix) {
