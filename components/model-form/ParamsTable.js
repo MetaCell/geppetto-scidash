@@ -249,20 +249,22 @@ export default class ParamsTable extends React.Component {
 
     return (
       <span>
-        <div>
+        <div style={{ marginBottom: '10px' }}>
           <Button
+            variant="contained"
             label="State Variables" onClick={() => this.setState({
               stateVariablesOpen: true,
               paramsOpen: false
-            })} style={{ margin: "10px 0 10px 0", backgroundColor: this.state.stateVariablesOpen ? "#ccc" : "" }}
+            })} style={{ margin: "10px 0 10px 0 !important", backgroundColor: this.state.stateVariablesOpen ? "#ccc" : "" }}
           >
             State Variables
           </Button>
           <Button
+            variant="contained"
             label="Parameters" onClick={() => this.setState({
               stateVariablesOpen: false,
               paramsOpen: true
-            })} style={{ margin: "10px 0 10px 0", backgroundColor: this.state.paramsOpen ? "#ccc" : "" }}
+            })} style={{ margin: "10px 0 10px 0 !important", backgroundColor: this.state.paramsOpen ? "#ccc" : "" }}
           >
             Parameters
           </Button>
@@ -270,8 +272,9 @@ export default class ParamsTable extends React.Component {
             && (
               <span>
                 <Button
+                  variant="contained"
                   label="Untoggle all" style={{
-                    margin: "10px 0 10px 0",
+                    margin: "10px 0 10px 0 !important",
                     float: "right"
                   }}
                   disabled={this.props.disabled}
@@ -280,8 +283,9 @@ export default class ParamsTable extends React.Component {
                   Untoggle all
                 </Button>
                 <Button
+                  variant="contained"
                   label="Toggle all" style={{
-                    margin: "10px 0 10px 0",
+                    margin: "10px 0 10px 0 !important",
                     float: "right"
                   }}
                   disabled={this.props.disabled}

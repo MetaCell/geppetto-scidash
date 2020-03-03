@@ -10,7 +10,6 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import { red, brown } from "@material-ui/core/colors";
 import { OKicon, Xicon } from "../../assets/CustomIcons";
 import ModelClassApiService from "../../services/api/ModelClassApiService";
 import FilteringService from "../../services/FilteringService";
@@ -21,6 +20,7 @@ import ModelInstance from "../../models/ModelInstance";
 import { ADDED, REMOVED } from "./events";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import { FormControl, InputLabel } from "@material-ui/core";
 
 
 const styles = {
@@ -444,44 +444,51 @@ class ModelForm extends React.Component {
 
         <div className="second-line">
           <div className="container">
-            <Select
-              id="modelFormSelectClass"
-              label="Select class"
-              value={this.state.model.model_class.id !== null ? this.state.model.model_class.id : undefined}
-              onChange={event => {
-                for (let klass of this.state.modelClasses) {
-                  if (klass.id == event.target.value) {
-                    this.updateModel(
-                      { model_class: klass },
-                      () => {
-                        if (!this.state.model.validate()) {
-                          this.setState({ validationFailed: true });
-                        } else {
-                          this.setState({ validationFailed: false });
-                        }
-                      },
-                      this.props.actionType == "edit"
-                        && this.state.isBlocked
-                    );
+            <FormControl style={{
+                  width: "50%",
+                  display: "flex",
+                  flexFlow: "horizontal",
+                  justifyContent: "space-around"
+                }}>
+              <Select
+                id="modelFormSelectClass"
+                label="Select class"
+                value={this.state.model.model_class.id !== null ? this.state.model.model_class.id : undefined}
+                onChange={event => {
+                  for (let klass of this.state.modelClasses) {
+                    if (klass.id == event.target.value) {
+                      this.updateModel(
+                        { model_class: klass },
+                        () => {
+                          if (!this.state.model.validate()) {
+                            this.setState({ validationFailed: true });
+                          } else {
+                            this.setState({ validationFailed: false });
+                          }
+                        },
+                        this.props.actionType == "edit"
+                          && this.state.isBlocked
+                      );
+                    }
                   }
-                }
-              }}
-              disabled={this.state.isBlocked}
-            >
-              {this.state.modelClasses.map(klass => (
-                <MenuItem
-                  value={klass.id}
-                  key={klass.id}
-                  label={klass.class_name}
-                >
-                  {klass.class_name}
-                </MenuItem>
-              ))}
-            </Select>
-            {this.getModelClassError().length > 0
-              ? <FormHelperText>{this.getModelClassError()}</FormHelperText>
-              : ""
-            }
+                }}
+                disabled={this.state.isBlocked}
+              >
+                {this.state.modelClasses.map(klass => (
+                  <MenuItem
+                    value={klass.id}
+                    key={klass.id}
+                    label={klass.class_name}
+                  >
+                    {klass.class_name}
+                  </MenuItem>
+                ))}
+              </Select>
+              {this.getModelClassError().length > 0
+                ? <FormHelperText error={true} margin="dense">{this.getModelClassError()}</FormHelperText>
+                : ""
+              }
+            </FormControl>
 
             <TextField
               value={this.state.newTag}
@@ -495,6 +502,11 @@ class ModelForm extends React.Component {
                   ? this.addTag(this.state.newTag.toLowerCase())
                   : null
               }
+              style={{
+                display: "flex",
+                flexFlow: "horizontal",
+                justifyContent: "space-around"
+              }}
             />
 
             <div className="tags">
@@ -582,7 +594,7 @@ class ModelForm extends React.Component {
           <Dialog
             maxWidth={false}
             open={this.state.modelParamsOpen}>
-            <DialogContent>
+            <DialogContent style={{ overflow: "scroll", width: "calc(100vw - 25vw)" }}>
               <ParamsTable
                 stateVariables={this.state.stateVariables}
                 watchedVariables={

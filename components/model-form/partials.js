@@ -67,6 +67,7 @@ export class ChooseVarComponent extends React.Component{
           }
           onChange={this.onToggle}
           disabled={this.props.disabled}
+          color="primary"
         />
       </div>
     );

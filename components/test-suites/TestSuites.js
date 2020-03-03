@@ -79,6 +79,11 @@ export default class TestSuites extends React.Component {
             <ColumnDefinition
               id="testsCount"
               title="# Tests"
+              customComponent={props => (
+                <span style={{marginLeft: "25px"}}>
+                  {props.value}
+                </span>
+              )}
               width="100px"
               order={3}
             />

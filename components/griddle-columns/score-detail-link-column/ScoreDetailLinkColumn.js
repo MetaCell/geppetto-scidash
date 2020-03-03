@@ -45,17 +45,16 @@ export default class ScoreDetailLinkColumn extends React.Component {
       <div>
         <div style={{
           position: "absolute",
-          width: "100%",
+          width: "80%",
           height: "100%",
           background: this.props.background,
           bottom: "0px",
-          right: "12px"
         }}
         />
         <div style={{
           textAlign: "center",
           position: "relative",
-          right: "20px"
+          right: "10px"
         }}
         >
           <a

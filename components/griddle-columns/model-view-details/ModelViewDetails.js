@@ -1,9 +1,8 @@
 import React from "react";
 import Chip from "@material-ui/core/Chip";
-import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
-import { red, brown } from '@material-ui/core/colors';
-import { Card, CardHeader, CardContent, DialogActions } from "@material-ui/core";
+import { Card, CardContent} from "@material-ui/core";
+import { Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
 
 export default class ModelViewDetails extends React.Component {
 
@@ -54,53 +53,73 @@ export default class ModelViewDetails extends React.Component {
           maxWidth={false}
         >
 
+          <DialogTitle>
+          {(this.props.modelInstance.get("class") !== undefined) 
+            ? this.props.modelInstance.get("class") + " details"
+            : "Model details"}
+          </DialogTitle>
 
-          <Card style={{ overflow: "scroll", width: "calc(100vw - 25vw)" }}>
-            <CardContent>
-              <p><strong>Class name: </strong>
-                {(this.props.modelInstance.get("class") !== undefined) 
-                  ? this.props.modelInstance.get("class")
-                  : undefined}
-              </p>
-              <p><strong>Class source: </strong>
-                {(this.props.modelInstance.get("modelClass") !== undefined) 
-                  ? this.props.modelInstance.get("modelClass").get("import_path")
-                  : undefined}
-              </p>
-              <p>
-                <strong>
-            Class capabilities:
-                </strong>
-                {(this.props.modelInstance.get("modelClass") !== undefined) 
-                  ? this.props.modelInstance.get("modelClass").get("capabilities").map((item, index) => <div key={index}> {item.get("class_name")} </div>) 
-                  : undefined}
-              </p>
-              <p><strong>Instance name: </strong>
-                {(this.props.modelInstance.get("name") !== undefined) 
-                  ? this.props.modelInstance.get("name")
-                  : undefined}
-              </p>
-              <p className="model-url"><strong>Instance source: </strong>
-                <a target='_blank' className="model-url" href={this.props.modelInstance.get("source")}> 
-                  {(this.props.modelInstance.get("source") !== undefined) 
-                    ? this.props.modelInstance.get("source")
+          <DialogContent>
+            <Card style={{ overflow: "scroll", width: "calc(100vw - 25vw)" }} raised={true}>
+              <CardContent>
+                <strong>Class name: </strong>
+                <div className="dialogText">
+                  {(this.props.modelInstance.get("class") !== undefined)
+                    ? this.props.modelInstance.get("class")
                     : undefined}
-                </a>
-              </p>
-              <p className="model-url"><strong>Instance Tags: </strong>
-                {modelTags.map((tag, i) => <Chip
-                  color={tag.toLowerCase() === "deprecated" ? "secondary" : "primary"}
-                  style={{ 
-                    marginTop: 6, 
-                    marginBottom: 0,
-                    whiteSpace: "nowrap"
-                  }}
-                  key={`${tag}-${i}`}
-                  label={tag}
-                />) }
-              </p>
-            </CardContent>
-          </Card>
+                </div>
+
+                <p />
+                <strong>Class source: </strong>
+                <div className="dialogText">
+                  {(this.props.modelInstance.get("modelClass") !== undefined) 
+                    ? this.props.modelInstance.get("modelClass").get("import_path")
+                    : undefined}
+                </div>
+
+                <p />
+                <strong>Class capabilities:</strong>
+                <div className="dialogText">
+                  {(this.props.modelInstance.get("modelClass") !== undefined) 
+                    ? this.props.modelInstance.get("modelClass").get("capabilities").map((item, index) => <div key={index}> {item.get("class_name")} </div>) 
+                    : undefined}
+                </div>
+
+                <p />
+                <strong>Instance name: </strong>
+                <div className="dialogText">
+                  {(this.props.modelInstance.get("name") !== undefined) 
+                    ? this.props.modelInstance.get("name")
+                    : undefined}
+                </div>
+
+                <p />
+                <strong>Instance source: </strong>
+                <div className="model-url dialogText">
+                  <a target='_blank' className="model-url" href={this.props.modelInstance.get("source")}> 
+                    {(this.props.modelInstance.get("source") !== undefined) 
+                      ? this.props.modelInstance.get("source")
+                      : undefined}
+                  </a>
+                </div>
+
+                <p />
+                <strong>Instance Tags: </strong>
+                <div className="model-url dialogText">
+                  {modelTags.map((tag, i) => <Chip
+                    color={tag.toLowerCase() === "deprecated" ? "secondary" : "primary"}
+                    style={{ 
+                      marginTop: 6, 
+                      marginBottom: 0,
+                      whiteSpace: "nowrap"
+                    }}
+                    key={`${tag}-${i}`}
+                    label={tag}
+                  />) }
+                </div>
+              </CardContent>
+            </Card>
+          </DialogContent>
 
           <DialogActions>
             {actions}

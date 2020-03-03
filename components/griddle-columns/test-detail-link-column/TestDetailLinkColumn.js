@@ -1,8 +1,7 @@
 import React from "react";
-import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 import TestDetailsContainer from "../../test-details/TestDetailsContainer";
-import DialogActions from "@material-ui/core/DialogActions";
+import { Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
 
 export default class TestDetailLinkColumn extends React.Component {
 
@@ -29,6 +28,7 @@ export default class TestDetailLinkColumn extends React.Component {
     const actions = [
       <Button
         label="Close"
+        variant="contained"
         onClick={this.closeTestDetail}
         key='button'
       >Close</Button>
@@ -46,9 +46,16 @@ export default class TestDetailLinkColumn extends React.Component {
         </a>
         <Dialog
           open={this.state.open}
-          maxWidth={false}
-        >
-          <TestDetailsContainer testInstance={this.props.testInstanceObject} />
+          maxWidth={false}>
+
+          <DialogTitle>
+            Test details
+          </DialogTitle>
+
+          <DialogContent>
+            <TestDetailsContainer testInstance={this.props.testInstanceObject} />
+          </DialogContent>
+
           <DialogActions>
             {actions}
           </DialogActions>

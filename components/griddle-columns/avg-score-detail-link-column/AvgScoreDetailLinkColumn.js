@@ -49,7 +49,7 @@ export default class ScidashAvgScoreDetailLinkColumn extends React.Component {
       <div>
         <div style={{
           position: "absolute",
-          width: "100%",
+          width: "80%",
           height: "100%",
           background: this.props.background,
           bottom: "0px",
