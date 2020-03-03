@@ -41,18 +41,20 @@ export function filteringModelsFinished (models){
 export function filteringModelsStarted (searchText, filterName, dispatch){
   let apiService = new ModelsApiService();
   let filteringService = FilteringService.getInstance();
+  const namespace = Helper.getNamespaceFromKey(filterName, Config.modelInstancesNamespace);
+
 
   if (searchText.length > 0) {
-    filteringService.setupFilter(filterName, searchText, Config.modelInstancesNamespace);
+    filteringService.setupFilter(filterName, searchText, namespace);
   } else {
-    filteringService.deleteFilter(filterName, Config.modelInstancesNamespace);
+    filteringService.deleteFilter(filterName, namespace);
   }
 
   filteringService.deleteFilter("with_suites");
 
-  apiService.getList(false, Config.modelInstancesNamespace).then(result => {
+  apiService.getList(false, namespace).then(result => {
 
-    let filters = filteringService.getFilters(Config.modelInstancesNamespace);
+    let filters = filteringService.getFilters(namespace);
     let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "";
     window.history.pushState("", "", `${location.pathname}` + filterString);
 

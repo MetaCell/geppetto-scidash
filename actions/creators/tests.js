@@ -42,16 +42,17 @@ export function filteringTestsFinished (models){
 export function filteringTestsStarted (searchText, filterName, dispatch){
   let apiService = new TestInstancesApiService();
   let filteringService = FilteringService.getInstance();
+  const namespace = Helper.getNamespaceFromKey(filterName, Config.testInstancesNamespace);
 
   if (searchText.length > 0) {
-    filteringService.setupFilter(filterName, searchText, Config.testInstancesNamespace);
+    filteringService.setupFilter(filterName, searchText, namespace);
   } else {
-    filteringService.deleteFilter(filterName, Config.testInstancesNamespace);
+    filteringService.deleteFilter(filterName, namespace);
   }
 
 
-  apiService.getList(false, Config.testInstancesNamespace).then(result => {
-    let filters = filteringService.getFilters(Config.testInstancesNamespace);
+  apiService.getList(false, namespace).then(result => {
+    let filters = filteringService.getFilters(namespace);
     let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "";
     window.history.pushState("", "", `${location.pathname}` + filterString);
 
