@@ -58,7 +58,7 @@ class Scheduling extends React.Component {
       return result;
     } catch (error) {
       this.setState(() => {
-        throw error
+        throw "scheduleTests threw error " + error
       });
     }
   }

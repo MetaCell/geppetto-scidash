@@ -151,7 +151,7 @@ export default class CompatibilityTable extends React.Component {
       return result;
     } catch (error) {
       this.setState(() => {
-        throw error
+        throw "Compatibility API service threw error " + error
       });
     }
   }

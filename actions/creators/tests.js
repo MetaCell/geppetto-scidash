@@ -89,45 +89,50 @@ function testCreateFinished (result, dispatch){
 export function testCreateStarted (model, dispatch){
   dispatch(clearErrors());
 
-  let apiService = new TestInstancesApiService();
-  let copiedModel = Object.assign({}, model);
-  copiedModel.hash_id = new Helper().generateHashId(copiedModel);
+  try {
+    let apiService = new TestInstancesApiService();
+    let copiedModel = Object.assign({}, model);
+    copiedModel.hash_id = new Helper().generateHashId(copiedModel);
 
-  let d = new Date();
-  copiedModel.timestamp
-    = d.getFullYear()
-    + "-"
-    + ("0" + (d.getMonth() + 1)).slice(-2)
-    + "-"
-    + ("0" + d.getDate()).slice(-2)
-    + "T"
-    + d.getHours()
-    + ":"
-    + d.getMinutes();
-  let tagObjects = [];
+    let d = new Date();
+    copiedModel.timestamp
+      = d.getFullYear()
+      + "-"
+      + ("0" + (d.getMonth() + 1)).slice(-2)
+      + "-"
+      + ("0" + d.getDate()).slice(-2)
+      + "T"
+      + d.getHours()
+      + ":"
+      + d.getMinutes();
+    let tagObjects = [];
 
-  for (let tag of copiedModel.tags){
-    tagObjects.push({ name: tag });
-  }
+    for (let tag of copiedModel.tags){
+      tagObjects.push({ name: tag });
+    }
 
-  copiedModel.tags = tagObjects;
-  let responseCode = 0;
+    copiedModel.tags = tagObjects;
+    let responseCode = 0;
 
-  apiService.create(copiedModel).then(result => {
+    apiService.create(copiedModel).then(result => {
 
-    responseCode = result.status;
+      responseCode = result.status;
 
-    result.json().then(result => {
-      if (Config.errorStatuses.includes(responseCode)) {
-        dispatch(error("Backend error: " + JSON.stringify(result)));
-      } else {
-        dispatch(testCreateFinished(result, dispatch));
-      }
+      result.json().then(result => {
+        if (Config.errorStatuses.includes(responseCode)) {
+          dispatch(error("Backend error: " + JSON.stringify(result)));
+        } else {
+          dispatch(testCreateFinished(result, dispatch));
+        }
+      });
     });
-  });
 
-  return { type: TEST_CREATE_STARTED };
-
+    return { type: TEST_CREATE_STARTED };
+  } catch (error) {
+    this.setState(() => {
+      throw "testCreateFinished threw error " + error
+    });
+  }
 }
 
 export function cloneTestFinished (model){
