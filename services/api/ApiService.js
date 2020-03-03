@@ -84,14 +84,23 @@ export default class ApiService {
 
       this.clearCache(this.storage);
 
-      return fetch(this.endpoint, {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(model)
-      });
+      try {
+        return fetch(this.endpoint, {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(model)
+        }).then((data) => {
+            if( data.status != 200){
+                throw "Error: " + data.statusText;
+            }
+            console.log(data);
+        });
+      } catch (error) {
+        throw error;
+      }
     }
 
 
