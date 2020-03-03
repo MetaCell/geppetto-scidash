@@ -1,8 +1,7 @@
 import React from "react";
 import Chip from "@material-ui/core/Chip";
 import { Capabilities, RunParams } from "./partials";
-import { red, brown } from '@material-ui/core/colors';
-import { Card, CardHeader, CardContent } from "@material-ui/core";
+import { Card, CardContent } from "@material-ui/core";
 
 
 const ModelDetails = ({ 
@@ -14,31 +13,46 @@ const ModelDetails = ({
   runParameters,
   modelTags
 }) => (
-  <Card style={{ overflow: "scroll", width: "calc(100vw - 50vw)" }}>
+  <Card style={{ overflow: "scroll", width: "calc(100vw - 50vw)" }} raised={true}>
     <CardContent>
-      <div><strong>Class name: </strong>
+      <strong className="dialogTitle">Class name: </strong>
+      <div className="dialogText">
         {modelClassName}
       </div>
-      <div><strong>Class source: </strong>
-        <a target='_blank' className="model-url" href={modelClassUrl}> {modelClassUrl}</a>
+
+      <p />
+      <strong className="dialogTitle">Class source: </strong>
+      <div className="dialogText">
+        {(modelClassUrl !== "None")
+          ? <a target='_blank' className="model-url" href={modelClassUrl}> {modelClassUrl} </a>
+          : <span> {modelClassUrl} </span>}
       </div>
-      <div>
-        <strong>
-            Class capabilities:
-        </strong>
-      </div>
+
+      <p />
+      <strong className="dialogTitle">Class capabilities:</strong>
+      <div className="dialogText">
       {classCapabilities != "None" ? <Capabilities
         capabilities={classCapabilities}
       /> : classCapabilities}
-      <div><strong>Instance name: </strong>
+      </div>
+
+      <p />
+      <strong className="dialogTitle">Instance name: </strong>
+      <div className="dialogText">
         {instanceName}
       </div>
-      <div className="model-url"><strong>Instance source: </strong>
+
+      <p />
+      <strong className="dialogTitle">Instance source: </strong>
+      <div className="model-url dialogText">
         {instanceSource.search(/http/) > -1 
           ? <a target='_blank' className="model-url" href={instanceSource}> {instanceSource}</a> 
           : instanceSource}
       </div>
-      <div className="model-url"><strong>Instance Tags: </strong>
+
+      <p />
+      <strong className="dialogTitle">Instance Tags: </strong>
+      <div className="model-url dialogText">
         {modelTags.map((tag, i) => <Chip
           color={tag.toLowerCase() === "deprecated" ? "secondary" : "primary"}
           style={{ 
@@ -50,11 +64,14 @@ const ModelDetails = ({
           label={tag}
         />) }
       </div>
-      <div><strong>Instance - Run parameters: </strong>
-      </div>
+
+      <p />
+      <strong className="dialogTitle">Instance - Run parameters: </strong>
+      <div className="dialogText">
       {runParameters != "None" ? <RunParams
         runParams={runParameters}
       /> : runParameters}
+      </div>
     </CardContent>
   </Card>
 );

@@ -31,10 +31,13 @@ const mapStateToProps = state => ({
         return (
           <Button
             variant="contained"
-            label={props.text}
-            onClick={props.getNext}
-            style={{ marginLeft: "10px" }}
-          />
+            label={props.text} 
+            onClick={() => {
+              props.getNext();
+            }} 
+            style={{ marginLeft: "10px" }}>
+            {props.text}
+          </Button>
         );
       }
 
@@ -44,7 +47,14 @@ const mapStateToProps = state => ({
       if (props.hasPrevious) {
         return (
           <Button
-            label={props.text} onClick={props.getPrevious} style={{ marginRight: "10px" }} variant="contained"/>
+            label={props.text}
+            variant="contained"
+            onClick={() => {
+              props.getPrevious();
+            }} 
+            style={{ marginRight: "10px" }}>
+            {props.text}
+          </Button>
         );
       }
 

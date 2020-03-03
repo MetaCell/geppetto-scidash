@@ -1,10 +1,8 @@
 import React from "react";
-import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 
 import ModelDetailsContainer from "../../model-details/ModelDetailsContainer";
-import DialogActions from "@material-ui/core/DialogActions";
-import { DialogContent, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
 
 export default class ModelDetailLinkColumn extends React.Component {
 

@@ -3,9 +3,7 @@ import Chip from "@material-ui/core/Chip";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 import { Card, CardContent, DialogActions } from "@material-ui/core";
-import { red, brown } from '@material-ui/core/colors';
 import Helper from "../../shared/Helper";
-
 
 export default class InfoDialog extends React.Component {
 
@@ -48,34 +46,53 @@ export default class InfoDialog extends React.Component {
           <h4 style={{ maxWidth: "360px" }}>{instanceSource !== "None" ? "Model" : "Test"}{" details"}</h4>
           <Card>
             <CardContent>
-              <p><strong>Name: </strong>
+              <p />
+              <strong className="dialogTitle">Name: </strong>
+              <div className="dialogText">
                 {instanceName}
-              </p>
-              <p><strong>Class: </strong>
+              </div>
+
+              <p />
+              <strong className="dialogTitle">Class: </strong>
+              <div className="dialogText">
                 {instanceClassName}
-              </p>
-              <p><strong>Owner: </strong>
+              </div>
+
+              <p />
+              <strong className="dialogTitle">Owner: </strong>
+              <div className="dialogText">
                 {instanceOwner}
-              </p>
-              {instanceSource !== "None"
-                ? <p><strong>Source: </strong>
-                  <a target='_blank' className="model-url" href={instanceSource}> {instanceSource}</a>
-                </p> : undefined}
-              <p><strong>Timestamp: </strong>
+              </div>
+
+              {(instanceSource !== "None")
+                ? (<span>
+                    <p />
+                    <strong className="dialogTitle">Source: </strong>
+                    <div className="dialogText">
+                      <a target='_blank' className="model-url" href={instanceSource}> {instanceSource} </a>
+                    </div>
+                  </span>)
+                : undefined}
+
+              <p />
+              <strong className="dialogTitle">Timestamp: </strong>
+              <div className="dialogText">
                 {instanceTimestamp}
-              </p>
-              <p><strong>Tags: </strong>
-                <span style={{ display: "flex" }}>
-                  {instanceTags === "None" ? undefined : instanceTags.map((tag, i) =>
-                    <Chip
-                      color={tag.toLowerCase() === "deprecated" ? "secondary" : "primary"}
-                      style={{ marginTop: 6, marginBottom: 0 }}
-                      key={`${tag}-${i}`}
-                      label={tag}
-                    />
-                  )}
-                </span>
-              </p>
+              </div>
+
+              <p />
+              <strong className="dialogTitle">Tags: </strong>
+              <span style={{ display: "flex" }}>
+                {instanceTags === "None" ? undefined : instanceTags.map((tag, i) =>
+                  <Chip
+                    color={tag.toLowerCase() === "deprecated" ? "secondary" : "primary"}
+                    style={{ marginTop: 6, marginBottom: 0 }}
+                    key={`${tag}-${i}`}
+                    label={tag}
+                  />
+                )}
+              </span>
+
             </CardContent>
           </Card>
         </div>

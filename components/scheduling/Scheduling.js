@@ -1,14 +1,13 @@
 import React from "react";
+import Loader from "../loader/Loader";
 import Button from "@material-ui/core/Button";
+import DDListContainer from "./DDListContainer";
 import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
-import DDListContainer from "./DDListContainer";
 import CompatibilityTable from "./CompatibilityTable";
-import SchedulingApiService from "../../services/api/SchedulingApiService";
-import Loader from "../loader/Loader";
 import PagesService from "../../services/PagesService";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import SchedulingApiService from "../../services/api/SchedulingApiService";
 
 class Scheduling extends React.Component {
 

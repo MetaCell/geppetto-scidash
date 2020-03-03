@@ -39,7 +39,7 @@ const ScoreDetails = ({
   testTags,
   instanceTestName
 }) => (
-  <Card>
+  <Card style={{ overflow: "scroll"}}>
     <CardContent
       style={{
         wordWrap: "break-word",
@@ -53,16 +53,17 @@ const ScoreDetails = ({
         <h4
           style={{ maxWidth: "360px" }}
         >
-          Test details
+          <strong className="cardTitle">Test details</strong>
         </h4>
-        <Card>
+        <Card raised={true}>
           <CardContent>
-            <div>
-              <strong>Test name: </strong>
+            <strong className="dialogTitle">Test name: </strong>
+            <div className="dialogText">
               {instanceTestName}
             </div>
-            <div>
-              <strong>Score: </strong>
+            <p />
+            <strong className="dialogTitle">Score: </strong>
+            <div className="dialogText">
               <span
                 style={{
                   background: background,
@@ -73,8 +74,9 @@ const ScoreDetails = ({
                 {score.toFixed(2)}
               </span>
             </div>
-            <div>
-              <strong>Normalized score: </strong>
+            <p />
+            <strong className="dialogTitle">Normalized score: </strong>
+            <div className="dialogText">
               <span
                 style={{
                   background: background,
@@ -85,43 +87,51 @@ const ScoreDetails = ({
                 {sortKey.toFixed(2)}
               </span>
             </div>
-            <div>
-              <strong>Test class: </strong>
+            <p />
+            <strong className="dialogTitle">Test class: </strong>
+            <div className="dialogText">
               {testClassName}
             </div>
-            <div>
-              <strong>Score type: </strong>
+            <p />
+            <strong className="dialogTitle">Score type: </strong>
+            <div className="dialogText">
               {scoreType}
             </div>
-            <div>
-              <strong>Test suite: </strong>
+            <p />
+            <strong className="dialogTitle">Test suite: </strong>
+            <div className="dialogText">
               N/A
             </div>
-            <div>
-              <strong>Build info: </strong>
+            <p />
+            <strong className="dialogTitle">Build info: </strong>
+            <div className="dialogText">
               <BuildInfoLine
                 buildInfo={buildInfo.text}
                 iconClass={buildInfo.icon}
               />
             </div>
-            <div>
-              <strong>Hostname: </strong>
+            <p />
+            <strong className="dialogTitle">Hostname: </strong>
+            <div className="dialogText">
               {hostname}
             </div>
-            <div style={{
+            <p />
+            <strong className="dialogTitle">Errors: </strong>
+            <div className="dialogText" style={{
               wordWrap: "break-word",
               width: "230px"
             }}
             >
-              <strong>Errors: </strong>
               {unpackError(error)}
             </div>
-            <div>
-              <strong>Timestamp: </strong>
+            <p />
+            <strong className="dialogTitle">Timestamp: </strong>
+            <div className="dialogText">
               {timestamp}
             </div>
-            <div>
-              <strong>Tags: </strong>
+            <p />
+            <strong className="dialogTitle">Tags: </strong>
+            <div className="dialogText">
               {testTags.map((tag, i) => (
                 <Chip
                   color={
@@ -138,12 +148,13 @@ const ScoreDetails = ({
               ))}
             </div>
             <hr />
-            <div>
-              <strong>Observation: </strong>
+            <strong className="dialogTitle">Observation: </strong>
+            <div className="dialogText">
               <Observation observation={observation} />
             </div>
-            <div>
-              <strong>Simulator: </strong>
+            <p />
+            <strong className="dialogTitle">Simulator: </strong>
+            <div className="dialogText">
               {modelBackend}
             </div>
           </CardContent>
@@ -152,7 +163,7 @@ const ScoreDetails = ({
       <div
         style={{ wordWrap: "break-word", minWidth: "100px", margin: "15px" }}
       >
-        <h4>Model details</h4>
+        <h4><strong className="cardTitle">Model details</strong></h4>
         <ModelDetailsContainer model={modelInstance} />
       </div>
     </CardContent>

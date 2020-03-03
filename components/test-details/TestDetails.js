@@ -1,8 +1,6 @@
 import React from "react";
 import Chip from "@material-ui/core/Chip";
-import { red, brown } from "@material-ui/core/colors";
-import { Card, CardHeader, CardContent } from "@material-ui/core";
-
+import { Card, CardContent } from "@material-ui/core";
 import { Observation, BuildInfoLine } from "./partials";
 
 function unpackError (error){
@@ -28,31 +26,32 @@ const TestDetails = ({
   testTags,
   instanceTestName
 }) => (
-  <div style={{ minWidth: "100px", margin: "15px" }}>
-    <h4
-      style={{ maxWidth: "360px" }}
-    >
-          Test details
-    </h4>
+  <div style={{ minWidth: "100px", margin: "15px" }} raised={true}>
     <Card>
       <CardContent>
-        <div>
-          <strong>Test name: </strong>
+        <strong className="dialogTitle">Test name: </strong>
+        <div className="dialogText">
           {instanceTestName}
         </div>
-        <div>
-          <strong>Test class: </strong>
+
+        <p />
+        <strong className="dialogTitle">Test class: </strong>
+        <div className="dialogText">
           {testClassName}
         </div>
-        <div>
-          <strong>Build info: </strong>
+
+        <p />
+        <strong className="dialogTitle">Build info: </strong>
+        <div className="dialogText">
           <BuildInfoLine
             buildInfo={buildInfo.text}
             iconClass={buildInfo.icon}
           />
         </div>
-        <div>
-          <strong>Tags: </strong>
+
+        <p />
+        <strong className="dialogTitle">Tags: </strong>
+        <div className="dialogText">
           {testTags.map((tag, i) => (
             <Chip
               color={
@@ -68,9 +67,11 @@ const TestDetails = ({
             />
           ))}
         </div>
+
         <hr />
-        <div>
-          <strong>Observation: </strong>
+
+        <strong className="dialogTitle">Observation: </strong>
+        <div className="dialogText">
           <Observation observation={observation} />
         </div>
       </CardContent>
