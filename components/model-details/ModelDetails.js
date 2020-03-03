@@ -31,9 +31,9 @@ const ModelDetails = ({
       <p />
       <strong className="dialogTitle">Class capabilities:</strong>
       <div className="dialogText">
-      {classCapabilities != "None" ? <Capabilities
-        capabilities={classCapabilities}
-      /> : classCapabilities}
+        {classCapabilities != "None" ? <Capabilities
+          capabilities={classCapabilities}
+        /> : classCapabilities}
       </div>
 
       <p />
@@ -68,9 +68,9 @@ const ModelDetails = ({
       <p />
       <strong className="dialogTitle">Instance - Run parameters: </strong>
       <div className="dialogText">
-      {runParameters != "None" ? <RunParams
-        runParams={runParameters}
-      /> : runParameters}
+        {runParameters != "None" ? <RunParams
+          runParams={runParameters}
+        /> : runParameters}
       </div>
     </CardContent>
   </Card>

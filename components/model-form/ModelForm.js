@@ -445,11 +445,11 @@ class ModelForm extends React.Component {
         <div className="second-line">
           <div className="container">
             <FormControl style={{
-                  width: "50%",
-                  display: "flex",
-                  flexFlow: "horizontal",
-                  justifyContent: "space-around"
-                }}>
+              width: "50%",
+              display: "flex",
+              flexFlow: "horizontal",
+              justifyContent: "space-around"
+            }}>
               <Select
                 id="modelFormSelectClass"
                 label="Select class"
