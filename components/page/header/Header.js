@@ -119,10 +119,10 @@ export default class Header extends React.Component {
                     <ExpansionPanel>
                       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                         <CardActions>
-                          <Button label="Reset Password" href="/auth/password-reset/" style={{ border: "2px solid lightgrey" }}>
+                          <Button id="reset-password" label="Reset Password" href="/auth/password-reset/" style={{ border: "2px solid lightgrey" }}>
                             Reset Password
                           </Button>
-                          <Button label="Logout" href="/auth/logout/" style={{ border: "2px solid lightgrey" }}>
+                          <Button id="logout-button" label="Logout" href="/auth/logout/" style={{ border: "2px solid lightgrey" }}>
                             Logout
                           </Button>
                         </CardActions>

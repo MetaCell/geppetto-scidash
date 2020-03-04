@@ -78,13 +78,15 @@ export default class ParamsForm extends React.Component {
     }
 
     let result = {};
-    for (let key of Object.keys(schema)) {
-      if (this.props.default_params !== null
-         && this.props.default_params !== undefined 
-         && this.props.default_params[key] !== undefined) {
-        result[key] = this.props.default_params[key];
-      } else {
-        result[key] = "";  
+    if(schema !== undefined) {
+      for (let key of Object.keys(schema)) {
+        if (this.props.default_params !== null &&
+            this.props.default_params !== undefined &&
+            this.props.default_params[key] !== undefined) {
+          result[key] = this.props.default_params[key];
+        } else {
+          result[key] = "";
+        }
       }
     }
 
@@ -105,18 +107,14 @@ export default class ParamsForm extends React.Component {
   }
 
   render () {
-    if (this.state.model === null){
-      return (
-        <span />
-      );
-    }
     return (
       <span>
-        {Object.keys(this.state.model).map(
+        {Object.keys(this.props.schema).map(
           function (key, index) {
             return (
               <TextField
                 value={this.state.model[key]}
+                id={`${key} (${this.state.unitsMap[key]})`}
                 key={key}
                 type={this.state.iterable.includes(key) ? "text" : "number"}
                 onKeyDown={(e, value) => {

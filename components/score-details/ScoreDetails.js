@@ -49,14 +49,14 @@ const ScoreDetails = ({
         alignItems: "flex-start"
       }}
     >
-      <div style={{ minWidth: "100px", margin: "15px" }}>
+      <div id="test-details-dialog" style={{ minWidth: "100px", margin: "15px" }}>
         <h4
           style={{ maxWidth: "360px" }}
         >
           <strong className="cardTitle">Test details</strong>
         </h4>
         <Card raised={true}>
-          <CardContent>
+          <CardContent id="test-score">
             <strong className="dialogTitle">Test name: </strong>
             <div className="dialogText">
               {instanceTestName}
@@ -75,7 +75,7 @@ const ScoreDetails = ({
               </span>
             </div>
             <p />
-            <strong className="dialogTitle">Normalized score: </strong>
+            <strong id="normalized-score" className="dialogTitle">Normalized score: </strong>
             <div className="dialogText">
               <span
                 style={{
@@ -88,7 +88,7 @@ const ScoreDetails = ({
               </span>
             </div>
             <p />
-            <strong className="dialogTitle">Test class: </strong>
+            <strong id="test-class" className="dialogTitle">Test class: </strong>
             <div className="dialogText">
               {testClassName}
             </div>
@@ -98,7 +98,7 @@ const ScoreDetails = ({
               {scoreType}
             </div>
             <p />
-            <strong className="dialogTitle">Test suite: </strong>
+            <strong id="test-suite" className="dialogTitle">Test suite: </strong>
             <div className="dialogText">
               N/A
             </div>
@@ -111,7 +111,7 @@ const ScoreDetails = ({
               />
             </div>
             <p />
-            <strong className="dialogTitle">Hostname: </strong>
+            <strong id="hostname" className="dialogTitle">Hostname: </strong>
             <div className="dialogText">
               {hostname}
             </div>
@@ -130,7 +130,7 @@ const ScoreDetails = ({
               {timestamp}
             </div>
             <p />
-            <strong className="dialogTitle">Tags: </strong>
+            <strong id="timestamp" className="dialogTitle">Tags: </strong>
             <div className="dialogText">
               {testTags.map((tag, i) => (
                 <Chip
@@ -153,7 +153,7 @@ const ScoreDetails = ({
               <Observation observation={observation} />
             </div>
             <p />
-            <strong className="dialogTitle">Simulator: </strong>
+            <strong id="observation" className="dialogTitle">Simulator: </strong>
             <div className="dialogText">
               {modelBackend}
             </div>
