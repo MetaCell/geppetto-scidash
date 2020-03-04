@@ -24,26 +24,22 @@ export default class ParamsFormset extends React.Component {
     } else {
       this.setState({ schemaList: this.props.schema });
     }
-    this.setState({
-      choosedForm: 0
-    })
+    this.setState({ choosedForm: 0 })
   }
 
 
-  updateStateModel(){
+  updateStateModel (){
     let schemaList = {};
-    if (!Array.isArray(this.props.schema)) {
+    if (!Array.isArray (this.props.schema)) {
       schemaList = [this.props.schema]
     } else {
       schemaList = this.props.schema
     }
     const newModel = Object.assign({},
-        ...Object.keys(schemaList.length > 1 ? schemaList[this.state.choosedForm][1] : schemaList[0]).
-        map((key) => (
-            {
-              [key]: (this.props.model && key in this.props.model ? this.props.model[key] : ""),
-            }
-            ))
+      ...Object.keys(schemaList.length > 1 ? schemaList[this.state.choosedForm][1] : schemaList[0]).
+        map(key => (
+          { [key]: (this.props.model && key in this.props.model ? this.props.model[key] : ""), }
+        ))
     );
     this.setState({
       schemaList: schemaList,
@@ -56,17 +52,12 @@ export default class ParamsFormset extends React.Component {
       this.updateStateModel();
     }
     if (!_.isEqual(this.props.unitsMap, prevProps.unitsMap)) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        unitsMap: this.props.unitsMap
-      });
+      this.setState({ unitsMap: this.props.unitsMap });
     }
     if (this.props.test_class.class_name !== prevProps.test_class.class_name && this.state.choosedForm !== 0){
-      this.setState( {
-        choosedForm: 0
-      })
+      this.setState( { choosedForm: 0 })
     }
-    if(this.state.choosedForm !== prevState.choosedForm){
+    if (this.state.choosedForm !== prevState.choosedForm){
       this.updateStateModel();
     }
   }

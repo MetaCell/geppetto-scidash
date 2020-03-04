@@ -199,7 +199,7 @@ export default class TestForm extends React.Component {
               onChange={observation => {
                 this.updateModel({ observation });
               }}
-              model={this.props.actionType === "edit" && this.props.model.test_class.class_name === this.state.model.test_class.class_name  ? this.props.model.observation : undefined}
+              model={this.props.actionType === "edit" && this.props.model.test_class.class_name === this.state.model.test_class.class_name ? this.props.model.observation : undefined}
               disabled={this.state.isBlocked}
             />
           </div>
