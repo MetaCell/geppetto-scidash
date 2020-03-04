@@ -36,7 +36,7 @@ export function filteringSuitesStarted (searchText, filterName, dispatch){
 
   filteringService.setupFilter("with_suites", true, namespace);
 
-  if (searchText.length > 0) {
+  if (searchText && searchText.length > 0) {
     filteringService.setupFilter(filterName, searchText, namespace);
   } else {
     filteringService.deleteFilter(filterName, namespace);

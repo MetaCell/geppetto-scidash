@@ -34,7 +34,7 @@ export function filteringScoresStarted (searchText, filterName, dispatch){
   let filteringService = FilteringService.getInstance();
   const namespace = Helper.getNamespaceFromKey(filterName, Config.scoresNamespace);
 
-  if (searchText.length > 0) {
+  if (searchText && searchText.length > 0) {
     filteringService.setupFilter(filterName, searchText, namespace);
   } else {
     filteringService.deleteFilter(filterName, namespace);
