@@ -20,7 +20,7 @@ export default class ParamsForm extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
-    if (!_.isEqual(this.props.schema, prevProps.schema)) {
+    if (!_.isEqual(this.props.schema, prevProps.schema) || !_.isEqual(this.props.default_params, prevProps.default_params)) {
       this.setState(
         {
           model: {},
@@ -113,7 +113,7 @@ export default class ParamsForm extends React.Component {
           function (key, index) {
             return (
               <TextField
-                value={this.state.model[key]}
+                value={this.state.model && this.state.model[key] ? this.state.model[key] : ""}
                 id={`${key} (${this.state.unitsMap[key]})`}
                 key={key}
                 type={this.state.iterable.includes(key) ? "text" : "number"}
