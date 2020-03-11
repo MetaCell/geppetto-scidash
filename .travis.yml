@@ -23,8 +23,7 @@ before_install:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo ${BRANCH/\//-}; fi`
   - export PULL_TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "development"; fi`
 install:
-  - npm install jest@24.8.0 puppeteer@1.17.0 jest-puppeteer@4.3.0 @babel/preset-env@7.4.5 url-join@4.0.0 @babel/core@7.4.5
-  - docker pull $GEPPETTO_IMAGE:feature/472
+  - docker pull $GEPPETTO_IMAGE:$PULL_TAG
   - docker tag $GEPPETTO_IMAGE:$PULL_TAG $GEPPETTO_IMAGE:$TAG
 script:
   - echo "- Travis env variables -"
