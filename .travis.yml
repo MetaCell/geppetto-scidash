@@ -23,8 +23,7 @@ before_install:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo ${BRANCH/\//-}; fi`
   - export PULL_TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "development"; fi`
 install:
-  - npm install jest@24.8.0 puppeteer@1.17.0 jest-puppeteer@4.3.0 @babel/preset-env@7.4.5
-    url-join@4.0.0 @babel/core@7.4.5
+  - npm install jest@24.8.0 puppeteer@1.17.0 jest-puppeteer@4.3.0 @babel/preset-env@7.4.5 url-join@4.0.0 @babel/core@7.4.5
   - docker pull $GEPPETTO_IMAGE:$PULL_TAG
   - docker tag $GEPPETTO_IMAGE:$PULL_TAG $GEPPETTO_IMAGE:$TAG
 script:
@@ -34,7 +33,7 @@ script:
   - echo $DEFAULT_BRANCH
   - echo "############################"
   - git clone https://github.com/ddelpiano/travis_utils
-  - travis_utils/copy.sh https://github.com/Metacell/scidash.git $TRAVIS_BRANCH $BRANCH $DEFAULT_BRANCH
+  - travis_utils/copy.sh https://github.com/Metacell/scidash.git "feature/472" "feature/472" "feature/472"
   - travis_fold start "building_scidash_database_container"
   - travis_retry docker build --build-arg targetBranch=$TRAVIS_BRANCH
     --build-arg originBranch=$BRANCH --build-arg defaultBranch=$DEFAULT_BRANCH -f ./scidash/service/docker/Dockerfile-postgres
