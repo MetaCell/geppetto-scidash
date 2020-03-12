@@ -25,6 +25,7 @@ before_install:
 install:
   - docker pull $GEPPETTO_IMAGE:$PULL_TAG
   - docker tag $GEPPETTO_IMAGE:$PULL_TAG $GEPPETTO_IMAGE:$TAG
+  - npm install jest@24.8.0 puppeteer@1.17.0 jest-puppeteer@4.3.0 @babel/preset-env@7.4.5 url-join@4.0.0 @babel/core@7.4.5
 script:
   - echo "- Travis env variables -"
   - echo $TRAVIS_BRANCH
