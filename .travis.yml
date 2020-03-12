@@ -68,7 +68,7 @@ script:
   - http_status=$(curl -s -I $1 $LANDING_PAGE | grep HTTP/1.1 | awk {'print $2'})
   - echo "$http_status"
   - docker exec -ti $SCIDASH_CONTAINER /bin/bash -c "make run-tests"
-  - docker exec -i $SCIDASH_CONTAINER /bin/bash -c "cd static/org.geppetto.frontend/src/main/webapp/tests/jest/; npm test -- --runInBand"
+  - docker exec -i $SCIDASH_CONTAINER /bin/bash -c "cd static/org.geppetto.frontend/src/main/webapp/tests/jest/; ls; npm test -- --runInBand"
   - sudo docker cp $GEPPETTO_CONTAINER:/opt/virgo/serviceability/logs/log.log /etc;
   - travis_fold start "Geppetto_container_log"
   - tail /etc/log.log -n 200
