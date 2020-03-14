@@ -18,6 +18,7 @@ import FooterContainer from "./components/page/footer/FooterContainer";
 // Needed for onTouchTap
 import scidashApp from "./reducers/scidash-app";
 import SentryErrorBoundary from "./components/sentry/SentryErrorBoundary"
+import Instructions from "./components/instructions/Instructions"
 import ScoresContainer from "./components/scores/ScoresContainer";
 import TestSuitesContainer from "./components/test-suites/TestSuitesContainer";
 import ModelsContainer from "./components/models/ModelsContainer";
@@ -98,6 +99,7 @@ export default class App extends React.Component {
                     <div className="row">
                       <div className="col-md-12">
                         <Switch>
+                          <Route path={this.pagesService.INSTRUCTIONS_PAGE} component={props => <Instructions {...props} />} exact />
                           <Route path={this.pagesService.SCORES_PAGE} component={props => <ScoresContainer {...props} />} exact />
                           <Route path={this.pagesService.SUITES_PAGE} component={props => <TestSuitesContainer {...props} />} exact />
                           <Route path={this.pagesService.TESTS_PAGE} component={props => <TestsContainer {...props} />} exact />
