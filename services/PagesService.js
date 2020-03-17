@@ -2,7 +2,7 @@ import Config from "../shared/Config";
 
 export default class PagesService {
 
-  INSTRUCTIONS_PAGE = "/";
+  INSTRUCTIONS_PAGE = "/instructions";
   SCORES_PAGE = "/scores/";
   SUITES_PAGE = "/suite-scores/";
   TESTS_PAGE = "/test-instances/";
@@ -18,6 +18,10 @@ export default class PagesService {
 
   constructor () {
     this.defaultPage = this.SCORES_PAGE;
+  }
+
+  setDefaultPage (page) {
+    this.defaultPage = page;
   }
 
   getDefaultPage () {

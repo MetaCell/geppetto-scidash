@@ -14,6 +14,7 @@ import Loader from "./components/loader/Loader";
 import PagesService from "./services/PagesService";
 import HeaderContainer from "./components/page/header/HeaderContainer";
 import FooterContainer from "./components/page/footer/FooterContainer";
+import { changePage } from "./actions/creators/header";
 
 // Needed for onTouchTap
 import scidashApp from "./reducers/scidash-app";
@@ -29,6 +30,7 @@ import TestCreateContainer from "./components/test-create/TestCreateContainer";
 import ModelCreateContainer from "./components/model-create/ModelCreateContainer";
 import ModelEditContainer from "./components/model-edit/ModelEditContainer";
 import TestEditContainer from "./components/test-edit/TestEditContainer";
+import { Redirect } from 'react-router-dom'
 
 // injectTapEventPlugin();
 
@@ -65,6 +67,12 @@ export default class App extends React.Component {
   componentDidMount () {
 
     InitialStateService.getInstance().generateInitialState().then(initialState => {
+      if (!initialState.user.userObject || !initialState.user.isLogged || initialState.user.userObject.show_instructions){
+        this.pagesService.setDefaultPage (this.pagesService.INSTRUCTIONS_PAGE);
+      } else {
+        this.pagesService.setDefaultPage (this.pagesService.SCORES_PAGE);
+      }
+
       this.setState({
         store: createStore(
           scidashApp(this.history),
@@ -78,7 +86,6 @@ export default class App extends React.Component {
         )
       });
     });
-
   }
 
   render () {
@@ -88,6 +95,7 @@ export default class App extends React.Component {
         <Loader />
       );
     } else {
+      const redirect = this.history.location.pathname === '/' ? <Redirect to={this.pagesService.getDefaultPage()} /> : '';
       return (
         <SentryErrorBoundary>
           <MuiThemeProvider theme={theme}>
@@ -95,12 +103,13 @@ export default class App extends React.Component {
               <ConnectedRouter history={this.history}>
                 <div className="mainContainer">
                   <HeaderContainer />
+                  {redirect}
                   <div className="midContainer">
                     <div className="row">
                       <div className="col-md-12">
                         <Switch>
-                          <Route path={this.pagesService.INSTRUCTIONS_PAGE} component={props => <Instructions {...props} />} exact />
                           <Route path={this.pagesService.SCORES_PAGE} component={props => <ScoresContainer {...props} />} exact />
+                          <Route path={this.pagesService.INSTRUCTIONS_PAGE} component={props => <Instructions {...props} />} exact />
                           <Route path={this.pagesService.SUITES_PAGE} component={props => <TestSuitesContainer {...props} />} exact />
                           <Route path={this.pagesService.TESTS_PAGE} component={props => <TestsContainer {...props} />} exact />
                           <Route path={this.pagesService.TESTS_CREATE_PAGE} component={props => <TestCreateContainer {...props} />} exact />

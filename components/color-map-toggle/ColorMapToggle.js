@@ -2,14 +2,13 @@ import React from 'react';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-
 const ColorMapToggle = ({ colorBlind, toggleColorBlind }) => (
   <div id='controlsContainer'>
     <label>
       <FormControlLabel
-        control={<Switch onChange={toggleColorBlind} checked={colorBlind} />}
+        control={<Switch onChange={toggleColorBlind} checked={colorBlind}/>}
         label="Color map"
-        labelPlacement="right"
+        labelPlacement="start"
       />
       <div
         id='colorMapGradientLabel'
