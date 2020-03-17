@@ -121,41 +121,44 @@ class ModelForm extends React.Component {
 
     if (responseClasses.length > 0) {
       this.setState({ successClasses: true });
-    } else {
-      this.setState({ failClasses: true });
-    }
-
-    this.setState({
-      loadingClasses: false,
-      modelClasses: responseClasses,
-      loadingParams: true
-    });
-
-    let responseParams = await paramsService.getList(
-      false,
-      Config.modelCreateNamespace
-    );
-
-    if (responseParams.failed) {
-      this.setState({ paramsErrors: [responseParams.message] });
       this.setState({
-        loadingParams: false,
-        successParams: false,
-        paramsDisabled: true
+        loadingClasses: false,
+        modelClasses: responseClasses,
+        loadingParams: true
       });
-    } else {
-      this.processModel(JSON.parse(responseParams.data));
-      this.updateModel(
-        { url: this.convertUrl(url) },
-        () => {
-          this.setState({
-            loadingParams: false,
-            successParams: true,
-            paramsDisabled: false
-          });
-        },
-        true
+
+      let responseParams = await paramsService.getList(
+        false,
+        Config.modelCreateNamespace
       );
+
+      if (responseParams.failed) {
+        this.setState({ paramsErrors: [responseParams.message] });
+        this.setState({
+          loadingParams: false,
+          successParams: false,
+          paramsDisabled: true
+        });
+      } else {
+        this.processModel(JSON.parse(responseParams.data));
+        this.updateModel(
+          { url: this.convertUrl(url) },
+          () => {
+            this.setState({
+              loadingParams: false,
+              successParams: true,
+              paramsDisabled: false
+            });
+          },
+          true
+        );
+      }
+    } else {
+      this.setState({
+        loadingClasses: false,
+        loadingParams: false,
+        failClasses: true
+      });
     }
   }
 
@@ -377,6 +380,7 @@ class ModelForm extends React.Component {
           {this.state.isBlocked ? blockedWarning : undefined}
           <div className="container">
             <TextField
+              id="model-name"
               value={this.state.model.name}
               className="model-name"
               error={this.state.model.errors !== undefined && "name" in this.state.model.errors}
@@ -400,6 +404,7 @@ class ModelForm extends React.Component {
               InputProps={this.state.isBlocked ? { className: classes.input2 } : { className: classes.input1 }}
             />
             <TextField
+              id="source-url"
               value={this.state.model.url}
               className="url"
               label="Source URL"
@@ -419,11 +424,13 @@ class ModelForm extends React.Component {
                       && "url" in this.state.model.errors
                     ) {
                       this.setState({ validationFailed: true });
+                    } else {
+                      this.checkUrl(url);
                     }
                   } else {
                     this.setState({ validationFailed: false });
+                    this.checkUrl(url);
                   }
-                  this.checkUrl(url);
                 });
               }}
               disabled={this.state.isBlocked}
@@ -436,7 +443,7 @@ class ModelForm extends React.Component {
                 <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
               ) : null}
               {this.state.loadingClasses ? (
-                <CircularProgress size={36} />
+                <CircularProgress id="validating-source-url" size={36} />
               ) : null}
             </span>
           </div>
@@ -453,7 +460,7 @@ class ModelForm extends React.Component {
               <Select
                 id="modelFormSelectClass"
                 label="Select class"
-                value={this.state.model.model_class.id !== null ? this.state.model.model_class.id : undefined}
+                value={this.state.model.model_class.id !== null ? this.state.model.model_class.id : ""}
                 onChange={event => {
                   for (let klass of this.state.modelClasses) {
                     if (klass.id == event.target.value) {
@@ -476,6 +483,7 @@ class ModelForm extends React.Component {
               >
                 {this.state.modelClasses.map(klass => (
                   <MenuItem
+                    id={klass.class_name}
                     value={klass.id}
                     key={klass.id}
                     label={klass.class_name}
@@ -491,6 +499,7 @@ class ModelForm extends React.Component {
             </FormControl>
 
             <TextField
+              id="new-tag"
               value={this.state.newTag}
               onChange={e => {
                 this.setState({ newTag: e.target.value });
@@ -568,6 +577,7 @@ class ModelForm extends React.Component {
           <Button
             variant="contained"
             label="Open"
+            id="open-model-parameters"
             disabled={this.state.paramsDisabled}
             className="actions-button"
             style={{
@@ -587,7 +597,7 @@ class ModelForm extends React.Component {
               <SvgIcon style={{ color: "red" }}>{Xicon}</SvgIcon>
             ) : null}
             {this.state.loadingParams ? (
-              <CircularProgress size={36} />
+              <CircularProgress id="loading-model-parameters" size={36} />
             ) : null}
           </span>
 
@@ -596,6 +606,7 @@ class ModelForm extends React.Component {
             open={this.state.modelParamsOpen}>
             <DialogContent style={{ overflow: "scroll", width: "calc(100vw - 25vw)" }}>
               <ParamsTable
+                id="parameters-table"
                 stateVariables={this.state.stateVariables}
                 watchedVariables={
                   typeof this.state.model.run_params.watchedVariables
@@ -621,6 +632,7 @@ class ModelForm extends React.Component {
           <Button
             variant="contained"
             label="save"
+            id="save-model"
             disabled={
               this.state.loadingParams
               || this.state.loadingClasses
@@ -647,6 +659,7 @@ class ModelForm extends React.Component {
           <Button
             variant="contained"
             label="cancel"
+            id="cancel-model"
             className="actions-button"
             onClick={() => this.onCancel()}
           >

@@ -94,6 +94,9 @@ export function testCreateStarted (model, dispatch){
     let copiedModel = Object.assign({}, model);
     copiedModel.hash_id = new Helper().generateHashId(copiedModel);
 
+    // strip package from class name
+    copiedModel.test_class.class_name = copiedModel.test_class.class_name.split(" ")[0];
+
     let d = new Date();
     copiedModel.timestamp
       = d.getFullYear()
@@ -184,6 +187,8 @@ export function editTest (test, dispatch){
   }
 
   test.tags = tagObjects;
+
+  // strip package from class name
   test.test_class.class_name = test.test_class.class_name.split(" ")[0];
 
   apiService.update(test).then(result => result.json()).then(result => {

@@ -47,19 +47,19 @@ export default class InfoDialog extends React.Component {
           <Card>
             <CardContent>
               <p />
-              <strong className="dialogTitle">Name: </strong>
+              <strong id='name' className="dialogTitle">Name: </strong>
               <div className="dialogText">
                 {instanceName}
               </div>
 
               <p />
-              <strong className="dialogTitle">Class: </strong>
+              <strong id='class' className="dialogTitle">Class: </strong>
               <div className="dialogText">
                 {instanceClassName}
               </div>
 
               <p />
-              <strong className="dialogTitle">Owner: </strong>
+              <strong id='owner' className="dialogTitle">Owner: </strong>
               <div className="dialogText">
                 {instanceOwner}
               </div>
@@ -75,13 +75,13 @@ export default class InfoDialog extends React.Component {
                 : undefined}
 
               <p />
-              <strong className="dialogTitle">Timestamp: </strong>
+              <strong id='timestamp' className="dialogTitle">Timestamp: </strong>
               <div className="dialogText">
                 {instanceTimestamp}
               </div>
 
               <p />
-              <strong className="dialogTitle">Tags: </strong>
+              <strong id='tags' className="dialogTitle">Tags: </strong>
               <span style={{ display: "flex" }}>
                 {instanceTags === "None" ? undefined : instanceTags.map((tag, i) =>
                   <Chip

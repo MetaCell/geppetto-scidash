@@ -92,9 +92,10 @@ export default class ApiService {
         },
         body: JSON.stringify(model)
       }).then( data => {
-        if (data.status != 200) {
+        if (data.status >= 400) {
           throw "Error: " + data.statusText;
         }
+        return data;
       });
     }
 

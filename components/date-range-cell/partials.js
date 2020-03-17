@@ -6,7 +6,7 @@ const ClearButton = ({ changed, clearFilter }) => {
 
   if (changed) {
     return (
-      <Button variant="contained" onClick={clearFilter} label="Reset" className="btn-clear">Reset</Button>
+      <Button id={"resetDate"} variant="contained" onClick={clearFilter} label="Reset" className="btn-clear">Reset</Button>
     )
   } else {
     return (

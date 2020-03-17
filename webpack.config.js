@@ -1,3 +1,4 @@
+var fs = require('fs');
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -31,9 +32,21 @@ if ( isWin ) {
   cssThemesPath = cssThemesPath.replace(/\\/g, "/");
 }
 
-const availableExtensions = [
-  { from: path.resolve(__dirname, geppetto_client_path, "static/*"), to: 'static', flatten: true },
-];
+var availableExtensions = [];
+
+availableExtensions.push({ from: path.resolve(__dirname, geppetto_client_path, "static/*"), to: 'static', flatten: true });
+
+const splashLoadingImage = 'images/splash.png';
+
+try {
+  if (fs.existsSync(splashLoadingImage)) {
+    availableExtensions.push({ from: splashLoadingImage, to: './', flatten: true });
+  }
+} catch (err) {
+  console.error(err)
+}
+
+console.log(availableExtensions)
 
 module.exports = function (env){
   // geppettoConfig._webapp_folder

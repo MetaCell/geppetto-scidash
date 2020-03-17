@@ -17,10 +17,6 @@ env:
 services:
   - docker
 before_install:
-  - export BUILD_TYPE=`if [ "$TRAVIS_BRANCH" == "vfb_geppetto_application" ]; then echo
-    "development"; else echo "release"; fi`
-  - export VFB_REPO=$(echo ${TRAVIS_REPO_SLUG##*/} | awk '{gsub(/\-/,"_",$0);gsub(/\./,"_",$0);print
-    toupper($0)}')
   - export REPO=$(echo ${TRAVIS_REPO_SLUG} | awk '{gsub(/\./,"_",$0);print tolower($0)}')
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH;
     else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
@@ -32,6 +28,11 @@ install:
   - docker pull $GEPPETTO_IMAGE:$PULL_TAG
   - docker tag $GEPPETTO_IMAGE:$PULL_TAG $GEPPETTO_IMAGE:$TAG
 script:
+  - echo "- Travis env variables -"
+  - echo $TRAVIS_BRANCH
+  - echo $BRANCH
+  - echo $DEFAULT_BRANCH
+  - echo "############################"
   - git clone https://github.com/ddelpiano/travis_utils
   - travis_utils/copy.sh https://github.com/Metacell/scidash.git $TRAVIS_BRANCH $BRANCH $DEFAULT_BRANCH
   - travis_fold start "building_scidash_database_container"
@@ -69,8 +70,7 @@ script:
   - http_status=$(curl -s -I $1 $LANDING_PAGE | grep HTTP/1.1 | awk {'print $2'})
   - echo "$http_status"
   - docker exec -ti $SCIDASH_CONTAINER /bin/bash -c "make run-tests"
-  - echo "When tests are ready enable this command here -> travis_retry npm test --
-    --verbose --colors"
+  - docker exec -i $SCIDASH_CONTAINER /bin/bash -c "cd static/org.geppetto.frontend/src/main/webapp/extensions/geppetto-scidash/tests/jest/; npm test -- --runInBand"
   - sudo docker cp $GEPPETTO_CONTAINER:/opt/virgo/serviceability/logs/log.log /etc;
   - travis_fold start "Geppetto_container_log"
   - tail /etc/log.log -n 200

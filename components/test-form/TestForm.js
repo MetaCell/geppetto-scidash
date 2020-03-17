@@ -127,7 +127,7 @@ export default class TestForm extends React.Component {
               let textB = b.class_name.toLowerCase();
 
               return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-            }).map((klass, index) => <MenuItem value={klass.id} key={index} label={klass.class_name}>{klass.class_name}</MenuItem>)}
+            }).map((klass, index) => <MenuItem value={klass.id} id={klass.class_name} key={index} label={klass.class_name}>{klass.class_name}</MenuItem>)}
           </Select>
         </div>
 
@@ -137,6 +137,7 @@ export default class TestForm extends React.Component {
             value={this.state.model.description}
             style={styles.secondLine.one}
             label="Test description"
+            id="test-description"
             disabled={this.state.isBlocked}
           />
         </div>
@@ -144,6 +145,7 @@ export default class TestForm extends React.Component {
         <div style={styles.thirdLine.container}>
           <TextField
             value={this.state.newTag}
+            id="test-add-tags"
             onChange={e => {
               this.setState({ newTag: e.target.value });
             }}
@@ -151,7 +153,7 @@ export default class TestForm extends React.Component {
             style={styles.thirdLine.one}
             onKeyPress={e => e.key === "Enter" ? this.addTag(this.state.newTag.toLowerCase()) : null}
           />
-          <div style={styles.thirdLine.two}>
+          <div className="tags" style={styles.thirdLine.two}>
             {this.state.model.tags.map(function (tag, i) {
               if (typeof(tag.name) !== "undefined") {
                 return (
@@ -191,13 +193,13 @@ export default class TestForm extends React.Component {
             </p>
             <ParamsFormset
               schema={this.state.model.test_class.observation_schema}
-              default_params={this.state.model.test_class.default_params}
+              default_params={{}}
               unitsMap={this.state.model.getObservationUnitsMap()}
               test_class={this.state.model.test_class}
               onChange={observation => {
                 this.updateModel({ observation });
               }}
-              model={this.props.actionType === "edit" ? this.state.model.observation : undefined}
+              model={this.props.actionType === "edit" && this.props.model.test_class.class_name === this.state.model.test_class.class_name ? this.props.model.observation : undefined}
               disabled={this.state.isBlocked}
             />
           </div>
@@ -217,7 +219,7 @@ export default class TestForm extends React.Component {
               onChange={params => {
                 this.updateModel({ params });
               }}
-              model={this.props.actionType === "edit" ? this.state.model.params : undefined}
+              model={this.props.actionType === "edit" && this.props.model.test_class.class_name === this.state.model.test_class.class_name ? this.props.model.params : this.state.model.test_class.default_params}
               disabled={this.state.isBlocked}
             />
           </div>
@@ -226,6 +228,7 @@ export default class TestForm extends React.Component {
           <Button
             variant="contained"
             label="save"
+            id="save-test"
             style={styles.actionsButton}
             onClick={() => {
               if (this.state.model.validate()) {
@@ -239,6 +242,7 @@ export default class TestForm extends React.Component {
           <Button
             variant="contained"
             label="cancel"
+            id="cancel-test"
             style={styles.actionsButton}
             onClick={() => this.props.onCancel()}
           >cancel</Button>

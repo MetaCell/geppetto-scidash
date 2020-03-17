@@ -115,6 +115,7 @@ export default class DDList extends React.Component {
               .map(dataItem => (
                 <Draggable
                   key={dataItem.scheduler_id}
+                  id={dataItem.name}
                   data={dataItem.scheduler_id}
                   type={!dataItem.source ? "tests" : "models"}
                   onDragEnd={() =>
@@ -133,6 +134,7 @@ export default class DDList extends React.Component {
                   <ListItem
                     primaryText={dataItem.name}
                     secondaryText={dataItem.class}
+                    id={dataItem.name}
                     firstActionClass="fa fa-info"
                     secondActionClass="fa fa-chevron-right"
                     firstAction={() => {
