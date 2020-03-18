@@ -27,6 +27,13 @@ const mapStateToProps = state => ({
   autoCompleteData: state.testInstances.autoCompleteData,
   griddleComponents: {
     Filter: () => null,
+    TableHeadingCellEnhancer: OriginalComponent =>
+      props => (
+        <OriginalComponent
+          {...props}
+          onClick={() => {}}
+        />
+      ),
     SettingsToggle: () => null,
     NextButton: props => {
       if (props.hasNext) {
