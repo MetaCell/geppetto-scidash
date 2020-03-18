@@ -83,7 +83,7 @@ class Scheduling extends React.Component {
       for (const [index, test] of header.entries()) {
         let testId = test.split("#")[1];
 
-        if (row[index] == "TBD") {
+        if ((row[index] == "TBD") || (row[index] == "None")) {
           result[modelId].push(parseInt(testId));
         }
 

@@ -64,12 +64,12 @@ export default class CompatibilityTable extends React.Component {
     if (cellInfo == "TBD" || cellInfo == "N/A" || cellInfo == "None"){
       return (
         <span
-          data-tooltip={cellInfo == "TBD"
+          data-tooltip={(cellInfo == "TBD") || (cellInfo == "None")
             ? "Test compatible with model"
             : "Test incompatible with model"
           }
         >
-          {this.compatibilityIcon(cellInfo == "TBD" ? OKicon : Xicon)}
+          {this.compatibilityIcon((cellInfo == "TBD") || (cellInfo == "None") ? OKicon : Xicon)}
         </span>
       );
     } else {
