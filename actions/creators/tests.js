@@ -42,7 +42,7 @@ export function filteringTestsFinished (models){
 export function filteringTestsStarted (searchText, filterName, dispatch){
   let apiService = new TestInstancesApiService();
   let filteringService = FilteringService.getInstance();
-  const namespace = Helper.getNamespaceFromKey(filterName, Config.testInstancesNamespace);
+  const namespace = Config.testInstancesNamespace;
 
   if (searchText.length > 0) {
     filteringService.setupFilter(filterName, searchText, namespace);
@@ -50,12 +50,8 @@ export function filteringTestsStarted (searchText, filterName, dispatch){
     filteringService.deleteFilter(filterName, namespace);
   }
 
-
   apiService.getList(false, namespace).then(result => {
-    let filters = filteringService.getFilters(namespace);
-    let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "";
-    window.history.pushState("", "", `${location.pathname}` + filterString);
-
+    window.history.pushState("", "", `${location.pathname}` + filteringService.getQueryString (namespace));
     let uniqueResults = [];
     result.map((item, index) => {
       let flag = true;

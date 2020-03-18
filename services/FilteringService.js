@@ -24,18 +24,18 @@ export default class FilteringService {
     }
 
     setupFilter (key, value, namespace = Config.scoresNamespace, initial = false, writeToStorage = true){
-      console.log(namespace);
-      if (Config.bannedFilters[namespace].includes(key)){
-        console.warn(`${key} is banned for namespace '${namespace}'`);
+      const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+      if (Config.bannedFilters[filter_ns].includes(key)){
+        console.warn(`${key} is banned for namespace '${filter_ns}'`);
         return this;
       }
 
-      if (namespace){
-        const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+      if (filter_ns){
+        let x = filter_ns + Config.namespaceDivider + key;
         if (initial) {
-          this.initialFilters[`${filter_ns}${Config.namespaceDivider}${key}`] = value;
+          this.initialFilters[x] = value;
         }
-        this.filters[`${filter_ns}${Config.namespaceDivider}${key}`] = value;
+        this.filters[x] = value;
       } else {
         if (initial) {
           this.initialFilters[key] = value;
@@ -71,15 +71,18 @@ export default class FilteringService {
 
     setupFilters (filters = {}, namespace = null, initial = false){
       for (let key of Object.keys(filters)){
-        this.setupFilter(key, filters[key], namespace, initial);
+        const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+        this.setupFilter(key, filters[key], filter_ns, initial);
       }
 
       return this;
     }
 
     deleteFilter (key, namespace = null){
-      if (namespace) {
-        delete this.filters[`${namespace}${Config.namespaceDivider}${key}`];
+      const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+
+      if (filter_ns) {
+        delete this.filters[`${filter_ns}${Config.namespaceDivider}${key}`];
       } else {
         delete this.filters[key];
       }
@@ -123,6 +126,16 @@ export default class FilteringService {
       this.setupFilters(parsedFilters, namespace);
 
       return this;
+    }
+
+    getQueryString (namespace = null) {
+      let globalFilters = "" + this.stringifyFilters(this.getFilters('global', true));
+      if (globalFilters && globalFilters.length > 0){
+        globalFilters = globalFilters + "&";
+      }
+      return (this.getFilters(namespace, true)
+        ? "?" + globalFilters + this.stringifyFilters(this.getFilters(namespace, true))
+        : "");
     }
 
     stringifyFilters (filters){
