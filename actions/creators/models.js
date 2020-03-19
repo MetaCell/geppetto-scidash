@@ -44,7 +44,7 @@ export function filteringModelsStarted (searchText, filterName, dispatch){
   const namespace = Config.modelInstancesNamespace;
 
 
-  if (searchText.length > 0) {
+  if (searchText && searchText.length > 0) {
     filteringService.setupFilter(filterName, searchText, namespace);
   } else {
     filteringService.deleteFilter(filterName, namespace);
