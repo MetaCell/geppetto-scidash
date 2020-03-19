@@ -1,13 +1,12 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import PersonIcon from '@material-ui/icons/Person';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Popover from "@material-ui/core/Popover";
 import { Card, CardActions, CardHeader, CardContent, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
-import { List, ListItemText } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import PagesService from "../../../services/PagesService";
 import DrawerContainer from "../Drawer/DrawerContainer";
+import Grid from '@material-ui/core/Grid';
 
 export default class Header extends React.Component {
 
@@ -110,42 +109,44 @@ export default class Header extends React.Component {
                   transformOrigin={{ horizontal: "left", vertical: "top" }}
                   onClose={this.handleRequestClose} style={{ marginTop: "10px" }}
                 >
-                  <Card>
+                  <Card className="user-info-card">
                     <CardHeader
                       title={this.props.userInfo.userObject.username}
                       subtitle={this.props.userInfo.userObject.email}
                       avatar={<Avatar>{userinitial}</Avatar>}
                     />
-                    <ExpansionPanel>
-                      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                        <CardActions>
+                    <CardContent>
+                      <Grid container spacing={2}>
+                        <Grid item xs={3}>
+                          <b>Name:</b>
+                        </Grid>
+                        <Grid item xs={9}>
+                          {this.props.userInfo.userObject.username}
+                        </Grid>
+                        <Grid item xs={3}>
+                          <b>Date Joined:</b>
+                        </Grid>
+                        <Grid item xs={9}>
+                          {lastLogin}
+                        </Grid>
+                        <Grid item xs={3}>
+                          <b>Last Login:</b>
+                        </Grid>
+                        <Grid item xs={9}>
+                          {lastLogin}
+                        </Grid>
+                        <Grid item xs={6}>
                           <Button id="reset-password" label="Reset Password" href="/auth/password-reset/" style={{ border: "2px solid lightgrey" }}>
                             Reset Password
                           </Button>
+                        </Grid>
+                        <Grid item xs={6}>
                           <Button id="logout-button" label="Logout" href="/auth/logout/" style={{ border: "2px solid lightgrey" }}>
                             Logout
                           </Button>
-                        </CardActions>
-                      </ExpansionPanelSummary>
-                      <ExpansionPanelDetails>
-                        <CardContent>
-                          <List style={{ textAlign: "center" }}>
-                            <ListItemText
-                              primary="Name"
-                              secondary={this.props.userInfo.userObject.first_name}
-                            />
-                            <ListItemText
-                              primary="Date Joined"
-                              secondary={dateJoined}
-                            />
-                            <ListItemText
-                              primary="Last Login"
-                              secondary={lastLogin}
-                            />
-                          </List>
-                        </CardContent>
-                      </ExpansionPanelDetails>
-                    </ExpansionPanel>
+                        </Grid>
+                      </Grid>
+                    </CardContent>
                   </Card>
                 </Popover>
               </div>
