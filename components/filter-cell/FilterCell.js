@@ -3,6 +3,7 @@ import React from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from '@material-ui/core/TextField';
 
+
 const FilterCell = ({
   title,
   icon,
@@ -25,7 +26,12 @@ const FilterCell = ({
     <Autocomplete
       options={autoCompleteData[columnId]}
       value={value}
-      onInputChange={(event, value, reason) => onFilterUpdate(value, filterName)}
+      onChange={(event, value, reason) => onFilterUpdate(value, filterName)}
+      onKeyPress={event => {
+        if (event.key === 'Enter') {
+          onFilterUpdate(event.target.value, filterName)}
+        }
+      }
       renderInput={params => (
         <TextField {...params} label="" margin="normal" fullWidth />
       )}

@@ -82,6 +82,7 @@ export default class InitialStateService {
 
       if (!this.initialState.user.isLogged){
         filteringS.setupFilters({ status: "c", }, scoresNamespace, false);
+        filteringS.deleteFilter("owner", Config.globalNamespace);
       } else {
         filteringS.setupFilters({ owner: this.initialState.user.userObject.username }, Config.globalNamespace, true);
       }
