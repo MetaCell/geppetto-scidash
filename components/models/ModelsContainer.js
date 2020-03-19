@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import RaisedButton from "material-ui/RaisedButton";
+import Button from "@material-ui/core/Button";
 import { changePage, changePageWithParams } from "../../actions/creators/header";
 import ScidashStorage from "../../shared/ScidashStorage";
 import {
@@ -25,15 +25,26 @@ const mapStateToProps = state => ({
   autoCompleteData: state.models.autoCompleteData,
   griddleComponents: {
     Filter: () => null,
+    TableHeadingCellEnhancer: OriginalComponent =>
+      props => (
+        <OriginalComponent
+          {...props}
+          onClick={() => {}}
+        />
+      ),
     SettingsToggle: () => null,
     NextButton: props => {
       if (props.hasNext) {
         return (
-          <RaisedButton
-            label={props.text} onClick={props.getNext} style={{
-              marginLeft: "10px"
-            }}
-          />
+          <Button
+            variant="contained"
+            label={props.text} 
+            onClick={() => {
+              props.getNext();
+            }} 
+            style={{ marginLeft: "10px" }}>
+            {props.text}
+          </Button>
         );
       }
 
@@ -42,20 +53,22 @@ const mapStateToProps = state => ({
     PreviousButton: props => {
       if (props.hasPrevious) {
         return (
-          <RaisedButton
-            label={props.text} onClick={props.getPrevious} style={{
-              marginRight: "10px"
-            }}
-          />
+          <Button
+            label={props.text}
+            variant="contained"
+            onClick={() => {
+              props.getPrevious();
+            }} 
+            style={{ marginRight: "10px" }}>
+            {props.text}
+          </Button>
         );
       }
 
       return null;
     }
   },
-  pageProperties: {
-    currentPage: 1
-  },
+  pageProperties: { currentPage: 1 },
   sortProperties: [{
     id: "_timestamp",
     sortAscending: false

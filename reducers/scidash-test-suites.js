@@ -20,39 +20,25 @@ export default function scidashTestSuites (state = {}, action){
 
   switch (action.type){
   case DATE_FILTER_CLEAR:
-    newState = {
-      ...dateFilterClear(state, action)
-    };
+    newState = { ...dateFilterClear(state, action) };
     break;
   case DATE_FILTER_CHANGED:
-    newState = {
-      ...dateFilterChanged(state, action)
-    };
+    newState = { ...dateFilterChanged(state, action) };
     break;
   case FILTERING_SUITES_STARTED:
-    newState = {
-      ...filteringSuitesStarted(state, action)
-    };
+    newState = { ...filteringSuitesStarted(state, action) };
     break;
   case FILTERING_SUITES_FINISHED:
-    newState = {
-      ...filteringSuitesFinished(state, action)
-    };
+    newState = { ...filteringSuitesFinished(state, action) };
     break;
   case HIDE_MODEL:
-    newState = {
-      ...hideModel(state, action)
-    };
+    newState = { ...hideModel(state, action) };
     break;
   case SHOW_ALL_MODELS:
-    newState = {
-      ...showAllModels(state, action)
-    };
+    newState = { ...showAllModels(state, action) };
     break;
   default:
-    newState = {
-      ...state,
-    };
+    newState = { ...state, };
     break;
   }
 

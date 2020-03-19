@@ -1,6 +1,6 @@
 import React from "react";
-import FontIcon from "material-ui/FontIcon";
-import RaisedButton from "material-ui/RaisedButton";
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import Button from "@material-ui/core/Button";
 import Helper from "../../shared/Helper";
 
 const ScoreCell = ({ rowData, colorBlind }) => {
@@ -24,20 +24,18 @@ const ScoreCell = ({ rowData, colorBlind }) => {
 const TitleHeader = ({ title }) => <div className="scidash-tilted-titles-table-heading-cell-div">{title}</div>;
 
 const HideRowCell = ({ rowData, hideRow, data }) => (
-    <i style={(data && data.length==1) ? {
-        display: "none"
-    } : {
-        display: "initial"
-    }}
-        onClick={() => hideRow(rowData)} className="fa fa-eye-slash eye-icon" title="Hide row"
-    />
+  <i style={(data && data.length == 1) ? { display: "none" } : { display: "initial" }}
+    onClick={() => hideRow(rowData)} className="fa fa-eye-slash eye-icon" title="Hide row"
+  />
 );
 
-const ShowAllHeading = ({ hiddenModels, showAllModels }) => (<RaisedButton
-  id="show-all-button" style={!hiddenModels.length ? {
-    display: "none"
-  } : { minWidth: "45px", width: "45px", maxHeight: "30px" }} onClick={showAllModels} icon={<FontIcon className="fa fa-eye show-all-icon" style={{ padding: 5 }} />} title="Show all"
-/>);
+const ShowAllHeading = ({ hiddenModels, showAllModels }) => (
+  <i style={!hiddenModels.length ? { display: "none" } : { display: "initial" }}
+    className="fa fa-eye eye-icon"
+    title="Show all"
+    onClick={showAllModels}
+  />
+);
 
 export {
   ScoreCell,

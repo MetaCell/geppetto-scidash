@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "underscore";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import ParamsForm from "./ParamsForm";
 
 export default class ParamsFormset extends React.Component {
@@ -20,34 +20,26 @@ export default class ParamsFormset extends React.Component {
 
   componentDidMount (){
     if (!Array.isArray(this.props.schema)){
-      this.setState({
-        schemaList: [this.props.schema]
-      });
+      this.setState({ schemaList: [this.props.schema] });
     } else {
-      this.setState({
-        schemaList: this.props.schema
-      });
+      this.setState({ schemaList: this.props.schema });
     }
-    this.setState({
-      choosedForm: 0
-    })
+    this.setState({ choosedForm: 0 })
   }
 
 
-  updateStateModel(){
+  updateStateModel (){
     let schemaList = {};
-    if (!Array.isArray(this.props.schema)) {
+    if (!Array.isArray (this.props.schema)) {
       schemaList = [this.props.schema]
     } else {
       schemaList = this.props.schema
     }
     const newModel = Object.assign({},
-        ...Object.keys(schemaList.length > 1 ? schemaList[this.state.choosedForm][1] : schemaList[0]).
-        map((key) => (
-            {
-              [key]: (this.props.model && key in this.props.model ? this.props.model[key] : ""),
-            }
-            ))
+      ...Object.keys(schemaList.length > 1 ? schemaList[this.state.choosedForm][1] : Array.isArray(schemaList[0]) ? schemaList[0][1] : schemaList[0]).
+        map(key => (
+          { [key]: (this.props.model && key in this.props.model ? this.props.model[key] : ""), }
+        ))
     );
     this.setState({
       schemaList: schemaList,
@@ -60,17 +52,12 @@ export default class ParamsFormset extends React.Component {
       this.updateStateModel();
     }
     if (!_.isEqual(this.props.unitsMap, prevProps.unitsMap)) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        unitsMap: this.props.unitsMap
-      });
+      this.setState({ unitsMap: this.props.unitsMap });
     }
     if (this.props.test_class.class_name !== prevProps.test_class.class_name && this.state.choosedForm !== 0){
-      this.setState( {
-        choosedForm: 0
-      })
+      this.setState( { choosedForm: 0 })
     }
-    if(this.state.choosedForm !== prevState.choosedForm){
+    if (this.state.choosedForm !== prevState.choosedForm){
       this.updateStateModel();
     }
   }
@@ -78,31 +65,21 @@ export default class ParamsFormset extends React.Component {
   render () {
     return (
       <span>
-        {this.props.schema.length > 1 &&
-          <SelectField
-            id="testFormSelectObservationSchema"
-            labelStyle={{
-              position: "relative",
-              top: "-10px"
-            }}
+        {this.state.schemaList.length > 1
+          && <Select
+            id="testFormSelectClass"
             style={styles.firstLine.two}
-            iconStyle={styles.firstLine.icon}
             value={this.state.choosedForm}
-            onChange={(e, key, value) => {
-              this.setState({
-                choosedForm: value
-              });
+            onChange={e => {
+              this.setState({ choosedForm: e.target.value });
             }}
-            floatingLabelText="Select observation schema"
-            floatingLabelFixed={false}
-            underlineStyle={{ borderBottom: "1px solid grey" }}
+            label="Select observation schema"
             disabled={this.props.disabled}
           >
             {this.state.schemaList.map((value, index) =>
-              // eslint-disable-next-line react/no-array-index-key
-              <MenuItem id={`${value[0]}`} label={`${value[0]}`} primaryText={`${value[0]}`} value={index} key={index} />
+              <MenuItem id={`${value[0]}`} label={`${value[0]}`} value={index} key={index}>{`${value[0]}`}</MenuItem>
             )}
-          </SelectField>
+          </Select>
         }
 
         <ParamsForm

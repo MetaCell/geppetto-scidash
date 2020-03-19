@@ -22,44 +22,28 @@ export default function scidashTestInstances (state = {}, action){
 
   switch (action.type){
   case DATE_FILTER_CLEAR:
-    newState = {
-      ...dateFilterClear(state, action)
-    };
+    newState = { ...dateFilterClear(state, action) };
     break;
   case DATE_FILTER_CHANGED:
-    newState = {
-      ...dateFilterChanged(state, action)
-    };
+    newState = { ...dateFilterChanged(state, action) };
     break;
   case FILTERING_TESTS_STARTED:
-    newState = {
-      ...filteringTestsStarted(state, action)
-    };
+    newState = { ...filteringTestsStarted(state, action) };
     break;
   case FILTERING_TESTS_FINISHED:
-    newState = {
-      ...filteringTestsFinished(state, action)
-    };
+    newState = { ...filteringTestsFinished(state, action) };
     break;
   case TEST_CREATE_FINISHED:
-    newState = {
-      ...testCreateFinished(state, action)
-    };
+    newState = { ...testCreateFinished(state, action) };
     break;
   case TEST_CLONE_FINISHED:
-    newState = {
-      ...testCloneFinished(state, action)
-    };
+    newState = { ...testCloneFinished(state, action) };
     break;
   case TEST_EDIT_FINISHED:
-    newState = {
-      ...testEditFinished(state, action)
-    };
+    newState = { ...testEditFinished(state, action) };
     break;
   default:
-    newState = {
-      ...state,
-    };
+    newState = { ...state, };
     break;
   }
 

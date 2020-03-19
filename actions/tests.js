@@ -10,9 +10,7 @@ export function filteringTestsStarted (state, action){
 
   $(".griddle-page-select").hide();
 
-  let newState = {
-    ...state
-  };
+  let newState = { ...state };
 
   return newState;
 }
@@ -65,9 +63,7 @@ export function testCreateFinished (state, action){
     ...state.data
   ];
 
-  return {
-    ...state
-  };
+  return { ...state };
 }
 
 export function testCloneFinished (state, action){
@@ -82,9 +78,7 @@ export function testCloneFinished (state, action){
     ...state.data
   ];
 
-  return {
-    ...state
-  };
+  return { ...state };
 }
 
 
@@ -96,13 +90,13 @@ export function testEditFinished (state, action){
   apiService.clearCache(apiService.storage);
 
   var index = undefined;
-  for(let i = 0; i < state.data.length; i++) {
-    if(state.data[i].id === adopted[0].id) {
+  for (let i = 0; i < state.data.length; i++) {
+    if (state.data[i].id === adopted[0].id) {
       index = i;
       break;
     }
   }
-  if(index === undefined) {
+  if (index === undefined) {
     state.data = [
       ...adopted,
       ...state.data
@@ -115,7 +109,5 @@ export function testEditFinished (state, action){
     ];
   }
 
-  return {
-    ...state
-  };
+  return { ...state };
 }

@@ -1,67 +1,60 @@
 import React from "react";
-import DatePicker from "material-ui/DatePicker";
+import DatePicker from "@material-ui/pickers/DatePicker";
+import TextField from "@material-ui/core/TextField";
 import { ClearButton } from "./partials";
 
 
 export default class DateRangeCell extends React.Component {
 
-    constructor(props, context){
-        super(props, context);
+  constructor (props, context){
+    super(props, context);
 
-        this.props = props;
-    }
+    this.props = props;
+  }
 
-    render(){
-        var self = this;
-    	return (
-            <span style={{
-                textAlign: "center"
-            }}>
-                <p>
-                    {this.props.title}&nbsp;
+  render (){
+    return (
+      <span style={{ textAlign: "center" }}>
+        <p>
+          {this.props.title}&nbsp;
 
-                    <ClearButton
-                        changed={this.props.changed}
-                        clearFilter={(event) => {
-                            this.props.stopPropagation(event);
-                            this.props.onDateFilterClear();
-                        }} />
+          <ClearButton
+            changed={this.props.changed}
+            clearFilter={event => {
+              this.props.stopPropagation(event);
+              this.props.onDateFilterClear();
+            }} />
 
-                    {this.props.icon}
-                </p>
+          {this.props.icon}
+        </p>
 
-                <div className="datepicker-wrapper">
-                    <div id="fromDatePicker" className="date-range-tooltip" title="From" onClick={function(){self.fromDatePicker.openDialog();}}>
-                        <DatePicker
-                            hintText="From"
-                            title="From"
-                            onClick={this.props.stopPropagation}
-                            ref={(instance) => this.fromDatePicker = instance}
-                            className="scidash-materialui-field"
-                            style={this.props.styleWrapper}
-                            textFieldStyle={this.props.styleTextField}
-                            value={this.props.value.from}
-                            onChange={(event, date) => this.props.onFilterUpdate(date.toISOString(), this.props.filterNameFrom)}
-                        />
-                    </div>
+        <div className="datepicker-wrapper">
+          <div className=" date-range-tooltip" title="From">
+            <TextField
+              title="From"
+              type="date"
+              onClick={this.props.stopPropagation}
+              className="scidash-materialui-field"
+              style={this.props.styleWrapper}
+              defaultValue={this.props.value.from.toISOString().slice(0,10)}
+              onChange={event => this.props.onFilterUpdate(new Date(event.target.value).toISOString(), this.props.filterNameFrom)}
+            >From</TextField>
+          </div>
 
-                    <div id="toDatePicker" className="date-range-tooltip" title="To" onClick={function(){self.toDatePicker.openDialog();}}>
-                        <DatePicker
-                            hintText="To"
-                            title="To"
-                            ref={(instance) => this.toDatePicker = instance}
-                            className="scidash-materialui-field date-range-tooltip"
-                            onClick={this.props.stopPropagation}
-                            style={this.props.styleWrapper}
-                            textFieldStyle={this.props.styleTextField}
-                            value={this.props.value.to}
-                            onChange={(event, date) => this.props.onFilterUpdate(date.toISOString(), this.props.filterNameTo)}
-                        />
-                    </div>
-                </div>
-            </span>
-        );
+          <div className="date-range-tooltip" title="To">
+            <TextField
+              title="To"
+              type="date"
+              className="scidash-materialui-field date-range-tooltip"
+              onClick={this.props.stopPropagation}
+              style={this.props.styleWrapper}
+              defaultValue={this.props.value.to.toISOString().slice(0,10)}
+              onChange={event => this.props.onFilterUpdate(new Date(event.target.value).toISOString(), this.props.filterNameTo)}
+            >To</TextField>
+          </div>
+        </div>
+      </span>
+    );
 
-    }
-
+  }
 }

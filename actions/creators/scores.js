@@ -11,9 +11,7 @@ export const UPDATE_SCORES = "UPDATE_SCORES";
 export const UPDATE_SCORES_FINISHED = "UPDATE_SCORES_FINISHED";
 
 export function dateFilterChanged (){
-  return {
-    type: DATE_FILTER_CHANGED
-  };
+  return { type: DATE_FILTER_CHANGED };
 }
 
 export function clearDateFilter (filter, dispatch){
@@ -34,31 +32,28 @@ export function filteringScoresFinished (scores){
 export function filteringScoresStarted (searchText, filterName, dispatch){
   let apiService = new ScoresApiService();
   let filteringService = FilteringService.getInstance();
-  const namespace = Helper.getNamespaceFromKey(filterName, Config.scoresNamespace);
+  const namespace = Config.scoresNamespace;
 
   if (searchText.length > 0) {
     filteringService.setupFilter(filterName, searchText, namespace);
-  }
-  else {
+  } else {
     filteringService.deleteFilter(filterName, namespace);
   }
 
   filteringService.deleteFilter("with_suites");
 
   apiService.getList(false, namespace).then(result => {
+    window.history.pushState("", "", `${location.pathname}` + filteringService.getQueryString (namespace));
 
     let filters = filteringService.getFilters(namespace);
 
     let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "";
 
-    window.history.pushState("", "", filterString);
     dispatch(filteringScoresFinished(result));
 
   });
 
-  return {
-    type: FILTERING_SCORES_STARTED
-  };
+  return { type: FILTERING_SCORES_STARTED };
 }
 
 export function updateScoresFinished (result){
@@ -77,7 +72,5 @@ export function updateScores (dispatch){
     dispatch(updateScoresFinished(result));
   });
 
-  return {
-    type: UPDATE_SCORES
-  };
+  return { type: UPDATE_SCORES };
 }

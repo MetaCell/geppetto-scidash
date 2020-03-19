@@ -1,7 +1,7 @@
 import React from "react";
 import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
-import { Card, CardText } from "material-ui/Card";
-import RaisedButton from "material-ui/RaisedButton";
+import { Card, CardContent } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import Helper from "../../shared/Helper";
 import { ShowAllHeading, HideRowCell, TitleHeader, ScoreCell } from "./partials";
 
@@ -17,35 +17,29 @@ export default class ScoreMatrix extends React.Component {
 
 
   render () {
-    console.log(this.props);
-
     const GriddleComponents = {
       Filter: () => null,
       PageDropdown: () => null,
       NoResults: () => <table className="model-table scidash-tilted-titles-table"><thead><tr><th><ShowAllHeading /></th></tr></thead></table>,
       SettingsToggle: () => null,
       NextButton: props => {
-        if (props.hasNext)
-        {
+        if (props.hasNext) {
           return (
-            <RaisedButton
-              label={props.text} onClick={props.getNext} style={{
-                marginLeft: "10px"
-              }}
-            />
+            <Button
+              variant="contained" label={props.text} onClick={props.getNext} style={{ marginLeft: "10px" }}
+            >{props.text}
+            </Button>
           );
         }
         return null;
       },
       PreviousButton: props => {
-        if (props.hasPrevious)
-        {
+        if (props.hasPrevious) {
           return (
-            <RaisedButton
-              label={props.text} onClick={props.getPrevious} style={{
-                marginRight: "10px"
-              }}
-            />
+            <Button
+              variant="contained" label={props.text} onClick={props.getPrevious} style={{ marginRight: "10px" }}
+            >{props.text}
+            </Button>
           );
         }
         return null;
@@ -54,11 +48,9 @@ export default class ScoreMatrix extends React.Component {
 
     return (
       <Card
-        id="table-container-div" style={{
-          overflow: "scroll"
-        }}
+        style={{ overflow: "scroll", width: "calc(100vw - 25vw)" }}
       >
-        <CardText>
+        <CardContent id="table-container-div">
           <Griddle
             data={this.props.scoreMatrixTableData}
             components={GriddleComponents}
@@ -108,7 +100,7 @@ export default class ScoreMatrix extends React.Component {
               })}
             </RowDefinition>
           </Griddle>
-        </CardText>
+        </CardContent>
       </Card>
     );
   }

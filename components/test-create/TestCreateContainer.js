@@ -14,18 +14,18 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onSave: model => {
-  	if (model.params !== undefined) {
-  		var keys = ['dt', 'tmax'];
-  		for (let i=0; i < keys.length; i++) {
-  			if (model.params[keys[i]] !== undefined && model.params[keys[i]] === "") {
-  				if (model.test_class.default_params !== undefined &&
-  					model.test_class.default_params[keys[i]] !== undefined) {
-  					model.params[keys[i]] = model.test_class.default_params[keys[i]];
-  				}
-  			}
-  		}
-  	}
-  	dispatch(testCreateStarted(model, dispatch));
+    if (model.params !== undefined) {
+      var keys = ['dt', 'tmax'];
+      for (let i = 0; i < keys.length; i++) {
+        if (model.params[keys[i]] !== undefined && model.params[keys[i]] === "") {
+          if (model.test_class.default_params !== undefined
+            && model.test_class.default_params[keys[i]] !== undefined) {
+            model.params[keys[i]] = model.test_class.default_params[keys[i]];
+          }
+        }
+      }
+    }
+    dispatch(testCreateStarted(model, dispatch));
   },
   onCancel: () => dispatch(changePage(new PagesService().TESTS_PAGE, dispatch))
 });

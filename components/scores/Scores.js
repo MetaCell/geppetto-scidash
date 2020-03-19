@@ -22,6 +22,7 @@ import {
 
 import Loader from "../loader/Loader";
 import SelectCellContainer from "../select-cell/SelectCellContainer";
+import ScoresContainer from "./ScoresContainer";
 
 export default class Scores extends React.Component {
   constructor (props, context) {
@@ -30,7 +31,7 @@ export default class Scores extends React.Component {
     this.props = props;
 
     this.state = {
-      intervalId: null,
+      intervalId: setInterval(this.props.updateScores, 15000),
       page: 1,
       sortProperties: this.props.sortProperties,
     };
@@ -39,6 +40,8 @@ export default class Scores extends React.Component {
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
     this.onFilterUpdate = this.onFilterUpdate.bind(this);
+
+    FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
   }
 
   nextPage () {
@@ -49,17 +52,8 @@ export default class Scores extends React.Component {
     this.setState({ page: this.state.page - 1 });
   }
 
-  setPage (e) {
-    this.setState({ page: parseInt(e.target.value) });
-  }
-
-  componentWillMount () {
-    if (this.state.intervalId === null) {
-      this.setState({
-        intervalId: setInterval(this.props.updateScores, 15000)
-      });
-    }
-    FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
+  setPage (pagenr) {
+    this.setState({ page: pagenr });
   }
 
   componentDidMount () {
@@ -76,11 +70,11 @@ export default class Scores extends React.Component {
 
   onFilterUpdate (searchText, filterName){
     this.setState(state => {
-      state = {
-        ...state,
-        page: 1
-      };
+      state = { ...state };
 
+      if (state.page !== 1) {
+        state.page = 1;
+      }
       return state;
     }, () => this.props.onFilterUpdate(searchText, filterName));
   }
@@ -120,7 +114,7 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="name"
               title="Name"
-              customComponent={TestDetailLinkColumnContainer}
+              customComponent={props => <TestDetailLinkColumnContainer {...props} />}
               customHeadingComponent={props => (
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
@@ -147,7 +141,8 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="_sort_key"
               title="_sort_key"
-              isMetadata="true"
+              visible={false}
+              isMetadata={true}
             />
             <ColumnDefinition
               id="score_type"
@@ -167,7 +162,7 @@ export default class Scores extends React.Component {
               id="model"
               title="Model"
               sortMethod={this.sortModel}
-              customComponent={ModelDetailLinkColumnContainer}
+              customComponent={props => <ModelDetailLinkColumnContainer {...props} />}
               customHeadingComponent={props => (
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
@@ -210,7 +205,7 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="build_info"
               title="Build Info"
-              customComponent={ScidashBuildInfoColumn}
+              customComponent={props => <ScidashBuildInfoColumn {...props} />}
               customHeadingComponent={props => (
                 <FilterCellContainer
                   autoCompleteData={this.props.autoCompleteData}
@@ -225,7 +220,7 @@ export default class Scores extends React.Component {
             <ColumnDefinition
               id="status"
               title="Status"
-              customComponent={StatusIconColumn}
+              customComponent={props => <StatusIconColumn {...props} />}
               customHeadingComponent={props => (
                 <SelectCellContainer
                   onFilterUpdate={this.onFilterUpdate}
@@ -241,7 +236,7 @@ export default class Scores extends React.Component {
               sortMethod={this.sortTimestamp}
               title="Timestamp"
               width="100px"
-              customComponent={ScidashTimestampColumn}
+              customComponent={props => <ScidashTimestampColumn {...props} />}
               customHeadingComponent={props => (
                 <DateRangeCellContainer
                   onFilterUpdate={this.props.onFilterUpdate}
@@ -254,9 +249,10 @@ export default class Scores extends React.Component {
               order={11}
             />
             <ColumnDefinition
-              isMetadata="true"
               id="_timestamp"
               title="_timestamp"
+              visible={false}
+              isMetadata={true}
             />
           </RowDefinition>
         </Griddle>

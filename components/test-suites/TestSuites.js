@@ -8,8 +8,10 @@ import Griddle, {
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
 import ModelDetailLinkColumnContainer from "../griddle-columns/model-detail-link-column/ModelDetailLinkColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
-// TODO: move this component to shared
-// Also remove all Scidash mentions
+/*
+ * TODO: move this component to shared
+ * Also remove all Scidash mentions
+ */
 import ScidashTimestampColumn from "./partials";
 import SuiteNameLinkColumnContainer from "../griddle-columns/suite-name-link-column/SuiteNameLinkColumnContainer";
 import AvgScoreDetailLinkColumnContainer from "../griddle-columns/avg-score-detail-link-column/AvgScoreDetailLinkColumnContainer";
@@ -17,14 +19,12 @@ import Config from "../../shared/Config";
 import FilteringService from "../../services/FilteringService";
 
 import Loader from "../loader/Loader";
+import { ScidashBuildInfoColumn } from "../scores/partials";
 
 export default class TestSuites extends React.Component {
   constructor (props, context) {
     super(props, context);
     this.props = props;
-  }
-
-  componentWillMount() {
     FilteringService.getInstance().setFromGLobalFilters( this.props.onFilterUpdate);
   }
 
@@ -79,13 +79,18 @@ export default class TestSuites extends React.Component {
             <ColumnDefinition
               id="testsCount"
               title="# Tests"
+              customComponent={ props => (
+                <span style={{ marginLeft: "25px" }}>
+                  {props.value}
+                </span>
+              )}
               width="100px"
               order={3}
             />
             <ColumnDefinition
               id="model"
               title="Model"
-              customComponent={ModelDetailLinkColumnContainer}
+              customComponent={props => <ModelDetailLinkColumnContainer {...props} />}
               customHeadingComponent={props => (
                 <FilterCellContainer
                   filterName="model"
@@ -116,7 +121,7 @@ export default class TestSuites extends React.Component {
               width="100px"
               sortMethod={this.props.sortTimestamp}
               title="Timestamp"
-              customComponent={ScidashTimestampColumn}
+              customComponent={props => <ScidashTimestampColumn {...props} />}
               customHeadingComponent={props => (
                 <DateRangeCellContainer
                   onFilterUpdate={this.props.onFilterUpdate}
@@ -129,9 +134,9 @@ export default class TestSuites extends React.Component {
               order={5}
             />
             <ColumnDefinition
-              isMetadata="true"
               id="_timestamp"
               title="_timestamp"
+              visible={false}
             />
           </RowDefinition>
         </Griddle>

@@ -1,8 +1,6 @@
 import React from "react";
-import Chip from "material-ui/Chip";
-import { red400, brown500 } from "material-ui/styles/colors";
-import { Card, CardHeader, CardText } from "material-ui/Card";
-
+import Chip from "@material-ui/core/Chip";
+import { Card, CardContent } from "@material-ui/core";
 import { Observation, BuildInfoLine } from "./partials";
 
 function unpackError (error){
@@ -28,59 +26,57 @@ const TestDetails = ({
   testTags,
   instanceTestName
 }) => (
-      <div style={{ minWidth: "100px", margin: "15px" }}>
-        <h4
-          style={{
-            maxWidth: "360px"
-          }}
-        >
-          Test details
-        </h4>
-        <Card>
-          <CardText>
-            <div>
-              <strong>Test name: </strong>
-              {instanceTestName}
-            </div>
-            <div>
-              <strong>Test class: </strong>
-              {testClassName}
-            </div>
-            <div>
-              <strong>Build info: </strong>
-              <BuildInfoLine
-                buildInfo={buildInfo.text}
-                iconClass={buildInfo.icon}
-              />
-            </div>
-            <div>
-              <strong>Tags: </strong>
-              {testTags.map((tag, i) => (
-                <Chip
-                  containerElement="span"
-                  backgroundColor={
-                    tag.toLowerCase() === "deprecated" ? red400 : brown500
-                  }
-                  style={{
-                    marginTop: 6,
-                    marginBottom: 0,
-                    whiteSpace: "nowrap",
-                    display: "inline-block"
-                  }}
-                  key={`${tag}-${i}`}
-                >
-                  {tag}
-                </Chip>
-              ))}
-            </div>
-            <hr />
-            <div>
-              <strong>Observation: </strong>
-              <Observation observation={observation} />
-            </div>
-          </CardText>
-        </Card>
-      </div>
+  <div style={{ minWidth: "100px", margin: "15px" }} raised={true}>
+    <Card>
+      <CardContent>
+        <strong className="dialogTitle">Test name: </strong>
+        <div className="dialogText">
+          {instanceTestName}
+        </div>
+
+        <p />
+        <strong className="dialogTitle">Test class: </strong>
+        <div className="dialogText">
+          {testClassName}
+        </div>
+
+        <p />
+        <strong className="dialogTitle">Build info: </strong>
+        <div className="dialogText">
+          <BuildInfoLine
+            buildInfo={buildInfo.text}
+            iconClass={buildInfo.icon}
+          />
+        </div>
+
+        <p />
+        <strong className="dialogTitle">Tags: </strong>
+        <div className="dialogText">
+          {testTags.map((tag, i) => (
+            <Chip
+              color={
+                tag.toLowerCase() === "deprecated" ? "secondary" : "primary"
+              }
+              style={{
+                marginTop: 6,
+                marginBottom: 0,
+                whiteSpace: "nowrap"
+              }}
+              key={`${tag}-${i}`}
+              label={tag}
+            />
+          ))}
+        </div>
+
+        <hr />
+
+        <strong className="dialogTitle">Observation: </strong>
+        <div className="dialogText">
+          <Observation observation={observation} />
+        </div>
+      </CardContent>
+    </Card>
+  </div>
 );
 
 export default TestDetails;

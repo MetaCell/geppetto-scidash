@@ -1,11 +1,9 @@
-/* eslint-disable react/no-unused-state */
 import React from "react";
-import Chip from "material-ui/Chip";
-import MenuItem from "material-ui/MenuItem";
-import TextField from "material-ui/TextField";
-import SelectField from "material-ui/SelectField";
-import RaisedButton from "material-ui/RaisedButton";
-import { red400, brown500 } from "material-ui/styles/colors";
+import Chip from "@material-ui/core/Chip";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+import Select from "@material-ui/core/Select";
+import Button from "@material-ui/core/Button";
 import ParamsFormset from "./ParamsFormset";
 import TestInstance from "../../models/TestInstance";
 import Helper from "../../shared/Helper";
@@ -30,9 +28,7 @@ export default class TestForm extends React.Component {
     this.deleteTag = this.deleteTag.bind(this);
     this.addTag = this.addTag.bind(this);
     this.isInstanceBlocked = this.isInstanceBlocked.bind(this);
-  }
 
-  componentWillMount () {
     if (this.props.actionType === "edit") {
       this.isInstanceBlocked();
     }
@@ -54,9 +50,7 @@ export default class TestForm extends React.Component {
 
     newModel = new TestInstance(newModel);
 
-    this.setState({
-      model: newModel
-    });
+    this.setState({ model: newModel });
   }
 
   deleteTag (tag) {
@@ -78,7 +72,9 @@ export default class TestForm extends React.Component {
 
   isInstanceBlocked () {
     let testId = this.props.model.id;
-    let checkInstance = function (value, index, array) { return value.id === testId; };
+    let checkInstance = function (value, index, array) {
+      return value.id === testId; 
+    };
     let instance = this.props.data.find(checkInstance);
     if ((this.state.isBlocked === false) && (instance.block.isBlocked || (instance.tags.indexOf("deprecated") !== -1))) {
       this.setState({ isBlocked: true });
@@ -87,83 +83,61 @@ export default class TestForm extends React.Component {
 
 
   render () {
-    let blockedWarning = <div style={{fontSize: '18px'}}>
-                            <p>
-                              <i className="fa fa-lock" style={{fontSize: '25px'}}/> &nbsp;
+    let blockedWarning = <div style={{ fontSize: '18px' }}>
+      <p>
+        <i className="fa fa-lock" style={{ fontSize: '25px' }}/> &nbsp;
                               This model instance is locked because it has already a score
                               associated to it, only tags can be edited.
                               Clone from the grid view to create a different instance.
-                            </p>
-                          </div>;
+      </p>
+    </div>;
     return (
       <span>
         {this.state.isBlocked ? blockedWarning : undefined}
         <div style={styles.firstLine.container}>
           <TextField
             value={this.state.model.name}
-            onChange={(e, value) => this.updateModel({ "name": value })}
-            errorText={
+            onChange={e => this.updateModel({ "name": e.target.value })}
+            error={ this.state.model.errors !== undefined && "name" in this.state.model.errors }
+            helperText={
               (this.state.model.errors !== undefined && "name" in this.state.model.errors) ? this.state.model.errors["name"] : ""
             }
             style={styles.firstLine.one}
-            floatingLabelText="Name of the test"
-            id="test-name"
-            underlineStyle={{ borderBottom: "1px solid grey" }}
+            label="Name of the test"
             disabled={this.state.isBlocked}
           />
 
-          <SelectField
+          <Select
             id="testFormSelectClass"
-            labelStyle={{
-              position: "relative",
-              top: "-10px"
-            }}
             style={styles.firstLine.two}
-            iconStyle={styles.firstLine.icon}
-            value={this.state.model.test_class.id}
-            floatingLabelText="Select test class"
-            floatingLabelFixed={false}
-            underlineStyle={{ borderBottom: "1px solid grey" }}
-            dropDownMenuProps={{
-              menuStyle: {
-                border: "1px solid black",
-                backgroundColor: "#f5f1f1"
-              },
-              anchorOrigin: {
-                vertical: "center",
-                horizontal: "left"
-              }
-            }}
-            onChange={(e, key, value) => {
+            value={ this.state.model.test_class.id ? this.state.model.test_class.id : "" }
+            label="Select test class"
+            onChange={e => {
               for (let klass of this.state.testClasses) {
-                if (klass.id == value) {
-                  this.updateModel({ "test_class": klass,
-                    "observation": {}
-                  });
+                if (klass.id == e.target.value) {
+                  this.updateModel({ "test_class": klass, });
                 }
               }
             }}
             disabled={this.state.isBlocked}
           >
 
-            {/* eslint-disable-next-line react/no-array-index-key */}
             {this.state.testClasses.sort((a, b) => {
               let textA = a.class_name.toLowerCase();
               let textB = b.class_name.toLowerCase();
 
               return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-            }).map((klass, index) => <MenuItem value={klass.id} id={klass.class_name} key={index} primaryText={klass.class_name} label={klass.class_name} />)}
-          </SelectField>
+            }).map((klass, index) => <MenuItem value={klass.id} id={klass.class_name} key={index} label={klass.class_name}>{klass.class_name}</MenuItem>)}
+          </Select>
         </div>
 
         <div style={styles.secondLine.container}>
           <TextField
-            onChange={(e, value) => this.updateModel({ "description": value })}
+            onChange={e => this.updateModel({ "description": e.target.value })}
             value={this.state.model.description}
             style={styles.secondLine.one}
-            floatingLabelText="Test description"
+            label="Test description"
             id="test-description"
-            underlineStyle={{ borderBottom: "1px solid grey" }}
             disabled={this.state.isBlocked}
           />
         </div>
@@ -171,47 +145,35 @@ export default class TestForm extends React.Component {
         <div style={styles.thirdLine.container}>
           <TextField
             value={this.state.newTag}
-            onChange={(e, value) => { this.setState({ newTag: value }); }}
-            floatingLabelText="Add tags"
             id="test-add-tags"
+            onChange={e => {
+              this.setState({ newTag: e.target.value });
+            }}
+            label="Add tags"
             style={styles.thirdLine.one}
-            underlineStyle={{ borderBottom: "1px solid grey" }}
             onKeyPress={e => e.key === "Enter" ? this.addTag(this.state.newTag.toLowerCase()) : null}
           />
           <div className="tags" style={styles.thirdLine.two}>
-            {/* eslint-disable-next-line react/no-array-index-key */}
             {this.state.model.tags.map(function (tag, i) {
               if (typeof(tag.name) !== "undefined") {
                 return (
                   <Chip
-                    backgroundColor={(tag.name.toLowerCase() === "deprecated") ? red400 : brown500}
+                    color={(tag.name.toLowerCase() === "deprecated") ? "secondary" : "primary"}
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag.name}-${i}`}
-                    onKeyPress={e =>
-                      e.key === "Enter"
-                      ? this.deleteTag(tag)
-                      : null
-                    }
-                    onRequestDelete={() => this.deleteTag(tag)}
-                  >
-                    {tag.name.toString()}
-                  </Chip>
+                    onDelete={() => this.deleteTag(tag)}
+                    label={tag.name.toString()}
+                  />
                 );
               } else {
                 return (
                   <Chip
-                    backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red400 : brown500}
+                    color={tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable" ? "secondary" : "primary"}
                     style={{ marginLeft: 4, marginTop: 4, float: "left" }}
                     key={`${tag}-${i}`}
-	                onKeyPress={e =>
-	                  e.key === "Enter"
-	                    ? this.deleteTag(tag)
-	                    : null
-	                }
-                    onRequestDelete={() => this.deleteTag(tag)}
-                  >
-                    {tag}
-                  </Chip>
+                    onDelete={() => this.deleteTag(tag)}
+                    label={tag}
+                  />
                 );
               }
 
@@ -235,11 +197,9 @@ export default class TestForm extends React.Component {
               unitsMap={this.state.model.getObservationUnitsMap()}
               test_class={this.state.model.test_class}
               onChange={observation => {
-                this.updateModel({
-                  observation
-                });
+                this.updateModel({ observation });
               }}
-              model={this.props.actionType === "edit" && this.props.model.test_class.class_name === this.state.model.test_class.class_name  ? this.props.model.observation : undefined}
+              model={this.props.actionType === "edit" && this.props.model.test_class.class_name === this.state.model.test_class.class_name ? this.props.model.observation : undefined}
               disabled={this.state.isBlocked}
             />
           </div>
@@ -257,9 +217,7 @@ export default class TestForm extends React.Component {
               unitsMap={this.state.model.getParamsUnitsMap()}
               test_class={this.state.model.test_class}
               onChange={params => {
-                this.updateModel({
-                  params
-                });
+                this.updateModel({ params });
               }}
               model={this.props.actionType === "edit" && this.props.model.test_class.class_name === this.state.model.test_class.class_name ? this.props.model.params : this.state.model.test_class.default_params}
               disabled={this.state.isBlocked}
@@ -267,29 +225,27 @@ export default class TestForm extends React.Component {
           </div>
         </div>
         <div style={styles.actionsContainer}>
-          <RaisedButton
+          <Button
+            variant="contained"
             label="save"
             id="save-test"
             style={styles.actionsButton}
             onClick={() => {
               if (this.state.model.validate()) {
-                this.setState({
-                  validationFailed: false
-                });
+                this.setState({ validationFailed: false });
                 this.props.onSave(this.state.model);
               } else {
-                this.setState({
-                  validationFailed: true
-                });
+                this.setState({ validationFailed: true });
               }
             }}
-          />
-          <RaisedButton
+          >save</Button>
+          <Button
+            variant="contained"
             label="cancel"
             id="cancel-test"
             style={styles.actionsButton}
             onClick={() => this.props.onCancel()}
-          />
+          >cancel</Button>
         </div>
       </span>
     );
@@ -304,9 +260,7 @@ const styles = {
     justifyContent: "center",
     marginTop: "20px"
   },
-  actionsButton: {
-    width: "100px"
-  },
+  actionsButton: { width: "100px" },
   firstLine: {
     container: {
       width: "100%",
@@ -320,7 +274,7 @@ const styles = {
     icon: { background: "#000", padding: "2px", width: "28px", height: "28px" }
   },
   secondLine: {
-    container: { width: "100%", marginTop: 12 },
+    container: { width: "100%", marginTop: 16 },
     one: { width: "100%" }
   },
   thirdLine: {
@@ -329,7 +283,8 @@ const styles = {
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
+      marginTop: 16
     },
     one: { width: "20%" },
     two: { float: "right", width: "79%" }

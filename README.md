@@ -47,4 +47,3 @@ Then navigate to folder 'geppetto-scidash/tests/jest' and run:
 
 This will run the tests against the local server 'localhost:8000'.
 
-

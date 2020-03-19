@@ -1,11 +1,14 @@
+/* eslint-disable no-use-before-define */
 import React from "react";
-import AutoComplete from "material-ui/AutoComplete";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from '@material-ui/core/TextField';
 
 const FilterCell = ({
   title,
   icon,
   value,
   filterName,
+  onClick,
   styleDefault,
   styleInputDefault,
   menuStyle,
@@ -15,31 +18,20 @@ const FilterCell = ({
   onFilterUpdate
 }) => (
   <span>
-    <p>
+    <p onClick={onClick}>
       {title}
       {icon}
     </p>
-    <AutoComplete
-      className="scidash-materialui-field"
-      searchText={value}
-      popoverProps={{
-        color: "red",
-        backgroundColor: "blue",
-        className: "autosuggest"
-      }}
-      filter={AutoComplete.caseInsensitiveFilter}
-      onClick={event => {
-        event.stopPropagation();
-      }}
-      hintText={"Filter " + title}
-      style={styleDefault}
-      textFieldStyle={styleInputDefault}
-      menuStyle={menuStyle}
-      listStyle={listStyle}
-      onUpdateInput={searchText => onFilterUpdate(searchText, filterName)}
-      dataSource={autoCompleteData[columnId]}
+    <Autocomplete
+      options={autoCompleteData[columnId]}
+      value={value}
+      onInputChange={(event, value, reason) => onFilterUpdate(value, filterName)}
+      renderInput={params => (
+        <TextField {...params} label="" margin="normal" fullWidth />
+      )}
     />
   </span>
 );
+
 
 export default FilterCell;

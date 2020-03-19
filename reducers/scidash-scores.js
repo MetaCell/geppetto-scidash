@@ -19,34 +19,22 @@ export default function scidashScores (state = {}, action = null){
 
   switch (action.type){
   case DATE_FILTER_CLEAR:
-    newState = {
-      ...dateFilterClear(state, action)
-    };
+    newState = { ...dateFilterClear(state, action) };
     break;
   case DATE_FILTER_CHANGED:
-    newState = {
-      ...dateFilterChanged(state, action)
-    };
+    newState = { ...dateFilterChanged(state, action) };
     break;
   case FILTERING_SCORES_STARTED:
-    newState = {
-      ...filteringScoresStarted(state, action)
-    };
+    newState = { ...filteringScoresStarted(state, action) };
     break;
   case FILTERING_SCORES_FINISHED:
-    newState = {
-      ...filteringScoresFinished(state, action)
-    };
+    newState = { ...filteringScoresFinished(state, action) };
     break;
   case UPDATE_SCORES_FINISHED:
-    newState = {
-      ...updateScoresFinished(state, action)
-    };
+    newState = { ...updateScoresFinished(state, action) };
     break;
   default:
-    newState = {
-      ...state,
-    };
+    newState = { ...state, };
     break;
   }
 

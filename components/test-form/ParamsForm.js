@@ -1,5 +1,5 @@
 import React from "react";
-import TextField from "material-ui/TextField";
+import TextField from "@material-ui/core/TextField";
 import _ from "underscore";
 
 export default class ParamsForm extends React.Component {
@@ -20,8 +20,7 @@ export default class ParamsForm extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
-    if (!_.isEqual(this.props.schema, prevProps.schema)) {
-      // eslint-disable-next-line react/no-did-update-set-state
+    if (!_.isEqual(this.props.schema, prevProps.schema) || !_.isEqual(this.props.default_params, prevProps.default_params)) {
       this.setState(
         {
           model: {},
@@ -79,11 +78,11 @@ export default class ParamsForm extends React.Component {
     }
 
     let result = {};
-    if(schema !== undefined) {
+    if (schema !== undefined) {
       for (let key of Object.keys(schema)) {
-        if (this.props.default_params !== null &&
-            this.props.default_params !== undefined &&
-            this.props.default_params[key] !== undefined) {
+        if (this.props.default_params !== null
+            && this.props.default_params !== undefined
+            && this.props.default_params[key] !== undefined) {
           result[key] = this.props.default_params[key];
         } else {
           result[key] = "";
@@ -114,7 +113,7 @@ export default class ParamsForm extends React.Component {
           function (key, index) {
             return (
               <TextField
-                value={this.state.model[key]}
+                value={this.state.model && this.state.model[key] ? this.state.model[key] : ""}
                 id={`${key} (${this.state.unitsMap[key]})`}
                 key={key}
                 type={this.state.iterable.includes(key) ? "text" : "number"}
@@ -123,10 +122,9 @@ export default class ParamsForm extends React.Component {
                     e.preventDefault();
                   }
                 }}
-                onChange={(e, newValue) => this.updateForm(key, newValue)}
+                onChange={e => this.updateForm(key, e.target.value)}
                 style={{ width: "100%" }}
-                floatingLabelText={`${key} (${this.state.unitsMap[key]})`}
-                underlineStyle={{ borderBottom: "1px solid grey" }}
+                label={`${key} (${this.state.unitsMap[key]})`}
                 disabled={this.props.disabled}
               />
             );

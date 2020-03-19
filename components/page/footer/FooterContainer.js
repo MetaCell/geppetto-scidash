@@ -2,17 +2,13 @@ import { connect } from 'react-redux';
 import Footer from './Footer';
 
 
-const mapStateToProps = state => {
-    return {}
-}
+const mapStateToProps = state => ({})
 
-const mapDispatchToProps = dispatch => {
-    return {}
-}
+const mapDispatchToProps = dispatch => ({})
 
 const FooterContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Footer)
 
 

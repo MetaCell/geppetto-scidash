@@ -1,9 +1,7 @@
 export default function scidashModelClasses (state = {}, action){
   let newState = null;
 
-  newState = {
-    ...state
-  };
+  newState = { ...state };
 
   return newState;
 }

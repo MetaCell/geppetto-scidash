@@ -31,54 +31,34 @@ export default function scidashHeader (state = {}, action){
 
   switch (action.type){
   case TOGGLE_SETTINGS:
-    newState = {
-      ...toggleSettings(state, action)
-    };
+    newState = { ...toggleSettings(state, action) };
     break;
   case HIDE_SETTINGS:
-    newState = {
-      ...hideSettings(state, action)
-    };
+    newState = { ...hideSettings(state, action) };
     break;
   case TOGGLE_COLOR_BLIND:
-    newState = {
-      ...toggleColorBlind(state, action)
-    };
+    newState = { ...toggleColorBlind(state, action) };
     break;
   case OPEN_SUITES_VIEW:
-    newState = {
-      ...openSuitesView(state, action, "header")
-    };
+    newState = { ...openSuitesView(state, action, "header") };
     break;
   case OPEN_TESTS_VIEW:
-    newState = {
-      ...openTestsView(state, action, "header")
-    };
+    newState = { ...openTestsView(state, action, "header") };
     break;
   case TOGGLE_DRAWER:
-    newState = {
-      ...toggleDrawer(state, action)
-    };
+    newState = { ...toggleDrawer(state, action) };
     break;
   case CHANGE_PAGE:
-    newState = {
-      ...changePage(state, action)
-    };
+    newState = { ...changePage(state, action) };
     break;
   case TOGGLE_CREATE_TEST:
-    newState = {
-      ...toggleCreateTest(state, action)
-    };
+    newState = { ...toggleCreateTest(state, action) };
     break;
   case TOGGLE_CREATE_MODEL:
-    newState = {
-      ...toggleCreateModel(state, action)
-    };
+    newState = { ...toggleCreateModel(state, action) };
     break;
   default:
-    newState = {
-      ...state
-    };
+    newState = { ...state };
     break;
   }
 

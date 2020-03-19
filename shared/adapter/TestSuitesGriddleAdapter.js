@@ -51,8 +51,7 @@ export default class TestSuitesGriddleAdapter extends BaseAdapter {
         if ((suiteHash + "_" + score.model_instance.hash_id) == modelSuiteKey){
           let usedTest = false;
 
-          for (let usedScore of result[modelSuiteKey]["avgScore"]["scoreList"] )
-          {
+          for (let usedScore of result[modelSuiteKey]["avgScore"]["scoreList"] ) {
             if (usedScore.test_instance.hash_id == score.test_instance.hash_id){
               usedTest = true;
             }
