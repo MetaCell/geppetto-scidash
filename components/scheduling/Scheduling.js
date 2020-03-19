@@ -8,6 +8,7 @@ import CompatibilityTable from "./CompatibilityTable";
 import PagesService from "../../services/PagesService";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import SchedulingApiService from "../../services/api/SchedulingApiService";
+import ErrorDialog from "../error-dialog/ErrorDialog";
 
 class Scheduling extends React.Component {
 
@@ -109,6 +110,11 @@ class Scheduling extends React.Component {
 
     return (
       <span>
+        <ErrorDialog
+          onClearErrors={this.props.onClearErrors}
+          errors={this.props.errors}
+        />
+
         <DDListContainer />
 
 

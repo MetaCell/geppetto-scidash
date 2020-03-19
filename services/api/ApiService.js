@@ -84,7 +84,7 @@ export default class ApiService {
         },
         body: JSON.stringify(model)
       }).then( data => {
-        if (data.status >= 400) {
+        if (data.status >= 1000) {
           throw "Error: " + data.statusText;
         }
         return data;

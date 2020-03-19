@@ -4,6 +4,7 @@ import TestInstance from "../../models/TestInstance";
 import { testCreateStarted } from "../../actions/creators/tests";
 import { changePage } from "../../actions/creators/header";
 import PagesService from "../../services/PagesService";
+import { clearErrors } from "../../actions/creators/global";
 
 const mapStateToProps = state => ({
   model: new TestInstance(),
@@ -27,6 +28,7 @@ const mapDispatchToProps = dispatch => ({
     }
     dispatch(testCreateStarted(model, dispatch));
   },
+  onClearErrors: () => dispatch(clearErrors()),
   onCancel: () => dispatch(changePage(new PagesService().TESTS_PAGE, dispatch))
 });
 

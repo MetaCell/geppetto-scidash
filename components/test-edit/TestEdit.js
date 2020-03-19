@@ -1,26 +1,21 @@
 import React from "react";
 import TestForm from "../test-form/TestForm";
+import ErrorDialog from "../error-dialog/ErrorDialog";
 
-const TestCreate = ({ model, testClasses, errors, onSave, onCancel, actionType, data }) => { 
-  let errorsTemplate = null;
-
-  if (errors.length > 0){
-    errorsTemplate = errors.map((value, index) => <p key={index} style={{ color: "red" }}>{value}</p>);
-  } 
-
-  return (
-    <div>
-      {errorsTemplate}
-      <TestForm
-        testClasses={testClasses}
-        model={model}
-        onSave={onSave}
-        onCancel={onCancel}
-        actionType={actionType}
-        data={data}
-      />
-    </div>
-  );
-};
+const TestCreate = ({ model, testClasses, errors, onSave, onClearErrors, onCancel, actionType, data }) => (<div>
+  <ErrorDialog
+    onClearErrors={onClearErrors}
+    errors={errors}
+  />
+  <TestForm
+    testClasses={testClasses}
+    model={model}
+    onSave={onSave}
+    onCancel={onCancel}
+    actionType={actionType}
+    data={data}
+  />
+</div>
+);
 
 export default TestCreate;
