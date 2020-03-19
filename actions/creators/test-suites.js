@@ -32,7 +32,7 @@ export function filteringSuitesFinished (scores){
 export function filteringSuitesStarted (searchText, filterName, dispatch){
   let apiService = new ScoresApiService();
   let filteringService = FilteringService.getInstance();
-  const namespace = Helper.getNamespaceFromKey(filterName, Config.suitesNamespace);
+  const namespace = Config.suitesNamespace;
 
   filteringService.setupFilter("with_suites", true, namespace);
 
@@ -43,13 +43,8 @@ export function filteringSuitesStarted (searchText, filterName, dispatch){
   }
 
   apiService.getList(false, namespace).then(result => {
-
-    let filters = filteringService.getFilters(namespace);
-    let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "";
-
-    window.history.pushState("", "", `${location.pathname}` + filterString);
+    window.history.pushState("", "", `${location.pathname}` + filteringService.getQueryString (namespace));
     dispatch(filteringSuitesFinished(result));
-
   });
 
   return { type: FILTERING_SUITES_STARTED };

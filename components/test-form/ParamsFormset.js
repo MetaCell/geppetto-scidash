@@ -36,7 +36,7 @@ export default class ParamsFormset extends React.Component {
       schemaList = this.props.schema
     }
     const newModel = Object.assign({},
-      ...Object.keys(schemaList.length > 1 ? schemaList[this.state.choosedForm][1] : schemaList[0]).
+      ...Object.keys(schemaList.length > 1 ? schemaList[this.state.choosedForm][1] : Array.isArray(schemaList[0]) ? schemaList[0][1] : schemaList[0]).
         map(key => (
           { [key]: (this.props.model && key in this.props.model ? this.props.model[key] : ""), }
         ))

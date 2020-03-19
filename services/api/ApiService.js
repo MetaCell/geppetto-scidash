@@ -37,7 +37,6 @@ export default class ApiService {
       return JSON.parse(this.storage.getItem(key));
     }
 
-
     getList (cache = false, namespace = ""){
       let filteringS = FilteringService.getInstance();
 
@@ -45,14 +44,7 @@ export default class ApiService {
         throw new ApiServiceException("You should define API endpoint");
       }
 
-      let globalFilters = "" + filteringS.stringifyFilters(filteringS.getFilters('global', true));
-      if (globalFilters && globalFilters.length > 0){
-        globalFilters = globalFilters + "&";
-      }
-      let queryPath = this.endpoint + (filteringS.getFilters(namespace, true)
-        ? "?" + globalFilters
-                + filteringS.stringifyFilters(filteringS.getFilters(namespace, true))
-        : "");
+      let queryPath = this.endpoint + filteringS.getQueryString (namespace);
 
       if (this.storage.getItem(queryPath) && cache){
         return new Promise(resolve => {
