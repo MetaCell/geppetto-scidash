@@ -39,9 +39,10 @@ export function dateFilterChanged (state, action){
 export function dateFilterClear (state, action){
   let filteringService = FilteringService.getInstance();
 
-  filteringService.restoreFromInitial(Config.scoresNamespace);
+  filteringService.restoreFromInitial(Config.globalNamespace, 'timestamp_from');
+  filteringService.restoreFromInitial(Config.globalNamespace, 'timestamp_to');
 
-  for (let entry of Object.entries(filteringService.getFilters(Config.scoresNamespace))){
+  for (let entry of Object.entries(filteringService.getFilters(Config.globalNamespace))){
     action.filter(entry[1], entry[0], action.dispatch, true);
   }
 
