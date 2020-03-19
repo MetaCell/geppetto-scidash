@@ -53,6 +53,14 @@ export default ({ drawerActive, changePage, toggleDrawer, activePage, editModelA
       >
         <img style={styles.logo} src={ScidashLogo} alt="" />
         <Divider />
+
+        <SciDashMenuItem
+          id="hamMenuInstructions"
+          primaryText="Instructions"
+          leftIcon={<i className="fa fa-cogs drawer-icon" />}
+          onClick={() => handleMenuClick(pagesService.INSTRUCTIONS_PAGE)}
+        />
+
         <SciDashMenuItem
           id="hamMenuScores"
           primaryText="Test scores"
