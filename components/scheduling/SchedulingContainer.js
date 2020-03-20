@@ -4,7 +4,7 @@ import Scheduling from "./Scheduling";
 import { changePage } from "../../actions/creators/header";
 import PagesService from "../../services/PagesService";
 import { clearScheduler } from "../../actions/creators/scheduler";
-import { clearErrors } from "../../actions/creators/global";
+import { error, clearErrors } from "../../actions/creators/global";
 
 const mapStateToProps = state => ({
   data: [
@@ -22,6 +22,7 @@ const mapDispatchToProps = dispatch => {
 
   return {
     notLoggedRedirect: () => dispatch(changePage(pagesService.SCORES_PAGE, dispatch)),
+    onError: errorMessage => dispatch(error( errorMessage)),
     onClearErrors: () => dispatch(clearErrors()),
     gotoScorePage: () => dispatch(changePage(pagesService.SCORES_PAGE, dispatch)),
     clearScheduler: () => dispatch(clearScheduler())

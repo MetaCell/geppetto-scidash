@@ -19,7 +19,7 @@ const ErrorDialog = ({ errors, onClearErrors }) => {
   };
 
   if (errors.length > 0){
-    const alerts = errors.map((value, index) => <Alert severity="error" key={index}>{value}</Alert>);
+    const alerts = errors.map((value, index) => <Alert severity="error" key={index}><div className="errorAlertDiv" key={"div-" + index} dangerouslySetInnerHTML={{ __html: value }} /></Alert>);
 
     return (<Dialog
       open={errors.length > 0}

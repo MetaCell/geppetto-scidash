@@ -65,7 +65,7 @@ export default class ApiService {
     }
 
 
-    create (model = null){
+    create (model = null, onErrorDispatch = null){
       if (this.endpoint === null){
         throw new ApiServiceException("You should define API endpoint");
       }
@@ -84,8 +84,19 @@ export default class ApiService {
         },
         body: JSON.stringify(model)
       }).then( data => {
-        if (data.status >= 1000) {
-          throw "Error: " + data.statusText;
+        if (data.status >= 400) {
+          const decoder = new TextDecoder('utf-8');
+          data.body
+            .getReader()
+            .read()
+            .then(( { value, done } ) => {
+              value = decoder.decode(value).replace("\n","<br/>");
+              const errorMessage = "Error: " + data.statusText;
+              if (onErrorDispatch !== null) {
+                onErrorDispatch(errorMessage + "<br/><br/>" + value);
+              }
+            });
+          throw data.statusText;
         }
         return data;
       });

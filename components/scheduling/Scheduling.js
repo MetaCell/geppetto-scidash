@@ -47,7 +47,12 @@ class Scheduling extends React.Component {
 
       schedulingService.clearCache(schedulingService.storage);
 
-      let result = await schedulingService.create(payload);
+      let result = {};
+      try {
+        result = await schedulingService.create(payload);
+      } catch (e) {
+        this.props.onError (e)
+      }
 
       this.setState({
         showLoading: false,
@@ -124,6 +129,7 @@ class Scheduling extends React.Component {
               tests={this.getItemByID(choosedTests)}
               models={this.getItemByID(choosedModels)}
               onFinish={this.saveCompatible}
+              onError={this.props.onError}
             />
             <div style={styles.saveContainer}>
               <Button
