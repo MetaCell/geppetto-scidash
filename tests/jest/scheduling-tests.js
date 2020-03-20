@@ -73,16 +73,16 @@ describe('Scidash Scheduling Tests', () => {
 	describe('Test Landing Page Login Components', () => {
 		it('Login Button Visible', async () => {
 			const userLogin = await page.evaluate(async () => {
-				var button = document.querySelector("#user-button")
+				var button = document.querySelector("#userButton")
 				if(button == null || button == undefined){
-					return false;
+					return Promise.resolve(false);
 				}
-				return true;
+				return Promise.resolve(true);;
 			});
 
 			if(userLogin){
 				await page.evaluate(async () => {
-					var button = document.querySelector("#user-button");
+					var button = document.querySelector("#userButton");
 					if(button != null){
 						button.click();
 					}
@@ -97,11 +97,11 @@ describe('Scidash Scheduling Tests', () => {
 				});
 			}
 
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 60000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 60000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.signUpButton', { visible: true, timeout : 30000 })
 		})
 	})
 
@@ -110,15 +110,15 @@ describe('Scidash Scheduling Tests', () => {
 	describe('Create User Account', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Open Sign Up Page', async () => {
 			await page.evaluate(async () => {
-				document.querySelector(".signup-button a").click()
+				document.querySelector(".signUpButton").click()
 			});
-			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
+			await wait4selector(page, 'div.login-container', { visible: true, timeout : 30000 });
 		})
 
 		// Perform registration form tests

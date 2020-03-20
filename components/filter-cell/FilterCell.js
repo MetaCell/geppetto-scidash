@@ -29,10 +29,9 @@ const FilterCell = ({
       onChange={(event, value, reason) => onFilterUpdate(value, filterName)}
       onKeyPress={event => {
         if (event.key === 'Enter') {
-          onFilterUpdate(event.target.value, filterName)
+          onFilterUpdate (event.target.value, filterName)
         }
-      }
-      }
+      }}
       renderInput={params => (
         <TextField {...params} label="" margin="normal" fullWidth />
       )}

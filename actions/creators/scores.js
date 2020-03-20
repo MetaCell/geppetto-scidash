@@ -32,7 +32,7 @@ export function filteringScoresFinished (scores){
 export function filteringScoresStarted (searchText, filterName, dispatch){
   let apiService = new ScoresApiService();
   let filteringService = FilteringService.getInstance();
-  const namespace = Helper.getNamespaceFromKey(filterName, Config.scoresNamespace);
+  const namespace = Config.scoresNamespace;
 
   if (searchText && searchText.length > 0) {
     filteringService.setupFilter(filterName, searchText, namespace);
@@ -43,12 +43,12 @@ export function filteringScoresStarted (searchText, filterName, dispatch){
   filteringService.deleteFilter("with_suites");
 
   apiService.getList(false, namespace).then(result => {
+    window.history.pushState("", "", `${location.pathname}` + filteringService.getQueryString (namespace));
 
     let filters = filteringService.getFilters(namespace);
 
     let filterString = Object.keys(filters).length ? "/?" + filteringService.stringifyFilters(filters) : "";
 
-    window.history.pushState("", "", filterString);
     dispatch(filteringScoresFinished(result));
 
   });

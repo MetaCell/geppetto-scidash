@@ -460,7 +460,7 @@ class ModelForm extends React.Component {
               <Select
                 id="modelFormSelectClass"
                 label="Select class"
-                value={this.state.model.model_class.id !== null ? this.state.model.model_class.id : undefined}
+                value={this.state.model.model_class.id !== null ? this.state.model.model_class.id : ""}
                 onChange={event => {
                   for (let klass of this.state.modelClasses) {
                     if (klass.id == event.target.value) {
