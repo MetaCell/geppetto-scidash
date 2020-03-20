@@ -50,11 +50,13 @@ export default class FilteringService {
       return this;
     }
 
-    restoreFromInitial (namespace){
-      for (let key of Object.keys(this.initialFilters)){
-        const filter_ns = Helper.getNamespaceFromKey(key, namespace);
-        if (this.matchNamespace(key, filter_ns)){
-          this.filters[key] = this.initialFilters[key];
+    restoreFromInitial (namespace, key = null){
+      for (let k of Object.keys(this.initialFilters)){
+        if ((key === null) || (k === namespace + Config.namespaceDivider + key)){
+          const filter_ns = Helper.getNamespaceFromKey(k.split(Config.namespaceDivider)[1], namespace);
+          if (this.matchNamespace(k, filter_ns)){
+            this.filters[k] = this.initialFilters[k];
+          }
         }
       }
       return this;

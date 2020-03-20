@@ -2,6 +2,8 @@ import React from "react";
 import DatePicker from "@material-ui/pickers/DatePicker";
 import TextField from "@material-ui/core/TextField";
 import { ClearButton } from "./partials";
+import FilteringService from "../../services/FilteringService";
+import Helper from "../../shared/Helper";
 
 
 export default class DateRangeCell extends React.Component {
@@ -10,6 +12,26 @@ export default class DateRangeCell extends React.Component {
     super(props, context);
 
     this.props = props;
+    this.state = {
+      changed: props.changed,
+      from: props.value.from,
+      to: props.value.to
+    };
+  }
+
+  updateStateWithDates () {
+    const currentFilters = FilteringService.getInstance().getFilters("global", true);
+    const names = ["from", "to"];
+    const filterNameBase = "timestamp_";
+
+    let newState = {};
+    for (let name of names){
+      const filterName = filterNameBase + name;
+      if (filterName in currentFilters) {
+        newState[name] = new Date(currentFilters[filterName]);
+      }
+    }
+    this.setState ( { ...newState } );
   }
 
   render (){
@@ -19,10 +41,11 @@ export default class DateRangeCell extends React.Component {
           {this.props.title}&nbsp;
 
           <ClearButton
-            changed={this.props.changed}
+            changed={this.state.changed}
             clearFilter={event => {
               this.props.stopPropagation(event);
               this.props.onDateFilterClear();
+              this.updateStateWithDates();
             }} />
 
           {this.props.icon}
@@ -36,8 +59,15 @@ export default class DateRangeCell extends React.Component {
               onClick={this.props.stopPropagation}
               className="scidash-materialui-field"
               style={this.props.styleWrapper}
-              defaultValue={this.props.value.from.toISOString().slice(0,10)}
-              onChange={event => this.props.onFilterUpdate(new Date(event.target.value).toISOString(), this.props.filterNameFrom)}
+              value={this.state.from === null ? "" : this.state.from.toISOString().slice(0,10)}
+              onChange={event => {
+                const newDate = event.target.value === "" ? null : new Date(event.target.value);
+                this.setState( {
+                  from: newDate,
+                  changed: true
+                } );
+                this.props.onFilterUpdate(newDate === null ? "" : newDate.toISOString(), this.props.filterNameFrom);
+              }}
             >From</TextField>
           </div>
 
@@ -48,8 +78,15 @@ export default class DateRangeCell extends React.Component {
               className="scidash-materialui-field date-range-tooltip"
               onClick={this.props.stopPropagation}
               style={this.props.styleWrapper}
-              defaultValue={this.props.value.to.toISOString().slice(0,10)}
-              onChange={event => this.props.onFilterUpdate(new Date(event.target.value).toISOString(), this.props.filterNameTo)}
+              value={this.state.to === null ? "" : this.state.to.toISOString().slice(0,10)}
+              onChange={event => {
+                const newDate = event.target.value === "" ? null : new Date(event.target.value);
+                this.setState( {
+                  to: newDate,
+                  changed: true
+                } );
+                this.props.onFilterUpdate(newDate === null ? "" : newDate.toISOString(), this.props.filterNameTo);
+              }}
             >To</TextField>
           </div>
         </div>
