@@ -72,13 +72,13 @@ describe('Scidash Scheduling Tests', () => {
 	//Tests login components in landing page are present
 	describe('Test Landing Page Login Components', () => {
 		it('Login Button Visible', async () => {
-			const userLogin = await page.evaluate(async () => {
+			const userLogin = await page.evaluate('async () => {
 				var button = document.querySelector("#userButton")
 				if(button == null || button == undefined){
 					return Promise.resolve(false);
 				}
-				return Promise.resolve(true);;
-			});
+				return Promise.resolve(true);
+			}');
 
 			if(userLogin){
 				await page.evaluate(async () => {
