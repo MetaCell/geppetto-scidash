@@ -30,7 +30,7 @@ export const click = async (page, selector) => {
 }
 
 export const closeModalWindow = async (page) => {
-	await page.evaluate(async () => {
+	await page.evaluate( () => {
 		var evt = new KeyboardEvent('keydown', {'keyCode':27, 'which':27});
 		document.dispatchEvent (evt);
 	});
@@ -38,7 +38,7 @@ export const closeModalWindow = async (page) => {
 
 export const testFilters = (page, filterWord, filterPosition, resultPosition, tableModelLength) => {
 	it('Filter By ' + filterWord, async () => {
-		await page.evaluate(async (name, position) => {
+		await page.evaluate( (name, position) => {
 			var elm = document.querySelectorAll(".scidash-materialui-field input")[position]
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -50,15 +50,15 @@ export const testFilters = (page, filterWord, filterPosition, resultPosition, ta
 	})
 
 	it('One Result for Filter '+ filterWord, async () => {
-		await page.evaluate(async (name, position) => {document.querySelector(".autosuggest").remove();});
+		await page.evaluate( (name, position) => {document.querySelector(".autosuggest").remove();});
 		await page.waitFor(500);
-		const models = await page.evaluate(async () => {
+		const models = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
 		});
 
 		expect(models).toBeGreaterThanOrEqual(tableModelLength-1);
 
-		const modelName = await page.evaluate(async (position) => {
+		const modelName = await page.evaluate( (position) => {
 			return document.querySelectorAll(".scidash-table tr td")[position].innerText;
 		}, resultPosition);
 
@@ -66,7 +66,7 @@ export const testFilters = (page, filterWord, filterPosition, resultPosition, ta
 	})
 
 	it('Reset Name Filters', async () => {
-		await page.evaluate(async (pos) => {
+		await page.evaluate( (pos) => {
 			var elm = document.querySelectorAll(".scidash-materialui-field input")[pos]
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -76,9 +76,9 @@ export const testFilters = (page, filterWord, filterPosition, resultPosition, ta
 
 		await page.waitFor(500);
 
-		await page.evaluate(async (name, position) => {document.querySelector(".autosuggest").remove();});
+		await page.evaluate( (name, position) => {document.querySelector(".autosuggest").remove();});
 
-		const models = await page.evaluate(async () => {
+		const models = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
 		});
 

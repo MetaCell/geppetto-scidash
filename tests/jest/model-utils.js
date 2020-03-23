@@ -12,7 +12,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	})
 
 	it('New Model Registration Form', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelector("span.fa-plus").click()
 		});
 		await wait4selector(page, 'div.actions-container', { visible: true , timeout : 5000 })
@@ -23,7 +23,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	})
 
 	it('Enter Source URL', async () => {
-		await page.evaluate(async (newModelURL) => {
+		await page.evaluate( (newModelURL) => {
 			var elm = document.querySelector('#source-url')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -31,7 +31,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 			elm.dispatchEvent(ev);
 		}, newModelURL);
 
-		const testModelURL = await page.evaluate(async () => {
+		const testModelURL = await page.evaluate( () => {
 			return document.getElementById("source-url").value;
 		});
 		expect(testModelURL).toEqual(newModelURL);
@@ -41,7 +41,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 		await wait4selector(page, 'span.icons', { visible: true , timeout : 5000 });
 		// Wait for URL model to validate
 		await wait4selector(page, '#validating-source-url', { hidden: true , timeout : 60000 })
-		const modelValidated = await page.evaluate(async () => {
+		const modelValidated = await page.evaluate( () => {
 			return document.querySelector(".icons svg").style.color;
 		});
 		expect(modelValidated).toEqual("green");
@@ -52,7 +52,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	})
 
 	it('Open "Select Class" Dropdown Menu', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.querySelector('#modelFormSelectClass button')
@@ -62,7 +62,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	})
 
 	it('Select "' + newModelClass + '" Class', async () => {
-		await page.evaluate(async (className) => {
+		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.querySelector("#" + className + " div")
@@ -76,7 +76,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	})
 
 	it('Enter New Tag', async () => {
-		await page.evaluate(async (newModelTag) => {
+		await page.evaluate( (newModelTag) => {
 			var elm = document.querySelector('#new-tag')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -91,7 +91,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 
 		}, newModelTag);
 
-		const testModelTag = await page.evaluate(async () => {
+		const testModelTag = await page.evaluate( () => {
 			return document.querySelectorAll('.tags svg').length;
 		});
 		expect(testModelTag).toEqual(1);
@@ -102,7 +102,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	})
 
 	it('Enter Model Name', async () => {
-		await page.evaluate(async (newModel) => {
+		await page.evaluate( (newModel) => {
 			var elm = document.querySelector('#model-name')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -110,7 +110,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 			elm.dispatchEvent(ev);
 		}, newModelName);
 
-		const testModelName = await page.evaluate(async () => {
+		const testModelName = await page.evaluate( () => {
 			return document.getElementById("model-name").value;
 		});
 
@@ -124,7 +124,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	it('Model Parameters Button Enabled', async () => {
 		await wait4selector(page, '#loading-model-parameters', { hidden: true , timeout : 125000 })
 
-		const modelParametersButton = await page.evaluate(async () => {
+		const modelParametersButton = await page.evaluate( () => {
 			return document.getElementById("open-model-parameters").disabled;
 		});
 
@@ -132,7 +132,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	})
 	
 	it('Model Parameters Dialog Open', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			return document.getElementById("open-model-parameters").click();
 		});
 		
@@ -140,7 +140,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	})
 	
 	it('Select State Variables', async () => {
-		await page.evaluate(async (var1, var2) => {
+		await page.evaluate( (var1, var2) => {
 			var tableRows = document.querySelectorAll(".scidash-table td");
 			for(var i =0; i< tableRows.length; i++){
 			   if(tableRows[i].innerText ==var1 || tableRows[i].innerText ==var2){
@@ -151,7 +151,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 		
 		await page.waitFor(5000);
 		
-		var var1Selected = await page.evaluate(async (var1) => {
+		var var1Selected = await page.evaluate( (var1) => {
 			var tableRows = document.querySelectorAll(".scidash-table td");
 			for(var i =0; i< tableRows.length; i++){
 			   if(tableRows[i].innerText ==var1){
@@ -164,7 +164,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 		
 		expect(var1Selected).toEqual("rgb(0, 128, 0)");
 		
-		var var2Selected = await page.evaluate(async (var2) => {
+		var var2Selected = await page.evaluate( (var2) => {
 			var tableRows = document.querySelectorAll(".scidash-table td");
 			for(var i =0; i< tableRows.length; i++){
 			   if(tableRows[i].innerText ==var2){
@@ -180,7 +180,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	})
 	
 	it('Model Parameters Dialog Closed', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			let buttons = document.querySelectorAll(".centered-modal button");
 			return document.querySelectorAll(".centered-modal button")[buttons.length-1].click();
 		});
@@ -191,13 +191,13 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 
 export const saveModel = (page, newModelName, newModelClass, newModelTag, tableModelLength) => {
 	it('Save Model', async () => {
-		const saveModelEnabled = await page.evaluate(async () => {
+		const saveModelEnabled = await page.evaluate( () => {
 			return document.getElementById("save-model").disabled;
 		});
 
 		expect(saveModelEnabled).toEqual(false);
 
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			return document.getElementById("save-model").click();
 		});
 
@@ -206,24 +206,24 @@ export const saveModel = (page, newModelName, newModelClass, newModelTag, tableM
 
 	it('Test Model Present in Models Page', async () => {
 		await page.waitFor(5000);
-		const tableModels = await page.evaluate(async () => {
+		const tableModels = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
 		});
 		expect(tableModels).toBeGreaterThanOrEqual(tableModelLength);
 
-		const modelName = await page.evaluate(async () => {
+		const modelName = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[0].innerText;
 		});
 
 		expect(modelName).toEqual(newModelName);
 
-		const modelClass = await page.evaluate(async () => {
+		const modelClass = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[1].innerText;
 		});
 
 		expect(modelClass).toEqual(newModelClass);
 
-		const modelTag = await page.evaluate(async () => {
+		const modelTag = await page.evaluate( () => {
 			return document.querySelectorAll(".chips span")[0].innerText;
 		});
 
@@ -237,7 +237,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	})
 
 	it('Open Model Edit/Clone Menu', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelector(".fa-ellipsis-v").click()
 		});
 		await wait4selector(page, 'span.fa-pencil-square-o', { visible: true , timeout : 5000 })
@@ -257,7 +257,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 		await wait4selector(page, 'span.icons', { visible: true , timeout : 5000 });
 		// Wait for URL model to validate
 		await wait4selector(page, '#validating-source-url', { hidden: true , timeout : 60000 })
-		const modelValidated = await page.evaluate(async () => {
+		const modelValidated = await page.evaluate( () => {
 			return document.querySelector(".icons svg").style.color;
 		});
 		expect(modelValidated).toEqual("green");
@@ -268,7 +268,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	})
 
 	it('Open "Select Class" Dropdown Menu', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.querySelector('#modelFormSelectClass button')
@@ -278,7 +278,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	})
 
 	it('Select "LEMSModel" Class', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.querySelector('#LEMSModel div')
@@ -292,7 +292,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	})
 
 	it('Delete Tag', async () => {
-		await page.evaluate(async (editedModelTag) => {
+		await page.evaluate( () => {
 			var elm =document.querySelector(".tags path")
 			var evt = new CustomEvent('Event');
 			evt.initEvent('keypress', true, false);
@@ -301,14 +301,14 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 			elm.dispatchEvent(evt);
 		}, editedModelTag);
 
-		const testModelTag = await page.evaluate(async () => {
+		const testModelTag = await page.evaluate( () => {
 			return document.querySelectorAll('.tags svg').length;
 		});
 		expect(testModelTag).toEqual(0);
 	})
 
 	it('Enter New Tag', async () => {
-		await page.evaluate(async (editedModelTag) => {
+		await page.evaluate( (editedModelTag) => {
 			var elm = document.querySelector('#new-tag')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -322,7 +322,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 			elm.dispatchEvent(evt);
 		}, editedModelTag);
 
-		const testModelTag = await page.evaluate(async () => {
+		const testModelTag = await page.evaluate( () => {
 			return document.querySelectorAll('.tags svg').length;
 		});
 		expect(testModelTag).toEqual(1);
@@ -333,7 +333,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	})
 
 	it('Edit Model Name', async () => {
-		await page.evaluate(async (newModel) => {
+		await page.evaluate( (newModel) => {
 			var elm = document.querySelector('#model-name')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -342,7 +342,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 
 		}, editedModelName);
 
-		const testModelName = await page.evaluate(async () => {
+		const testModelName = await page.evaluate( () => {
 			return document.getElementById("model-name").value;
 		});
 
@@ -356,7 +356,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	it('Model Parameters Button Enabled', async () => {
 		await wait4selector(page, '#loading-model-parameters', { hidden: true , timeout : 125000 })
 
-		const modelParametersButton = await page.evaluate(async () => {
+		const modelParametersButton = await page.evaluate( () => {
 			return document.getElementById("open-model-parameters").disabled;
 		});
 
@@ -364,7 +364,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	})
 	
 	it('Model Parameters Dialog Open', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			return document.getElementById("open-model-parameters").click();
 		});
 		
@@ -372,7 +372,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	})
 	
 	it('Check State Variables', async () => {		
-		var var1Selected = await page.evaluate(async (var1) => {
+		var var1Selected = await page.evaluate( (var1) => {
 			var tableRows = document.querySelectorAll(".scidash-table td");
 			for(var i =0; i< tableRows.length; i++){
 			   if(tableRows[i].innerText ==var1){
@@ -385,7 +385,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 		
 		expect(var1Selected).toEqual("rgb(0, 128, 0)");
 		
-		var var2Selected = await page.evaluate(async (var2) => {
+		var var2Selected = await page.evaluate( (var2) => {
 			var tableRows = document.querySelectorAll(".scidash-table td");
 			for(var i =0; i< tableRows.length; i++){
 			   if(tableRows[i].innerText ==var2){
@@ -401,7 +401,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	})
 	
 	it('Model Parameters Dialog Closed', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			return document.querySelectorAll(".centered-modal button")[4].click();
 		});
 		
@@ -409,13 +409,13 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	})
 
 	it('Save Model', async () => {
-		const saveModelEnabled = await page.evaluate(async () => {
+		const saveModelEnabled = await page.evaluate( () => {
 			return document.getElementById("save-model").disabled;
 		});
 
 		expect(saveModelEnabled).toEqual(false);
 
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			return document.getElementById("save-model").click();
 		});
 
@@ -424,26 +424,26 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 
 	it('Test Model Present in Models Page', async () => {
 		await page.waitFor(5000);
-		const models = await page.evaluate(async () => {
+		const models = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
 		});
 
 		tableModelLength = tableModelLength+1;
 		expect(models).toBeGreaterThanOrEqual(tableModelLength);
 
-		const modelName = await page.evaluate(async () => {
+		const modelName = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[0].innerText;
 		});
 
 		expect(modelName).toEqual(editedModelName);
 
-		const modelClass = await page.evaluate(async () => {
+		const modelClass = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[1].innerText;
 		});
 
 		expect(modelClass).toEqual(editedModelClass);
 
-		const modelTag = await page.evaluate(async () => {
+		const modelTag = await page.evaluate( () => {
 			return document.querySelectorAll(".chips span")[1].innerText;
 		});
 
@@ -457,7 +457,7 @@ export const cloneModel = (page, modelName, modelClass, tableModelLength) => {
 	})
 
 	it('Open Model Edit/Clone Menu', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelector(".fa-ellipsis-v").click()
 		});
 		await wait4selector(page, 'span.fa-clone', { visible: true , timeout : 5000 })
@@ -469,19 +469,19 @@ export const cloneModel = (page, modelName, modelClass, tableModelLength) => {
 		// Wait for model to clone
 		await page.waitFor(5000);
 
-		const models = await page.evaluate(async () => {
+		const models = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
 		});
 
 		expect(models).toBeGreaterThanOrEqual(tableModelLength);
 
-		const modelName = await page.evaluate(async () => {
+		const modelName = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[7].innerText;
 		});
 
 		expect(modelName).toEqual(modelName);
 
-		const modelClass = await page.evaluate(async () => {
+		const modelClass = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[8].innerText;
 		});
 
@@ -495,7 +495,7 @@ export const cancelModelCreation = (page) => {
 	})
 
 	it('New Model Creation Form', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelector("span.fa-plus").click()
 		});
 		await wait4selector(page, 'div.actions-container', { visible: true , timeout : 5000 })
@@ -506,7 +506,7 @@ export const cancelModelCreation = (page) => {
 	})
 
 	it('Cancel Model Creation, Navigate Back to Models Page', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			return document.getElementById("cancel-model").click();
 		});
 

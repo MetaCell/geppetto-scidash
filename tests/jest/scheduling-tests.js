@@ -90,7 +90,7 @@ describe('Scidash Scheduling Tests', () => {
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Open Sign Up Page', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				document.querySelector(".signUpButton").click()
 			});
 			await wait4selector(page, 'div.login-container', { visible: true, timeout : 30000 });
@@ -184,7 +184,7 @@ describe('Scidash Scheduling Tests', () => {
 		})
 		
 		it('Matrix Table Present', async () => {
-			const table = await page.evaluate(async () => {
+			const table = await page.evaluate( () => {
 				return document.querySelectorAll("table").length;
 			});
 			
@@ -195,7 +195,7 @@ describe('Scidash Scheduling Tests', () => {
 		it('Test1 and Models 1 and 2 Compatibility Check', async () => {			
 			
 			// Check there's only one Test/Model compatible
-			var matrixModelCompatibility = await page.evaluate(async () => {
+			var matrixModelCompatibility = await page.evaluate( () => {
 				var matrixChecks = document.querySelectorAll("table td span")
 				var incompatible = 0;			
 				for(var i =0; i< matrixChecks.length; i++){
@@ -224,7 +224,7 @@ describe('Scidash Scheduling Tests', () => {
 				
 		it('Test1,Test2 and Model 1, Model 2 Compatability Check', async () => {			
 			// Check there's only one compatible Test/Model compatible in the matrix
-			var matrixModelCompatibility = await page.evaluate(async () => {
+			var matrixModelCompatibility = await page.evaluate( () => {
 				var matrixChecks = document.querySelectorAll("table td span")
 				var incompatible = 0;			
 				for(var i =0; i< matrixChecks.length; i++){
@@ -254,13 +254,13 @@ describe('Scidash Scheduling Tests', () => {
 		it('Test Submitted for Simulation', async () => {
 			await page.waitFor(5000);
 			
-			const scores = await page.evaluate(async () => {
+			const scores = await page.evaluate( () => {
 				return document.querySelectorAll(".scidash-table tr").length;
 			});
 
 			expect(scores).toBeGreaterThanOrEqual(2);
 			
-			const modelName = await page.evaluate(async () => {
+			const modelName = await page.evaluate( () => {
 				return document.querySelectorAll(".scidash-table tr td")[0].innerText;
 			});
 
@@ -270,7 +270,7 @@ describe('Scidash Scheduling Tests', () => {
 		it('Test Score Succesfully Simulated', async () => {
 			await wait4selector(page, 'i.fa-check', { visible: true, timeout : 450000})
 			
-			const score = await page.evaluate(async () => {
+			const score = await page.evaluate( () => {
 				return document.querySelectorAll(".scidash-table tr td")[1].innerText;
 			});
 
@@ -280,7 +280,7 @@ describe('Scidash Scheduling Tests', () => {
 		})
 		
 		it('Test Score Details Dialog Opened', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				document.querySelectorAll(".scidash-table tr td")[1].querySelector("a").click();
 			});
 			
@@ -293,7 +293,7 @@ describe('Scidash Scheduling Tests', () => {
 		testScoreDetails(page, newTestName, newTestClass, newModelClass, newModelURL);
 		
 		it('Test Score Details Dialog Closed', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				document.querySelector(".centered-modal button").click()
 			});
 			await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
@@ -302,7 +302,7 @@ describe('Scidash Scheduling Tests', () => {
 		})
 		
 		it('Test Score Model Details Dialog Opened', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				document.querySelectorAll(".scidash-table tr td")[3].querySelector("a").click();
 			});
 			
@@ -315,7 +315,7 @@ describe('Scidash Scheduling Tests', () => {
 		testModelDetails(page, newModelClass, newModelURL);
 		
 		it('Test Score Model Details Dialog Closed', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				var buttons = document.querySelectorAll("button");
 				buttons[buttons.length-1].click();
 			});

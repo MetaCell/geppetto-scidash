@@ -51,7 +51,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 	//Tests login components in landing page are present
 	describe('Test Landing Page Login Components', () => {
 		it('Login Button Visible', async () => {
-			const userLogin = await page.evaluate(async () => {
+			const userLogin = await page.evaluate( () => {
 				var button = document.querySelector("#user-button")
 				if(button == null || button == undefined){
 					return false;
@@ -60,7 +60,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 			});
 
 			if(userLogin){
-				await page.evaluate(async () => {
+				await page.evaluate( () => {
 					var button = document.querySelector("#user-button");
 					if(button != null){
 						button.click();
@@ -68,7 +68,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 				});
 				await wait4selector(page, '#logout-button', { visible: true, timeout : 30000 });
 
-				await page.evaluate(async () => {
+				await page.evaluate( () => {
 					var button = document.querySelector("#logout-button");
 					if(button != null){
 						button.click();
@@ -94,7 +94,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Open Sign Up Page', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				document.querySelector(".signup-button a").click()
 			});
 			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
@@ -112,7 +112,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 
 	describe('Test Model Parameters Pages', () => {
 		it('Model Parameters Dialog Open', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				return document.getElementById("open-model-parameters").click();
 			});
 
@@ -121,7 +121,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Parameters Drop Down 16 Pages Available', async () => {
-			let dropdown = await page.evaluate(async () => {
+			let dropdown = await page.evaluate( () => {
 				return document.querySelectorAll("select option").length;
 			});
 
@@ -129,7 +129,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 		})
 
 		it('Model Parameters Dialog Closed', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				let buttons = document.querySelectorAll(".centered-modal button");
 				return document.querySelectorAll(".centered-modal button")[buttons.length - 1].click();
 			});

@@ -14,7 +14,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	})
 
 	it('New Test Registration Form', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelector("span.fa-plus").click()
 		});
 		await wait4selector(page, 'div#testFormSelectClass', { visible: true , timeout : 5000 })
@@ -25,7 +25,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	})
 
 	it('Enter Test Name', async () => {
-		await page.evaluate(async (newTest) => {
+		await page.evaluate( (newTest) => {
 			var elm = document.querySelector('#test-name')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -33,7 +33,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 			elm.dispatchEvent(ev);
 		}, name);
 
-		const testName = await page.evaluate(async () => {
+		const testName = await page.evaluate( () => {
 			return document.getElementById("test-name").value;
 		});
 
@@ -45,7 +45,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	})
 
 	it('Select '+  className + ' Class', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.querySelector('#testFormSelectClass button')
@@ -54,7 +54,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 
 		await page.waitFor(2000);
 		
-		await page.evaluate(async (className) => {
+		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.getElementById(className).querySelector("div");
@@ -69,19 +69,19 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	it('Test Parameters Populated', async () => {
 		await page.waitFor(2000);
 		
-		const delayParameterValue = await page.evaluate(async () => {
+		const delayParameterValue = await page.evaluate( () => {
 			return Number(document.getElementById("delay (s)").value);
 		});
 		
 		expect(delayParameterValue).toEqual(0.1);
 		
-		const paddingParameterValue = await page.evaluate(async () => {
+		const paddingParameterValue = await page.evaluate( () => {
 			return Number(document.getElementById("padding (s)").value);
 		});
 
 		expect(paddingParameterValue).toEqual(0.2);
 		
-		const durationParameterValue = await page.evaluate(async () => {
+		const durationParameterValue = await page.evaluate( () => {
 			return Number(document.getElementById("duration (s)").value);
 		});
 
@@ -93,7 +93,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	})
 
 	it('Enter New Tag', async () => {
-		await page.evaluate(async (newTestTag) => {
+		await page.evaluate( (newTestTag) => {
 			var elm = document.querySelector('#test-add-tags')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -108,7 +108,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 
 		}, tag);
 
-		const testTag = await page.evaluate(async () => {
+		const testTag = await page.evaluate( () => {
 			return document.querySelectorAll('.tags svg').length;
 		});
 		expect(testTag).toEqual(1);
@@ -120,7 +120,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	
 	it('Observation Parameter Field Present', async () => {
 		await page.waitFor(2000);
-		const fieldPresent = await page.evaluate(async () => {
+		const fieldPresent = await page.evaluate( () => {
 			var elm = document.getElementById("std (megaohm)");
 			if(elm == undefined || elm == null){
 				return false;
@@ -132,7 +132,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	})
 
 	it('Select '+  secondObservationSchema + ' Observation Schema', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.querySelector('#testFormSelectObservationSchema button')
@@ -140,7 +140,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 		});
 		await page.waitFor(2000);
 		
-		await page.evaluate(async (className) => {
+		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.getElementById(className).querySelector("div");
@@ -151,7 +151,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	
 	it('Observation Parameter Field Present', async () => {
 		await page.waitFor(2000);
-		const fieldPresent = await page.evaluate(async () => {
+		const fieldPresent = await page.evaluate( () => {
 			var elm = document.getElementById("sem (megaohm)");
 			if(elm == undefined || elm == null){
 				return false;
@@ -163,7 +163,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	})
 	
 	it('Select '+  newObservationSchema + ' Observation Schema', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.querySelector('#testFormSelectObservationSchema button')
@@ -172,7 +172,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 		
 		await page.waitFor(2000);
 
-		await page.evaluate(async (className) => {
+		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.getElementById(className).querySelector("div");
@@ -183,7 +183,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	
 	it('Observation Parameter Field Present', async () => {
 		await page.waitFor(2000);
-		const fieldPresent = await page.evaluate(async () => {
+		const fieldPresent = await page.evaluate( () => {
 			var elm = document.getElementById("std (megaohm)");
 			if(elm == undefined || elm == null){
 				return false;
@@ -195,7 +195,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	})
 
 	it('Enter Observation Value N', async () => {
-		await page.evaluate(async (value) => {
+		await page.evaluate( (value) => {
 			var elm = document.getElementById('n (-)')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -203,7 +203,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 			elm.dispatchEvent(ev);
 		}, observationValueN);
 
-		const observationValue = await page.evaluate(async () => {
+		const observationValue = await page.evaluate( () => {
 			return Number(document.getElementById("n (-)").value);
 		});
 
@@ -211,7 +211,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	})
 	
 	it('Enter Observation Value  STD', async () => {
-		await page.evaluate(async (value) => {
+		await page.evaluate( (value) => {
 			var elm = document.getElementById('std (megaohm)')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -219,7 +219,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 			elm.dispatchEvent(ev);
 		}, observationValueSTD);
 
-		const observationValue = await page.evaluate(async () => {
+		const observationValue = await page.evaluate( () => {
 			return Number(document.getElementById("std (megaohm)").value);
 		});
 
@@ -227,7 +227,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	})
 	
 	it('Enter Observation Value Mean', async () => {
-		await page.evaluate(async (value) => {
+		await page.evaluate( (value) => {
 			var elm = document.getElementById('mean (megaohm)')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -235,7 +235,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 			elm.dispatchEvent(ev);
 		}, observationValueMean);
 
-		const observationValue = await page.evaluate(async () => {
+		const observationValue = await page.evaluate( () => {
 			return Number(document.getElementById("mean (megaohm)").value);
 		});
 
@@ -243,7 +243,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	})
 	
 	it('Enter Parameter Value TMax', async () => {
-		await page.evaluate(async (value) => {
+		await page.evaluate( (value) => {
 			var elm = document.getElementById('tmax (s)')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -251,7 +251,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 			elm.dispatchEvent(ev);
 		}, parameterTMax);
 
-		const paramValue = await page.evaluate(async () => {
+		const paramValue = await page.evaluate( () => {
 			return Number(document.getElementById("tmax (s)").value);
 		});
 
@@ -259,7 +259,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	})
 
 	it('Save Test', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			return document.getElementById("save-test").click();
 		});
 		
@@ -270,24 +270,24 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 
 	it('New Test Present in Tests Page', async () => {
 		await page.waitFor(5000);
-		const tableModels = await page.evaluate(async () => {
+		const tableModels = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
 		});
 		expect(tableModels).toBeGreaterThanOrEqual(tableModelLength);
 
-		const modelName = await page.evaluate(async () => {
+		const modelName = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[0].innerText;
 		});
 
 		expect(modelName).toEqual(name);
 
-		const modelClass = await page.evaluate(async () => {
+		const modelClass = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[1].innerText;
 		});
 
 		expect(modelClass).toEqual(className);
 
-		const modelTag = await page.evaluate(async () => {
+		const modelTag = await page.evaluate( () => {
 			return document.querySelectorAll(".chips span")[0].innerText;
 		});
 
@@ -301,7 +301,7 @@ export const cancelTestCreation = async (page) => {
 	})
 
 	it('New Test Creation Form', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelector("span.fa-plus").click()
 		});
 		await wait4selector(page, 'div#testFormSelectClass', { visible: true , timeout : 5000 })
@@ -312,7 +312,7 @@ export const cancelTestCreation = async (page) => {
 	})
 
 	it('Cancel Test Creation, Navigate Back to Tests Page', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			return document.getElementById("cancel-test").click();
 		});
 
@@ -326,7 +326,7 @@ export const cloneTestCreation = async (page, name, className, tableModelLength)
 	})
 
 	it('Open Test Edit/Clone Menu', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelector(".fa-ellipsis-v").click()
 		});
 		await wait4selector(page, 'span.fa-clone', { visible: true , timeout : 5000 })
@@ -338,19 +338,19 @@ export const cloneTestCreation = async (page, name, className, tableModelLength)
 		// Wait for model to clone
 		await page.waitFor(5000);
 
-		const models = await page.evaluate(async () => {
+		const models = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
 		});
 
 		expect(models).toBeGreaterThanOrEqual(tableModelLength);
 
-		const testName = await page.evaluate(async () => {
+		const testName = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[6].innerText;
 		});
 
 		expect(testName).toEqual(name);
 
-		const testClass = await page.evaluate(async () => {
+		const testClass = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[7].innerText;
 		});
 
@@ -364,14 +364,14 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	})
 
 	it('Open Test Edit/Clone Menu', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelector(".fa-ellipsis-v").click()
 		});
 		await wait4selector(page, 'span.fa-pencil-square-o', { visible: true , timeout : 5000 })
 	})
 
 	it('Open Edit Test Form', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelector(".fa-pencil-square-o").click()
 		});
 
@@ -385,7 +385,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	})
 
 	it('Edit Test Name', async () => {
-		await page.evaluate(async (newTest) => {
+		await page.evaluate( (newTest) => {
 			var elm = document.querySelector('#test-name')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -393,7 +393,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			elm.dispatchEvent(ev);
 		}, name);
 
-		const testName = await page.evaluate(async () => {
+		const testName = await page.evaluate( () => {
 			return document.getElementById("test-name").value;
 		});
 
@@ -405,7 +405,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	})
 
 	it('Select '+  className + ' Class', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.querySelector('#testFormSelectClass button')
@@ -414,7 +414,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 
 		await page.waitFor(2000);
 		
-		await page.evaluate(async (className) => {
+		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('mouseup', true, false);
 			var elm = document.getElementById(className).querySelector("div");
@@ -429,31 +429,31 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	it('Test Parameters Populated', async () => {
 		await page.waitFor(2000);
 		
-		const dtParameterValue = await page.evaluate(async () => {
+		const dtParameterValue = await page.evaluate( () => {
 			return Number(document.getElementById("dt (s)").value);
 		});
 		
 		expect(dtParameterValue).toEqual(0.000025);
 		
-		const tmaxParameterValue = await page.evaluate(async () => {
+		const tmaxParameterValue = await page.evaluate( () => {
 			return Number(document.getElementById("tmax (s)").value);
 		});
 
 		expect(tmaxParameterValue).toEqual(0.1);
 		
-		const vmaxParameterValue = await page.evaluate(async () => {
+		const vmaxParameterValue = await page.evaluate( () => {
 			return Number(document.getElementById("v_max (V)").value);
 		});
 
 		expect(vmaxParameterValue).toEqual(0.06);
 		
-		const vminParameterValue = await page.evaluate(async () => {
+		const vminParameterValue = await page.evaluate( () => {
 			return Number(document.getElementById("v_min (V)").value);
 		});
 
 		expect(vminParameterValue).toEqual(-0.08);
 		
-		const vstepParameterValue = await page.evaluate(async () => {
+		const vstepParameterValue = await page.evaluate( () => {
 			return Number(document.getElementById("v_step (V)").value);
 		});
 
@@ -467,7 +467,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	it('Delete Tag', async () => {
 		await page.waitFor(2000);
 		
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			var elm =document.querySelector(".tags path")
 			var evt = new CustomEvent('Event');
 			evt.initEvent('keypress', true, false);
@@ -476,14 +476,14 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			elm.dispatchEvent(evt);
 		});
 
-		const testTag = await page.evaluate(async () => {
+		const testTag = await page.evaluate( () => {
 			return document.querySelectorAll('.tags svg').length;
 		});
 		expect(testTag).toEqual(0);
 	})
 
 	it('Enter New Tag', async () => {
-		await page.evaluate(async (testTag) => {
+		await page.evaluate( (testTag) => {
 			var elm = document.querySelector('#test-add-tags')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -498,7 +498,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 
 		}, tag);
 
-		const testTag = await page.evaluate(async () => {
+		const testTag = await page.evaluate( () => {
 			return document.querySelectorAll('.tags svg').length;
 		});
 		expect(testTag).toEqual(1);
@@ -506,7 +506,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	
 	it('Observation Parameter Fields Present', async () => {
 		await page.waitFor(2000);
-		const iObservationValue = await page.evaluate(async () => {
+		const iObservationValue = await page.evaluate( () => {
 			var elm = document.getElementById("i (volt | picoampere)");
 			if(elm == undefined || elm == null){
 				return false;
@@ -517,7 +517,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		expect(iObservationValue).toEqual(true);
 		
 		await page.waitFor(2000);
-		const vObservationValue = await page.evaluate(async () => {
+		const vObservationValue = await page.evaluate( () => {
 			var elm = document.getElementById("v (volt | picoampere)");
 			if(elm == undefined || elm == null){
 				return false;
@@ -529,7 +529,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	})
 
 	it('Enter Observation Value i (volt | picoampere)', async () => {
-		await page.evaluate(async (value) => {
+		await page.evaluate( (value) => {
 			var elm = document.getElementById('i (volt | picoampere)')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -537,7 +537,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			elm.dispatchEvent(ev);
 		}, observationIVolt);
 
-		const observationValue = await page.evaluate(async () => {
+		const observationValue = await page.evaluate( () => {
 			return document.getElementById("i (volt | picoampere)").value;
 		});
 
@@ -545,7 +545,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	})
 	
 	it('Enter Observation Value v (volt | picoampere)', async () => {
-		await page.evaluate(async (value) => {
+		await page.evaluate( (value) => {
 			var elm = document.getElementById('v (volt | picoampere)')
 			var ev = new Event('input', { bubbles: true});
 			ev.simulated = true;
@@ -553,7 +553,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			elm.dispatchEvent(ev);
 		}, observationVVolt);
 
-		const observationValue = await page.evaluate(async () => {
+		const observationValue = await page.evaluate( () => {
 			return document.getElementById("v (volt | picoampere)").value;
 		});
 
@@ -564,13 +564,13 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	it('Save Test', async () => {
 		await page.waitFor(5000);
 		
-		const saveModelEnabled = await page.evaluate(async () => {
+		const saveModelEnabled = await page.evaluate( () => {
 			return document.getElementById("save-test").disabled;
 		});
 
 		expect(saveModelEnabled).toEqual(false);
 		
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			return document.getElementById("save-test").click();
 		});
 		
@@ -581,24 +581,24 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 
 	it('New Test Present in Tests Page', async () => {
 		await page.waitFor(5000);
-		const tableModels = await page.evaluate(async () => {
+		const tableModels = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
 		});
 		expect(tableModels).toBeGreaterThanOrEqual(tableModelLength);
 
-		const modelName = await page.evaluate(async () => {
+		const modelName = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[0].innerText;
 		});
 
 		expect(modelName).toEqual(name);
 
-		const modelClass = await page.evaluate(async () => {
+		const modelClass = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[1].innerText;
 		});
 
 		expect(modelClass).toEqual(className);
 
-		const modelTag = await page.evaluate(async () => {
+		const modelTag = await page.evaluate( () => {
 			return document.querySelectorAll(".chips span")[0].innerText;
 		});
 

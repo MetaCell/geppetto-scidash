@@ -2,7 +2,7 @@ import { wait4selector, click } from './utils';
 
 export const testOpenDialog = (page, name, className) => {
 	it('Test1 Info Modal Opened', async () => {
-		await page.evaluate(async (name) => {
+		await page.evaluate( (name) => {
 			document.querySelector("#"+name+" button").click()
 		}, name);
 		await wait4selector(page, 'div.centered-modal', { visible: true, timeout : 5000 })
@@ -15,7 +15,7 @@ export const testOpenDialog = (page, name, className) => {
 		await page.waitForFunction('document.getElementById("timestamp").innerText.startsWith("Timestamp")');
 		await page.waitForFunction('document.getElementById("tags").innerText.startsWith("Tags")');
 
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelector(".centered-modal button").click()
 		});
 		await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
@@ -26,7 +26,7 @@ export const testOpenDialog = (page, name, className) => {
 
 export const modelOpenDialog = (page, name, className, modelURL) => {
 	it('TestModel1 Info Modal Opened', async () => {
-		await page.evaluate(async (name) => {
+		await page.evaluate( (name) => {
 			document.querySelector("#"+name+" button").click()
 		}, name);
 		await wait4selector(page, 'div.centered-modal', { visible: true, timeout : 5000 })
@@ -40,7 +40,7 @@ export const modelOpenDialog = (page, name, className, modelURL) => {
 		await page.waitForFunction('document.getElementById("timestamp").innerText.startsWith("Timestamp")');
 		await page.waitForFunction('document.getElementById("tags").innerText.startsWith("Tags")');
 
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelector(".centered-modal button").click()
 		});
 		await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
@@ -51,7 +51,7 @@ export const modelOpenDialog = (page, name, className, modelURL) => {
 
 export const addTestsAndModels = (page, test) => {
 	it('Add Tests and Models', async () => {
-		await page.evaluate(async (testName) => {
+		await page.evaluate( (testName) => {
 			document.querySelectorAll("#"+testName+" button")[1].click()
 		}, test);
 		await wait4selector(page, '#'+test, { hidden: true, timeout : 5000 })
@@ -98,7 +98,7 @@ export const testSuiteScore = (page,  testName, testClassName, testModelName, mo
 	
 	it('Test Suite Matrix Present and Populated', async () => {
 		await page.waitFor(2000);
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelectorAll(".scidash-table tr td")[1].querySelector("a").click();
 		});
 		await wait4selector(page, 'div.centered-modal', { visible: true, timeout : 5000 })
@@ -107,7 +107,7 @@ export const testSuiteScore = (page,  testName, testClassName, testModelName, mo
 	})
 	
 	it('Matrix Details Expanded and Populated', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelectorAll("table")[1].querySelectorAll("td a")[0].click()
 		});
 		
@@ -119,7 +119,7 @@ export const testSuiteScore = (page,  testName, testClassName, testModelName, mo
 	testScoreDetails(page, testName, testClassName, modelClassName, modelURL);
 	
 	it('Test Suite Matrix Closed', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelectorAll(".centered-modal button")[1].click();
 		});
 		await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })

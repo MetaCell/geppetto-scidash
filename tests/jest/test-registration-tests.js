@@ -58,7 +58,7 @@ describe('Scidash Tests Registration', () => {
 	//Tests login components in landing page are present
 	describe('Test Landing Page Login Components', () => {
 		it('Login Button Visible', async () => {
-			const userLogin = await page.evaluate(async () => {
+			const userLogin = await page.evaluate( () => {
 				var button = document.querySelector("#user-button")
 				if(button == null || button == undefined){
 					return false;
@@ -67,7 +67,7 @@ describe('Scidash Tests Registration', () => {
 			});
 
 			if(userLogin){
-				await page.evaluate(async () => {
+				await page.evaluate( () => {
 					var button = document.querySelector("#user-button");
 					if(button != null){
 						button.click();
@@ -75,7 +75,7 @@ describe('Scidash Tests Registration', () => {
 				});
 				await wait4selector(page, '#logout-button', { visible: true, timeout : 30000 });
 
-				await page.evaluate(async () => {
+				await page.evaluate( () => {
 					var button = document.querySelector("#logout-button");
 					if(button != null){
 						button.click();
@@ -101,7 +101,7 @@ describe('Scidash Tests Registration', () => {
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Open Sign Up Page', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				document.querySelector(".signup-button a").click()
 			});
 			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
