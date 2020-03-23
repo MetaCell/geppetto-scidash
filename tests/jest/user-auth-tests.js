@@ -35,11 +35,11 @@ describe('Scidash User Authorization Tests', () => {
 		})
 
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.signUpButton', { visible: true, timeout : 30000 })
 		})
 	})
 
@@ -47,13 +47,13 @@ describe('Scidash User Authorization Tests', () => {
 	describe('Test Signup Button Functionality', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Open Sign Up Page', async () => {
-			await page.evaluate(async () => {
-				document.querySelector(".signup-button a").click()
+			await page.evaluate(() => {
+				document.querySelector(".signUpButton").click()
 			});
 			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
 		})
@@ -73,20 +73,20 @@ describe('Scidash User Authorization Tests', () => {
 	describe('Test Signup Functionality by Opening Link From Login Form', () => {
 		// Precondition: User is logout. Test existence of login button
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		// Click on Login button to open login form
 		it('Open Login Page', async () => {
-			await page.evaluate(async () => {
-				document.querySelector(".login-button a").click()
+			await page.evaluate(() => {
+				document.querySelector(".loginButton a").click()
 			});
-			await wait4selector(page, 'div.login-container', { visible: true, timeout : 30000 });
+			await wait4selector(page, 'a.login-container', { visible: true, timeout : 30000 });
 		})
 
 		// Login form is opened, click on “Already signed up? Then login” link
 		it('Open Sign Up Page from Login Panel', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				document.querySelector(".login-container a").click()
 			});
 
@@ -111,13 +111,13 @@ describe('Scidash User Authorization Tests', () => {
 	describe('Test Log In Button ', () => {
 		// Precondition: User is Logout. Test existence of login button
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		// Click on Login button and wait for Login form.
 		it('Open Login Page', async () => {
-			await page.evaluate(async () => {
-				document.querySelector(".login-button a").click()
+			await page.evaluate( () => {
+				document.querySelector(".loginButton").click()
 			});
 			await wait4selector(page, 'div.login-container', { visible: true, timeout : 30000 });
 		})
