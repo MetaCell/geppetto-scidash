@@ -8,7 +8,8 @@ import {
 } from "../actions/creators/shared";
 
 import { error } from "../actions/global";
-import { ERROR } from "../actions/creators/global";
+import { clearErrors } from "../actions/global";
+import { ERROR, CLEAR_ERRORS } from "../actions/creators/global";
 
 export default function scidashGlobal (state = {}, action){
   let newState = null;
@@ -22,6 +23,9 @@ export default function scidashGlobal (state = {}, action){
     break;
   case ERROR:
     newState = { ...error(state, action) };
+    break;
+  case CLEAR_ERRORS:
+    newState = { ...clearErrors(state, action) }
     break;
   default:
     newState = { ...state, };

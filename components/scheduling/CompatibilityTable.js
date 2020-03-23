@@ -144,15 +144,16 @@ export default class CompatibilityTable extends React.Component {
     try {
       this.setState({ showLoading: true });
       let service = new CompatibilityApiService();
-      let result = await service.create(modelsVsTests);
+
+      let result = {};
+      result = await service.create(modelsVsTests, this.props.onError);
 
       this.setState({ showLoading: false });
 
       return result;
     } catch (error) {
-      this.setState(() => {
-        throw "Compatibility API service threw error " + error
-      });
+      this.setState({ showLoading: false });
+      throw error;
     }
   }
 

@@ -8,6 +8,7 @@ import CompatibilityTable from "./CompatibilityTable";
 import PagesService from "../../services/PagesService";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import SchedulingApiService from "../../services/api/SchedulingApiService";
+import ErrorDialog from "../error-dialog/ErrorDialog";
 
 class Scheduling extends React.Component {
 
@@ -46,7 +47,12 @@ class Scheduling extends React.Component {
 
       schedulingService.clearCache(schedulingService.storage);
 
-      let result = await schedulingService.create(payload);
+      let result = {};
+      try {
+        result = await schedulingService.create(payload);
+      } catch (e) {
+        this.props.onError (e)
+      }
 
       this.setState({
         showLoading: false,
@@ -109,6 +115,11 @@ class Scheduling extends React.Component {
 
     return (
       <span>
+        <ErrorDialog
+          onClearErrors={this.props.onClearErrors}
+          errors={this.props.errors}
+        />
+
         <DDListContainer />
 
 
@@ -118,6 +129,7 @@ class Scheduling extends React.Component {
               tests={this.getItemByID(choosedTests)}
               models={this.getItemByID(choosedModels)}
               onFinish={this.saveCompatible}
+              onError={this.props.onError}
             />
             <div style={styles.saveContainer}>
               <Button
