@@ -6,6 +6,7 @@ import { changePage, changePageWithParams } from "./header";
 import PagesService from "../../services/PagesService";
 import ModelInstance from "../../models/ModelInstance";
 import ModelCloneApiService from "../../services/api/ModelCloneApiService";
+import { error } from "./global";
 
 export const FILTERING_MODELS_STARTED = "FILTERING_MODELS_STARTED";
 export const FILTERING_MODELS_FINISHED = "FILTERING_MODELS_FINISHED";
@@ -109,7 +110,7 @@ export function modelCreateStarted (model, dispatch){
 
     copiedModel.tags = tagObjects;
 
-    apiService.create(copiedModel).then(result => result.json()).then(result => {
+    apiService.create(copiedModel, errorMessage => dispatch(error( errorMessage))).then(result => result.json()).then(result => {
       dispatch(modelCreateFinished(result, dispatch));
     });
 

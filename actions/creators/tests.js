@@ -113,7 +113,7 @@ export function testCreateStarted (model, dispatch){
     copiedModel.tags = tagObjects;
     let responseCode = 0;
 
-    apiService.create(copiedModel).then(result => {
+    apiService.create(copiedModel, errorMessage => dispatch(error( errorMessage))).then(result => {
 
       responseCode = result.status;
 
