@@ -83,7 +83,7 @@ describe('Scidash Tests Registration', () => {
 				});
 			}
 
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 60000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 60000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
