@@ -87,7 +87,7 @@ describe('Scidash Tests Registration', () => {
 		})
 
 		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.signUpButton', { visible: true, timeout : 30000 })
 		})
 	})
 
@@ -96,13 +96,13 @@ describe('Scidash Tests Registration', () => {
 	describe('Create User Account', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Open Sign Up Page', async () => {
 			await page.evaluate( () => {
-				document.querySelector(".signup-button a").click()
+				document.querySelector(".signUpButton").click()
 			});
 			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
 		})

@@ -85,6 +85,30 @@ describe('Scidash Scheduling Tests', () => {
 	describe('Create User Account', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
+			const userLogin = await page.evaluate(() => {
+				var button = document.querySelector("#user-button")
+				if(button == null || button == undefined){
+					return false;
+				}
+				return true;
+			});
+
+			if(userLogin){
+				await page.evaluate( () => {
+					var button = document.querySelector("#user-button");
+					if(button != null){
+						button.click();
+					}
+				});
+				await wait4selector(page, '#logout-button', { visible: true, timeout : 30000 });
+
+				await page.evaluate( () => {
+					var button = document.querySelector("#logout-button");
+					if(button != null){
+						button.click();
+					}
+				});
+			}
 			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 

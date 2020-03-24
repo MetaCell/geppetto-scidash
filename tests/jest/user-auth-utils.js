@@ -77,7 +77,7 @@ export const signUpTests = (page, newUserID, newUserEmail, newUserPassword) => {
 		await page.evaluate( () => {
 			document.querySelector(".registration-container button").click()
 		});
-		await wait4selector(page, 'div.user-button', { visible: true, timeout : 30000 })
+		await wait4selector(page, '#user-button', { visible: true, timeout : 30000 })
 	})
 }
 
@@ -121,7 +121,7 @@ export const loginTests = (page, newUserID, newUserPassword) => {
 		await page.evaluate( () => {
 			document.querySelector(".login-container button").click()
 		});
-		await wait4selector(page, 'div.user-button', { visible: true, timeout : 60000 })
+		await wait4selector(page, '#user-button', { visible: true, timeout : 60000 })
 	})
 }
 
@@ -150,7 +150,7 @@ export const logoutTests = (page) => {
 	})
 
 	it('Login Button Visible', async () => {
-		await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+		await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 	})
 }
 
