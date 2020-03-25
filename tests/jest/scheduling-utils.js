@@ -88,7 +88,7 @@ export const testModelDetails = (page, modelClassName, modelURL) => {
 export const testSuiteScore = (page,  testName, testClassName, testModelName, modelClassName, modelURL) => {
 	it('Sidebar Component Opened, Scheduling Option Present', async () => {
 		await click(page, 'button#hamMenu');
-		await wait4selector(page, 'span#hamMenuSuites', { visible: true })
+		await wait4selector(page, 'li#hamMenuSuites', { visible: true })
 	})
 
 	it('Scheduling Page Opened', async () => {

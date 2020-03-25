@@ -136,7 +136,7 @@ describe('Scidash Tests Registration', () => {
 	// Tests Model Page Filters
 	describe('Test Page Filters', () => {
 		it('Test Page Opened, New Test Button Present', async () => {
-			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+			await wait4selector(page, 'i.fa-plus', { visible: true , timeout : 5000 })
 		})
 
 		// Test Filters fields work by searching for new test

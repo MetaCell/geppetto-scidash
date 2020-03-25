@@ -5,17 +5,17 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	
 	it('Sidebar Component Opened, Tests Registration Option Present', async () => {
 		await click(page, 'button#hamMenu');
-		await wait4selector(page, 'span#hamMenuTests', { visible: true })
+		await wait4selector(page, 'liv#hamMenuTests', { visible: true , timeout : 5000})
 	})
 
 	it('Tests Registration Page Opened, New Tests Registration Button Present', async () => {
 		await click(page, '#hamMenuTests');
-		await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+		await wait4selector(page, 'i.fa-plus', { visible: true , timeout : 5000 })
 	})
 
 	it('New Test Registration Form', async () => {
 		await page.evaluate( () => {
-			document.querySelector("span.fa-plus").click()
+			document.querySelector("i.fa-plus").click()
 		});
 		await wait4selector(page, 'div#testFormSelectClass', { visible: true , timeout : 5000 })
 	})
@@ -297,12 +297,12 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 
 export const cancelTestCreation = async (page) => {
 	it('Test Creation Page Opened, New Test Button Present', async () => {
-		await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+		await wait4selector(page, 'i.fa-plus', { visible: true , timeout : 5000 })
 	})
 
 	it('New Test Creation Form', async () => {
 		await page.evaluate( () => {
-			document.querySelector("span.fa-plus").click()
+			document.querySelector("i.fa-plus").click()
 		});
 		await wait4selector(page, 'div#testFormSelectClass', { visible: true , timeout : 5000 })
 	})
@@ -322,7 +322,7 @@ export const cancelTestCreation = async (page) => {
 
 export const cloneTestCreation = async (page, name, className, tableModelLength) => {
 	it('Tests Page Opened, New Test Button Present', async () => {
-		await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+		await wait4selector(page, 'i.fa-plus', { visible: true , timeout : 5000 })
 	})
 
 	it('Open Test Edit/Clone Menu', async () => {
@@ -360,7 +360,7 @@ export const cloneTestCreation = async (page, name, className, tableModelLength)
 
 export const editTest1 = async (page, name, className, tag, observationVVolt, observationIVolt, tableModelLength) => {
 	it('Test Page Opened, New Test Button Present', async () => {
-		await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+		await wait4selector(page, 'i.fa-plus', { visible: true , timeout : 5000 })
 	})
 
 	it('Open Test Edit/Clone Menu', async () => {

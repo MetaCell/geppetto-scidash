@@ -3,7 +3,7 @@ import { wait4selector, click} from './utils';
 export const modelCreation = (page, newModelName, newModelURL, newModelClass, newModelTag, var1, var2) => {
 	it('Sidebar Component Opened, Models Option Present', async () => {
 		await click(page, 'button#hamMenu');
-		await wait4selector(page, 'span#hamMenuModels', { visible: true })
+		await wait4selector(page, 'li#hamMenuModels', { visible: true })
 	})
 
 	it('Models Page Opened, New Model Button Present', async () => {
