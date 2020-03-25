@@ -8,12 +8,12 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 
 	it('Models Page Opened, New Model Button Present', async () => {
 		await click(page, '#hamMenuModels');
-		await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+		await wait4selector(page, 'i.fa-plus', { visible: true , timeout : 5000 })
 	})
 
 	it('New Model Registration Form', async () => {
 		await page.evaluate( () => {
-			document.querySelector("span.fa-plus").click()
+			document.querySelector("i.fa-plus").click()
 		});
 		await wait4selector(page, 'div.actions-container', { visible: true , timeout : 5000 })
 	})
