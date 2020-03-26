@@ -23,15 +23,22 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	})
 
 	it('Enter Source URL', async () => {
-		await page.evaluate( (newModelURL) => {
-			var elm = document.querySelector('#source-url')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = newModelURL;
-			elm.dispatchEvent(ev);
+		await page.evaluate((newModelURL) => {
+			let input = document.querySelector('#source-url');
+			let lastValue = input.value;
+			input.value = newModelURL;
+			let event = new Event('input', { bubbles: true });
+			// hack React15
+			event.simulated = true;
+			// hack React16
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, newModelURL);
 
-		const testModelURL = await page.evaluate( () => {
+		const testModelURL = await page.evaluate(() => {
 			return document.getElementById("source-url").value;
 		});
 		expect(testModelURL).toEqual(newModelURL);
@@ -54,8 +61,8 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	it('Open "Select Class" Dropdown Menu', async () => {
 		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
-			var elm = document.querySelector('#modelFormSelectClass button')
+			evt.initEvent('click', true, false);
+			var elm = document.querySelector('#modelFormSelectClass').parentElement;
 			elm.dispatchEvent(evt);
 		});
 		await wait4selector(page, "#"+newModelClass , { visible: true , timeout : 35000 })
@@ -64,7 +71,7 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 	it('Select "' + newModelClass + '" Class', async () => {
 		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
+			evt.initEvent('click', true, false);
 			var elm = document.querySelector("#" + className + " div")
 			elm.dispatchEvent(evt);
 		},newModelClass);
@@ -77,17 +84,24 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 
 	it('Enter New Tag', async () => {
 		await page.evaluate( (newModelTag) => {
-			var elm = document.querySelector('#new-tag')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = newModelTag;
-			elm.dispatchEvent(ev);
+			let input =document.querySelector('#new-tag');
+			let lastValue = input.value;
+			input.value = newModelTag;
+			let event = new Event('input', { bubbles: true });
+			// hack React15
+			event.simulated = true;
+			// hack React16
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 
 			var evt = new CustomEvent('Event');
 			evt.initEvent('keypress', true, false);
 			evt.which = 13;
 			evt.keyCode = 13;
-			elm.dispatchEvent(evt);
+			input.dispatchEvent(evt);
 
 		}, newModelTag);
 
@@ -103,11 +117,19 @@ export const modelCreation = (page, newModelName, newModelURL, newModelClass, ne
 
 	it('Enter Model Name', async () => {
 		await page.evaluate( (newModel) => {
-			var elm = document.querySelector('#model-name')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = newModel;
-			elm.dispatchEvent(ev);
+			let input =document.querySelector('#model-name');
+			let lastValue = input.value;
+			input.value = newModel;
+			let event = new Event('input', { bubbles: true });
+			// hack React15
+			event.simulated = true;
+			// hack React16
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
+			
 		}, newModelName);
 
 		const testModelName = await page.evaluate( () => {
@@ -270,8 +292,8 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	it('Open "Select Class" Dropdown Menu', async () => {
 		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
-			var elm = document.querySelector('#modelFormSelectClass button')
+			evt.initEvent('click', true, false);
+			var elm = document.querySelector('#modelFormSelectClass').parentElement;
 			elm.dispatchEvent(evt);
 		});
 		await wait4selector(page, '#LEMSModel', { visible: true , timeout : 35000 })
@@ -280,7 +302,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	it('Select "LEMSModel" Class', async () => {
 		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
+			evt.initEvent('click', true, false);
 			var elm = document.querySelector('#LEMSModel div')
 			elm.dispatchEvent(evt);
 		});
@@ -309,17 +331,24 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 
 	it('Enter New Tag', async () => {
 		await page.evaluate( (editedModelTag) => {
-			var elm = document.querySelector('#new-tag')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = editedModelTag;
-			elm.dispatchEvent(ev);
+			let input =document.querySelector('#new-tag');
+			let lastValue = input.value;
+			input.value = editedModelTag;
+			let event = new Event('input', { bubbles: true });
+			// hack React15
+			event.simulated = true;
+			// hack React16
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 
 			var evt = new CustomEvent('Event');
 			evt.initEvent('keypress', true, false);
 			evt.which = 13;
 			evt.keyCode = 13;
-			elm.dispatchEvent(evt);
+			input.dispatchEvent(evt);
 		}, editedModelTag);
 
 		const testModelTag = await page.evaluate( () => {
@@ -334,11 +363,18 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 
 	it('Edit Model Name', async () => {
 		await page.evaluate( (newModel) => {
-			var elm = document.querySelector('#model-name')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = newModel;
-			elm.dispatchEvent(ev);
+			let input =document.querySelector('#model-name');
+			let lastValue = input.value;
+			input.value = newModel;
+			let event = new Event('input', { bubbles: true });
+			// hack React15
+			event.simulated = true;
+			// hack React16
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 
 		}, editedModelName);
 

@@ -26,11 +26,16 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 
 	it('Enter Test Name', async () => {
 		await page.evaluate( (newTest) => {
-			var elm = document.querySelector('#test-name')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = newTest;
-			elm.dispatchEvent(ev);
+			let input = document.querySelector('#test-name');
+			let lastValue = input.value;
+			input.value = newTest;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, name);
 
 		const testName = await page.evaluate( () => {
@@ -47,8 +52,8 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	it('Select '+  className + ' Class', async () => {
 		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
-			var elm = document.querySelector('#testFormSelectClass button')
+			evt.initEvent('click', true, false);
+			var elm = document.querySelector('#testFormSelectClass').parentElement;
 			elm.dispatchEvent(evt);
 		});
 
@@ -94,17 +99,22 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 
 	it('Enter New Tag', async () => {
 		await page.evaluate( (newTestTag) => {
-			var elm = document.querySelector('#test-add-tags')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = newTestTag;
-			elm.dispatchEvent(ev);
+			let input = document.querySelector('#test-add-tags');
+			let lastValue = input.value;
+			input.value = newTestTag;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 
 			var evt = new CustomEvent('Event');
 			evt.initEvent('keypress', true, false);
 			evt.which = 13;
 			evt.keyCode = 13;
-			elm.dispatchEvent(evt);
+			input.dispatchEvent(evt);
 
 		}, tag);
 
@@ -174,7 +184,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 
 		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
+			evt.initEvent('click', true, false);
 			var elm = document.getElementById(className).querySelector("div");
 			elm.dispatchEvent(evt);
 		}, newObservationSchema);
@@ -196,11 +206,16 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 
 	it('Enter Observation Value N', async () => {
 		await page.evaluate( (value) => {
-			var elm = document.getElementById('n (-)')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = value;
-			elm.dispatchEvent(ev);
+			let input = document.getElementById('n (-)');
+			let lastValue = input.value;
+			input.value = value;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, observationValueN);
 
 		const observationValue = await page.evaluate( () => {
@@ -212,11 +227,16 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	
 	it('Enter Observation Value  STD', async () => {
 		await page.evaluate( (value) => {
-			var elm = document.getElementById('std (megaohm)')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = value;
-			elm.dispatchEvent(ev);
+			let input = document.getElementById('std (megaohm)');
+			let lastValue = input.value;
+			input.value = value;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, observationValueSTD);
 
 		const observationValue = await page.evaluate( () => {
@@ -228,11 +248,16 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	
 	it('Enter Observation Value Mean', async () => {
 		await page.evaluate( (value) => {
-			var elm = document.getElementById('mean (megaohm)')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = value;
-			elm.dispatchEvent(ev);
+			let input = document.getElementById('mean (megaohm)');
+			let lastValue = input.value;
+			input.value = value;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, observationValueMean);
 
 		const observationValue = await page.evaluate( () => {
@@ -244,11 +269,16 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	
 	it('Enter Parameter Value TMax', async () => {
 		await page.evaluate( (value) => {
-			var elm = document.getElementById('tmax (s)')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = value;
-			elm.dispatchEvent(ev);
+			let input = document.getElementById('tmax (s)');
+			let lastValue = input.value;
+			input.value = value;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, parameterTMax);
 
 		const paramValue = await page.evaluate( () => {
@@ -386,11 +416,16 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 
 	it('Edit Test Name', async () => {
 		await page.evaluate( (newTest) => {
-			var elm = document.querySelector('#test-name')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = newTest;
-			elm.dispatchEvent(ev);
+			let input = document.querySelector('#test-name')
+			let lastValue = input.value;
+			input.value = newTest;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, name);
 
 		const testName = await page.evaluate( () => {
@@ -407,8 +442,8 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	it('Select '+  className + ' Class', async () => {
 		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
-			var elm = document.querySelector('#testFormSelectClass button')
+			evt.initEvent('click', true, false);
+			var elm = document.querySelector('#testFormSelectClass').parentElement;
 			elm.dispatchEvent(evt);
 		});
 
@@ -416,7 +451,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		
 		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
+			evt.initEvent('click', true, false);
 			var elm = document.getElementById(className).querySelector("div");
 			elm.dispatchEvent(evt);
 		}, className);
@@ -484,17 +519,22 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 
 	it('Enter New Tag', async () => {
 		await page.evaluate( (testTag) => {
-			var elm = document.querySelector('#test-add-tags')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = testTag;
-			elm.dispatchEvent(ev);
+			let input = document.querySelector('#test-add-tags')
+			let lastValue = input.value;
+			input.value = testTag;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 
 			var evt = new CustomEvent('Event');
 			evt.initEvent('keypress', true, false);
 			evt.which = 13;
 			evt.keyCode = 13;
-			elm.dispatchEvent(evt);
+			input.dispatchEvent(evt);
 
 		}, tag);
 
@@ -530,11 +570,16 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 
 	it('Enter Observation Value i (volt | picoampere)', async () => {
 		await page.evaluate( (value) => {
-			var elm = document.getElementById('i (volt | picoampere)')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = "["+value+"]";
-			elm.dispatchEvent(ev);
+			let input =  document.getElementById('i (volt | picoampere)')
+			let lastValue = input.value;
+			input.value = value;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, observationIVolt);
 
 		const observationValue = await page.evaluate( () => {
@@ -546,11 +591,16 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 	
 	it('Enter Observation Value v (volt | picoampere)', async () => {
 		await page.evaluate( (value) => {
-			var elm = document.getElementById('v (volt | picoampere)')
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = "["+value+"]";;
-			elm.dispatchEvent(ev);
+			let input =  document.getElementById('v (volt | picoampere)')
+			let lastValue = input.value;
+			input.value = value;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, observationVVolt);
 
 		const observationValue = await page.evaluate( () => {

@@ -39,11 +39,16 @@ export const closeModalWindow = async (page) => {
 export const testFilters = (page, filterWord, filterPosition, resultPosition, tableModelLength) => {
 	it('Filter By ' + filterWord, async () => {
 		await page.evaluate( (name, position) => {
-			var elm = document.querySelectorAll(".scidash-materialui-field input")[position]
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = name;
-			elm.dispatchEvent(ev);
+			let input =  document.querySelectorAll(".scidash-materialui-field input")[position]
+			let lastValue = input.value;
+			input.value = name;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, filterWord, filterPosition);
 		await page.waitFor(1000);
 		await wait4selector(page, 'div.autosuggest', { visible: true , timeout : 5000 });
@@ -67,11 +72,16 @@ export const testFilters = (page, filterWord, filterPosition, resultPosition, ta
 
 	it('Reset Name Filters', async () => {
 		await page.evaluate( (pos) => {
-			var elm = document.querySelectorAll(".scidash-materialui-field input")[pos]
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = "";
-			elm.dispatchEvent(ev);
+			let input =  document.querySelectorAll(".scidash-materialui-field input")[pos]
+			let lastValue = input.value;
+			input.value = "";
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, filterPosition);
 
 		await page.waitFor(500);
