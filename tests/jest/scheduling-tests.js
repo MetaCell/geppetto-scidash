@@ -287,15 +287,22 @@ describe('Scidash Scheduling Tests', () => {
 			expect(matrixModelCompatibility).toEqual(3);
 		})
 		
+		it('Save As Suite Visible', async () => {
+			await page.waitFor(5000);
+			await wait4selector(page, '#save-as-suite', { visible: true, timeout : 5000})
+		})
+		
 		it('Click Save As Suite', async () => {
 			await page.waitFor(5000);
 			await click(page, '#save-as-suite');
+			await page.waitFor(2000);
 			await wait4selector(page, '#enter-name', { visible: true, timeout : 5000})
 		})
 		
 		it('Run Tests', async () => {
 			await page.waitFor(2000);
 			await click(page, '#run-tests');
+			await page.waitFor(2000);
 			await page.waitForFunction('document.getElementById("scidash-logo").innerText.startsWith("Test scores")');
 		})
 		
