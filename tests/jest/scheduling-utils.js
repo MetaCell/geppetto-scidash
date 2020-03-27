@@ -33,12 +33,12 @@ export const modelOpenDialog = (page, name, className, modelURL) => {
 
 		await page.waitFor(1000);
 		
-		await page.waitForFunction('document.getElementById("name").innerText.endsWith("'+name+'")');
-		await page.waitForFunction('document.getElementById("class").innerText.endsWith("'+className+'")');
-		await page.waitForFunction('document.getElementById("owner").innerText.startsWith("Owner")');
+		await page.waitForFunction('document.getElementById("name").parentElement.querySelector("div").innerText.endsWith("'+name+'")');
+		await page.waitForFunction('document.getElementById("class").parentElement.querySelector("div").innerText.endsWith("'+className+'")');
+		await page.waitForFunction('document.getElementById("owner").parentElement.querySelector("div").innerText.startsWith("Owner")');
 		await page.waitForFunction('document.getElementsByClassName("model-url")[0].innerText.endsWith("'+modelURL+'")');
-		await page.waitForFunction('document.getElementById("timestamp").innerText.startsWith("Timestamp")');
-		await page.waitForFunction('document.getElementById("tags").innerText.startsWith("Tags")');
+		await page.waitForFunction('document.getElementById("timestamp").parentElement.querySelector("div").innerText.startsWith("Timestamp")');
+		await page.waitForFunction('document.getElementById("tags").parentElement.querySelector("div").innerText.startsWith("Tags")');
 
 		await page.evaluate( () => {
 			document.querySelector(".MuiDialog-root button").click()
@@ -60,28 +60,28 @@ export const addTestsAndModels = (page, test) => {
 
 export const testScoreDetails = (page, testName, testClassName, modelClassName, modelURL) => {
 	it('Test Score Details Correctly Populated', async () => {		
-		await page.waitForFunction('document.getElementById("test-score").innerText.endsWith("'+testName+'")');
-		await page.waitForFunction('document.getElementById("test-class").innerText.endsWith("'+testClassName+'")');
-		await page.waitForFunction('document.getElementById("normalized-score").innerText.startsWith("Normalized score")');
-		await page.waitForFunction('document.getElementById("test-suite").innerText.startsWith("Test suite")');
-		await page.waitForFunction('document.getElementById("build-info").innerText.startsWith("Build info")');
-		await page.waitForFunction('document.getElementById("hostname").innerText.startsWith("Hostname")');
-		await page.waitForFunction('document.getElementById("errors").innerText.startsWith("Errors")');
-		await page.waitForFunction('document.getElementById("timestamp").innerText.startsWith("Timestamp")');
+		await page.waitForFunction('document.getElementById("test-score").parentElement.querySelector("div").innerText.endsWith("'+testName+'")');
+		await page.waitForFunction('document.getElementById("test-class").parentElement.querySelector("div").innerText.endsWith("'+testClassName+'")');
+		await page.waitForFunction('document.getElementById("normalized-score").parentElement.querySelector("div").innerText.startsWith("Normalized score")');
+		await page.waitForFunction('document.getElementById("test-suite").parentElement.querySelector("div").innerText.startsWith("Test suite")');
+		await page.waitForFunction('document.getElementById("build-info").parentElement.querySelector("div").innerText.startsWith("Build info")');
+		await page.waitForFunction('document.getElementById("hostname").parentElement.querySelector("div").innerText.startsWith("Hostname")');
+		await page.waitForFunction('document.getElementById("errors").parentElement.querySelector("div").innerText.startsWith("Errors")');
+		await page.waitForFunction('document.getElementById("timestamp").parentElement.querySelector("div").innerText.startsWith("Timestamp")');
 		
-		await page.waitForFunction('document.getElementById("model-class-name").innerText.endsWith("'+modelClassName+'")');
-		await page.waitForFunction('document.getElementById("model-url").innerText.endsWith("'+modelURL+'")');
-		await page.waitForFunction('document.getElementById("model-class-source").innerText.startsWith("Class source")');
-		await page.waitForFunction('document.getElementById("model-class-capabilities").innerText.startsWith("Class capabilities")');
+		await page.waitForFunction('document.getElementById("model-class-name").parentElement.querySelector("div").innerText.endsWith("'+modelClassName+'")');
+		await page.waitForFunction('document.getElementById("model-url").parentElement.querySelector("div").innerText.endsWith("'+modelURL+'")');
+		await page.waitForFunction('document.getElementById("model-class-source").parentElement.querySelector("div").innerText.startsWith("Class source")');
+		await page.waitForFunction('document.getElementById("model-class-capabilities").parentElement.querySelector("div").innerText.startsWith("Class capabilities")');
 	});
 }
 
 export const testModelDetails = (page, modelClassName, modelURL) => {
 	it('Test Score Model Details Correctly Populated', async () => {		
-		await page.waitForFunction('document.getElementById("model-class-name").innerText.endsWith("'+modelClassName+'")');
-		await page.waitForFunction('document.getElementById("model-url").innerText.endsWith("'+modelURL+'")');
-		await page.waitForFunction('document.getElementById("model-class-source").innerText.startsWith("Class source")');
-		await page.waitForFunction('document.getElementById("model-class-capabilities").innerText.startsWith("Class capabilities")');
+		await page.waitForFunction('document.getElementById("model-class-name").parentElement.querySelector("div").innerText.endsWith("'+modelClassName+'")');
+		await page.waitForFunction('document.getElementById("model-url").parentElement.querySelector("div").innerText.endsWith("'+modelURL+'")');
+		await page.waitForFunction('document.getElementById("model-class-source").parentElement.querySelector("div").innerText.startsWith("Class source")');
+		await page.waitForFunction('document.getElementById("model-class-capabilities").parentElement.querySelector("div").innerText.startsWith("Class capabilities")');
 	});
 }
 
