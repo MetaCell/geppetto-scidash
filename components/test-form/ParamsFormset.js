@@ -14,7 +14,8 @@ export default class ParamsFormset extends React.Component {
       schemaList: [{}],
       unitsMap: this.props.unitsMap,
       choosedForm: 0,
-      model2: this.props.model
+      model2: this.props.model,
+      observationFormOpen : false
     };
   }
 
@@ -67,9 +68,13 @@ export default class ParamsFormset extends React.Component {
       <span>
         {this.state.schemaList.length > 1
           && <Select
-            id="testFormSelectClass"
+            id="testFormSelectObservationSchema"
             style={styles.firstLine.two}
             value={this.state.choosedForm}
+            open={this.state.observationFormOpen}
+            onClose={() => this.setState({ observationFormOpen : false })}
+            onOpen={() => this.setState({ observationFormOpen : true })}
+            onClick={() => this.setState({ observationFormOpen : !this.state.observationFormOpen })}
             onChange={e => {
               this.setState({ choosedForm: e.target.value });
             }}

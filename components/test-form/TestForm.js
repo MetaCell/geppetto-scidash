@@ -97,6 +97,7 @@ export default class TestForm extends React.Component {
         {this.state.isBlocked ? blockedWarning : undefined}
         <div style={styles.firstLine.container}>
           <TextField
+            id="test-name"
             value={this.state.model.name}
             onChange={e => this.updateModel({ "name": e.target.value })}
             error={ this.state.model.errors !== undefined && "name" in this.state.model.errors }
@@ -115,7 +116,7 @@ export default class TestForm extends React.Component {
             label="Select test class"
             open={this.state.testFormSelectClassOpen}
             onClose={() => this.setState({ testFormSelectClassOpen : false })}
-            onOpen={() => this.setState({ testFormSelectClassOpen : open })}
+            onOpen={() => this.setState({ testFormSelectClassOpen : true })}
             onClick={() => this.setState({ testFormSelectClassOpen : !this.state.testFormSelectClassOpen })}
             onChange={e => {
               for (let klass of this.state.testClasses) {

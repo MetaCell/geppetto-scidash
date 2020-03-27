@@ -464,7 +464,7 @@ class ModelForm extends React.Component {
                 value={this.state.model.model_class.id !== null ? this.state.model.model_class.id : ""}
                 open={this.state.modelFormSelectClassOpen}
                 onClose={() => this.setState({ modelFormSelectClassOpen : false })}
-                onOpen={() => this.setState({ modelFormSelectClassOpen : open })}
+                onOpen={() => this.setState({ modelFormSelectClassOpen : true })}
                 onClick={() => this.setState({ modelFormSelectClassOpen : !this.state.modelFormSelectClassOpen })}
                 onChange={event => {
                   for (let klass of this.state.modelClasses) {

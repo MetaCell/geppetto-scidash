@@ -55,8 +55,6 @@ export const testFilters = (page, filterWord, filterPosition, resultPosition, ta
 	})
 
 	it('One Result for Filter '+ filterWord, async () => {
-		await page.evaluate( (name, position) => {document.querySelector(".autosuggest").remove();});
-		await page.waitFor(500);
 		const models = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
 		});

@@ -5,7 +5,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	
 	it('Sidebar Component Opened, Tests Registration Option Present', async () => {
 		await click(page, 'button#hamMenu');
-		await wait4selector(page, 'liv#hamMenuTests', { visible: true , timeout : 5000})
+		await wait4selector(page, 'li#hamMenuTests', { visible: true , timeout : 5000})
 	})
 
 	it('Tests Registration Page Opened, New Tests Registration Button Present', async () => {
@@ -57,16 +57,16 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 			elm.dispatchEvent(evt);
 		});
 
-		await page.waitFor(2000);
+		await page.waitFor(4000);
 		
 		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
-			var elm = document.getElementById(className).querySelector("div");
+			evt.initEvent('click', true, false);
+			var elm = document.getElementById(className);
 			elm.dispatchEvent(evt);
 		}, className);
 		
-		await page.waitFor(2000);
+		await page.waitFor(4000);
 		
 		await page.waitForFunction('document.getElementById("testFormSelectClass").innerText.startsWith("'+className+'")');
 	})
@@ -128,7 +128,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 		await wait4selector(page, '#testFormSelectObservationSchema', { visible: true , timeout : 35000 })
 	})
 	
-	it('Observation Parameter Field Present', async () => {
+	it('Observation Parameter Field "std (megaohm)" Present', async () => {
 		await page.waitFor(2000);
 		const fieldPresent = await page.evaluate( () => {
 			var elm = document.getElementById("std (megaohm)");
@@ -144,22 +144,22 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	it('Select '+  secondObservationSchema + ' Observation Schema', async () => {
 		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
-			var elm = document.querySelector('#testFormSelectObservationSchema button')
+			evt.initEvent('click', true, false);
+			var elm = document.querySelector('#testFormSelectObservationSchema')
 			elm.dispatchEvent(evt);
 		});
-		await page.waitFor(2000);
+		await page.waitFor(3000);
 		
 		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
-			var elm = document.getElementById(className).querySelector("div");
+			evt.initEvent('click', true, false);
+			var elm = document.getElementById(className);
 			elm.dispatchEvent(evt);
 		}, secondObservationSchema);
 		await page.waitForFunction('document.getElementById("testFormSelectObservationSchema").innerText.startsWith("Mean, Standard Error, N")');
 	})
 	
-	it('Observation Parameter Field Present', async () => {
+	it('Observation Parameter Field "sem (megaohm)" Present', async () => {
 		await page.waitFor(2000);
 		const fieldPresent = await page.evaluate( () => {
 			var elm = document.getElementById("sem (megaohm)");
@@ -175,8 +175,8 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 	it('Select '+  newObservationSchema + ' Observation Schema', async () => {
 		await page.evaluate( () => {
 			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('mouseup', true, false);
-			var elm = document.querySelector('#testFormSelectObservationSchema button')
+			evt.initEvent('click', true, false);
+			var elm = document.querySelector('#testFormSelectObservationSchema')
 			elm.dispatchEvent(evt);
 		});
 		
@@ -185,13 +185,13 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('click', true, false);
-			var elm = document.getElementById(className).querySelector("div");
+			var elm = document.getElementById(className);
 			elm.dispatchEvent(evt);
 		}, newObservationSchema);
 		await page.waitForFunction('document.getElementById("testFormSelectObservationSchema").innerText.startsWith("Mean, Standard Deviation, N")');
 	})
 	
-	it('Observation Parameter Field Present', async () => {
+	it('Observation Parameter Field "std (megaohm)" Present', async () => {
 		await page.waitFor(2000);
 		const fieldPresent = await page.evaluate( () => {
 			var elm = document.getElementById("std (megaohm)");
@@ -225,7 +225,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 		expect(observationValue).toEqual(observationValueN);
 	})
 	
-	it('Enter Observation Value  STD', async () => {
+	it('Enter Observation Value std', async () => {
 		await page.evaluate( (value) => {
 			let input = document.getElementById('std (megaohm)');
 			let lastValue = input.value;
@@ -359,11 +359,16 @@ export const cloneTestCreation = async (page, name, className, tableModelLength)
 		await page.evaluate( () => {
 			document.querySelector(".fa-ellipsis-v").click()
 		});
-		await wait4selector(page, 'span.fa-clone', { visible: true , timeout : 5000 })
+		await wait4selector(page, 'div.MuiMenu-paper', { visible: true , timeout : 5000 })
 	})
 
 	it('Clone Test', async () => {
-		await click(page, 'span.fa-clone');
+		await page.evaluate( () => {
+			var evt = document.createEvent('MouseEvent');
+			evt.initEvent('click', true, false);
+			var elm = document.querySelectorAll('.MuiMenu-paper ul li')[1];
+			elm.dispatchEvent(evt);
+		});
 
 		// Wait for model to clone
 		await page.waitFor(5000);
@@ -397,15 +402,18 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		await page.evaluate( () => {
 			document.querySelector(".fa-ellipsis-v").click()
 		});
-		await wait4selector(page, 'span.fa-pencil-square-o', { visible: true , timeout : 5000 })
+		await wait4selector(page, 'div.MuiMenu-paper', { visible: true , timeout : 5000 })
 	})
 
 	it('Open Edit Test Form', async () => {
 		await page.evaluate( () => {
-			document.querySelector(".fa-pencil-square-o").click()
+			var evt = document.createEvent('MouseEvent');
+			evt.initEvent('click', true, false);
+			var elm = document.querySelectorAll('.MuiMenu-paper ul li')[0];
+			elm.dispatchEvent(evt);
 		});
 
-		await page.waitFor(1000);
+		await page.waitFor(2000);
 		
 		await wait4selector(page, 'div#testFormSelectClass', { visible: true , timeout : 5000 })
 	})
@@ -452,7 +460,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
 			evt.initEvent('click', true, false);
-			var elm = document.getElementById(className).querySelector("div");
+			var elm = document.getElementById(className);
 			elm.dispatchEvent(evt);
 		}, className);
 		
@@ -504,11 +512,9 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		
 		await page.evaluate( () => {
 			var elm =document.querySelector(".tags path")
-			var evt = new CustomEvent('Event');
-			evt.initEvent('keypress', true, false);
-			evt.which = 13;
-			evt.keyCode = 13;
-			elm.dispatchEvent(evt);
+			var evt = document.createEvent('MouseEvent');
+			evt.initEvent('click', true, false);
+			elm.dispatchEvent(evt)
 		});
 
 		const testTag = await page.evaluate( () => {
@@ -586,7 +592,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			return document.getElementById("i (volt | picoampere)").value;
 		});
 
-		expect(observationValue).toEqual("["+observationIVolt.toString()+"]");
+		expect(observationValue).toEqual(observationIVolt.toString());
 	})
 	
 	it('Enter Observation Value v (volt | picoampere)', async () => {
@@ -607,7 +613,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			return document.getElementById("v (volt | picoampere)").value;
 		});
 
-		expect(observationValue).toEqual("["+observationVVolt.toString()+"]");
+		expect(observationValue).toEqual(observationVVolt.toString());
 	})
 	
 
