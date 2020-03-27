@@ -67,7 +67,7 @@ export const testScoreDetails = (page, testName, testClassName, modelClassName, 
 		await page.waitForFunction('document.getElementById("test-score").innerText.indexOf("Build info")>1');
 		await page.waitForFunction('document.getElementById("hostname").innerText.startsWith("Hostname")');
 		await page.waitForFunction('document.getElementById("test-score").innerText.indexOf("Errors")>1');
-		await page.waitForFunction('document.getElementById("test-score").innerText.startsWith("Timestamp")>1');
+		await page.waitForFunction('document.getElementById("test-score").innerText.indexOf("Timestamp")>1');
 		
 		await page.waitForFunction('document.getElementById("model-class-name").nextSibling.innerText.endsWith("'+modelClassName+'")');
 		await page.waitForFunction('document.getElementById("model-url").nextSibling.innerText.endsWith("'+modelURL+'")');
@@ -88,7 +88,7 @@ export const testModelDetails = (page, modelClassName, modelURL) => {
 export const testSuiteScore = (page,  testName, testClassName, testModelName, modelClassName, modelURL) => {
 	it('Sidebar Component Opened, Scheduling Option Present', async () => {
 		await click(page, 'button#hamMenu');
-		await wait4selector(page, 'li#hamMenuSuites', { visible: true })
+		await wait4selector(page, 'li#hamMenuSuites', { visible: true , timeout : 5000})
 	})
 
 	it('Scheduling Page Opened', async () => {
@@ -101,6 +101,7 @@ export const testSuiteScore = (page,  testName, testClassName, testModelName, mo
 		await page.evaluate( () => {
 			document.querySelectorAll(".scidash-table tr td")[1].querySelector("a").click();
 		});
+		await page.waitFor(2000);
 		await wait4selector(page, 'div.MuiDialog-root', { visible: true, timeout : 5000 })
 		await page.waitForFunction('document.getElementsByClassName("MuiDialog-root")[0].innerText.includes("'+testClassName+'")');
 		await page.waitForFunction('document.getElementsByClassName("MuiDialog-root")[0].innerText.includes("'+modelClassName+'")');
@@ -110,6 +111,8 @@ export const testSuiteScore = (page,  testName, testClassName, testModelName, mo
 		await page.evaluate( () => {
 			document.querySelectorAll("table")[1].querySelectorAll("td a")[0].click()
 		});
+		
+		await page.waitFor(1000);
 		
 		await wait4selector(page, '#test-details-dialog', { visible: true, timeout : 5000})
 
@@ -122,6 +125,9 @@ export const testSuiteScore = (page,  testName, testClassName, testModelName, mo
 		await page.evaluate( () => {
 			document.querySelectorAll(".MuiDialog-root button")[1].click();
 		});
+		
+		await page.waitFor(1000);
+		
 		await wait4selector(page, 'div.MuiDialog-root', { hidden: true, timeout : 5000 })
 		
 		await page.waitFor(1000);

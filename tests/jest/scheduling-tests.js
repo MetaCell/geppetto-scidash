@@ -349,9 +349,9 @@ describe('Scidash Scheduling Tests', () => {
 		
 		it('Test Score Details Dialog Closed', async () => {
 			await page.evaluate( () => {
-				document.querySelector(".centered-modal button").click()
+				document.querySelector(".MuiDialog-paper button").click()
 			});
-			await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
+			await wait4selector(page, 'div.MuiDialog-paper', { hidden: true, timeout : 5000 })
 			
 			await page.waitFor(1000);
 		})
@@ -374,6 +374,8 @@ describe('Scidash Scheduling Tests', () => {
 				var buttons = document.querySelectorAll("button");
 				buttons[buttons.length-1].click();
 			});
+			await page.waitFor(2000);
+
 			await wait4selector(page, '#model-class-name', { hidden: true, timeout : 5000 })
 			
 			await page.waitFor(1000);
