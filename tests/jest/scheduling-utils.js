@@ -5,7 +5,7 @@ export const testOpenDialog = (page, name, className) => {
 		await page.evaluate( (name) => {
 			document.querySelector("#"+name+" button").click()
 		}, name);
-		await wait4selector(page, 'div.centered-modal', { visible: true, timeout : 5000 })
+		await wait4selector(page, 'div.MuiDialog-root', { visible: true, timeout : 5000 })
 
 		await page.waitFor(1000);
 		
@@ -16,9 +16,9 @@ export const testOpenDialog = (page, name, className) => {
 		await page.waitForFunction('document.getElementById("tags").innerText.startsWith("Tags")');
 
 		await page.evaluate( () => {
-			document.querySelector(".centered-modal button").click()
+			document.querySelector(".MuiDialog-root button").click()
 		});
-		await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
+		await wait4selector(page, 'div.MuiDialog-root', { hidden: true, timeout : 5000 })
 		
 		await page.waitFor(1000);
 	});
@@ -120,9 +120,9 @@ export const testSuiteScore = (page,  testName, testClassName, testModelName, mo
 	
 	it('Test Suite Matrix Closed', async () => {
 		await page.evaluate( () => {
-			document.querySelectorAll(".centered-modal button")[1].click();
+			document.querySelectorAll(".MuiDialog-root button")[1].click();
 		});
-		await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
+		await wait4selector(page, 'div.MuiDialog-root', { hidden: true, timeout : 5000 })
 		
 		await page.waitFor(1000);
 	})

@@ -39,7 +39,7 @@ export const closeModalWindow = async (page) => {
 export const testFilters = (page, filterWord, filterPosition, resultPosition, tableModelLength) => {
 	it('Filter By ' + filterWord, async () => {
 		await page.evaluate( (name, position) => {
-			let input =  document.querySelectorAll(".scidash-materialui-field input")[position]
+			let input =  document.querySelectorAll(".scidash-table-heading-cell input")[position]
 			let lastValue = input.value;
 			input.value = name;
 			let event = new Event('input', { bubbles: true });
@@ -51,13 +51,22 @@ export const testFilters = (page, filterWord, filterPosition, resultPosition, ta
 			input.dispatchEvent(event);
 		}, filterWord, filterPosition);
 		await page.waitFor(1000);
-		await wait4selector(page, 'div.autosuggest', { visible: true , timeout : 5000 });
+		await wait4selector(page, 'div.MuiAutocomplete-popper', { visible: true , timeout : 5000 });
 	})
 
-	it('One Result for Filter '+ filterWord, async () => {
+	it('One Result for Filter '+ filterWord, async () => {		
+		await page.evaluate( () => {
+			var evt = document.createEvent('MouseEvent');
+			evt.initEvent('click', true, false);
+			var elm = document.querySelectorAll('.MuiAutocomplete-popper ul li')[0];
+			elm.dispatchEvent(evt);
+		});
+		
+		await page.waitFor(2000);
+
 		const models = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
-		});
+		});		
 
 		expect(models).toBeGreaterThanOrEqual(tableModelLength-1);
 
@@ -70,7 +79,7 @@ export const testFilters = (page, filterWord, filterPosition, resultPosition, ta
 
 	it('Reset Name Filters', async () => {
 		await page.evaluate( (pos) => {
-			let input =  document.querySelectorAll(".scidash-materialui-field input")[pos]
+			let input =  document.querySelectorAll(".scidash-table-heading-cell input")[pos]
 			let lastValue = input.value;
 			input.value = "";
 			let event = new Event('input', { bubbles: true });
@@ -82,9 +91,7 @@ export const testFilters = (page, filterWord, filterPosition, resultPosition, ta
 			input.dispatchEvent(event);
 		}, filterPosition);
 
-		await page.waitFor(500);
-
-		await page.evaluate( (name, position) => {document.querySelector(".autosuggest").remove();});
+		await page.waitFor(2000);
 
 		const models = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;

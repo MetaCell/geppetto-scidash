@@ -57,7 +57,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 			elm.dispatchEvent(evt);
 		});
 
-		await page.waitFor(4000);
+		await page.waitFor(3000);
 		
 		await page.evaluate( (className) => {
 			var evt = document.createEvent('MouseEvent');
@@ -66,7 +66,7 @@ export const newTestCreation = async (page, name, className, tag, newObservation
 			elm.dispatchEvent(evt);
 		}, className);
 		
-		await page.waitFor(4000);
+		await page.waitFor(3000);
 		
 		await page.waitForFunction('document.getElementById("testFormSelectClass").innerText.startsWith("'+className+'")');
 	})
@@ -578,7 +578,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		await page.evaluate( (value) => {
 			let input =  document.getElementById('i (volt | picoampere)')
 			let lastValue = input.value;
-			input.value = value;
+			input.value = '"' + value + '"';
 			let event = new Event('input', { bubbles: true });
 			event.simulated = true;
 			let tracker = input._valueTracker;
@@ -599,7 +599,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		await page.evaluate( (value) => {
 			let input =  document.getElementById('v (volt | picoampere)')
 			let lastValue = input.value;
-			input.value = value;
+			input.value = '"' + value + '"';
 			let event = new Event('input', { bubbles: true });
 			event.simulated = true;
 			let tracker = input._valueTracker;
@@ -635,25 +635,31 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 		await wait4selector(page, 'table.scidash-table', { visible: true , timeout : 5000 })
 	})
 
-	it('New Test Present in Tests Page', async () => {
+	it('Edited Test Present in Tests Page', async () => {
 		await page.waitFor(5000);
 		const tableModels = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
 		});
 		expect(tableModels).toBeGreaterThanOrEqual(tableModelLength);
-
+	})
+	
+	it('Edited Test Present in Tests Page with Updated Name', async () => {
 		const modelName = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[0].innerText;
 		});
 
 		expect(modelName).toEqual(name);
-
+	})
+	
+	it('Edited Test Present in Tests Page with Updated Class', async () => {
 		const modelClass = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[1].innerText;
 		});
 
 		expect(modelClass).toEqual(className);
-
+	})
+	
+	it('Edited Test Present in Tests Page with Updated Tags', async () => {
 		const modelTag = await page.evaluate( () => {
 			return document.querySelectorAll(".chips span")[0].innerText;
 		});

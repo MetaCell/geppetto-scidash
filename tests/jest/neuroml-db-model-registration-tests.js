@@ -116,7 +116,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 				return document.getElementById("open-model-parameters").click();
 			});
 
-			await wait4selector(page, 'div.centered-modal', { visible: true, timeout: 20000 })
+			await wait4selector(page, 'div.MuiDialog-root', { visible: true, timeout: 20000 })
 		})
 
 		// Click Sign-Up button and wait for registration form to show up
@@ -131,10 +131,10 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 		it('Model Parameters Dialog Closed', async () => {
 			await page.evaluate( () => {
 				let buttons = document.querySelectorAll(".centered-modal button");
-				return document.querySelectorAll(".centered-modal button")[buttons.length - 1].click();
+				return document.querySelectorAll(".MuiDialog-root button")[buttons.length - 1].click();
 			});
 
-			await wait4selector(page, 'div.centered-modal', { hidden: true, timeout: 20000 })
+			await wait4selector(page, 'div.MuiDialog-root', { hidden: true, timeout: 20000 })
 		})
 
 	})

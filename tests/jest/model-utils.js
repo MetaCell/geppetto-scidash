@@ -462,7 +462,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 		await wait4selector(page, 'table.scidash-table', { visible: true , timeout : 5000 })
 	})
 
-	it('Test Model Present in Models Page', async () => {
+	it('Test Edited Model Present in Models Page', async () => {
 		await page.waitFor(5000);
 		const models = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
@@ -470,7 +470,9 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 
 		tableModelLength = tableModelLength+1;
 		expect(models).toBeGreaterThanOrEqual(tableModelLength);
-
+	})
+	
+	it('Test Edited Model Name is updated in Models Page', async () => {
 		const modelName = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr td")[0].innerText;
 		});
@@ -483,6 +485,22 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 
 		expect(modelClass).toEqual(editedModelClass);
 
+		const modelTag = await page.evaluate( () => {
+			return document.querySelectorAll(".chips span")[1].innerText;
+		});
+
+		expect(modelTag).toEqual(editedModelTag);
+	})
+	
+	it('Test Edited Model Class is updated in Models Page', async () => {
+		const modelClass = await page.evaluate( () => {
+			return document.querySelectorAll(".scidash-table tr td")[1].innerText;
+		});
+
+		expect(modelClass).toEqual(editedModelClass);
+	})
+	
+	it('Test Edited Model Tag is updated in Models Page', async () => {
 		const modelTag = await page.evaluate( () => {
 			return document.querySelectorAll(".chips span")[1].innerText;
 		});

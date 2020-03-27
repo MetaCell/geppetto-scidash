@@ -135,7 +135,7 @@ describe('Scidash Model Registration Tests', () => {
 	// Tests Model Page Filters
 	describe('Model Page Filters', () => {
 		it('Models Page Opened, New Model Button Present', async () => {
-			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+			await wait4selector(page, 'i.fa-plus', { visible: true , timeout : 5000 })
 		})
 
 		// Test page filters fields by searching by model name

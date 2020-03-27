@@ -141,7 +141,7 @@ describe('Scidash Scheduling Tests', () => {
 			await page.evaluate( () => {
 				document.querySelector(".signUpButton").click()
 			});
-			await wait4selector(page, 'div.login-container', { visible: true, timeout : 30000 });
+			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
 		})
 
 		// Perform registration form tests
@@ -189,7 +189,7 @@ describe('Scidash Scheduling Tests', () => {
 	describe('Scheduling Page Tests', () => {
 		it('Sidebar Component Opened, Scheduling Option Present', async () => {
 			await click(page, 'button#hamMenu');
-			await wait4selector(page, 'span#hamMenuScheduling', { visible: true })
+			await wait4selector(page, 'li#hamMenuScheduling', { visible: true })
 		})
 
 		it('Scheduling Page Opened', async () => {

@@ -90,6 +90,9 @@ export const loginTests = (page, newUserID, newUserPassword) => {
 		await page.evaluate( () => {
 			document.querySelector(".login-container button").click()
 		});
+		
+		await page.waitFor(2000);
+		
 		await page.waitForFunction('document.querySelector("small.error").innerText.startsWith("This field is required.")');			
 	})
 
