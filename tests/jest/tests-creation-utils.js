@@ -592,7 +592,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			return document.getElementById("i (volt | picoampere)").value;
 		});
 
-		expect(observationValue).toEqual(observationIVolt.toString());
+		expect(observationValue).toEqual("["+observationIVolt.toString()+"]");
 	})
 	
 	it('Enter Observation Value v (volt | picoampere)', async () => {
@@ -613,7 +613,7 @@ export const editTest1 = async (page, name, className, tag, observationVVolt, ob
 			return document.getElementById("v (volt | picoampere)").value;
 		});
 
-		expect(observationValue).toEqual(observationVVolt.toString());
+		expect(observationValue).toEqual("["+observationVVolt.toString()+"]");
 	})
 	
 

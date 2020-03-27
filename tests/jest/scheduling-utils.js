@@ -101,9 +101,9 @@ export const testSuiteScore = (page,  testName, testClassName, testModelName, mo
 		await page.evaluate( () => {
 			document.querySelectorAll(".scidash-table tr td")[1].querySelector("a").click();
 		});
-		await wait4selector(page, 'div.centered-modal', { visible: true, timeout : 5000 })
-		await page.waitForFunction('document.getElementsByClassName("centered-modal")[0].innerText.includes("'+testClassName+'")');
-		await page.waitForFunction('document.getElementsByClassName("centered-modal")[0].innerText.includes("'+modelClassName+'")');
+		await wait4selector(page, 'div.MuiDialog-root', { visible: true, timeout : 5000 })
+		await page.waitForFunction('document.getElementsByClassName("MuiDialog-root")[0].innerText.includes("'+testClassName+'")');
+		await page.waitForFunction('document.getElementsByClassName("MuiDialog-root")[0].innerText.includes("'+modelClassName+'")');
 	})
 	
 	it('Matrix Details Expanded and Populated', async () => {
