@@ -200,7 +200,7 @@ export const resetPasswordTests = (page, newUserEmail) => {
 		expect(testUserEmail).toEqual(newUserEmail);
 	})
 
-	it('Submit User Credentials', async () => {
+	it('Submit Reset Password Request, Confirmation Page Visible', async () => {
 		await page.waitFor(1000);
 		await page.evaluate( () => {
 			document.querySelector(".password-reset-container button").click()

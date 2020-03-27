@@ -130,7 +130,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 
 		it('Model Parameters Dialog Closed', async () => {
 			await page.evaluate( () => {
-				let buttons = document.querySelectorAll(".centered-modal button");
+				let buttons = document.querySelectorAll(".MuiDialog-root button");
 				return document.querySelectorAll(".MuiDialog-root button")[buttons.length - 1].click();
 			});
 

@@ -55,12 +55,14 @@ export const testFilters = (page, filterWord, filterPosition, resultPosition, ta
 	})
 
 	it('One Result for Filter '+ filterWord, async () => {		
-		await page.evaluate( () => {
-			var evt = document.createEvent('MouseEvent');
-			evt.initEvent('click', true, false);
-			var elm = document.querySelectorAll('.MuiAutocomplete-popper ul li')[0];
-			elm.dispatchEvent(evt);
-		});
+		await page.evaluate( (position) => {
+			let input =  document.querySelectorAll(".scidash-table-heading-cell input")[position]
+			var evt = new CustomEvent('Event');
+			evt.initEvent('keypress', true, false);
+			evt.which = 13;
+			evt.keyCode = 13;
+			input.dispatchEvent(evt);
+		}, filterPosition);
 		
 		await page.waitFor(2000);
 

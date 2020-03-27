@@ -144,8 +144,8 @@ describe('Scidash Tests Registration', () => {
 		testFilters(page, editedTestName, 0,0, tableTestLengh);
 
 		// Test Filters fields work by searching for new class
-		testFilters(page, newTestClass.replace(/ *\([^)]*\) */g, ""), 1, 1, tableTestLengh);
-		testFilters(page, editedTestClass.replace(/ *\([^)]*\) */g, ""), 1, 1, tableTestLengh);
+		testFilters(page, newTestClass, 1, 1, tableTestLengh);
+		testFilters(page, editedTestClass, 1, 1, tableTestLengh);
 
 		// Test Filters fields work by searching by tag
 		testFilters(page, newTestTag, 2, 2, tableTestLengh);
