@@ -183,6 +183,7 @@ export const resetPasswordTests = (page, newUserEmail) => {
 		await page.evaluate( () => {
 			document.querySelector(".password-reset-container button").click()
 		});
+		await page.waitFor(2000);
 		await page.waitForFunction('document.querySelector("small.error").innerText.startsWith("This field is required.")');			
 	})
 

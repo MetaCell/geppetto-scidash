@@ -322,6 +322,14 @@ describe('Scidash Scheduling Tests', () => {
 			expect(modelName).toEqual(newTestClass);
 		})
 		
+		it('Test Score Scheduled', async () => {
+			await wait4selector(page, 'i.fa-clock-o', { visible: true, timeout : 60000})
+		})
+		
+		it('Test Score Locked', async () => {
+			await wait4selector(page, 'i.fa-lock', { visible: true, timeout : 60000})
+		})
+		
 		it('Test Score Succesfully Simulated', async () => {
 			await wait4selector(page, 'i.fa-check', { visible: true, timeout : 450000})
 			
