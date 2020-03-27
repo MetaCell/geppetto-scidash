@@ -332,14 +332,16 @@ describe('Scidash Scheduling Tests', () => {
 		
 		it('Test Score Succesfully Simulated', async () => {
 			await wait4selector(page, 'i.fa-check', { visible: true, timeout : 450000})
-			
+		})
+		
+		it('Test Score Updated After Simulation', async () => {
 			const score = await page.evaluate( () => {
 				return document.querySelectorAll(".scidash-table tr td")[1].innerText;
 			});
 
-			expect(score).not.toEqual("N/A");
+			await page.waitFor(1000);
 			
-			await page.waitFor(2000);
+			expect(score).not.toEqual("N/A");			
 		})
 		
 		it('Test Score Details Dialog Opened', async () => {
