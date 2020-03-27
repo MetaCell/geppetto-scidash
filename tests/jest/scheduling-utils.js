@@ -29,7 +29,7 @@ export const modelOpenDialog = (page, name, className, modelURL) => {
 		await page.evaluate( (name) => {
 			document.querySelector("#"+name+" button").click()
 		}, name);
-		await wait4selector(page, 'div.centered-modal', { visible: true, timeout : 5000 })
+		await wait4selector(page, 'div.MuiDialog-root', { visible: true, timeout : 5000 })
 
 		await page.waitFor(1000);
 		
@@ -41,9 +41,9 @@ export const modelOpenDialog = (page, name, className, modelURL) => {
 		await page.waitForFunction('document.getElementById("tags").innerText.startsWith("Tags")');
 
 		await page.evaluate( () => {
-			document.querySelector(".centered-modal button").click()
+			document.querySelector(".MuiDialog-root button").click()
 		});
-		await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
+		await wait4selector(page, 'div.MuiDialog-root', { hidden: true, timeout : 5000 })
 		
 		await page.waitFor(1000);
 	});
