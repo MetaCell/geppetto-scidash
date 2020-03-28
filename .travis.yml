@@ -32,7 +32,7 @@ script:
   - echo $DEFAULT_BRANCH
   - echo "############################"
   - git clone https://github.com/ddelpiano/travis_utils
-  - travis_utils/copy.sh https://github.com/Metacell/scidash.git "feature/472" "feature/472" "feature/472"
+  - travis_utils/copy.sh https://github.com/Metacell/scidash.git $TRAVIS_BRANCH $BRANCH $DEFAULT_BRANCH
   - travis_fold start "building_scidash_database_container"
   - travis_retry docker build --build-arg targetBranch=$TRAVIS_BRANCH
     --build-arg originBranch=$BRANCH --build-arg defaultBranch=$DEFAULT_BRANCH -f ./scidash/service/docker/Dockerfile-postgres
@@ -68,7 +68,7 @@ script:
   - http_status=$(curl -s -I $1 $LANDING_PAGE | grep HTTP/1.1 | awk {'print $2'})
   - echo "$http_status"
   - docker exec -ti $SCIDASH_CONTAINER /bin/bash -c "make run-tests"
-  - docker exec -i $SCIDASH_CONTAINER /bin/bash -c "cd static/org.geppetto.frontend/src/main/webapp/tests/jest/; ls; npm test -- --runInBand"
+  - docker exec -i $SCIDASH_CONTAINER /bin/bash -c "cd static/org.geppetto.frontend/src/main/webapp/tests/jest/; npm test -- --runInBand"
   - sudo docker cp $GEPPETTO_CONTAINER:/opt/virgo/serviceability/logs/log.log /etc;
   - travis_fold start "Geppetto_container_log"
   - tail /etc/log.log -n 200
