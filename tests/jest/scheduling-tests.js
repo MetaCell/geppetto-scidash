@@ -47,7 +47,7 @@ var tableModelLength = 2;
  */
 describe('Scidash Scheduling Tests', () => {
 	beforeAll(async () => {
-		jest.setTimeout(125000);
+		jest.setTimeout(180000);
 		await page.setViewport({ width: 1280, height: 800 })
 		await page.goto(scidashURL);
 	});
@@ -332,7 +332,7 @@ describe('Scidash Scheduling Tests', () => {
 		
 		it('Test Score Succesfully Simulated', async () => {
 			await wait4selector(page, 'i.fa-check', { visible: true, timeout : 450000})
-		},450000)
+		})
 		
 		it('Test Score Updated After Simulation', async () => {
 			const score = await page.evaluate( () => {
@@ -342,7 +342,7 @@ describe('Scidash Scheduling Tests', () => {
 			await page.waitFor(1000);
 			
 			expect(score).not.toEqual("N/A");			
-		}, 450000)
+		})
 		
 		it('Test Score Details Dialog Opened', async () => {
 			await page.evaluate( () => {
