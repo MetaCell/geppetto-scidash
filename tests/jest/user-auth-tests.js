@@ -35,11 +35,11 @@ describe('Scidash User Authorization Tests', () => {
 		})
 
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.signUpButton', { visible: true, timeout : 30000 })
 		})
 	})
 
@@ -47,13 +47,37 @@ describe('Scidash User Authorization Tests', () => {
 	describe('Test Signup Button Functionality', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			const userLogin = await page.evaluate(() => {
+				var button = document.querySelector("#user-button")
+				if(button == null || button == undefined){
+					return false;
+				}
+				return true;
+			});
+
+			if(userLogin){
+				await page.evaluate( () => {
+					var button = document.querySelector("#user-button");
+					if(button != null){
+						button.click();
+					}
+				});
+				await wait4selector(page, '#logout-button', { visible: true, timeout : 30000 });
+
+				await page.evaluate( () => {
+					var button = document.querySelector("#logout-button");
+					if(button != null){
+						button.click();
+					}
+				});
+			}
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Open Sign Up Page', async () => {
-			await page.evaluate(async () => {
-				document.querySelector(".signup-button a").click()
+			await page.evaluate(() => {
+				document.querySelector(".signUpButton").click()
 			});
 			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
 		})
@@ -69,55 +93,17 @@ describe('Scidash User Authorization Tests', () => {
 		logoutTests(page)		
 	})
 
-	// Tests User Registration/Sign-Up Functionality Works Using the “Already signed up? Then login” Link Inside the Login Panel
-	describe('Test Signup Functionality by Opening Link From Login Form', () => {
-		// Precondition: User is logout. Test existence of login button
-		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
-		})
-
-		// Click on Login button to open login form
-		it('Open Login Page', async () => {
-			await page.evaluate(async () => {
-				document.querySelector(".login-button a").click()
-			});
-			await wait4selector(page, 'div.login-container', { visible: true, timeout : 30000 });
-		})
-
-		// Login form is opened, click on “Already signed up? Then login” link
-		it('Open Sign Up Page from Login Panel', async () => {
-			await page.evaluate(async () => {
-				document.querySelector(".login-container a").click()
-			});
-
-			// Wait for 'registration form' to open
-			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
-		})
-
-		// Create new random username
-		newUserID = makeUserID(6);
-		// Perform registration form tests
-		signUpTests(page, newUserID, newUserEmail, newUserPassword);
-
-	})
-
-	// Test Logout Functionality
-	describe('New Logout After User Registration', () => {
-		// Precondition: User is login. Test Login button exists
-		logoutTests(page)		
-	})
-
 	// Test Login Functionality
 	describe('Test Log In Button ', () => {
 		// Precondition: User is Logout. Test existence of login button
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		// Click on Login button and wait for Login form.
 		it('Open Login Page', async () => {
-			await page.evaluate(async () => {
-				document.querySelector(".login-button a").click()
+			await page.evaluate( () => {
+				document.querySelector(".loginButton").click()
 			});
 			await wait4selector(page, 'div.login-container', { visible: true, timeout : 30000 });
 		})

@@ -30,7 +30,7 @@ export const click = async (page, selector) => {
 }
 
 export const closeModalWindow = async (page) => {
-	await page.evaluate(async () => {
+	await page.evaluate( () => {
 		var evt = new KeyboardEvent('keydown', {'keyCode':27, 'which':27});
 		document.dispatchEvent (evt);
 	});
@@ -38,27 +38,41 @@ export const closeModalWindow = async (page) => {
 
 export const testFilters = (page, filterWord, filterPosition, resultPosition, tableModelLength) => {
 	it('Filter By ' + filterWord, async () => {
-		await page.evaluate(async (name, position) => {
-			var elm = document.querySelectorAll(".scidash-materialui-field input")[position]
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = name;
-			elm.dispatchEvent(ev);
+		await page.evaluate( (name, position) => {
+			let input =  document.querySelectorAll(".scidash-table-heading-cell input")[position]
+			let lastValue = input.value;
+			input.value = name;
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, filterWord, filterPosition);
 		await page.waitFor(1000);
-		await wait4selector(page, 'div.autosuggest', { visible: true , timeout : 5000 });
+		await wait4selector(page, 'div.MuiAutocomplete-popper', { visible: true , timeout : 5000 });
 	})
 
-	it('One Result for Filter '+ filterWord, async () => {
-		await page.evaluate(async (name, position) => {document.querySelector(".autosuggest").remove();});
-		await page.waitFor(500);
-		const models = await page.evaluate(async () => {
+	it('One Result for Filter '+ filterWord, async () => {		
+		await page.evaluate( (position) => {
+			let input =  document.querySelectorAll(".scidash-table-heading-cell input")[position]
+			var evt = new CustomEvent('Event');
+			evt.initEvent('keypress', true, false);
+			evt.which = 13;
+			evt.keyCode = 13;
+			input.dispatchEvent(evt);
+		}, filterPosition);
+		
+		await page.waitFor(2000);
+
+		const models = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
-		});
+		});		
 
 		expect(models).toBeGreaterThanOrEqual(tableModelLength-1);
 
-		const modelName = await page.evaluate(async (position) => {
+		const modelName = await page.evaluate( (position) => {
 			return document.querySelectorAll(".scidash-table tr td")[position].innerText;
 		}, resultPosition);
 
@@ -66,19 +80,22 @@ export const testFilters = (page, filterWord, filterPosition, resultPosition, ta
 	})
 
 	it('Reset Name Filters', async () => {
-		await page.evaluate(async (pos) => {
-			var elm = document.querySelectorAll(".scidash-materialui-field input")[pos]
-			var ev = new Event('input', { bubbles: true});
-			ev.simulated = true;
-			elm.value = "";
-			elm.dispatchEvent(ev);
+		await page.evaluate( (pos) => {
+			let input =  document.querySelectorAll(".scidash-table-heading-cell input")[pos]
+			let lastValue = input.value;
+			input.value = "";
+			let event = new Event('input', { bubbles: true });
+			event.simulated = true;
+			let tracker = input._valueTracker;
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			input.dispatchEvent(event);
 		}, filterPosition);
 
-		await page.waitFor(500);
+		await page.waitFor(2000);
 
-		await page.evaluate(async (name, position) => {document.querySelector(".autosuggest").remove();});
-
-		const models = await page.evaluate(async () => {
+		const models = await page.evaluate( () => {
 			return document.querySelectorAll(".scidash-table tr").length;
 		});
 

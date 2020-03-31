@@ -54,7 +54,7 @@ describe('Scidash Model Registration Tests', () => {
 	//Tests login components in landing page are present
 	describe('Test Landing Page Login Components', () => {
 		it('Login Button Visible', async () => {
-			const userLogin = await page.evaluate(async () => {
+			const userLogin = await page.evaluate(() => {
 				var button = document.querySelector("#user-button")
 				if(button == null || button == undefined){
 					return false;
@@ -63,7 +63,7 @@ describe('Scidash Model Registration Tests', () => {
 			});
 
 			if(userLogin){
-				await page.evaluate(async () => {
+				await page.evaluate( () => {
 					var button = document.querySelector("#user-button");
 					if(button != null){
 						button.click();
@@ -71,19 +71,18 @@ describe('Scidash Model Registration Tests', () => {
 				});
 				await wait4selector(page, '#logout-button', { visible: true, timeout : 30000 });
 
-				await page.evaluate(async () => {
+				await page.evaluate( () => {
 					var button = document.querySelector("#logout-button");
 					if(button != null){
 						button.click();
 					}
 				});
 			}
-
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 60000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 60000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.signUpButton', { visible: true, timeout : 30000 })
 		})
 	})
 
@@ -92,13 +91,13 @@ describe('Scidash Model Registration Tests', () => {
 	describe('Create User Account', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Open Sign Up Page', async () => {
-			await page.evaluate(async () => {
-				document.querySelector(".signup-button a").click()
+			await page.evaluate( () => {
+				document.querySelector(".signUpButton").click()
 			});
 			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
 		})
@@ -136,7 +135,7 @@ describe('Scidash Model Registration Tests', () => {
 	// Tests Model Page Filters
 	describe('Model Page Filters', () => {
 		it('Models Page Opened, New Model Button Present', async () => {
-			await wait4selector(page, 'span.fa-plus', { visible: true , timeout : 5000 })
+			await wait4selector(page, 'i.fa-plus', { visible: true , timeout : 5000 })
 		})
 
 		// Test page filters fields by searching by model name

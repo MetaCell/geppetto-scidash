@@ -47,7 +47,7 @@ var tableModelLength = 2;
  */
 describe('Scidash Scheduling Tests', () => {
 	beforeAll(async () => {
-		jest.setTimeout(125000);
+		jest.setTimeout(180000);
 		await page.setViewport({ width: 1280, height: 800 })
 		await page.goto(scidashURL);
 	});
@@ -72,7 +72,7 @@ describe('Scidash Scheduling Tests', () => {
 	//Tests login components in landing page are present
 	describe('Test Landing Page Login Components', () => {
 		it('Login Button Visible', async () => {
-			const userLogin = await page.evaluate(async () => {
+			const userLogin = await page.evaluate( () => {
 				var button = document.querySelector("#user-button")
 				if(button == null || button == undefined){
 					return false;
@@ -81,7 +81,7 @@ describe('Scidash Scheduling Tests', () => {
 			});
 
 			if(userLogin){
-				await page.evaluate(async () => {
+				await page.evaluate( () => {
 					var button = document.querySelector("#user-button");
 					if(button != null){
 						button.click();
@@ -89,19 +89,18 @@ describe('Scidash Scheduling Tests', () => {
 				});
 				await wait4selector(page, '#logout-button', { visible: true, timeout : 30000 });
 
-				await page.evaluate(async () => {
+				await page.evaluate( () => {
 					var button = document.querySelector("#logout-button");
 					if(button != null){
 						button.click();
 					}
 				});
 			}
-
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 60000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 60000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.signUpButton', { visible: true, timeout : 30000 })
 		})
 	})
 
@@ -110,13 +109,37 @@ describe('Scidash Scheduling Tests', () => {
 	describe('Create User Account', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			const userLogin = await page.evaluate(() => {
+				var button = document.querySelector("#user-button")
+				if(button == null || button == undefined){
+					return false;
+				}
+				return true;
+			});
+
+			if(userLogin){
+				await page.evaluate( () => {
+					var button = document.querySelector("#user-button");
+					if(button != null){
+						button.click();
+					}
+				});
+				await wait4selector(page, '#logout-button', { visible: true, timeout : 30000 });
+
+				await page.evaluate( () => {
+					var button = document.querySelector("#logout-button");
+					if(button != null){
+						button.click();
+					}
+				});
+			}
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Open Sign Up Page', async () => {
-			await page.evaluate(async () => {
-				document.querySelector(".signup-button a").click()
+			await page.evaluate( () => {
+				document.querySelector(".signUpButton").click()
 			});
 			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
 		})
@@ -166,7 +189,7 @@ describe('Scidash Scheduling Tests', () => {
 	describe('Scheduling Page Tests', () => {
 		it('Sidebar Component Opened, Scheduling Option Present', async () => {
 			await click(page, 'button#hamMenu');
-			await wait4selector(page, 'span#hamMenuScheduling', { visible: true })
+			await wait4selector(page, 'li#hamMenuScheduling', { visible: true })
 		})
 
 		it('Scheduling Page Opened', async () => {
@@ -209,7 +232,7 @@ describe('Scidash Scheduling Tests', () => {
 		})
 		
 		it('Matrix Table Present', async () => {
-			const table = await page.evaluate(async () => {
+			const table = await page.evaluate( () => {
 				return document.querySelectorAll("table").length;
 			});
 			
@@ -220,7 +243,7 @@ describe('Scidash Scheduling Tests', () => {
 		it('Test1 and Models 1 and 2 Compatibility Check', async () => {			
 			
 			// Check there's only one Test/Model compatible
-			var matrixModelCompatibility = await page.evaluate(async () => {
+			var matrixModelCompatibility = await page.evaluate( () => {
 				var matrixChecks = document.querySelectorAll("table td span")
 				var incompatible = 0;			
 				for(var i =0; i< matrixChecks.length; i++){
@@ -249,7 +272,7 @@ describe('Scidash Scheduling Tests', () => {
 				
 		it('Test1,Test2 and Model 1, Model 2 Compatability Check', async () => {			
 			// Check there's only one compatible Test/Model compatible in the matrix
-			var matrixModelCompatibility = await page.evaluate(async () => {
+			var matrixModelCompatibility = await page.evaluate( () => {
 				var matrixChecks = document.querySelectorAll("table td span")
 				var incompatible = 0;			
 				for(var i =0; i< matrixChecks.length; i++){
@@ -264,48 +287,65 @@ describe('Scidash Scheduling Tests', () => {
 			expect(matrixModelCompatibility).toEqual(3);
 		})
 		
+		it('Save As Suite Visible', async () => {
+			await page.waitFor(5000);
+			await wait4selector(page, '#save-as-suite', { visible: true, timeout : 5000})
+		})
+		
 		it('Click Save As Suite', async () => {
 			await page.waitFor(5000);
 			await click(page, '#save-as-suite');
+			await page.waitFor(2000);
 			await wait4selector(page, '#enter-name', { visible: true, timeout : 5000})
 		})
 		
 		it('Run Tests', async () => {
 			await page.waitFor(2000);
 			await click(page, '#run-tests');
+			await page.waitFor(2000);
 			await page.waitForFunction('document.getElementById("scidash-logo").innerText.startsWith("Test scores")');
 		})
 		
 		it('Test Submitted for Simulation', async () => {
 			await page.waitFor(5000);
 			
-			const scores = await page.evaluate(async () => {
+			const scores = await page.evaluate( () => {
 				return document.querySelectorAll(".scidash-table tr").length;
 			});
 
 			expect(scores).toBeGreaterThanOrEqual(2);
 			
-			const modelName = await page.evaluate(async () => {
+			const modelName = await page.evaluate( () => {
 				return document.querySelectorAll(".scidash-table tr td")[0].innerText;
 			});
 
 			expect(modelName).toEqual(newTestClass);
 		})
 		
+		it('Test Score Scheduled', async () => {
+			await wait4selector(page, 'i.fa-clock-o', { visible: true, timeout : 60000})
+		})
+		
+		it('Test Score Locked', async () => {
+			await wait4selector(page, 'i.fa-lock', { visible: true, timeout : 60000})
+		})
+		
 		it('Test Score Succesfully Simulated', async () => {
 			await wait4selector(page, 'i.fa-check', { visible: true, timeout : 450000})
-			
-			const score = await page.evaluate(async () => {
+		})
+		
+		it('Test Score Updated After Simulation', async () => {
+			const score = await page.evaluate( () => {
 				return document.querySelectorAll(".scidash-table tr td")[1].innerText;
 			});
 
-			expect(score).not.toEqual("N/A");
+			await page.waitFor(1000);
 			
-			await page.waitFor(2000);
+			expect(score).not.toEqual("N/A");			
 		})
 		
 		it('Test Score Details Dialog Opened', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				document.querySelectorAll(".scidash-table tr td")[1].querySelector("a").click();
 			});
 			
@@ -318,16 +358,16 @@ describe('Scidash Scheduling Tests', () => {
 		testScoreDetails(page, newTestName, newTestClass, newModelClass, newModelURL);
 		
 		it('Test Score Details Dialog Closed', async () => {
-			await page.evaluate(async () => {
-				document.querySelector(".centered-modal button").click()
+			await page.evaluate( () => {
+				document.querySelector(".MuiDialog-paper button").click()
 			});
-			await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
+			await wait4selector(page, 'div.MuiDialog-paper', { hidden: true, timeout : 5000 })
 			
 			await page.waitFor(1000);
 		})
 		
 		it('Test Score Model Details Dialog Opened', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				document.querySelectorAll(".scidash-table tr td")[3].querySelector("a").click();
 			});
 			
@@ -340,10 +380,12 @@ describe('Scidash Scheduling Tests', () => {
 		testModelDetails(page, newModelClass, newModelURL);
 		
 		it('Test Score Model Details Dialog Closed', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				var buttons = document.querySelectorAll("button");
 				buttons[buttons.length-1].click();
 			});
+			await page.waitFor(2000);
+
 			await wait4selector(page, '#model-class-name', { hidden: true, timeout : 5000 })
 			
 			await page.waitFor(1000);
