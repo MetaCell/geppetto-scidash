@@ -32,7 +32,7 @@ script:
   - echo $DEFAULT_BRANCH
   - echo "############################"
   - git clone https://github.com/ddelpiano/travis_utils
-  - travis_utils/copy.sh https://github.com/Metacell/scidash.git $TRAVIS_BRANCH $BRANCH $DEFAULT_BRANCH
+  - travis_utils/copy.sh https://github.com/Metacell/scidash.git feature/472 feature/472 feature/472
   - travis_fold start "building_scidash_database_container"
   - travis_retry docker build --build-arg targetBranch=$TRAVIS_BRANCH
     --build-arg originBranch=$BRANCH --build-arg defaultBranch=$DEFAULT_BRANCH -f ./scidash/service/docker/Dockerfile-postgres
