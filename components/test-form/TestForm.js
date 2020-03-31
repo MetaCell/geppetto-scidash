@@ -17,7 +17,8 @@ export default class TestForm extends React.Component {
       model: props.model,
       validationFailed: false,
       newTag: "",
-      isBlocked: false
+      isBlocked: false,
+      testFormSelectClassOpen : false
     };
 
     this.helper = new Helper();
@@ -96,6 +97,7 @@ export default class TestForm extends React.Component {
         {this.state.isBlocked ? blockedWarning : undefined}
         <div style={styles.firstLine.container}>
           <TextField
+            id="test-name"
             value={this.state.model.name}
             onChange={e => this.updateModel({ "name": e.target.value })}
             error={ this.state.model.errors !== undefined && "name" in this.state.model.errors }
@@ -112,6 +114,10 @@ export default class TestForm extends React.Component {
             style={styles.firstLine.two}
             value={ this.state.model.test_class.id ? this.state.model.test_class.id : "" }
             label="Select test class"
+            open={this.state.testFormSelectClassOpen}
+            onClose={() => this.setState({ testFormSelectClassOpen : false })}
+            onOpen={() => this.setState({ testFormSelectClassOpen : true })}
+            onClick={() => this.setState({ testFormSelectClassOpen : !this.state.testFormSelectClassOpen })}
             onChange={e => {
               for (let klass of this.state.testClasses) {
                 if (klass.id == e.target.value) {

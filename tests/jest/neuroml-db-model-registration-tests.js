@@ -51,7 +51,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 	//Tests login components in landing page are present
 	describe('Test Landing Page Login Components', () => {
 		it('Login Button Visible', async () => {
-			const userLogin = await page.evaluate(async () => {
+			const userLogin = await page.evaluate( () => {
 				var button = document.querySelector("#user-button")
 				if(button == null || button == undefined){
 					return false;
@@ -60,7 +60,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 			});
 
 			if(userLogin){
-				await page.evaluate(async () => {
+				await page.evaluate( () => {
 					var button = document.querySelector("#user-button");
 					if(button != null){
 						button.click();
@@ -68,7 +68,7 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 				});
 				await wait4selector(page, '#logout-button', { visible: true, timeout : 30000 });
 
-				await page.evaluate(async () => {
+				await page.evaluate( () => {
 					var button = document.querySelector("#logout-button");
 					if(button != null){
 						button.click();
@@ -76,11 +76,11 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 				});
 			}
 
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 60000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 60000 })
 		})
 
 		it('Sign Up Button Visible', async () => {
-			await wait4selector(page, 'div.signup-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.signUpButton', { visible: true, timeout : 30000 })
 		})
 	})
 
@@ -89,13 +89,13 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 	describe('Create User Account', () => {
 		// Precondition: User is logout
 		it('Login Button Visible', async () => {
-			await wait4selector(page, 'div.login-button', { visible: true, timeout : 30000 })
+			await wait4selector(page, 'a.loginButton', { visible: true, timeout : 30000 })
 		})
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Open Sign Up Page', async () => {
-			await page.evaluate(async () => {
-				document.querySelector(".signup-button a").click()
+			await page.evaluate( () => {
+				document.querySelector(".signUpButton").click()
 			});
 			await wait4selector(page, 'div.registration-container', { visible: true, timeout : 30000 });
 		})
@@ -112,16 +112,16 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 
 	describe('Test Model Parameters Pages', () => {
 		it('Model Parameters Dialog Open', async () => {
-			await page.evaluate(async () => {
+			await page.evaluate( () => {
 				return document.getElementById("open-model-parameters").click();
 			});
 
-			await wait4selector(page, 'div.centered-modal', { visible: true, timeout: 20000 })
+			await wait4selector(page, 'div.MuiDialog-root', { visible: true, timeout: 20000 })
 		})
 
 		// Click Sign-Up button and wait for registration form to show up
 		it('Parameters Drop Down 16 Pages Available', async () => {
-			let dropdown = await page.evaluate(async () => {
+			let dropdown = await page.evaluate( () => {
 				return document.querySelectorAll("select option").length;
 			});
 
@@ -129,12 +129,12 @@ describe('Scidash Neuroml DB Model Registration Tests', () => {
 		})
 
 		it('Model Parameters Dialog Closed', async () => {
-			await page.evaluate(async () => {
-				let buttons = document.querySelectorAll(".centered-modal button");
-				return document.querySelectorAll(".centered-modal button")[buttons.length - 1].click();
+			await page.evaluate( () => {
+				let buttons = document.querySelectorAll(".MuiDialog-root button");
+				return document.querySelectorAll(".MuiDialog-root button")[buttons.length - 1].click();
 			});
 
-			await wait4selector(page, 'div.centered-modal', { hidden: true, timeout: 20000 })
+			await wait4selector(page, 'div.MuiDialog-root', { hidden: true, timeout: 20000 })
 		})
 
 	})

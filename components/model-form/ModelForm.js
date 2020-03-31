@@ -48,7 +48,8 @@ class ModelForm extends React.Component {
       modelParamsOpen: false,
       validationFailed: false,
       isBlocked: false,
-      changesHappened: false
+      changesHappened: false,
+      modelFormSelectClassOpen : false
     };
 
     this.checkUrl = this.checkUrl.bind(this);
@@ -461,6 +462,10 @@ class ModelForm extends React.Component {
                 id="modelFormSelectClass"
                 label="Select class"
                 value={this.state.model.model_class.id !== null ? this.state.model.model_class.id : ""}
+                open={this.state.modelFormSelectClassOpen}
+                onClose={() => this.setState({ modelFormSelectClassOpen : false })}
+                onOpen={() => this.setState({ modelFormSelectClassOpen : true })}
+                onClick={() => this.setState({ modelFormSelectClassOpen : !this.state.modelFormSelectClassOpen })}
                 onChange={event => {
                   for (let klass of this.state.modelClasses) {
                     if (klass.id == event.target.value) {

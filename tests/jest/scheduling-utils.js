@@ -2,23 +2,23 @@ import { wait4selector, click } from './utils';
 
 export const testOpenDialog = (page, name, className) => {
 	it('Test1 Info Modal Opened', async () => {
-		await page.evaluate(async (name) => {
+		await page.evaluate( (name) => {
 			document.querySelector("#"+name+" button").click()
 		}, name);
-		await wait4selector(page, 'div.centered-modal', { visible: true, timeout : 5000 })
+		await wait4selector(page, 'div.MuiDialog-root', { visible: true, timeout : 5000 })
 
 		await page.waitFor(1000);
 		
-		await page.waitForFunction('document.getElementById("name").innerText.endsWith("'+name+'")');
-		await page.waitForFunction('document.getElementById("class").innerText.endsWith("'+className+'")');
+		await page.waitForFunction('document.getElementById("name").nextSibling.innerText.endsWith("'+name+'")');
+		await page.waitForFunction('document.getElementById("class").nextSibling.innerText.endsWith("'+className+'")');
 		await page.waitForFunction('document.getElementById("owner").innerText.startsWith("Owner")');
 		await page.waitForFunction('document.getElementById("timestamp").innerText.startsWith("Timestamp")');
 		await page.waitForFunction('document.getElementById("tags").innerText.startsWith("Tags")');
 
-		await page.evaluate(async () => {
-			document.querySelector(".centered-modal button").click()
+		await page.evaluate( () => {
+			document.querySelector(".MuiDialog-root button").click()
 		});
-		await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
+		await wait4selector(page, 'div.MuiDialog-root', { hidden: true, timeout : 5000 })
 		
 		await page.waitFor(1000);
 	});
@@ -26,24 +26,24 @@ export const testOpenDialog = (page, name, className) => {
 
 export const modelOpenDialog = (page, name, className, modelURL) => {
 	it('TestModel1 Info Modal Opened', async () => {
-		await page.evaluate(async (name) => {
+		await page.evaluate( (name) => {
 			document.querySelector("#"+name+" button").click()
 		}, name);
-		await wait4selector(page, 'div.centered-modal', { visible: true, timeout : 5000 })
+		await wait4selector(page, 'div.MuiDialog-root', { visible: true, timeout : 5000 })
 
 		await page.waitFor(1000);
 		
-		await page.waitForFunction('document.getElementById("name").innerText.endsWith("'+name+'")');
-		await page.waitForFunction('document.getElementById("class").innerText.endsWith("'+className+'")');
+		await page.waitForFunction('document.getElementById("name").nextSibling.innerText.endsWith("'+name+'")');
+		await page.waitForFunction('document.getElementById("class").nextSibling.innerText.endsWith("'+className+'")');
 		await page.waitForFunction('document.getElementById("owner").innerText.startsWith("Owner")');
 		await page.waitForFunction('document.getElementsByClassName("model-url")[0].innerText.endsWith("'+modelURL+'")');
 		await page.waitForFunction('document.getElementById("timestamp").innerText.startsWith("Timestamp")');
 		await page.waitForFunction('document.getElementById("tags").innerText.startsWith("Tags")');
 
-		await page.evaluate(async () => {
-			document.querySelector(".centered-modal button").click()
+		await page.evaluate( () => {
+			document.querySelector(".MuiDialog-root button").click()
 		});
-		await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
+		await wait4selector(page, 'div.MuiDialog-root', { hidden: true, timeout : 5000 })
 		
 		await page.waitFor(1000);
 	});
@@ -51,7 +51,7 @@ export const modelOpenDialog = (page, name, className, modelURL) => {
 
 export const addTestsAndModels = (page, test) => {
 	it('Add Tests and Models', async () => {
-		await page.evaluate(async (testName) => {
+		await page.evaluate( (testName) => {
 			document.querySelectorAll("#"+testName+" button")[1].click()
 		}, test);
 		await wait4selector(page, '#'+test, { hidden: true, timeout : 5000 })
@@ -60,17 +60,17 @@ export const addTestsAndModels = (page, test) => {
 
 export const testScoreDetails = (page, testName, testClassName, modelClassName, modelURL) => {
 	it('Test Score Details Correctly Populated', async () => {		
-		await page.waitForFunction('document.getElementById("test-score").innerText.endsWith("'+testName+'")');
-		await page.waitForFunction('document.getElementById("test-class").innerText.endsWith("'+testClassName+'")');
+		await page.waitForFunction('document.getElementById("test-score").innerText.indexOf("'+testName+'")>1');
+		await page.waitForFunction('document.getElementById("test-class").nextSibling.innerText.endsWith("'+testClassName+'")');
 		await page.waitForFunction('document.getElementById("normalized-score").innerText.startsWith("Normalized score")');
 		await page.waitForFunction('document.getElementById("test-suite").innerText.startsWith("Test suite")');
-		await page.waitForFunction('document.getElementById("build-info").innerText.startsWith("Build info")');
+		await page.waitForFunction('document.getElementById("test-score").innerText.indexOf("Build info")>1');
 		await page.waitForFunction('document.getElementById("hostname").innerText.startsWith("Hostname")');
-		await page.waitForFunction('document.getElementById("errors").innerText.startsWith("Errors")');
-		await page.waitForFunction('document.getElementById("timestamp").innerText.startsWith("Timestamp")');
+		await page.waitForFunction('document.getElementById("test-score").innerText.indexOf("Errors")>1');
+		await page.waitForFunction('document.getElementById("test-score").innerText.indexOf("Timestamp")>1');
 		
-		await page.waitForFunction('document.getElementById("model-class-name").innerText.endsWith("'+modelClassName+'")');
-		await page.waitForFunction('document.getElementById("model-url").innerText.endsWith("'+modelURL+'")');
+		await page.waitForFunction('document.getElementById("model-class-name").nextSibling.innerText.endsWith("'+modelClassName+'")');
+		await page.waitForFunction('document.getElementById("model-url").nextSibling.innerText.endsWith("'+modelURL+'")');
 		await page.waitForFunction('document.getElementById("model-class-source").innerText.startsWith("Class source")');
 		await page.waitForFunction('document.getElementById("model-class-capabilities").innerText.startsWith("Class capabilities")');
 	});
@@ -78,8 +78,8 @@ export const testScoreDetails = (page, testName, testClassName, modelClassName, 
 
 export const testModelDetails = (page, modelClassName, modelURL) => {
 	it('Test Score Model Details Correctly Populated', async () => {		
-		await page.waitForFunction('document.getElementById("model-class-name").innerText.endsWith("'+modelClassName+'")');
-		await page.waitForFunction('document.getElementById("model-url").innerText.endsWith("'+modelURL+'")');
+		await page.waitForFunction('document.getElementById("model-class-name").nextSibling.innerText.endsWith("'+modelClassName+'")');
+		await page.waitForFunction('document.getElementById("model-url").nextSibling.innerText.endsWith("'+modelURL+'")');
 		await page.waitForFunction('document.getElementById("model-class-source").innerText.startsWith("Class source")');
 		await page.waitForFunction('document.getElementById("model-class-capabilities").innerText.startsWith("Class capabilities")');
 	});
@@ -88,7 +88,7 @@ export const testModelDetails = (page, modelClassName, modelURL) => {
 export const testSuiteScore = (page,  testName, testClassName, testModelName, modelClassName, modelURL) => {
 	it('Sidebar Component Opened, Scheduling Option Present', async () => {
 		await click(page, 'button#hamMenu');
-		await wait4selector(page, 'span#hamMenuSuites', { visible: true })
+		await wait4selector(page, 'li#hamMenuSuites', { visible: true , timeout : 5000})
 	})
 
 	it('Scheduling Page Opened', async () => {
@@ -98,18 +98,21 @@ export const testSuiteScore = (page,  testName, testClassName, testModelName, mo
 	
 	it('Test Suite Matrix Present and Populated', async () => {
 		await page.waitFor(2000);
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelectorAll(".scidash-table tr td")[1].querySelector("a").click();
 		});
-		await wait4selector(page, 'div.centered-modal', { visible: true, timeout : 5000 })
-		await page.waitForFunction('document.getElementsByClassName("centered-modal")[0].innerText.includes("'+testClassName+'")');
-		await page.waitForFunction('document.getElementsByClassName("centered-modal")[0].innerText.includes("'+modelClassName+'")');
+		await page.waitFor(2000);
+		await wait4selector(page, 'div.MuiDialog-root', { visible: true, timeout : 5000 })
+		await page.waitForFunction('document.getElementsByClassName("MuiDialog-root")[0].innerText.includes("'+testClassName+'")');
+		await page.waitForFunction('document.getElementsByClassName("MuiDialog-root")[0].innerText.includes("'+modelClassName+'")');
 	})
 	
 	it('Matrix Details Expanded and Populated', async () => {
-		await page.evaluate(async () => {
+		await page.evaluate( () => {
 			document.querySelectorAll("table")[1].querySelectorAll("td a")[0].click()
 		});
+		
+		await page.waitFor(1000);
 		
 		await wait4selector(page, '#test-details-dialog', { visible: true, timeout : 5000})
 
@@ -119,10 +122,13 @@ export const testSuiteScore = (page,  testName, testClassName, testModelName, mo
 	testScoreDetails(page, testName, testClassName, modelClassName, modelURL);
 	
 	it('Test Suite Matrix Closed', async () => {
-		await page.evaluate(async () => {
-			document.querySelectorAll(".centered-modal button")[1].click();
+		await page.evaluate( () => {
+			document.querySelectorAll(".MuiDialog-root button")[1].click();
 		});
-		await wait4selector(page, 'div.centered-modal', { hidden: true, timeout : 5000 })
+		
+		await page.waitFor(1000);
+		
+		await wait4selector(page, 'div.MuiDialog-root', { hidden: true, timeout : 5000 })
 		
 		await page.waitFor(1000);
 	})
