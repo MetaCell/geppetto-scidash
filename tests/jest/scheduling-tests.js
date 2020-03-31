@@ -47,7 +47,7 @@ var tableModelLength = 2;
  */
 describe('Scidash Scheduling Tests', () => {
 	beforeAll(async () => {
-		jest.setTimeout(450000);
+		jest.setTimeout(300000);
 		await page.setViewport({ width: 1280, height: 800 })
 		await page.goto(scidashURL);
 	});
