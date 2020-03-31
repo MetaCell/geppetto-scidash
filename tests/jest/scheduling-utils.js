@@ -63,6 +63,8 @@ export const testScoreDetails = (page, testName, testClassName, modelClassName, 
 		await page.waitForFunction('document.getElementById("test-score").innerText.indexOf("'+testName+'")>1');
 		await page.waitForFunction('document.getElementById("test-class").nextSibling.innerText.endsWith("'+testClassName+'")');
 		await page.waitForFunction('document.getElementById("normalized-score").innerText.startsWith("Normalized score")');
+		await page.waitForFunction('!document.getElementById("normalized-score").nextSibling.innerText.includes("0.00")');
+		await page.waitForFunction('!document.getElementsByClassName("dialogText")[1].innerText.includes("0.00")');
 		await page.waitForFunction('document.getElementById("test-suite").innerText.startsWith("Test suite")');
 		await page.waitForFunction('document.getElementById("test-score").innerText.indexOf("Build info")>1');
 		await page.waitForFunction('document.getElementById("hostname").innerText.startsWith("Hostname")');
