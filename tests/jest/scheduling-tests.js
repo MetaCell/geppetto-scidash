@@ -338,10 +338,24 @@ describe('Scidash Scheduling Tests', () => {
 			const score = await page.evaluate( () => {
 				return document.querySelectorAll(".scidash-table tr td")[1].innerText;
 			});
+			
+			console.log("Score " + score);
 
 			await page.waitFor(1000);
 			
 			expect(score).not.toEqual("N/A");			
+		})
+		
+		it('Test Score Status Check', async () => {
+			const score = await page.evaluate( () => {
+				return document.querySelectorAll(".scidash-table tr td")[7].querySelector("div").innerHTML;
+			});
+			
+			console.log("Score " + score);
+
+			await page.waitFor(1000);
+			
+			expect(score).toEqual("N/A");			
 		})
 		
 		it('Test Score Details Dialog Opened', async () => {
