@@ -46,20 +46,18 @@ export default class Models extends React.Component {
   }
 
   componentWillUpdate (nextProps, nextState) {
-    if (this.props.data.length !== nextProps.data.length) {
-      this.griddleData = [];
-      for ( var i = 0; i < nextProps.data.length; i++) {
-        let griddleItem = _.clone(nextProps.data[i]);
-        let newItem = _.clone(nextProps.data[i]);
-        griddleItem.nameLink = nextProps.data[i].name;
-        for ( var j = 0; j < this.props.modelClasses.length; j++) {
-          if (this.props.modelClasses[j].class_name === nextProps.data[i].class) {
-            griddleItem.modelClass = nextProps.modelClasses[j];
-          }
+    this.griddleData = [];
+    for ( var i = 0; i < nextProps.data.length; i++) {
+      let griddleItem = _.clone(nextProps.data[i]);
+      let newItem = _.clone(nextProps.data[i]);
+      griddleItem.nameLink = nextProps.data[i].name;
+      for ( var j = 0; j < this.props.modelClasses.length; j++) {
+        if (this.props.modelClasses[j].class_name === nextProps.data[i].class) {
+          griddleItem.modelClass = nextProps.modelClasses[j];
         }
-        newItem.name = griddleItem;
-        this.griddleData.push(newItem);
       }
+      newItem.name = griddleItem;
+      this.griddleData.push(newItem);
     }
   }
 
