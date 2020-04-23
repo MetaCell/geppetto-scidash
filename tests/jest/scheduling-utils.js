@@ -73,6 +73,14 @@ export const testScoreDetails = (page, testName, testClassName, modelClassName, 
 		await page.waitForFunction('document.getElementById("model-url").nextSibling.innerText.endsWith("'+modelURL+'")');
 		await page.waitForFunction('document.getElementById("model-class-source").innerText.startsWith("Class source")');
 		await page.waitForFunction('document.getElementById("model-class-capabilities").innerText.startsWith("Class capabilities")');
+		
+		let score = await page.evaluate( () => {
+			return document.getElementById("test-score").querySelectorAll(".dialogTitle")[1].nextSibling.innerText
+		});
+		
+		expect(score).not.toEqual("0.00");
+		
+		await wait4selector(page, 'i.fa-linux', { visible: true , timeout : 5000})
 	});
 }
 
@@ -117,6 +125,12 @@ export const testSuiteScore = (page,  testName, testClassName, testModelName, mo
 		await wait4selector(page, '#test-details-dialog', { visible: true, timeout : 5000})
 
 		await page.waitFor(1000);
+		
+		let score = await page.evaluate( () => {
+			return document.getElementById("table-container-div").querySelectorAll("tr")[1].querySelectorAll("td")[1].innerText;
+		});
+		
+		expect(score).not.toEqual("0.00");
 	})
 	
 	testScoreDetails(page, testName, testClassName, modelClassName, modelURL);
