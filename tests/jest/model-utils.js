@@ -478,18 +478,6 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 		});
 
 		expect(modelName).toEqual(editedModelName);
-
-		const modelClass = await page.evaluate( () => {
-			return document.querySelectorAll(".scidash-table tr td")[1].innerText;
-		});
-
-		expect(modelClass).toEqual(editedModelClass);
-
-		const modelTag = await page.evaluate( () => {
-			return document.querySelectorAll(".chips span")[1].innerText;
-		});
-
-		expect(modelTag).toEqual(editedModelTag);
 	})
 	
 	it('Test Edited Model Class is updated in Models Page', async () => {
