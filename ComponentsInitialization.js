@@ -22,7 +22,7 @@ jQuery(function () {
 
   link.type = "image/x-icon";
   link.rel = "shortcut icon";
-  link.href = "http://scidash.github.io/assets/icons/favicon-32x32.png";
+  link.href = "https://scidash.github.io/assets/icons/favicon-32x32.png";
 
   document.getElementsByTagName("head")[0].appendChild(link);
 
