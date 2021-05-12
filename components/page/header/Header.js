@@ -158,13 +158,13 @@ export default class Header extends React.Component {
                   label="Login"
                   style={{ marginRight: "10px" }}
                 >Login</Button>
-                <Button
+                {/* <Button
                   variant="contained"
                   href="/auth/sign-up/"
                   className="userButton signUpButton"
                   label="Sign-Up"
                   style={{ marginRight: "10px" }}
-                >Sign-Up</Button>
+                >Sign-Up</Button> */}
               </div>
             }
           </div>
