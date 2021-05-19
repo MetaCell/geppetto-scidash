@@ -67,12 +67,6 @@ export default class App extends React.Component {
   componentDidMount () {
 
     InitialStateService.getInstance().generateInitialState().then(initialState => {
-      // if (!initialState.user.userObject || !initialState.user.isLogged || initialState.user.userObject.show_instructions){
-      //   this.pagesService.setDefaultPage (this.pagesService.INSTRUCTIONS_PAGE);
-      // } else {
-      //   this.pagesService.setDefaultPage (this.pagesService.SCORES_PAGE);
-      // }
-
       this.setState({
         store: createStore(
           scidashApp(this.history),
@@ -97,9 +91,8 @@ export default class App extends React.Component {
     } else {
       const state = this.state.store.getState();
       let showInstructions = false;
-      if (this.history.location.pathname === '/' && 
-          state && (!state.user.userObject || !state.user.isLogged || state.user.userObject.show_instructions)) {
-            showInstructions = true;
+      if (this.history.location.pathname === '/' && state && (!state.user.userObject || !state.user.isLogged || state.user.userObject.show_instructions)) {
+        showInstructions = true;
       }
       return (
         <SentryErrorBoundary>
