@@ -67,11 +67,11 @@ export default class App extends React.Component {
   componentDidMount () {
 
     InitialStateService.getInstance().generateInitialState().then(initialState => {
-      if (!initialState.user.userObject || !initialState.user.isLogged || initialState.user.userObject.show_instructions){
-        this.pagesService.setDefaultPage (this.pagesService.INSTRUCTIONS_PAGE);
-      } else {
-        this.pagesService.setDefaultPage (this.pagesService.SCORES_PAGE);
-      }
+      // if (!initialState.user.userObject || !initialState.user.isLogged || initialState.user.userObject.show_instructions){
+      //   this.pagesService.setDefaultPage (this.pagesService.INSTRUCTIONS_PAGE);
+      // } else {
+      //   this.pagesService.setDefaultPage (this.pagesService.SCORES_PAGE);
+      // }
 
       this.setState({
         store: createStore(
@@ -95,7 +95,12 @@ export default class App extends React.Component {
         <Loader />
       );
     } else {
-      const redirect = this.history.location.pathname === '/' ? <Redirect to={this.pagesService.getDefaultPage()} /> : '';
+      const state = this.state.store.getState();
+      let showInstructions = false;
+      if (this.history.location.pathname === '/' && 
+          state && (!state.user.userObject || !state.user.isLogged || state.user.userObject.show_instructions)) {
+            showInstructions = true;
+      }
       return (
         <SentryErrorBoundary>
           <MuiThemeProvider theme={theme}>
@@ -103,7 +108,6 @@ export default class App extends React.Component {
               <ConnectedRouter history={this.history}>
                 <div className="mainContainer">
                   <HeaderContainer />
-                  {redirect}
                   <div className="midContainer">
                     <div className="row">
                       <div className="col-md-12">
@@ -119,6 +123,10 @@ export default class App extends React.Component {
                           <Route path={this.pagesService.SCHEDULING_PAGE} component={props => <SchedulingContainer {...props} />} exact />
                           <Route path={this.pagesService.MODELS_EDIT_PAGE} component={props => <ModelEditContainer {...props} />} exact />
                           <Route path={this.pagesService.TESTS_EDIT_PAGE} component={props => <TestEditContainer {...props} />} exact />
+                          <Route render={() => showInstructions
+                            ? <Instructions />
+                            : <ScoresContainer />
+                          } />
                         </Switch>
                       </div>
                     </div>
@@ -131,6 +139,5 @@ export default class App extends React.Component {
         </SentryErrorBoundary>
       );
     }
-
   }
 }
