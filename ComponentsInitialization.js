@@ -8,9 +8,18 @@ jQuery(function () {
   let React = require("react");
   let Sentry = require("@sentry/browser")
   let App = require("./App").default;
-
-  Sentry.init({ dsn: GEPPETTO_CONFIGURATION.sentryDSN });
-
+  
+  const fetchSettings = async () => {
+    const response = await fetch("/api/settings/");
+    return await response.json();
+  };
+  fetchSettings().then(settings => {
+    Sentry.init({ 
+      dsn: settings.sentry.dsn,
+      environment: settings.sentry.env 
+    });
+  });
+  
   require("./styles/scidash.less");
 
   G.enableLocalStorage(false);
