@@ -38,9 +38,11 @@ export default class ApiService {
     }
 
     getList (cache = false, namespace = ""){
-      // 2021-06-04 ZS: imho we don't need caching
-      // and caching in a local storage isn't a good idea
-      // the local cache is limitted to 10M
+      /*
+       *  2021-06-04 ZS: imho we don't need caching
+       *  and caching in a local storage isn't a good idea
+       *  the local cache is limitted to 10M
+       */
       cache = false;
       let filteringS = FilteringService.getInstance();
 
