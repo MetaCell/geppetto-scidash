@@ -1,8 +1,8 @@
 import BaseInitialStateService from "./BaseInitialStateService";
 import FilteringService from "../FilteringService";
 import ScoresApiService from "../api/ScoresApiService";
-import ScoresGriddleAdapter from "../../shared/adapter/ScoresGriddleAdapter";
-import ScoresAutocompleteAdapter from "../../shared/adapter/ScoresAutocompleteAdapter";
+// import ScoresGriddleAdapter from "../../shared/adapter/ScoresGriddleAdapter";
+// import ScoresAutocompleteAdapter from "../../shared/adapter/ScoresAutocompleteAdapter";
 import Config from "../../shared/Config";
 
 
@@ -53,12 +53,14 @@ export default class ScoreInitialStateService extends BaseInitialStateService {
     }
 
     async generateInitialState (){
-      const scores = await this.loadScores();
+      // 2021-06-04 ZS: imho there is no need to pre load data
+      
+      //const scores = await this.loadScores();
       let initialState = this.getInitialStateTemplate();
-      initialState.data = new ScoresGriddleAdapter(scores)
-        .getGriddleData();
-      initialState.autoCompleteData = new ScoresAutocompleteAdapter(initialState.data)
-        .getAutocompleteData();
+      //initialState.data = new ScoresGriddleAdapter(scores)
+      //  .getGriddleData();
+      //initialState.autoCompleteData = new ScoresAutocompleteAdapter(initialState.data)
+      //  .getAutocompleteData();
       return initialState;
     }
 

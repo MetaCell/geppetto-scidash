@@ -1,10 +1,10 @@
 import BaseInitialStateService from "./BaseInitialStateService";
 import FilteringService from "../FilteringService";
 import ScoresApiService from "../api/ScoresApiService";
-import TestSuitesGriddleAdapter from "../../shared/adapter/TestSuitesGriddleAdapter";
-import TestSuitesAutocompleteAdapter from "../../shared/adapter/TestSuitesAutocompleteAdapter";
+// import TestSuitesGriddleAdapter from "../../shared/adapter/TestSuitesGriddleAdapter";
+// import TestSuitesAutocompleteAdapter from "../../shared/adapter/TestSuitesAutocompleteAdapter";
 import Config from "../../shared/Config";
-import ScoreMatrixGriddleAdapter from "../../shared/adapter/ScoreMatrixGriddleAdapter";
+// import ScoreMatrixGriddleAdapter from "../../shared/adapter/ScoreMatrixGriddleAdapter";
 
 export default class TestSuitesInitialStateService extends BaseInitialStateService {
     initialStateTemplate = {
@@ -48,16 +48,18 @@ export default class TestSuitesInitialStateService extends BaseInitialStateServi
     }
 
     async generateInitialState (){
-      const scores = await this.loadScores();
-      let initialState = this.getInitialStateTemplate();
-      initialState.data = new TestSuitesGriddleAdapter(scores)
-        .getGriddleData();
-      initialState.autoCompleteData = new TestSuitesAutocompleteAdapter(initialState.data)
-        .getAutocompleteData();
-      let scoreMatrixAdapter = ScoreMatrixGriddleAdapter.getInstance(scores);
+      // 2021-06-04 ZS: imho there is no need to pre load data
 
-      initialState.scoreMatrixTableDataList = scoreMatrixAdapter.getGriddleData();
-      initialState.scoreMatrixList = scoreMatrixAdapter.getScoreMatrix();
+      // const scores = await this.loadScores();
+      let initialState = this.getInitialStateTemplate();
+      //initialState.data = new TestSuitesGriddleAdapter(scores)
+      //  .getGriddleData();
+      //initialState.autoCompleteData = new TestSuitesAutocompleteAdapter(initialState.data)
+      //  .getAutocompleteData();
+      //let scoreMatrixAdapter = ScoreMatrixGriddleAdapter.getInstance(scores);
+
+      //initialState.scoreMatrixTableDataList = scoreMatrixAdapter.getGriddleData();
+      //initialState.scoreMatrixList = scoreMatrixAdapter.getScoreMatrix();
 
       return initialState;
     }

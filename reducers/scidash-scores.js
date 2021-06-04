@@ -25,10 +25,10 @@ export default function scidashScores (state = {}, action = null){
     newState = { ...dateFilterChanged(state, action) };
     break;
   case FILTERING_SCORES_STARTED:
-    newState = { ...filteringScoresStarted(state, action) };
+    newState = { ...filteringScoresStarted(state, action), showLoading: true };
     break;
   case FILTERING_SCORES_FINISHED:
-    newState = { ...filteringScoresFinished(state, action) };
+    newState = { ...filteringScoresFinished(state, action), showLoading: false };
     break;
   case UPDATE_SCORES_FINISHED:
     newState = { ...updateScoresFinished(state, action) };

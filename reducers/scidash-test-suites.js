@@ -26,10 +26,10 @@ export default function scidashTestSuites (state = {}, action){
     newState = { ...dateFilterChanged(state, action) };
     break;
   case FILTERING_SUITES_STARTED:
-    newState = { ...filteringSuitesStarted(state, action) };
+    newState = { ...filteringSuitesStarted(state, action), showLoading: true };
     break;
   case FILTERING_SUITES_FINISHED:
-    newState = { ...filteringSuitesFinished(state, action) };
+    newState = { ...filteringSuitesFinished(state, action), showLoading: false };
     break;
   case HIDE_MODEL:
     newState = { ...hideModel(state, action) };

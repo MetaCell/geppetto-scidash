@@ -1,6 +1,6 @@
 import BaseInitialStateService from "./BaseInitialStateService";
-import ModelsGriddleAdapter from "../../shared/adapter/ModelsGriddleAdapter";
-import ModelsAutocompleteAdapter from "../../shared/adapter/ModelsAutocompleteAdapter";
+// import ModelsGriddleAdapter from "../../shared/adapter/ModelsGriddleAdapter";
+// import ModelsAutocompleteAdapter from "../../shared/adapter/ModelsAutocompleteAdapter";
 import ModelsApiService from "../api/ModelsApiService";
 import FilteringService from "../FilteringService";
 import Config from "../../shared/Config";
@@ -30,12 +30,14 @@ export default class ModelsInitialStateService extends BaseInitialStateService {
     }
 
     async generateInitialState (){
-      const models = await this.loadModels();
+      // 2021-06-04 ZS: imho there is no need to pre load data
+      
+      //const models = await this.loadModels();
       let initialState = this.getInitialStateTemplate();
-      initialState.data = new ModelsGriddleAdapter(models)
-        .getGriddleData();
-      initialState.autoCompleteData = new ModelsAutocompleteAdapter(initialState.data)
-        .getAutocompleteData();
+      //initialState.data = new ModelsGriddleAdapter(models)
+      //  .getGriddleData();
+      //initialState.autoCompleteData = new ModelsAutocompleteAdapter(initialState.data)
+      //  .getAutocompleteData();
       return initialState;
     }
 

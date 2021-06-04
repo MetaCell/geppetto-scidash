@@ -28,10 +28,10 @@ export default function scidashTestInstances (state = {}, action){
     newState = { ...dateFilterChanged(state, action) };
     break;
   case FILTERING_TESTS_STARTED:
-    newState = { ...filteringTestsStarted(state, action) };
+    newState = { ...filteringTestsStarted(state, action), showLoading: true };
     break;
   case FILTERING_TESTS_FINISHED:
-    newState = { ...filteringTestsFinished(state, action) };
+    newState = { ...filteringTestsFinished(state, action), showLoading: false };
     break;
   case TEST_CREATE_FINISHED:
     newState = { ...testCreateFinished(state, action) };
