@@ -1,11 +1,11 @@
-import { wait4selector, click} from './utils';
+import { wait4selector, click, closeModalWindow} from './utils';
 
 export const newTestCreation = async (page, name, className, tag, newObservationSchema, secondObservationSchema, 
 		observationValueN, observationValueSTD, observationValueMean, parameterTMax, tableModelLength) => {
 	
 	it('Sidebar Component Opened, Tests Registration Option Present', async () => {
-		await click(page, 'button#hamMenu');
-		await wait4selector(page, 'li#hamMenuTests', { visible: true , timeout : 5000})
+	 await click(page, 'button#hamMenu');
+		await wait4selector(page, 'li#hamMenuTests', { visible: true , timeout : 15000})
 	})
 
 	it('Tests Registration Page Opened, New Tests Registration Button Present', async () => {

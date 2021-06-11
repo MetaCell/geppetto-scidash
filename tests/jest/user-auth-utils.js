@@ -88,7 +88,7 @@ export const loginTests = (page, newUserID, newUserPassword) => {
 
 	it('Test Validation Fields', async () => {
 		await page.evaluate( () => {
-			document.querySelector(".login-container button").click()
+			document.getElementsByName("_submit")[0].click()
 		});
 		
 		await page.waitFor(2000);
@@ -122,7 +122,7 @@ export const loginTests = (page, newUserID, newUserPassword) => {
 
 	it('Submit User Credentials', async () => {
 		await page.evaluate( () => {
-			document.querySelector(".login-container button").click()
+		  document.getElementsByName("_submit")[0].click()
 		});
 		await wait4selector(page, '#user-button', { visible: true, timeout : 60000 })
 	})
