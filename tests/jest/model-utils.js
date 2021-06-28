@@ -508,6 +508,8 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 		});
 
 		expect(modelTag).toEqual(editedModelTag);
+		
+		await page.waitFor(5000)
 	})
 }
 

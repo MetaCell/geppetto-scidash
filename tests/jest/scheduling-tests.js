@@ -1,5 +1,5 @@
 import { wait4selector, click, testFilters} from './utils';
-import { makeUserID, signUpTests } from './user-auth-utils';
+import { makeUserID, signUpTests, loginTests } from './user-auth-utils';
 import { modelCreation, saveModel, editModel, cloneModel} from './model-utils';
 import { newTestCreation, cloneTestCreation, editTest1} from './tests-creation-utils';
 import { testOpenDialog, modelOpenDialog, addTestsAndModels, testScoreDetails, testModelDetails, testSuiteScore } from './scheduling-utils';
@@ -192,13 +192,14 @@ describe('Scidash Scheduling Tests', () => {
 	// Schedule Test Simulation
 	describe('Scheduling Page Tests', () => {
 		it('Sidebar Component Opened, Scheduling Option Present', async () => {
-			await click(page, 'button#hamMenu');
-			await wait4selector(page, 'li#hamMenuScheduling', { visible: true, timeout : 5000 })
-		})
+   await page.evaluate( () => {
+     document.getElementById("hamMenu").click()
+   });
+   await page.waitFor(5000);
+   await page.evaluate( () => {
+     document.querySelector("#hamMenuScheduling").click()
+   });
 
-		it('Scheduling Page Opened', async () => {
-			await click(page, '#hamMenuScheduling');
-			await page.waitForFunction('document.getElementById("scidash-logo").innerText.startsWith("Scheduling")');
 			await wait4selector(page, 'div.Droppable', { visible: true })
 		})
 		
@@ -218,25 +219,24 @@ describe('Scidash Scheduling Tests', () => {
 	})
 	
 	describe('Scheduling New Score Tests', () => {
-		// Add TestModel1 for Scheduling
-		addTestsAndModels(page, 'TestModel1');
-		page.waitFor(5000);
-		// Add TestModel2 for Scheduling
-		addTestsAndModels(page, 'TestModel2');
-		page.waitFor(5000);
-		// Add Test1 for Scheduling
-		addTestsAndModels(page, 'Test1');
+  // Add TestModel1 for Scheduling
+  addTestsAndModels(page, 'TestModel1');
+  page.waitFor(5000);
+  // Add TestModel2 for Scheduling
+  addTestsAndModels(page, 'TestModel2');
+  page.waitFor(5000);
+  // Add Test1 for Scheduling
+  addTestsAndModels(page, 'Test1');
+  
+  page.waitFor(2000);
+ })
+	
+	describe('Scheduling New Score Tests', () => {
 		
 		it('Updating Matrix with TestModel1, TestModel2, Test1', async () => {
-			await wait4selector(page, 'i.fa-spin', { visible: true, timeout : 30000})
-		})
-		
-		it('Matrix Done Updating with TestModel1, TestModel2, Test1', async () => {
-			await wait4selector(page, 'i.fa-spin', { hidden: true, timeout : 100000})
-		})
-		
-		it('Matrix Table Present', async () => {
-			const table = await page.evaluate( () => {
+		 await wait4selector(page, 'i.fa-spin', { hidden: true, timeout : 100000})
+
+		 const table = await page.evaluate( () => {
 				return document.querySelectorAll("table").length;
 			});
 			
@@ -265,17 +265,11 @@ describe('Scidash Scheduling Tests', () => {
 		// Add Test2 for Scheduling
 		addTestsAndModels(page, 'Test2');
 		page.waitFor(5000);
-		
-		it('Updating Matrix with TestModel1, TestModel2, Test1', async () => {
-			await wait4selector(page, 'i.fa-spin', { visible: true, timeout : 30000})
-		})
-		
-		it('Done updating Matrix with TestModel1, TestModel2, Test1', async () => {
-			await wait4selector(page, 'i.fa-spin', { hidden: true, timeout : 100000})
-		})
 				
 		it('Test1,Test2 and Model 1, Model 2 Compatability Check', async () => {			
-			// Check there's only one compatible Test/Model compatible in the matrix
+	  await wait4selector(page, 'i.fa-spin', { hidden: true, timeout : 100000})
+		  
+	  // Check there's only one compatible Test/Model compatible in the matrix
 			var matrixModelCompatibility = await page.evaluate( () => {
 				var matrixChecks = document.querySelectorAll("table td span")
 				var incompatible = 0;			
@@ -300,7 +294,7 @@ describe('Scidash Scheduling Tests', () => {
 			await page.waitFor(5000);
 			await click(page, '#save-as-suite');
 			await page.waitFor(2000);
-			await wait4selector(page, '#enter-name', { visible: true, timeout : 5000})
+			await wait4selector(page, '#enter-name', { visible: true, timeout : 15000})
 		})
 		
 		it('Run Tests', async () => {
@@ -326,27 +320,29 @@ describe('Scidash Scheduling Tests', () => {
 			expect(modelName).toEqual(newTestClass);
 		})
 		
-		it('Test Score Scheduled', async () => {
-			await wait4selector(page, 'i.fa-clock-o', { visible: true, timeout : 60000})
-		})
-		
-		it('Test Score Locked', async () => {
-			await wait4selector(page, 'i.fa-lock', { visible: true, timeout : 60000})
-		})
-		
-		it('Test Score Succesfully Simulated', async () => {
-			await wait4selector(page, 'i.fa-check', { visible: true, timeout : 450000})
-		})
-		
-		it('Test Score Updated After Simulation', async () => {
-			const score = await page.evaluate( () => {
-				return document.querySelectorAll(".scidash-table tr td")[1].innerText;
-			});
+  it('Test Score Scheduled', async () => {
+   await wait4selector(page, 'i.fa-clock-o', { visible: true, timeout : 60000})
+  })
+  
+  it('Test Score Locked', async () => {
+    await page.waitFor(1000);
+    await wait4selector(page, 'i.fa-lock', { visible: true, timeout : 60000})
+  })
+  
+  it('Test Score Succesfully Simulated', async () => {
+    await page.waitFor(1000);
+    await wait4selector(page, 'i.fa-check', { visible: true, timeout : 450000})
+  })
+  
+  it('Test Score Updated After Simulation', async () => {
+   const score = await page.evaluate( () => {
+    return document.querySelectorAll(".scidash-table tr td")[0].innerText;
+   });
 
-			await page.waitFor(1000);
-			
-			expect(score).not.toEqual("N/A");			
-		})
+   await page.waitFor(1000);
+   
+   expect(score).not.toEqual("N/A");   
+  })
 		
 		it('Test Score Details Dialog Opened', async () => {
 			await page.evaluate( () => {
