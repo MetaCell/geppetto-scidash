@@ -10,13 +10,12 @@ export default class TextTooltipColumn extends React.Component {
   render () {
     return (
       this.props.value !== " "
-      ?
-        <div
+        ? <div
           title={this.props.value.get("tooltip")}
         >
           {this.props.value.get("class_name")}
         </div>
-      : ""
+        : ""
     );
   }
 }
