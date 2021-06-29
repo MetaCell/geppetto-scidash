@@ -39,6 +39,9 @@ export default class TestDetailLinkColumn extends React.Component {
         <a
           onClick={this.openTestDetail}
           style={{ cursor: "pointer", }}
+          title= {this.props.testInstanceObject !== undefined && this.props.testInstanceObject !== " "
+            ? this.props.testInstanceObject.get("test_class").get("tooltip")
+            : undefined}
         >
           {this.props.testInstanceObject !== undefined && this.props.testInstanceObject !== " "
             ? this.props.testInstanceObject.get("test_class").get("class_name")

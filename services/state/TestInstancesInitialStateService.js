@@ -24,6 +24,7 @@ export default class TestInstancesInitialStateService extends BaseInitialStateSe
           }
         },
       ],
+      showLoading: false,
       autoCompleteData: {
         name: [],
         tags: [],

@@ -4,6 +4,7 @@ import Icon from "@material-ui/core/Icon";
 import { brown } from "@material-ui/core/colors";
 import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
+import TextTooltipColumnContainer from "../griddle-columns/text-tooltip-column/TextTooltipColumnContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
 import Config from "../../shared/Config";
 import Loader from "../loader/Loader";
@@ -57,13 +58,16 @@ export default class Tests extends React.Component {
             <ColumnDefinition
               id="class"
               title="Class"
-              customHeadingComponent={props => (<FilterCellContainer
-                autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.testInstancesNamespace}
-                onFilterUpdate={this.props.onFilterUpdate}
-                filterName="class_name"
-                {...props}
-              />)}
+              customComponent={props => <TextTooltipColumnContainer {...props} />}
+              customHeadingComponent={props => (
+                <FilterCellContainer
+                  autoCompleteData={this.props.autoCompleteData}
+                  namespace={Config.testInstancesNamespace}
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  filterName="class_name"
+                  {...props}
+                />
+              )}
               order={2}
             />
 

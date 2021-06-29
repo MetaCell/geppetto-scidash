@@ -23,7 +23,7 @@ export default class TestInstancesGriddleAdapter extends BaseAdapter {
         id: test.id,
         scheduler_id: `${test.id}-test`,
         name: test.name,
-        class: test.test_class.class_name,
+        class: test.test_class,
         tags: test.tags.map(item => item.name),
         timestamp: fullDate,
         owner: test.owner.username,

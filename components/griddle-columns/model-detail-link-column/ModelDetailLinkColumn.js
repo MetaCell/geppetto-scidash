@@ -40,8 +40,9 @@ export default class ModelDetailLinkColumn extends React.Component {
         <a
           onClick={this.openModelDetail}
           style={{ cursor: "pointer" }}
+          title={this.props.tooltip}
         >
-          {this.props.className}{this.props.instanceName && `(${this.props.instanceName})`}
+          {this.props.className}:{this.props.instanceName && `(${this.props.instanceName})`}
         </a>
         <Dialog
           title={this.props.className + " details"}

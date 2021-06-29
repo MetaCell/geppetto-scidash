@@ -21,6 +21,7 @@ function unpackError (error){
 
 const TestDetails = ({
   testClassName,
+  testClassDescription,
   buildInfo,
   observation,
   testTags,
@@ -38,6 +39,9 @@ const TestDetails = ({
         <strong className="dialogTitle">Test class: </strong>
         <div className="dialogText">
           {testClassName}
+        </div>
+        <div className="dialogText">
+          {testClassDescription}
         </div>
 
         <p />

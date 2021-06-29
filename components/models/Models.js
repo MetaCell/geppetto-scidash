@@ -9,6 +9,7 @@ import Loader from "../loader/Loader";
 import { CustomMenu, CustomTagComponent } from "./partial";
 import _ from 'lodash';
 import ModelViewDetailsContainer from "../griddle-columns/model-view-details/ModelViewDetailsContainer";
+import TextTooltipColumnContainer from "../griddle-columns/text-tooltip-column/TextTooltipColumnContainer";
 import FilteringService from "../../services/FilteringService";
 
 
@@ -101,13 +102,16 @@ export default class Models extends React.Component {
             <ColumnDefinition
               id="class"
               title="Class"
-              customHeadingComponent={props => (<FilterCellContainer
-                autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.modelInstancesNamespace}
-                onFilterUpdate={this.props.onFilterUpdate}
-                filterName="class_name"
-                {...props}
-              />)}
+              customComponent={props => <TextTooltipColumnContainer {...props} />}
+              customHeadingComponent={props => (
+                <FilterCellContainer
+                  autoCompleteData={this.props.autoCompleteData}
+                  namespace={Config.testInstancesNamespace}
+                  onFilterUpdate={this.props.onFilterUpdate}
+                  filterName="class_name"
+                  {...props}
+                />
+              )}
               order={2}
             />
 

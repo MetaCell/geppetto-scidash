@@ -102,7 +102,9 @@ export class CustomMenu extends Component {
   render () {
     const { anchorEl } = this.state;
     return (
-      <span className="edit-clone-test">
+      <span className="edit-clone-test"
+        title={ this.isBlocked() && "This model instance is locked because it has already a score associated to it or model class of this instance has no import path, only tags can be edited. Clone from the grid view to create a different instance."}
+      >
         {this.isBlocked() && <LockIcon />}
         {this.checkInstance() && (
           <IconButton

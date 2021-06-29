@@ -11,6 +11,7 @@ const ModelDetails = ({
   instanceName, 
   instanceSource, 
   runParameters,
+  modelClassDescription,
   modelTags
 }) => (
   <Card style={{ overflow: "scroll", width: "calc(100vw - 50vw)" }} raised={true}>
@@ -26,6 +27,12 @@ const ModelDetails = ({
         {(modelClassUrl !== "None")
           ? <a target='_blank' className="model-url" href={modelClassUrl}> {modelClassUrl} </a>
           : <span> {modelClassUrl} </span>}
+      </div>
+
+      <p />
+      <strong id="model-class-source" className="dialogTitle">Class description: </strong>
+      <div className="dialogText">
+        {modelClassDescription}
       </div>
 
       <p />

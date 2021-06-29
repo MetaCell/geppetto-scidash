@@ -25,6 +25,7 @@ function unpackError (error){
 const ScoreDetails = ({
   scoreClassName,
   testClassName,
+  testClassDescription,
   score,
   sortKey,
   scoreType,
@@ -91,6 +92,9 @@ const ScoreDetails = ({
             <strong id="test-class" className="dialogTitle">Test class: </strong>
             <div className="dialogText">
               {testClassName}
+            </div>
+            <div className="dialogText">
+              {testClassDescription}
             </div>
             <p />
             <strong className="dialogTitle">Score type: </strong>

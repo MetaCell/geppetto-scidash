@@ -91,7 +91,9 @@ export class CustomMenu extends Component {
     const { anchorEl } = this.state;
     const open = anchorEl != null ;
     return (
-      <span className="edit-clone-test">
+      <span className="edit-clone-test"
+        title={ this.isBlocked() && "This test instance is locked because it has already a score associated to it, only tags can be edited. Clone from the grid view to create a different instance."}
+      >
         { this.isBlocked() && <LockIcon /> }
         { this.checkInstance() && <IconButton
           className="fa fa-ellipsis-v"

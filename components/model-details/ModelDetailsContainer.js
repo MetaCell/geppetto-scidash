@@ -20,6 +20,7 @@ const mapStateToProps = (state, ownProps) => {
     instanceName: helper.noneIfEmptyArray(ownProps.model.get("name")),
     instanceSource: helper.noneIfEmptyArray(ownProps.model.get("url")),
     runParameters: helper.noneIfEmptyMap(ownProps.model.get("run_params")),
+    modelClassDescription: ownProps.model.get("model_class").get("tooltip"),
     modelTags: modelTags
   };
 };

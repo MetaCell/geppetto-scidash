@@ -29,10 +29,10 @@ export default function scidashModels (state = {}, action){
     newState = { ...dateFilterChanged(state, action) };
     break;
   case FILTERING_MODELS_STARTED:
-    newState = { ...filteringModelsStarted(state, action) };
+    newState = { ...filteringModelsStarted(state, action), showLoading: true };
     break;
   case FILTERING_MODELS_FINISHED:
-    newState = { ...filteringModelsFinished(state, action) };
+    newState = { ...filteringModelsFinished(state, action), showLoading: false };
     break;
   case MODEL_CREATE_FINISHED:
     newState = { ...modelCreateFinished(state, action) };

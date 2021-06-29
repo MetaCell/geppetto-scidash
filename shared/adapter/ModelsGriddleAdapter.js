@@ -21,7 +21,7 @@ export default class ModelsGriddleAdapter extends BaseAdapter {
         id: model.id,
         scheduler_id: `${model.id}-model`,
         name: model.name,
-        class: model.model_class.class_name,
+        class: model.model_class,
         tags: model.tags.map(item => item.name),
         source: model.url,
         owner: model.owner.username,

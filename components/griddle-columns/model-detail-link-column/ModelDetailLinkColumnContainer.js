@@ -15,6 +15,7 @@ const mapStateToProps = (state, ownProps) => {
     className: className,
     instanceName: modelInstanceObject.get("name"),
     modelInstance: modelInstanceObject,
+    tooltip: modelClass ? modelClass.get("tooltip") : ""
   }
 }
 

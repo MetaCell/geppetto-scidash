@@ -87,7 +87,7 @@ export default class TestForm extends React.Component {
     let blockedWarning = <div style={{ fontSize: '18px' }}>
       <p>
         <i className="fa fa-lock" style={{ fontSize: '25px' }}/> &nbsp;
-                              This model instance is locked because it has already a score
+                              This test instance is locked because it has already a score
                               associated to it, only tags can be edited.
                               Clone from the grid view to create a different instance.
       </p>

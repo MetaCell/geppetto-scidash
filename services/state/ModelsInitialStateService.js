@@ -20,6 +20,7 @@ export default class ModelsInitialStateService extends BaseInitialStateService {
           timestamp: " "
         }
       ],
+      showLoading: false,
       autoCompleteData:{ name: [], class: [], tags: [], owner: [] }
     }
 

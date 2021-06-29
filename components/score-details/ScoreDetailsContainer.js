@@ -54,6 +54,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     scoreClassName: helper.noneIfEmptyString(ownProps.score.get("test_instance").get("test_class").get("class_name")),
     testClassName: helper.noneIfEmptyString(ownProps.score.get("test_instance").get("test_class").get("class_name")),
+    testClassDescription: ownProps.score.get("test_instance").get("test_class").get("tooltip"),
     score: score,
     scoreType: scoreType,
     hostname: helper.noneIfEmptyString(ownProps.score.get("test_instance").get("hostname")),

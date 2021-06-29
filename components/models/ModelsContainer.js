@@ -73,7 +73,7 @@ const mapStateToProps = state => ({
     id: "_timestamp",
     sortAscending: false
   }],
-  showLoading: state.scores.showLoading,
+  showLoading: state.models.showLoading,
   user: state.user,
   scores: state.scores.data,
   modelClasses: state.modelClasses.data

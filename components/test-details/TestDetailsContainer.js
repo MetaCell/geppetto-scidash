@@ -16,6 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     testClassName: helper.noneIfEmptyString(ownProps.testInstance.get("test_class").get("class_name")),
+    testClassDescription: ownProps.testInstance.get("test_class").get("tooltip"),
     buildInfo: helper.parseBuildInfo(ownProps.testInstance.get("build_info")),
     observation: helper.noneIfEmptyMap(ownProps.testInstance.get("observation")),
     testTags: testTags,
