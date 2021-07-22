@@ -93,7 +93,6 @@ export default class DDList extends React.Component {
 
   render () {
     const { data, choosedTests, choosedModels, addTest, addModel, removeTest, removeModel, onDrop } = this.props;
-
     return (
       <div className="scrolling">
         <div className="scrolling2">
@@ -133,7 +132,7 @@ export default class DDList extends React.Component {
                 >
                   <ListItem
                     primaryText={dataItem.name}
-                    secondaryText={dataItem.class}
+                    secondaryText={dataItem.class.class_name}
                     id={dataItem.name}
                     firstActionClass="fa fa-info"
                     secondActionClass="fa fa-chevron-right"
@@ -169,7 +168,7 @@ export default class DDList extends React.Component {
                 <ListItem
                   key={test.scheduler_id}
                   primaryText={test.name}
-                  secondaryText={test.class}
+                  secondaryText={test.class.class_name}
                   firstActionClass="fa fa-info"
                   secondActionClass="fa fa-trash-o"
                   firstAction={() => {
@@ -206,7 +205,7 @@ export default class DDList extends React.Component {
                 <ListItem
                   key={model.scheduler_id}
                   primaryText={model.name}
-                  secondaryText={model.class}
+                  secondaryText={model.class.class_name}
                   firstActionClass="fa fa-info"
                   secondActionClass="fa fa-trash-o"
                   firstAction={() => {
