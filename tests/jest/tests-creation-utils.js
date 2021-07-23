@@ -1,16 +1,17 @@
-import { wait4selector, click} from './utils';
+import { wait4selector, click, closeModalWindow} from './utils';
 
 export const newTestCreation = async (page, name, className, tag, newObservationSchema, secondObservationSchema, 
 		observationValueN, observationValueSTD, observationValueMean, parameterTMax, tableModelLength) => {
 	
 	it('Sidebar Component Opened, Tests Registration Option Present', async () => {
-		await click(page, 'button#hamMenu');
-		await wait4selector(page, 'li#hamMenuTests', { visible: true , timeout : 5000})
-	})
-
-	it('Tests Registration Page Opened, New Tests Registration Button Present', async () => {
-		await click(page, '#hamMenuTests');
-		await wait4selector(page, 'i.fa-plus', { visible: true , timeout : 5000 })
+	  await page.evaluate( () => {
+	    document.getElementById("hamMenu").click()
+	  });
+		 await page.waitFor(5000);
+		 await page.evaluate( () => {
+	    document.querySelector("#hamMenuTests").click()
+	  });
+		 await wait4selector(page, 'i.fa-plus', { visible: true , timeout : 5000 })
 	})
 
 	it('New Test Registration Form', async () => {

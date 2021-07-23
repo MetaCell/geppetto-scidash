@@ -49,12 +49,12 @@ export const modelOpenDialog = (page, name, className, modelURL) => {
 	});
 }
 
-export const addTestsAndModels = (page, test) => {
+export const addTestsAndModels = async (page, test) => {
 	it('Add Tests and Models', async () => {
 		await page.evaluate( (testName) => {
 			document.querySelectorAll("#"+testName+" button")[1].click()
 		}, test);
-		await wait4selector(page, '#'+test, { hidden: true, timeout : 5000 })
+		await page.waitFor(3000);
 	})
 }
 

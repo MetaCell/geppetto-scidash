@@ -2,8 +2,10 @@ import { wait4selector, click} from './utils';
 
 export const modelCreation = (page, newModelName, newModelURL, newModelClass, newModelTag, var1, var2) => {
 	it('Sidebar Component Opened, Models Option Present', async () => {
-		await click(page, 'button#hamMenu');
-		await wait4selector(page, 'li#hamMenuModels', { visible: true })
+		await page.evaluate( () => {
+		  document.getElementById("hamMenu").click()
+	 });
+		await wait4selector(page, 'li#hamMenuModels', { visible: true, timeout : 15000 })
 	})
 
 	it('Models Page Opened, New Model Button Present', async () => {
@@ -416,7 +418,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 			for(var i =0; i< tableRows.length; i++){
 			   if(tableRows[i].innerText ==var1){
 				   var parentDiv = document.querySelectorAll(".scidash-table td")[i+1];
-				   return parentDiv.querySelectorAll("span")[1].classList.contains("Mui-checked");
+				   return parentDiv?.querySelectorAll("span")[1]?.classList?.contains("Mui-checked");
 			   }
 			}
 			return false;
@@ -486,7 +488,7 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 		expect(modelClass).toEqual(editedModelClass);
 
 		const modelTag = await page.evaluate( () => {
-			return document.querySelectorAll(".chips span")[1].innerText;
+			return document.querySelectorAll(".chips span")[0].innerText;
 		});
 
 		expect(modelTag).toEqual(editedModelTag);
@@ -502,10 +504,12 @@ export const editModel = (page, editedModelName, editedModelClass, editedModelTa
 	
 	it('Test Edited Model Tag is updated in Models Page', async () => {
 		const modelTag = await page.evaluate( () => {
-			return document.querySelectorAll(".chips span")[1].innerText;
+			return document.querySelectorAll(".chips span")[0].innerText;
 		});
 
 		expect(modelTag).toEqual(editedModelTag);
+		
+		await page.waitFor(5000)
 	})
 }
 
