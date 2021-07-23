@@ -1,5 +1,6 @@
 import ScidashStorage from "../shared/ScidashStorage";
 import Config from "../shared/Config";
+import Helper from "../shared/Helper";
 
 export default class FilteringService {
 
@@ -23,17 +24,18 @@ export default class FilteringService {
     }
 
     setupFilter (key, value, namespace = Config.scoresNamespace, initial = false, writeToStorage = true){
-      if (Config.bannedFilters[namespace].includes(key)){
-        console.warn(`${key} is banned for namespace '${namespace}'`);
+      const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+      if (Config.bannedFilters[filter_ns].includes(key)){
+        console.warn(`${key} is banned for namespace '${filter_ns}'`);
         return this;
       }
 
-      if (namespace){
-
+      if (filter_ns){
+        let x = filter_ns + Config.namespaceDivider + key;
         if (initial) {
-          this.initialFilters[`${namespace}${Config.namespaceDivider}${key}`] = value;
+          this.initialFilters[x] = value;
         }
-        this.filters[`${namespace}${Config.namespaceDivider}${key}`] = value;
+        this.filters[x] = value;
       } else {
         if (initial) {
           this.initialFilters[key] = value;
@@ -48,26 +50,41 @@ export default class FilteringService {
       return this;
     }
 
-    restoreFromInitial (namespace){
-      for (let key of Object.keys(this.initialFilters)){
-        if (this.matchNamespace(key, namespace)){
-          this.filters[key] = this.initialFilters[key];
+    restoreFromInitial (namespace, key = null){
+      for (let k of Object.keys(this.initialFilters)){
+        if ((key === null) || (k === namespace + Config.namespaceDivider + key)){
+          const filter_ns = Helper.getNamespaceFromKey(k.split(Config.namespaceDivider)[1], namespace);
+          if (this.matchNamespace(k, filter_ns)){
+            this.filters[k] = this.initialFilters[k];
+          }
         }
       }
       return this;
     }
 
+    setFromGLobalFilters (dispatch) {
+      const globalFilterNames = ["owner", "timestamp_from", "timestamp_to"];
+      for (let index in globalFilterNames){
+        const filterName = globalFilterNames[index];
+        const filterValue = this.getFilter(filterName, Config.globalNamespace);
+        dispatch(filterValue, filterName);
+      }
+    }
+
     setupFilters (filters = {}, namespace = null, initial = false){
       for (let key of Object.keys(filters)){
-        this.setupFilter(key, filters[key], namespace, initial);
+        const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+        this.setupFilter(key, filters[key], filter_ns, initial);
       }
 
       return this;
     }
 
     deleteFilter (key, namespace = null){
-      if (namespace) {
-        delete this.filters[`${namespace}${Config.namespaceDivider}${key}`];
+      const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+
+      if (filter_ns) {
+        delete this.filters[`${filter_ns}${Config.namespaceDivider}${key}`];
       } else {
         delete this.filters[key];
       }
@@ -90,14 +107,19 @@ export default class FilteringService {
       let filters = new URLSearchParams(queryString);
       let parsedFilters = {};
 
+      this.clearFiltersByNamespace(namespace);
+      this.restoreFromInitial('global');
+
       for (let filter of filters){
         if (/^timestamp_/.test(filter)){
 
           let date = new Date(filter[1]);
 
-          if (Object.prototype.toString.call(date) === "[object Date]")
-          {if (!isNaN(date.getTime()))
-          {parsedFilters[filter[0]] = date.toISOString();}}
+          if (Object.prototype.toString.call(date) === "[object Date]") {
+            if (!isNaN(date.getTime())) {
+              parsedFilters[filter[0]] = date.toISOString();
+            }
+          }
         } else {
           parsedFilters[filter[0]] = filter[1];
         }
@@ -106,6 +128,16 @@ export default class FilteringService {
       this.setupFilters(parsedFilters, namespace);
 
       return this;
+    }
+
+    getQueryString (namespace = null) {
+      let globalFilters = "" + this.stringifyFilters(this.getFilters('global', true));
+      if (globalFilters && globalFilters.length > 0){
+        globalFilters = globalFilters + "&";
+      }
+      return (this.getFilters(namespace, true)
+        ? "?" + globalFilters + this.stringifyFilters(this.getFilters(namespace, true))
+        : "");
     }
 
     stringifyFilters (filters){
@@ -119,7 +151,8 @@ export default class FilteringService {
     }
 
     matchNamespace (key, namespace){
-      return new RegExp(`^${namespace}${Config.namespaceDivider}.+$`).test(key);
+      const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+      return new RegExp(`^${filter_ns}${Config.namespaceDivider}.+$`).test(key);
     }
 
     hasNamespace (filterName){
@@ -130,7 +163,8 @@ export default class FilteringService {
       let filterName = key;
 
       if (namespace){
-        filterName = `${namespace}${Config.namespaceDivider}${key}`;
+        const filter_ns = Helper.getNamespaceFromKey(key, namespace);
+        filterName = `${filter_ns}${Config.namespaceDivider}${key}`;
       }
 
       if (filterName in this.filters){

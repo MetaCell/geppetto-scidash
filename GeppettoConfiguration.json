@@ -1,0 +1,19 @@
+{
+  "_README" : "http://docs.geppetto.org/en/latest/build.html",
+  "contextPath": "/org.geppetto.frontend/",
+  "useSsl": false,
+  "embedded": false,
+  "embedderURL": ["/"],
+  "rootRedirect":"",
+  "noTest": false,
+  "themes": "css/colors",
+  "sentryDSN": "https://81d007aa741d46ada0741f1a4f1cfd1c@sentry.io/2069800",
+  "properties": {
+    "title": "SciDash",
+    "description": "SciDash is a project that enables the reproducible execution and visualization of data-driven unit test (SciUnit) for assessing model quality.",
+    "type": "website",
+    "url": "http://scidash.github.io/",
+    "icon": "http://scidash.github.io/assets/icons/favicon-32x32.png",
+    "image": "http://scidash.github.io/assets/scidash-text.png"
+  }
+}

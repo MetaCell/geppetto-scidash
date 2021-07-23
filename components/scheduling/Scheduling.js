@@ -1,14 +1,14 @@
 import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
-import Checkbox from "material-ui/Checkbox";
-import TextField from "material-ui/TextField";
-import { Redirect } from "react-router-dom";
-import DDListContainer from "./DDListContainer";
-import CompatibilityTable from "./CompatibilityTable";
-import SchedulingApiService from "../../services/api/SchedulingApiService";
 import Loader from "../loader/Loader";
+import Button from "@material-ui/core/Button";
+import DDListContainer from "./DDListContainer";
+import Checkbox from "@material-ui/core/Checkbox";
+import TextField from "@material-ui/core/TextField";
+import CompatibilityTable from "./CompatibilityTable";
 import PagesService from "../../services/PagesService";
-
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import SchedulingApiService from "../../services/api/SchedulingApiService";
+import ErrorDialog from "../error-dialog/ErrorDialog";
 
 class Scheduling extends React.Component {
 
@@ -25,9 +25,6 @@ class Scheduling extends React.Component {
 
     this.saveCompatible = this.saveCompatible.bind(this);
 
-  }
-
-  componentWillMount () {
     if (!this.props.user.isLogged) {
       this.props.notLoggedRedirect();
     }
@@ -38,29 +35,38 @@ class Scheduling extends React.Component {
   }
 
   async scheduleTests (matrix) {
-    this.setState({
-      showLoading: true
-    });
+    try {
+      this.setState({ showLoading: true });
 
-    let payload = {
-      suiteName: this.state.saveSuites ? this.state.suitesName : "",
-      matrix,
-    };
+      let payload = {
+        suiteName: this.state.saveSuites ? this.state.suitesName : "",
+        matrix,
+      };
 
-    let schedulingService = new SchedulingApiService();
+      let schedulingService = new SchedulingApiService();
 
-    schedulingService.clearCache(schedulingService.storage);
+      schedulingService.clearCache(schedulingService.storage);
 
-    let result = await schedulingService.create(payload);
+      let result = {};
+      try {
+        result = await schedulingService.create(payload);
+      } catch (e) {
+        this.props.onError (e)
+      }
 
-    this.setState({
-      showLoading: false,
-      scheduled: true
-    });
+      this.setState({
+        showLoading: false,
+        scheduled: true
+      });
 
-    this.props.clearScheduler();
+      this.props.clearScheduler();
 
-    return result;
+      return result;
+    } catch (error) {
+      this.setState(() => {
+        throw "scheduleTests threw error " + error
+      });
+    }
   }
 
   saveCompatible (csvMatrix) {
@@ -83,16 +89,14 @@ class Scheduling extends React.Component {
       for (const [index, test] of header.entries()) {
         let testId = test.split("#")[1];
 
-        if (row[index] == "TBD") {
+        if ((row[index] == "TBD") || (row[index] == "None")) {
           result[modelId].push(parseInt(testId));
         }
 
       }
     }
 
-    this.setState({
-      compatible: result
-    }, () => console.log(this.state.compatible));
+    this.setState({ compatible: result }, () => console.log(this.state.compatible));
 
     return result;
 
@@ -105,34 +109,45 @@ class Scheduling extends React.Component {
 
     let pagesService = new PagesService();
 
-    if (this.state.scheduled) return <Redirect to={pagesService.SCORES_PAGE} />;
+    if (this.state.scheduled) {
+      this.props.gotoScorePage();
+    }
 
     return (
       <span>
+        <ErrorDialog
+          onClearErrors={this.props.onClearErrors}
+          errors={this.props.errors}
+        />
+
         <DDListContainer />
 
 
-        {choosedModels.length > 0 && choosedTests.length > 0 ?
-          <span>
+        {choosedModels.length > 0 && choosedTests.length > 0
+          ? <span>
             <CompatibilityTable // renders a table with compatibility between selected tests and models
               tests={this.getItemByID(choosedTests)}
               models={this.getItemByID(choosedModels)}
               onFinish={this.saveCompatible}
+              onError={this.props.onError}
             />
             <div style={styles.saveContainer}>
-              <RaisedButton
+              <Button
+                id="run-tests"
+                variant="contained"
                 onClick={() => this.scheduleTests(this.state.compatible)}
               >
                 Run tests
-              </RaisedButton>
+              </Button>
             </div>
-            {saveSuites ?
-              <div style={styles.saveSubContainer}>
+            {saveSuites
+              ? <div style={styles.saveSubContainer}>
                 <TextField
                   value={suitesName}
+                  id="enter-name"
                   style={styles.saveRoot}
                   placeholder='Name the suites'
-                  floatingLabelText="Enter a name"
+                  label="Enter a name"
                   onChange={e => this.setState({ suitesName: e.target.value })}
                   onKeyPress={e => e.key === "Enter" ? () => { } : null}
                 />
@@ -140,11 +155,16 @@ class Scheduling extends React.Component {
               : null
             }
             <div style={styles.checkboxContainer}>
-              <Checkbox
-                checked={saveSuites}
-                label="Save as Suite"
-                style={styles.checkbox}
-                onClick={e => this.setState(oldState => ({ saveSuites: !oldState.saveSuites }))}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    id="save-as-suite"
+                    checked={saveSuites}
+                    onClick={e => this.setState(oldState => ({ saveSuites: !oldState.saveSuites }))}
+                    style={styles.checkbox}
+                  />
+                }
+                label="Save as suite"
               />
             </div>
           </span>
@@ -169,12 +189,11 @@ const styles = {
     marginTop: "0px",
     position: "relative"
   },
-  saveButton: {
-    display: "inline-block"
-  },
+  saveButton: { display: "inline-block" },
   saveRoot: {
     marginLeft: "10px",
-    width: "200px"
+    marginTop: "16px",
+    width: "250px"
   },
   checkboxContainer: {
     marginLeft: "auto",
@@ -184,7 +203,5 @@ const styles = {
     textAlign: "center",
     width: "160px"
   },
-  checkbox: {
-    marginLeft: "5px"
-  }
+  checkbox: { marginLeft: "5px" }
 };

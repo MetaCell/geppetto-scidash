@@ -33,8 +33,7 @@ const mapDispatchToProps = dispatch => ({
         return 0;
       } else if (original > newRecord) {
         return sortAscending ? 1 : -1;
-      }
-      else {
+      } else {
         return sortAscending ? -1 : 1;
       }
     }),

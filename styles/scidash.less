@@ -1,4 +1,7 @@
 @import "colors";
+html {
+    font-size: 16px;
+}
 body {
     background: #ada996;
     /* fallback for old browsers */
@@ -6,6 +9,7 @@ body {
     /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to top, #ada996, #f2f2f2, #dbdbdb, #eaeaea);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    font-size: 16px;
 }
 
 .mainContainer {
@@ -24,6 +28,7 @@ body {
     bottom: 60px;
     z-index: 100 !important;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #header {
@@ -108,6 +113,7 @@ body {
     margin-top: 20px !important;
     margin-left: 10px !important;
     border-radius: 25px !important;
+    z-index: 1;
     >svg {
         color: #757575 !important;
         margin-top: -4px !important;
@@ -117,6 +123,33 @@ body {
     &:hover {
         background-color: #BDBDBD !important;
     }
+}
+
+.MuiDrawer-root{
+    line-height: 48px;
+}
+
+.MuiMenuItem-root {
+    font-size: 1.2rem !important;
+    line-height: 36px !important;
+}
+
+.MuiFormControl-marginNormal {
+    margin: 0 !important;
+}
+
+.MuiButton-root {
+    text-transform: initial !important;
+    margin: 0 16px !important;
+    padding: 3px 16px !important;
+}
+
+.MuiChip-colorPrimary{
+    background-color: rgb(121, 85, 72) !important;
+}
+
+.MuiChip-colorSecondary{
+    background-color: rgb(239, 83, 80) !important;
 }
 
 .chips {
@@ -133,6 +166,12 @@ input {
     outline: none !important;
     border: none !important;
     box-shadow: none !important;
+}
+
+
+input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .uneditable-input {
+    line-height: 1.5rem !important;
+    font-size: 1rem !important;
 }
 
 .edit-clone-test {
@@ -214,7 +253,7 @@ input {
 .hideAll-column {
     /* Adjustments to column with hide all buttons*/
     th:last-child {
-        padding-left: 5px;
+        padding-left: 0px;
     }
 }
 
@@ -232,9 +271,6 @@ input {
 
 .scidash-materialui-field {
     float: right;
-    div {
-        display: none;
-    }
     input {
         box-shadow: none;
     }
@@ -274,7 +310,7 @@ input {
 /* Input fields adjustments */
 
 .scidash-materialui-field {
-    font-size: 13px !important;
+    font-size: initial !important;
     font-weight: normal !important;
     padding-left: 3px !important;
 }
@@ -290,7 +326,7 @@ input {
 }
 
 // /* Autosuggest adjustments */
-// span[role=menuitem]{
+// span[role=mdata:enuitem]{
 //     font-size: 13px !important;
 //     min-height: 30px !important;
 //     line-height: 30px !important;
@@ -359,6 +395,26 @@ div[role=menu] {
     font-size: 25px;
     display: block;
     cursor: pointer;
+}
+
+.btn-clear {
+  font-size: 0.75rem !important;
+  padding: 0 16px !important;
+}
+
+.plus-icon {
+    float: right;
+    border-radius: 40px;
+    width: 48px;
+    background-color: rgb(109, 76, 65);
+    font-size: 24px;
+    line-height: 48px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+.plus-icon:hover {
+  background-color: rgb(121, 85, 72)
 }
 
 .table .score-matrix-cell {
@@ -536,6 +592,7 @@ div[role=menu] {
         // border-radius: 25px;
         position: relative;
         .scrolling3 {
+            margin-top: 8px;
             width: 98%;
             height: 200px;
             overflow-y: auto; // border: 1px solid black;
@@ -587,15 +644,17 @@ div[role=menu] {
         .container {
             width: 100%;
             display: flex;
-            flex-flow: horizontal;
+            flex-direction: row;
             justify-content: space-around;
             align-items: center;
             .model-name {
                 flex: 3;
+                color: black !important;
             }
             .url {
                 margin-left: 15px;
                 flex: 9;
+                color: black !important;
             }
             .icons {
                 flex: 1;
@@ -629,7 +688,7 @@ div[role=menu] {
             width: 100%;
             display: flex;
             justify-content: flex-start;
-            flex-flow: horizontal;
+            flex-direction: row;
             align-items: center;
         }
         .item {
@@ -653,7 +712,11 @@ div[role=menu] {
     }
 }
 
-.userButton {
+.user-info-card {
+    max-width: 480px;
+}
+
+.user-button {
 	span{
 	    font-size : 15px !important;
 	    color : white !important;
@@ -663,23 +726,24 @@ div[role=menu] {
 	width : 96px;
 }
 
-.loginButton {
+.login-button {
 	a{
 		background-color : #37474f !important;
 	}
 }
 
-.loggedIcon{
+.logged-icon{
     left: 10px;
+    font-size: 2em;
 }
 
-.signUpButton {
+.signup-button {
 	a{
 		background-color : #37474f !important;
 	}
 }
 
-.logoutButton {
+.logout-button {
 	a{
 		background-color : lightgrey !important;
 	}
@@ -687,6 +751,7 @@ div[role=menu] {
 
 .drawer-icon{
     font-size: 30px;
+    margin-right: 30px;
 }
 
 .scidash-table-filter{
@@ -702,7 +767,8 @@ div[role=menu] {
 
 #testFormSelectClass,
 #modelFormSelectClass {
-    margin-top: 28px !important;
+    margin-top: 12px !important;
+    color: black !important;
 }
 
 .timeStampCss {
@@ -721,4 +787,29 @@ div[role=menu] {
     text-align: right;
 }
 
+#show-all-button {
+    margin-left: 0 !important;
+}
 
+.dialogTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.dialogText {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+}
+
+.cardTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 19px;
+}
+
+.errorAlertDiv {
+    word-break: break-word;
+}
+
+.right {
+    float: right;
+}

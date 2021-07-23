@@ -34,11 +34,12 @@ export default class ModelsGriddleAdapter extends BaseAdapter {
       });
     }
 
-    if (modelsData.length == 0)
-    {modelsData = new InitialStateService()
-      .getInitialStateTemplate()
-      .models
-      .data;}
+    if (modelsData.length == 0) {
+      modelsData = new InitialStateService()
+        .getInitialStateTemplate()
+        .models
+        .data;
+    }
 
     return modelsData;
 

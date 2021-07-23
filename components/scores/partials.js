@@ -3,7 +3,7 @@ import $ from "jquery";
 import Helper from "../../shared/Helper";
 
 const CustomScoreName = ({ value }) => (
-  <div style={{ paddingRight: "20px" }}>{value}</div>
+  <div style={{ paddingRight: "20px" }}>{value.get("test_class").get("class_name")}</div>
 );
 
 class StatusIconColumn extends React.Component {
@@ -14,32 +14,39 @@ class StatusIconColumn extends React.Component {
   }
 
   componentDidMount () {
-    if (this.props.value != " ") $(".build-info-cell").tooltip();
+    if (this.props.value != " ") {
+      $(".build-info-cell").tooltip();
+    }
   }
 
   render () {
     let statusIcon = undefined;
     switch (this.props.value) {
-    case "Calculated":
-      statusIcon = <i className="fa fa-check" style={{ fontSize: "18px" }} />;
+    case "Calculated": {
+      statusIcon = <i className="fa fa-check" style={ { fontSize: "18px", marginLeft: "25px" } }/>;
       break;
-    case "Scheduled":
+    }
+    case "Scheduled": {
       statusIcon = (
-        <i className="fa fa-clock-o" style={{ fontSize: "18px" }} />
+        <i className="fa fa-clock-o" style={ { fontSize: "18px", marginLeft: "25px" } }/>
       );
       break;
-    case "Locked":
-      statusIcon = <i className="fa fa-lock" style={{ fontSize: "18px" }} />;
+    }
+    case "Locked": {
+      statusIcon = <i className="fa fa-lock" style={ { fontSize: "18px", marginLeft: "25px" } }/>;
       break;
-    case "Failed":
-      statusIcon = <i className="fa fa-times" style={{ fontSize: "18px" }} />;
+    }
+    case "Failed": {
+      statusIcon = <i className="fa fa-times" style={ { fontSize: "18px", marginLeft: "25px" } }/>;
       break;
-    default:
+    }
+    default: {
       if (this.props.value !== undefined && this.props.value !== "") {
         statusIcon = (
-          <i className="fa fa-question" style={{ fontSize: "18px" }} />
+          <i className="fa fa-question" style={ { fontSize: "18px", marginLeft: "25px" } }/>
         );
       }
+    }
     }
 
     return <div title={this.props.value}>{statusIcon}</div>;
@@ -54,7 +61,9 @@ class ScidashBuildInfoColumn extends React.Component {
   }
 
   componentDidMount () {
-    if (this.props.value != " ") $(".build-info-cell").tooltip();
+    if (this.props.value != " ") {
+      $(".build-info-cell").tooltip();
+    }
   }
 
   render () {
@@ -76,7 +85,9 @@ class ScidashTimestampColumn extends React.Component {
   }
 
   componentDidMount () {
-    if (this.props.value != " ") $(".timestamp-cell").tooltip();
+    if (this.props.value != " ") {
+      $(".timestamp-cell").tooltip();
+    }
   }
 
   render () {

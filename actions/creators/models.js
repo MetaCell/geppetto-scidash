@@ -6,6 +6,7 @@ import { changePage, changePageWithParams } from "./header";
 import PagesService from "../../services/PagesService";
 import ModelInstance from "../../models/ModelInstance";
 import ModelCloneApiService from "../../services/api/ModelCloneApiService";
+import { error } from "./global";
 
 export const FILTERING_MODELS_STARTED = "FILTERING_MODELS_STARTED";
 export const FILTERING_MODELS_FINISHED = "FILTERING_MODELS_FINISHED";
@@ -20,9 +21,7 @@ export const MODEL_EDIT_STARTED = "MODEL_EDIT_STARTED";
 export const MODEL_EDIT_FINISHED = "MODEL_EDIT_FINISHED";
 
 export function dateFilterChanged (){
-  return {
-    type: DATE_FILTER_CHANGED
-  };
+  return { type: DATE_FILTER_CHANGED };
 }
 
 export function clearDateFilter (filter, dispatch){
@@ -43,25 +42,22 @@ export function filteringModelsFinished (models){
 export function filteringModelsStarted (searchText, filterName, dispatch){
   let apiService = new ModelsApiService();
   let filteringService = FilteringService.getInstance();
+  const namespace = Config.modelInstancesNamespace;
 
-  if (searchText.length > 0) {
-    filteringService.setupFilter(filterName, searchText, Config.modelInstancesNamespace);
-  }
-  else {
-    filteringService.deleteFilter(filterName, Config.modelInstancesNamespace);
+
+  if (searchText && searchText.length > 0) {
+    filteringService.setupFilter(filterName, searchText, namespace);
+  } else {
+    filteringService.deleteFilter(filterName, namespace);
   }
 
   filteringService.deleteFilter("with_suites");
 
-  apiService.getList(false, Config.modelInstancesNamespace).then(result => {
-
-    let filters = filteringService.getFilters(Config.modelInstancesNamespace);
-    let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "";
-    window.history.pushState("", "", `${location.pathname}` + filterString);
+  apiService.getList(false, namespace).then(result => {
+    window.history.pushState("", "", `${location.pathname}` + filteringService.getQueryString (namespace));
 
     let uniqueResults = [];
-    result.map((item, index) =>
-    {
+    result.map((item, index) => {
       let flag = true;
       for (let j = 0; j < uniqueResults.length; j++) {
         if (item.id === uniqueResults[j].id) {
@@ -77,9 +73,7 @@ export function filteringModelsStarted (searchText, filterName, dispatch){
     dispatch(filteringModelsFinished(uniqueResults));
   });
 
-  return {
-    type: FILTERING_MODELS_STARTED
-  };
+  return { type: FILTERING_MODELS_STARTED };
 }
 
 function modelCreateFinished (result, dispatch){
@@ -92,38 +86,40 @@ function modelCreateFinished (result, dispatch){
 }
 
 export function modelCreateStarted (model, dispatch){
-  let apiService = new ModelsApiService();
-  let copiedModel = Object.assign({}, model);
-  copiedModel.hash_id = new Helper().generateHashId(copiedModel);
+  try {
+    let apiService = new ModelsApiService();
+    let copiedModel = Object.assign({}, model);
+    copiedModel.hash_id = new Helper().generateHashId(copiedModel);
 
-  let d = new Date();
-  copiedModel.timestamp =
-    d.getFullYear() +
-    "-" +
-    ("0" + (d.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + d.getDate()).slice(-2) +
-    "T" +
-    d.getHours() +
-    ":" +
-    d.getMinutes();
-  let tagObjects = [];
+    let d = new Date();
+    copiedModel.timestamp
+      = d.getFullYear()
+      + "-"
+      + ("0" + (d.getMonth() + 1)).slice(-2)
+      + "-"
+      + ("0" + d.getDate()).slice(-2)
+      + "T"
+      + d.getHours()
+      + ":"
+      + d.getMinutes();
+    let tagObjects = [];
 
-  for (let tag of copiedModel.tags){
-    tagObjects.push({
-      name: tag
+    for (let tag of copiedModel.tags){
+      tagObjects.push({ name: tag });
+    }
+
+    copiedModel.tags = tagObjects;
+
+    apiService.create(copiedModel, errorMessage => dispatch(error( errorMessage))).then(result => result.json()).then(result => {
+      dispatch(modelCreateFinished(result, dispatch));
+    });
+
+    return { type: MODEL_CREATE_STARTED };
+  } catch (error) {
+    this.setState(() => {
+      throw "modelCreateStarted threw error " + error
     });
   }
-
-  copiedModel.tags = tagObjects;
-
-  apiService.create(copiedModel).then(result => result.json()).then(result => {
-    dispatch(modelCreateFinished(result, dispatch));
-  });
-
-  return {
-    type: MODEL_CREATE_STARTED
-  };
 }
 
 export function cloneModelFinished (model){
@@ -142,9 +138,7 @@ export function cloneModel (testId, dispatch){
       dispatch(cloneModelFinished(new ModelInstance(result)));
     });
 
-  return {
-    type: MODEL_CLONE_STARTED
-  };
+  return { type: MODEL_CLONE_STARTED };
 
 }
 
@@ -162,9 +156,7 @@ export function startEditModel (modelId, dispatch){
     dispatch(changePageWithParams(new PagesService().MODELS_EDIT_PAGE, { "model": result }, dispatch));
   });
 
-  return {
-    type: MODEL_EDIT_REDIRECT
-  };
+  return { type: MODEL_EDIT_REDIRECT };
 }
 
 export function editModel (model, dispatch){
@@ -175,9 +167,7 @@ export function editModel (model, dispatch){
   let tagObjects = [];
 
   for (let tag of model.tags){
-    tagObjects.push({
-      name: tag
-    });
+    tagObjects.push({ name: tag });
   }
 
   model.tags = tagObjects;
@@ -186,9 +176,7 @@ export function editModel (model, dispatch){
     dispatch(editModelFinished(result, dispatch));
   });
 
-  return {
-    type: MODEL_EDIT_STARTED
-  };
+  return { type: MODEL_EDIT_STARTED };
 
 }
 

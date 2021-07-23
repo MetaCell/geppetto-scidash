@@ -1,6 +1,6 @@
 import React from "react";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import Config from "../../shared/Config";
 
 const SelectCell = ({
@@ -16,36 +16,23 @@ const SelectCell = ({
       {title}
       {icon}
     </p>
-    <SelectField
+    <Select
       value={value}
-      underlineStyle={{ borderBottom: "1px solid #ccc", bottom: "0px" }}
       style={styleDefault}
-      iconStyle={styles.firstLine.icon}
-      labelStyle={{
-        fontWeight: "normal",
-        fontSize: "12px",
-        top: "-14px"
-      }}
-      menuStyle={{
-        width: "105px"
-      }}
-      menuItemStyle={{
-        fontSize: "12px"
-      }}
       onClick={event => {
         event.stopPropagation();
       }}
-      onChange={(event, key, value) => onFilterUpdate(value, filterName)}
+      onChange={event => onFilterUpdate(event.target.value, filterName)}
     >
-      <MenuItem value="" primaryText="All" />
+      <MenuItem value="">
+          All
+      </MenuItem>
       {Object.keys(Config.scoreStatusMap).map((value, index) => (
-        <MenuItem
-          value={value}
-          key={value}
-          primaryText={Config.scoreStatusMap[value]}
-        />
+        <MenuItem value={value} key={value}>
+          {Config.scoreStatusMap[value]}
+        </MenuItem>
       ))}
-    </SelectField>
+    </Select>
   </span>
 );
 

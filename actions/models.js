@@ -3,28 +3,28 @@ import ModelsGriddleAdapter from "../shared/adapter/ModelsGriddleAdapter";
 import FilteringService from "../services/FilteringService";
 import Config from "../shared/Config";
 import ApiService from "../services/api/ApiService";
+import ModelsAutocompleteAdapter from "../shared/adapter/ModelsAutocompleteAdapter";
 
 
 export function filteringModelsStarted (state, action){
 
   $(".griddle-page-select").hide();
 
-  let newState = {
-    ...state
-  };
+  let newState = { ...state };
 
   return newState;
 }
 
 export function filteringModelsFinished (state, action){
 
-  let adapter = new ModelsGriddleAdapter(action.models);
+  let data = new ModelsGriddleAdapter(action.models).getGriddleData();
 
   $(".griddle-page-select").show();
 
   let newState = {
     ...state,
-    data: adapter.getGriddleData()
+    data: data,
+    autoCompleteData: new ModelsAutocompleteAdapter(data).getAutocompleteData()
   };
 
   return newState;
@@ -40,9 +40,10 @@ export function dateFilterChanged (state, action){
 export function dateFilterClear (state, action){
   let filteringService = FilteringService.getInstance();
 
-  filteringService.restoreFromInitial(Config.modelInstancesNamespace);
+  filteringService.restoreFromInitial(Config.globalNamespace, 'timestamp_from');
+  filteringService.restoreFromInitial(Config.globalNamespace, 'timestamp_to');
 
-  for (let entry of Object.entries(filteringService.getFilters(Config.modelInstancesNamespace))){
+  for (let entry of Object.entries(filteringService.getFilters(Config.globalNamespace))){
     action.filter(entry[1], entry[0], action.dispatch, true);
   }
 
@@ -65,9 +66,7 @@ export function modelCreateFinished (state, action){
     ...state.data
   ];
 
-  return {
-    ...state
-  };
+  return { ...state };
 }
 
 export function modelCloneFinished (state, action){
@@ -82,9 +81,7 @@ export function modelCloneFinished (state, action){
     ...state.data
   ];
 
-  return {
-    ...state
-  };
+  return { ...state };
 }
 
 export function modelEditFinished (state, action){
@@ -95,14 +92,14 @@ export function modelEditFinished (state, action){
   apiService.clearCache(apiService.storage);
 
   var index = undefined;
-  for(let i = 0; i < state.data.length; i++) {
-    if(state.data[i].id === adopted[0].id) {
+  for (let i = 0; i < state.data.length; i++) {
+    if (state.data[i].id === adopted[0].id) {
       index = i;
       break;
     }
   }
 
-  if(index === undefined) {
+  if (index === undefined) {
     state.data = [
       ...adopted,
       ...state.data
@@ -115,7 +112,5 @@ export function modelEditFinished (state, action){
     ];
   }
 
-  return {
-    ...state
-  };
+  return { ...state };
 }

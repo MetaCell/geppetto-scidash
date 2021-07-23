@@ -1,32 +1,28 @@
 import React from "react";
-import Divider from "material-ui/Divider";
-import SvgIcon from "material-ui/SvgIcon";
-import TextField from "material-ui/TextField";
-import IconButton from "material-ui/IconButton";
+import Divider from "@material-ui/core/Divider";
+import SvgIcon from "@material-ui/core/SvgIcon";
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
 import { Draggable, Droppable } from "react-drag-and-drop";
-import { brown500, blue500, grey400, grey600, brown200, brown100, blue200, blue100 } from "material-ui/styles/colors";
+import { grey, brown, blue } from "@material-ui/core/colors";
 import { TestIcon, ModelsIcon } from "../../assets/CustomIcons";
 import InfoDialog from "../info-dialog/InfoDialog";
 import Config from "../../shared/Config";
 
 const styles = {
-  header: {
-    position: "relative", left: "20px", top: "9px", color: "black"
-  },
-  divider: {
-    marginTop: "12px"
-  }
+  header: { position: "relative", left: "20px", top: "9px", color: "black" },
+  divider: { marginTop: "12px" }
 };
 
 const brownColors = {
-  start: brown200,
-  hover: brown100,
+  start: brown[200],
+  hover: brown[100],
   end: "inherit"
 };
 
 const blueColors = {
-  start: blue200,
-  hover: blue100,
+  start: blue[200],
+  hover: blue[100],
   end: "inherit"
 };
 // DONT USE UPPERCASE FOR DRAGGABLE NOT DROPPABLE TYPES
@@ -52,8 +48,7 @@ export default class DDList extends React.Component {
     if (action == "start") {
       if (type == "tests") {
         this.setState({ testsBGC: brownColors.start, dragging: type });
-      }
-      else {
+      } else {
         this.setState({ modelsBGC: blueColors.start, dragging: type });
       }
     } else if (action == "end") {
@@ -67,8 +62,7 @@ export default class DDList extends React.Component {
     } else if (action == "leave") {
       if (type == "tests" && this.state.dragging == "tests") {
         this.setState({ testsBGC: brownColors.start });
-      }
-      else if (type == "models" && this.state.dragging == "models") {
+      } else if (type == "models" && this.state.dragging == "models") {
         this.setState({ modelsBGC: blueColors.start });
       }
     }
@@ -104,23 +98,24 @@ export default class DDList extends React.Component {
       <div className="scrolling">
         <div className="scrolling2">
           <TextField
-            floatingLabelText="Search"
+            label="Search"
             value={this.state.searchable}
-            underlineStyle={{ borderBottom: "1px solid grey" }}
+            style={{ marginTop: "16px" }}
             onChange={(e, value) => this.setState({ searchable: value })}
           />
           <div className="scrolling3">
             {data
               .filter(
                 item =>
-                  !choosedModels.includes(item.scheduler_id) &&
-                  !choosedTests.includes(item.scheduler_id) &&
-                  this.isSearchable(item) &&
-                  !item.tags.includes(Config.noImportTag)
+                  !choosedModels.includes(item.scheduler_id)
+                  && !choosedTests.includes(item.scheduler_id)
+                  && this.isSearchable(item)
+                  && !item.tags.includes(Config.noImportTag)
               )
               .map(dataItem => (
                 <Draggable
                   key={dataItem.scheduler_id}
+                  id={dataItem.name}
                   data={dataItem.scheduler_id}
                   type={!dataItem.source ? "tests" : "models"}
                   onDragEnd={() =>
@@ -139,6 +134,7 @@ export default class DDList extends React.Component {
                   <ListItem
                     primaryText={dataItem.name}
                     secondaryText={dataItem.class}
+                    id={dataItem.name}
                     firstActionClass="fa fa-info"
                     secondActionClass="fa fa-chevron-right"
                     firstAction={() => {
@@ -150,7 +146,7 @@ export default class DDList extends React.Component {
                         : addModel(dataItem.scheduler_id);
                     }}
                     leftIconSVG={!dataItem.source ? TestIcon : ModelsIcon}
-                    leftIconColor={!dataItem.source ? brown500 : blue500}
+                    leftIconColor={!dataItem.source ? brown[500] : blue[500]}
                   />
                 </Draggable>
               ))}
@@ -182,7 +178,7 @@ export default class DDList extends React.Component {
                   secondAction={() => {
                     removeTest(test.scheduler_id);
                   }}
-                  leftIconColor={brown500}
+                  leftIconColor={brown[500]}
                   leftIconSVG={TestIcon}
                 />
               ))}
@@ -217,7 +213,7 @@ export default class DDList extends React.Component {
                     this.openDialog(model);
                   }}
                   secondAction={() => removeModel(model.scheduler_id)}
-                  leftIconColor={blue500}
+                  leftIconColor={blue[500]}
                   leftIconSVG={ModelsIcon}
                 />
               ))}
@@ -238,7 +234,7 @@ const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firs
 
   <div style={{ display: "flex", flexDirection: "row", justifyItems: "center", alignItems: "center", margin: "3px 8px 0px" }}>
     <span style={{ width: "40px", height: "40px", borderRadius: "40px", backgroundColor: leftIconColor, display: "flex", alignItems:"center", justifyContent:"center" }}>
-      <SvgIcon color="white" style={{ backgroundColor: leftIconColor }}>{leftIconSVG}</SvgIcon>
+      <SvgIcon style={{ color: "white", backgroundColor: leftIconColor }}>{leftIconSVG}</SvgIcon>
     </span>
 
     <span style={{ flex: 1, marginLeft: "10px", display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
@@ -248,18 +244,14 @@ const ListItem = ({ primaryText, secondaryText, leftIconSVG, leftIconColor, firs
 
     <IconButton
       style={{ borderRadius: "40px" }}
-      iconStyle={{ color: grey600 }}
       onClick={() => firstAction()}
-      hoveredStyle={{ backgroundColor: grey400 }}
-      iconClassName={firstActionClass}
+      className={firstActionClass}
     />
 
     <IconButton
       style={{ borderRadius: "40px" }}
-      iconStyle={{ color: grey600 }}
       onClick={scheduler_id => secondAction(scheduler_id)}
-      hoveredStyle={{ backgroundColor: grey400 }}
-      iconClassName={secondActionClass}
+      className={secondActionClass}
     />
   </div>
 );

@@ -4,9 +4,10 @@ import TestInstance from "../../models/TestInstance";
 import { editTest } from "../../actions/creators/tests";
 import { changePage } from "../../actions/creators/header";
 import PagesService from "../../services/PagesService";
+import { clearErrors } from "../../actions/creators/global";
 
-const mapStateToProps = state => ({
-  model: new TestInstance(state.router.location.state.test),
+const mapStateToProps = (state, ownProps) => ({
+  model: new TestInstance(ownProps.location.state.test),
   testClasses: state.testClasses.data,
   errors: state.global.errors,
   data: state.testInstances.data,
@@ -15,6 +16,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onSave: model => dispatch(editTest(model, dispatch)),
+  onClearErrors: () => dispatch(clearErrors()),
   onCancel: () => dispatch(changePage(new PagesService().TESTS_PAGE, dispatch))
 });
 

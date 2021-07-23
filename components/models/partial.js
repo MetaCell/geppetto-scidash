@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import Menu from "material-ui/Menu";
-import Chip from "material-ui/Chip";
-import Popover from "material-ui/Popover";
-import FontIcon from "material-ui/FontIcon";
-import MenuItem from "material-ui/MenuItem";
-import IconButton from "material-ui/IconButton";
-import { red400, brown500 } from "material-ui/styles/colors";
+import Menu from "@material-ui/core/Menu";
+import Chip from "@material-ui/core/Chip";
+import LockIcon from '@material-ui/icons/Lock';
+import CreateIcon from '@material-ui/icons/Create';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import MenuItem from "@material-ui/core/MenuItem";
+import IconButton from "@material-ui/core/IconButton";
+import { ListItemIcon, ListItemText } from "@material-ui/core";
 
 const styles = {
   anchorOrigin: {
@@ -21,9 +22,7 @@ const styles = {
 export class CustomMenu extends Component {
   constructor (props) {
     super(props);
-    this.state = {
-      anchorEl: null
-    };
+    this.state = { anchorEl: null };
 
     this.isBlocked = this.isBlocked.bind(this);
     this.checkInstance = this.checkInstance.bind(this);
@@ -45,8 +44,10 @@ export class CustomMenu extends Component {
       return value.id === instanceId;
     };
     let instance = this.props.data.find(checkInstance);
-    if (instance.tags.indexOf("deprecated") !== -1) {
-      return true;
+    if (instance != undefined) {
+      if (instance.tags.indexOf("deprecated") !== -1) {
+        return true;
+      }
     }
     return false;
   }
@@ -63,8 +64,10 @@ export class CustomMenu extends Component {
       return value.id === instanceId;
     };
     let instance = this.props.data.find(checkInstance);
-    if (instance.tags.indexOf("unschedulable") !== -1) {
-      return true;
+    if (instance != undefined) {
+      if (instance.tags.indexOf("unschedulable") !== -1) {
+        return true;
+      }
     }
     return false;
   }
@@ -87,8 +90,10 @@ export class CustomMenu extends Component {
         return value.id === instanceId;
       };
       let instance = this.props.data.find(checkInstance);
-      if (instance.owner === this.props.user.userObject.username) {
-        return false;
+      if (instance != undefined) {
+        if (instance.owner === this.props.user.userObject.username) {
+          return false;
+        }
       }
       return true;
     }
@@ -98,49 +103,47 @@ export class CustomMenu extends Component {
     const { anchorEl } = this.state;
     return (
       <span className="edit-clone-test">
-        {this.isBlocked() && <FontIcon className="fa fa-lock" />}
+        {this.isBlocked() && <LockIcon />}
         {this.checkInstance() && (
           <IconButton
-            iconClassName="fa fa-ellipsis-v"
+            className="fa fa-ellipsis-v"
             onClick={e => this.setState({ anchorEl: e.currentTarget })}
           />
         )}
 
-        <Popover
-          open={!!anchorEl}
+        <Menu
+          open={anchorEl != null}
           anchorEl={anchorEl}
-          anchorOrigin={styles.anchorOrigin}
-          targetOrigin={styles.targetOrigin}
-          onRequestClose={() => this.setState({ anchorEl: null })}
+          onClose={() => this.setState({ anchorEl: null })}
         >
-          <Menu>
-            <MenuItem
-              primaryText="Edit"
-              onClick={() => {
-                if (this.checkUserRights()) {
-                  return false;
-                } else {
-                  this.props.edit(this.props.value.get("modelId"));
-                }
-              }}
-              leftIcon={<FontIcon className="fa fa-pencil-square-o" />}
-              disabled={this.checkUserRights()}
-            />
-            <MenuItem
-              primaryText="Clone"
-              onClick={() => {
-                if(this.isUnschedulable()) {
-                  return false;
-                } else {
-                  this.props.clone(this.props.value.get("modelId"))
-                }
+          <MenuItem
+            onClick={() => {
+              if (this.checkUserRights()) {
+                return false;
+              } else {
+                this.props.edit(this.props.value.get("modelId"));
+              }
+            }}
+            disabled={this.checkUserRights()}
+          >
+            <ListItemIcon>{<CreateIcon />}</ListItemIcon>
+            <ListItemText>Edit</ListItemText>
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              if (this.isUnschedulable()) {
+                return false;
+              } else {
+                this.props.clone(this.props.value.get("modelId"))
               }
             }
-              leftIcon={<FontIcon className="fa fa-clone" />}
-              disabled={this.isUnschedulable()}
-            />
-          </Menu>
-        </Popover>
+            }
+            disabled={this.isUnschedulable()}
+          >
+            <ListItemIcon>{<FileCopyIcon />}</ListItemIcon>
+            <ListItemText>Clone</ListItemText>
+          </MenuItem>
+        </Menu>
       </span>
     );
   }
@@ -150,12 +153,10 @@ export const CustomTagComponent = ({ value }) => (
   <span className="chips">
     {value.map((tag, i) => (
       <Chip
-        backgroundColor={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? red400 : brown500}
-        containerElement="span"
+        color={(tag.toLowerCase() === "deprecated" || tag.toLowerCase() === "unschedulable") ? "secondary" : "primary"}
         key={i}
-      >
-        {tag}
-      </Chip>
+        label={tag}
+      />
     ))}
   </span>
 );

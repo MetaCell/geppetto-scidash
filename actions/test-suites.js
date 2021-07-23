@@ -3,6 +3,7 @@ import TestSuitesGriddleAdapter from "../shared/adapter/TestSuitesGriddleAdapter
 import ScoreMatrixGriddleAdapter from "../shared/adapter/ScoreMatrixGriddleAdapter";
 import FilteringService from "../services/FilteringService";
 import Config from "../shared/Config";
+import TestSuitesAutocompleteAdapter from "../shared/adapter/TestSuitesAutocompleteAdapter";
 
 export function dateFilterChanged (state, action) {
   return {
@@ -14,9 +15,10 @@ export function dateFilterChanged (state, action) {
 export function dateFilterClear (state, action) {
   let filteringService = FilteringService.getInstance();
 
-  filteringService.restoreFromInitial(Config.suiteNamespace);
+  filteringService.restoreFromInitial(Config.globalNamespace, 'timestamp_from');
+  filteringService.restoreFromInitial(Config.globalNamespace, 'timestamp_to');
 
-  for (let entry of Object.entries(filteringService.getFilters(Config.suiteNamespace))) {
+  for (let entry of Object.entries(filteringService.getFilters(Config.globalNamespace))){
     action.filter(entry[1], entry[0], action.dispatch, true);
   }
 
@@ -30,23 +32,22 @@ export function filteringSuitesStarted (state, action) {
 
   $(".griddle-page-select").hide();
 
-  let newState = {
-    ...state
-  };
+  let newState = { ...state };
 
   return newState;
 }
 
 export function filteringSuitesFinished (state, action) {
 
-  let adapter = new TestSuitesGriddleAdapter(action.scores);
-  let scoreMatrixAdapter = new ScoreMatrixGriddleAdapter(action.scores);
+  let data = new TestSuitesGriddleAdapter(action.scores).getGriddleData();
+  let scoreMatrixAdapter = ScoreMatrixGriddleAdapter.getInstance(action.scores);
 
   $(".griddle-page-select").show();
 
   let newState = {
     ...state,
-    data: adapter.getGriddleData(),
+    data: data,
+    autoCompleteData: new TestSuitesAutocompleteAdapter(data).getAutocompleteData(),
     scoreMatrixTableDataList: scoreMatrixAdapter.getGriddleData(),
     scoreMatrixList: scoreMatrixAdapter.getScoreMatrix()
   };

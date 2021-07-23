@@ -1,84 +1,83 @@
 import React from 'react';
-import Dialog from 'material-ui/Dialog';
-import FontIcon from 'material-ui/FontIcon';
-import FlatButton from 'material-ui/FlatButton';
+import Dialog from '@material-ui/core/Dialog';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import Button from '@material-ui/core/Button';
 import ScreenShotHelper from '../../../shared/ScreenShotHelper';
 import ScoreMatrixContainer from '../../score-matrix/ScoreMatrixContainer';
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
 
 export default class ScidashSuiteNameLinkColumn extends React.Component {
-    constructor(props, context){
-        super(props, context)
-        this.props = props;
-        this.openScoreMatrix = this.openScoreMatrix.bind(this);
-        this.closeScoreMatrix = this.closeScoreMatrix.bind(this);
-        this.state = {
-            open: false
-        };
-        this.screenShotHelper = new ScreenShotHelper();
-    }
+  constructor (props, context){
+    super(props, context)
+    this.props = props;
+    this.openScoreMatrix = this.openScoreMatrix.bind(this);
+    this.closeScoreMatrix = this.closeScoreMatrix.bind(this);
+    this.state = { open: false };
+    this.screenShotHelper = new ScreenShotHelper();
+  }
 
-    openScoreMatrix(e){
-        e.preventDefault()
-        this.setState({
-            open:true
-        });
-    }
+  openScoreMatrix (e){
+    e.preventDefault()
+    this.setState({ open:true });
+  }
 
-    closeScoreMatrix(e){
-        e.preventDefault()
-        this.setState({
-            open:false
-        });
-    }
+  closeScoreMatrix (e){
+    e.preventDefault()
+    this.setState({ open:false });
+  }
 
-    render(){
-        const actions = [
-        <FlatButton
-            label="Save As Image"
-            primary={true}
-            icon={<FontIcon className="fa fa-camera"/>}
-            onClick={(e) => {this.screenShotHelper.takeScreenshot(e,"score_matrix_image",true)}}
-        />,
-        <FlatButton
-            label="Close"
-            primary={true}
-            onClick={this.closeScoreMatrix}
-        />
-        ];
+  render (){
+    const actions = [
+      <Button
+        key="snlcb-1"
+        variant="contained"
+        primary={true}
+        onClick={e => {
+          this.screenShotHelper.takeScreenshot(e,"score_matrix_image",true)
+        }}
+      ><CameraAltIcon/>Save As Image
+      </Button>,
+      <Button
+        key="snlcb-2"
+        variant="contained"
+        primary={true}
+        onClick={this.closeScoreMatrix}
+      >Close</Button>
+    ];
 
-        return (
-            <div>
-                <a
-                    onClick={this.openScoreMatrix}
-                    style={{
-                        cursor: "pointer",
-                        wordWrap: "break-word",
-                        paddingRight: "20px"
-                    }}
-                >{ this.props.value != " " && this.props.value.get("name") }</a>
-                <Dialog
-                    actions={actions}
-                    modal={true}
-                    autoScrollBodyContent={true}
-                    contentStyle={{
-                        width: "75%",
-                        maxWidth: "none"
-                    }}
-                    contentClassName="centered-modal"
-                    open={this.state.open}
-                >
-                    <ScoreMatrixContainer
-                        colorBlind={this.props.colorBlind}
-                        scoreMatrix={this.props.scoreMatrix}
-                        scoreMatrixTableData={this.props.scoreMatrixTableData}
-                        hiddenModels={this.props.hiddenModels}
-                        hideRow={this.props.hideRow}
-                        showAllModels={this.props.showAllModels}
-                    />
-                </Dialog>
-            </div>
-        );
-    }
+    return (
+      <div>
+        <a
+          onClick={this.openScoreMatrix}
+          style={{
+            cursor: "pointer",
+            wordWrap: "break-word",
+            paddingRight: "20px"
+          }}
+        >{ this.props.value != " " && this.props.value.get("name") }</a>
+        <Dialog
+          open={this.state.open}
+          maxWidth="xl"
+        >
+          <DialogContent>
+            <ScoreMatrixContainer
+              width="75%"
+              colorBlind={this.props.colorBlind}
+              scoreMatrix={this.props.scoreMatrix}
+              scoreMatrixTableData={this.props.scoreMatrixTableData}
+              hiddenModels={this.props.hiddenModels}
+              hideRow={this.props.hideRow}
+              showAllModels={this.props.showAllModels}
+            />
+          </DialogContent>
+          <DialogActions>
+            {actions}
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  }
 }
 
 

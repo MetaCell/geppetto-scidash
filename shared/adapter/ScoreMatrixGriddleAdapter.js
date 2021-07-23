@@ -1,4 +1,5 @@
 import BaseAdapter from "./BaseAdapter";
+import AdapterException from "./BaseAdapter";
 import InitialStateService from "../../services/InitialStateService";
 
 export default class ScoreMatrixGriddleAdapter extends BaseAdapter {
@@ -14,6 +15,8 @@ export default class ScoreMatrixGriddleAdapter extends BaseAdapter {
 
     if (this.instance === null) {
       this.instance = new this(rawScores);
+    } else if (rawScores){
+      this.instance.rawData = rawScores;
     }
 
     return this.instance;
@@ -76,7 +79,9 @@ export default class ScoreMatrixGriddleAdapter extends BaseAdapter {
 
       let biggestRow = new Map();
       for (let row of Object.values(scoreMatrix.rows)) {
-        if (row["info"].size > biggestRow.size) biggestRow = row["info"];
+        if (row["info"].size > biggestRow.size) {
+          biggestRow = row["info"];
+        }
       }
 
       if (biggestRow.size > 0) {
@@ -112,11 +117,13 @@ export default class ScoreMatrixGriddleAdapter extends BaseAdapter {
         let rowData = {};
 
         for (let heading of scoreMatrix.headings) {
-          if (heading.id != "modelInstanceName")
-          {rowData[heading.id] = scoreMatrix["rows"][key]["info"].get(
-            heading.id
-          );}
-          else rowData["modelInstanceName"] = scoreMatrix["rows"][key]["title"];
+          if (heading.id != "modelInstanceName") {
+            rowData[heading.id] = scoreMatrix["rows"][key]["info"].get(
+              heading.id
+            );
+          } else {
+            rowData["modelInstanceName"] = scoreMatrix["rows"][key]["title"];
+          }
         }
         rowData["hideButtons"] = key;
         tableData[hash].push(rowData);

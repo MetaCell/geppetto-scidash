@@ -1,3 +1,6 @@
+/* eslint-disable no-prototype-builtins */
+import Config from "./Config";
+
 export default class Helper {
   constructor () {}
 
@@ -5,9 +8,9 @@ export default class Helper {
     let isEmpty = false;
 
     if (
-      string === null ||
-      string === undefined ||
-      (string != undefined && string.length == 0)
+      string === null
+      || string === undefined
+      || (string != undefined && string.length == 0)
     ) {
       isEmpty = true;
     }
@@ -39,13 +42,13 @@ export default class Helper {
         }
 
         return (
-          "rgba(" +
-          decreasingValue +
-          ", " +
-          decreasingValue +
-          ", " +
-          growingValue +
-          ", 1)"
+          "rgba("
+          + decreasingValue
+          + ", "
+          + decreasingValue
+          + ", "
+          + growingValue
+          + ", 1)"
         );
       }
     }
@@ -73,7 +76,9 @@ export default class Helper {
     let hash = 0,
       i,
       chr;
-    if (string.length === 0) return hash;
+    if (string.length === 0) {
+      return hash;
+    }
     for (i = 0; i < string.length; i++) {
       chr = string.charCodeAt(i);
       hash = (hash << 5) - hash + chr;
@@ -134,5 +139,14 @@ export default class Helper {
       }
     }
     return true;
+  }
+
+  static getNamespaceFromKey (key, namespace) {
+    switch (key) {
+    case "owner": return Config.globalNamespace;
+    case "timestamp_from": return Config.globalNamespace;
+    case "timestamp_to": return Config.globalNamespace;
+    default: return namespace;
+    }
   }
 }

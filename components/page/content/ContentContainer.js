@@ -8,8 +8,7 @@ const mapStateToProps = state => ({
   createTestActive: state.header.createTestActive
 });
 
-const mapDispatchToProps = () => ({
-});
+const mapDispatchToProps = () => ({});
 
 const ScidashContainer = connect(
   mapStateToProps,

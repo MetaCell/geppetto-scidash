@@ -37,7 +37,6 @@ export default class ApiService {
       return JSON.parse(this.storage.getItem(key));
     }
 
-
     getList (cache = false, namespace = ""){
       let filteringS = FilteringService.getInstance();
 
@@ -45,7 +44,7 @@ export default class ApiService {
         throw new ApiServiceException("You should define API endpoint");
       }
 
-      let queryPath = this.endpoint + (filteringS.getFilters(namespace, true) ? "?" + filteringS.stringifyFilters(filteringS.getFilters(namespace, true)) : "");
+      let queryPath = this.endpoint + filteringS.getQueryString (namespace);
 
       if (this.storage.getItem(queryPath) && cache){
         return new Promise(resolve => {
@@ -66,7 +65,7 @@ export default class ApiService {
     }
 
 
-    create (model = null){
+    create (model = null, onErrorDispatch = null){
       if (this.endpoint === null){
         throw new ApiServiceException("You should define API endpoint");
       }
@@ -84,6 +83,22 @@ export default class ApiService {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(model)
+      }).then( data => {
+        if (data.status >= 400) {
+          const decoder = new TextDecoder('utf-8');
+          data.body
+            .getReader()
+            .read()
+            .then(( { value, done } ) => {
+              value = decoder.decode(value).replace("\n","<br/>");
+              const errorMessage = "Error: " + data.statusText;
+              if (onErrorDispatch !== null) {
+                onErrorDispatch(errorMessage + "<br/><br/>" + value);
+              }
+            });
+          throw data.statusText;
+        }
+        return data;
       });
     }
 

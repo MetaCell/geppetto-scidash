@@ -34,7 +34,7 @@ export default class ScoresGriddleAdapter extends BaseAdapter {
       });
 
       scoreData.push({
-        name: score.test_instance.test_class.class_name,
+        name: score.test_instance,
         score: score,
         score_type: (score.score_class !== null) ? score.score_class.class_name : "",
         _sort_key: score.sort_key,

@@ -1,5 +1,6 @@
 import PagesService from "../services/PagesService";
 
+const GLOBAL_NAMESPACE = "global";
 const SCORES_NAMESPACE = "scores";
 const SUITES_NAMESPACE = "suites";
 const TEST_INSTANCES_NAMESPACE = "testInstances";
@@ -30,6 +31,7 @@ Config.pageNamespaceMap[pagesService.TESTS_EDIT_PAGE] = TEST_EDIT_NAMESPACE;
 
 Config["cachableFilters"] = ["timestamp_from", "timestamp_to", "with_suites"];
 Config["namespaceDivider"] = ":";
+Config["globalNamespace"] = GLOBAL_NAMESPACE;
 Config["suitesNamespace"] = SUITES_NAMESPACE;
 Config["scoresNamespace"] = SCORES_NAMESPACE;
 Config["testInstancesNamespace"] = TEST_INSTANCES_NAMESPACE;
@@ -42,6 +44,7 @@ Config["testEditNamespace"] = TEST_EDIT_NAMESPACE;
 
 Config["bannedFilters"] = {};
 
+Config.bannedFilters[GLOBAL_NAMESPACE] = [];
 Config.bannedFilters[SUITES_NAMESPACE] = [];
 Config.bannedFilters[MODEL_INSTANCES_NAMESPACE] = ["with_suites"];
 Config.bannedFilters[MODEL_CREATE_NAMESPACE] = ["with_suites"];
@@ -53,9 +56,7 @@ Config.bannedFilters[MODEL_EDIT_NAMESPACE] = ["with_suites"];
 Config.bannedFilters[TEST_EDIT_NAMESPACE] = ["with_suites"];
 
 
-Config["testParametersUnitsMap"] = {
-  time: "s", voltage: "V", current: "A"
-};
+Config["testParametersUnitsMap"] = { time: "s", voltage: "V", current: "A" };
 
 Config["errorStatuses"] = [
   400, 500

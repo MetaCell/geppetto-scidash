@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import RaisedButton from "material-ui/RaisedButton";
+import Button from "@material-ui/core/Button";
 import TestSuites from "./TestSuites";
 import ScidashStorage from "../../shared/ScidashStorage";
 
@@ -27,17 +27,26 @@ const mapStateToProps = state => ({
   autoCompleteData: state.testSuites.autoCompleteData,
   griddleComponents: {
     Filter: () => null,
+    TableHeadingCellEnhancer: OriginalComponent =>
+      props => (
+        <OriginalComponent
+          {...props}
+          onClick={() => {}}
+        />
+      ),
     SettingsToggle: () => null,
     NextButton: props => {
       if (props.hasNext) {
         return (
-          <RaisedButton
-            label={props.text}
-            onClick={props.getNext}
-            style={{
-              marginLeft: "10px"
-            }}
-          />
+          <Button
+            variant="contained"
+            label={props.text} 
+            onClick={() => {
+              props.getNext();
+            }} 
+            style={{ marginLeft: "10px" }}>
+            {props.text}
+          </Button>
         );
       }
 
@@ -46,22 +55,22 @@ const mapStateToProps = state => ({
     PreviousButton: props => {
       if (props.hasPrevious) {
         return (
-          <RaisedButton
+          <Button
             label={props.text}
-            onClick={props.getPrevious}
-            style={{
-              marginRight: "10px"
-            }}
-          />
+            variant="contained"
+            onClick={() => {
+              props.getPrevious();
+            }} 
+            style={{ marginRight: "10px" }}>
+            {props.text}
+          </Button>
         );
       }
 
       return null;
     }
   },
-  pageProperties: {
-    currentPage: 1
-  },
+  pageProperties: { currentPage: 1 },
   showLoading: state.testSuites.showLoading,
   dateFilterChanged: state.testSuites.dateFilterChanged
 });
@@ -99,10 +108,10 @@ const mapDispatchToProps = dispatch => {
     },
     sortScore: (data, column, sortAscending = true) =>
       data.sort((original, newRecord) => {
-        original =
-          (!!original.get("_sort_key") && original.get("_sort_key")) || "";
-        newRecord =
-          (!!newRecord.get("_sort_key") && newRecord.get("_sort_key")) || "";
+        original
+          = (!!original.get("_sort_key") && original.get("_sort_key")) || "";
+        newRecord
+          = (!!newRecord.get("_sort_key") && newRecord.get("_sort_key")) || "";
 
         if (original === newRecord) {
           return 0;

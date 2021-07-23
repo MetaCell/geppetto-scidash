@@ -7,36 +7,28 @@ import {
   OPEN_TESTS_VIEW
 } from "../actions/creators/shared";
 
-import {
-  error
-} from "../actions/global";
-import {
-  ERROR
-} from "../actions/creators/global";
+import { error } from "../actions/global";
+import { clearErrors } from "../actions/global";
+import { ERROR, CLEAR_ERRORS } from "../actions/creators/global";
 
 export default function scidashGlobal (state = {}, action){
   let newState = null;
 
   switch (action.type){
   case OPEN_SUITES_VIEW:
-    newState = {
-      ...openSuitesView(state, action, "global")
-    };
+    newState = { ...openSuitesView(state, action, "global") };
     break;
   case OPEN_TESTS_VIEW:
-    newState = {
-      ...openTestsView(state, action, "global")
-    };
+    newState = { ...openTestsView(state, action, "global") };
     break;
   case ERROR:
-    newState = {
-      ...error(state, action)
-    };
+    newState = { ...error(state, action) };
+    break;
+  case CLEAR_ERRORS:
+    newState = { ...clearErrors(state, action) }
     break;
   default:
-    newState = {
-      ...state,
-    };
+    newState = { ...state, };
     break;
   }
 

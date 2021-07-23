@@ -6,8 +6,7 @@ export function addTestToScheduler (schedulerState, action){
       choosedTests: [ ...schedulerState.choosedTests, action.testID ]
     };
     return newState;
-  }
-  else {
+  } else {
     return { ...schedulerState };
   }
 }
@@ -30,8 +29,7 @@ export function addModelToScheduler (schedulerState, action){
       choosedModels: [ ...schedulerState.choosedModels, action.modelID ]
     };
     return newState;
-  }
-  else {
+  } else {
     return { ...schedulerState };
   }
 }

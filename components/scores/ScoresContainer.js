@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import RaisedButton from "material-ui/RaisedButton";
+import Button from "@material-ui/core/Button";
 import Scores from "./Scores";
 import ScidashStorage from "../../shared/ScidashStorage";
 import _ from 'lodash';
@@ -24,20 +24,28 @@ const mapStateToProps = state => ({
   autoCompleteData: state.scores.autoCompleteData,
   griddleComponents: {
     Filter: () => null,
+    TableHeadingCellEnhancer: OriginalComponent =>
+      props => (
+        <OriginalComponent
+          {...props}
+          onClick={() => {}}
+        />
+      ),
     SettingsToggle: () => null,
     NextButton: props => {
       if (props.hasNext) {
         return (
-          <RaisedButton
-            label={props.text} 
+          <Button
+            variant="contained"
+            id={"nextPage"}
+            label={props.text}
             onClick={() => {
               props.getNext();
-              window.scoreNextPage();
+              // window.scoreNextPage();
             }} 
-            style={{
-              marginLeft: "10px"
-            }}
-          />
+            style={{ marginLeft: "10px" }}>
+            {props.text}
+          </Button>
         );
       }
 
@@ -46,32 +54,35 @@ const mapStateToProps = state => ({
     PreviousButton: props => {
       if (props.hasPrevious) {
         return (
-          <RaisedButton
-            label={props.text} 
+          <Button
+            label={props.text}
+            variant="contained"
+            id={"previousPage"}
             onClick={() => {
               props.getPrevious();
               window.scorePreviousPage();
             }} 
-            style={{
-              marginRight: "10px"
-            }}
-          />
+            style={{ marginRight: "10px" }}>
+            {props.text}
+          </Button>
         );
       }
 
       return null;
     },
     PageDropdown: props => {
-      const getRange = (number) => {
-        if (!_.isFinite(number)) { return [0] }
+      const getRange = number => {
+        if (!_.isFinite(number)) {
+          return [0] 
+        }
         return Array(number).fill().map((_, i) => i + 1);
       };
       const { currentPage, maxPages } = props;
       return (
         <select
-          onChange={(e) => {
-            props.setPage(e);
-            window.setPage(e);
+          onChange={e => {
+            props.setPage(parseInt(e.target.value));
+            window.setPage(parseInt(e.target.value));
           }}
           value={currentPage}
           style={props.style}
@@ -80,14 +91,12 @@ const mapStateToProps = state => ({
           {getRange(maxPages)
             .map(num => (
               <option key={num} value={num}>{num}</option>
-          ))}
+            ))}
         </select>
       );
     }
   },
-  pageProperties: {
-    currentPage: 1
-  },
+  pageProperties: { currentPage: 1 },
   sortProperties: [{
     id: "_timestamp",
     sortAscending: false

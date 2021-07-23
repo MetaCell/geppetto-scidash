@@ -12,27 +12,19 @@ export const CHANGE_PAGE_WITH_PARAMS = "CHANGE_PAGE_WITH_PARAMS";
 
 
 export function toggleSettings (){
-  return {
-    type: TOGGLE_SETTINGS
-  };
+  return { type: TOGGLE_SETTINGS };
 }
 
 export function toggleColorBlind (){
-  return {
-    type: TOGGLE_COLOR_BLIND
-  };
+  return { type: TOGGLE_COLOR_BLIND };
 }
 
 export function hideSettings (){
-  return {
-    type: HIDE_SETTINGS
-  };
+  return { type: HIDE_SETTINGS };
 }
 
 export function toggleDrawer (){
-  return {
-    type: TOGGLE_DRAWER
-  };
+  return { type: TOGGLE_DRAWER };
 }
 
 export function changePage (page, dispatch){

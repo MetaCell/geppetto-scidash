@@ -1,9 +1,8 @@
-/* eslint-disable react/no-did-update-set-state */
 import React from "react";
 import Griddle, { RowDefinition, ColumnDefinition, plugins } from "griddle-react";
 import _ from "underscore";
-import FlatButton from "material-ui/FlatButton";
-import { enhancedWithRowData, ChooseVarComponent } from "./partials";
+import Button from "@material-ui/core/Button";
+import { ChooseVarComponent } from "./partials";
 import { TOGGLE_ALL, UNTOGGLE_ALL, ADDED, REMOVED } from "./events";
 
 export default class ParamsTable extends React.Component {
@@ -98,13 +97,14 @@ export default class ParamsTable extends React.Component {
     this.state.stateVariables.map(item => {
       tableData.push({
         name: item,
-        toggled: this.state.watchedVariables.includes(item)
+        toggled: {
+          status: this.state.watchedVariables.includes(item),
+          item: item
+        }
       });
     });
 
-    this.setState({
-      stateVariablesTableData: tableData
-    });
+    this.setState({ stateVariablesTableData: tableData });
   }
 
   convertToParamsTableData () {
@@ -122,9 +122,7 @@ export default class ParamsTable extends React.Component {
       });
     });
 
-    this.setState({
-      paramsTableData: tableData
-    });
+    this.setState({ paramsTableData: tableData });
   }
 
   render () {
@@ -148,11 +146,11 @@ export default class ParamsTable extends React.Component {
       NextButton: props => {
         if (props.hasNext) {
           return (
-            <FlatButton
-              label={props.text} onClick={props.getNext} style={{
-                marginLeft: "10px"
-              }}
-            />
+            <Button
+              label={props.text} onClick={props.getNext} style={{ marginLeft: "10px" }}
+            >
+              {props.text}
+            </Button>
           );
         }
 
@@ -162,11 +160,11 @@ export default class ParamsTable extends React.Component {
       PreviousButton: props => {
         if (props.hasPrevious) {
           return (
-            <FlatButton
-              label={props.text} onClick={props.getPrevious} style={{
-                marginRight: "10px"
-              }}
-            />
+            <Button
+              label={props.text} onClick={props.getPrevious} style={{ marginRight: "10px" }}
+            >
+              {props.text}
+            </Button>
           );
         }
 
@@ -202,18 +200,19 @@ export default class ParamsTable extends React.Component {
               title="Watch"
               id="toggled"
               headerCssClassName="toggleHeaderClass"
-              customComponent={enhancedWithRowData(
-                this.props.onCheck,
-                this.props.onUncheck,
-                this.props.disabled
-              )(
-                ChooseVarComponent
-              )}
+              customComponent={props => (
+                <ChooseVarComponent
+                  onCheck={this.props.onCheck}
+                  onUncheck={this.props.onUncheck}
+                  disabled={this.props.disabled}
+                  {...props}
+                />)}
             />
           </RowDefinition>
         </Griddle>
       </span>
     );
+
 
     let paramsTable = (
       <Griddle
@@ -250,44 +249,50 @@ export default class ParamsTable extends React.Component {
 
     return (
       <span>
-        <div>
-          <FlatButton
+        <div style={{ marginBottom: '10px' }}>
+          <Button
+            variant="contained"
             label="State Variables" onClick={() => this.setState({
               stateVariablesOpen: true,
               paramsOpen: false
-            })} style={{
-              margin: "10px 0 10px 0"
-            }}
-            backgroundColor={this.state.stateVariablesOpen ? "#ccc" : ""}
-          />
-          <FlatButton
+            })} style={{ margin: "10px 0 10px 0 !important", backgroundColor: this.state.stateVariablesOpen ? "#ccc" : "" }}
+          >
+            State Variables
+          </Button>
+          <Button
+            variant="contained"
             label="Parameters" onClick={() => this.setState({
               stateVariablesOpen: false,
               paramsOpen: true
-            })} style={{
-              margin: "10px 0 10px 0"
-            }}
-            backgroundColor={this.state.paramsOpen ? "#ccc" : ""}
-          />
-          {this.state.stateVariablesOpen &&
-            (
+            })} style={{ margin: "10px 0 10px 0 !important", backgroundColor: this.state.paramsOpen ? "#ccc" : "" }}
+          >
+            Parameters
+          </Button>
+          {this.state.stateVariablesOpen
+            && (
               <span>
-                <FlatButton
+                <Button
+                  variant="contained"
                   label="Untoggle all" style={{
-                    margin: "10px 0 10px 0",
+                    margin: "10px 0 10px 0 !important",
                     float: "right"
                   }}
                   disabled={this.props.disabled}
                   onClick={() => GEPPETTO.trigger(UNTOGGLE_ALL)}
-                />
-                <FlatButton
+                >
+                  Untoggle all
+                </Button>
+                <Button
+                  variant="contained"
                   label="Toggle all" style={{
-                    margin: "10px 0 10px 0",
+                    margin: "10px 0 10px 0 !important",
                     float: "right"
                   }}
                   disabled={this.props.disabled}
                   onClick={() => GEPPETTO.trigger(TOGGLE_ALL)}
-                />
+                >
+                    Toggle all
+                </Button>
               </span>
             )
           }

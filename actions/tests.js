@@ -3,28 +3,27 @@ import TestInstancesGriddleAdapter from "../shared/adapter/TestInstancesGriddleA
 import FilteringService from "../services/FilteringService";
 import Config from "../shared/Config";
 import ApiService from "../services/api/ApiService";
+import TestInstancesAutocompleteAdapter from "../shared/adapter/TestInstancesAutocompleteAdapter";
 
 
 export function filteringTestsStarted (state, action){
 
   $(".griddle-page-select").hide();
 
-  let newState = {
-    ...state
-  };
+  let newState = { ...state };
 
   return newState;
 }
 
 export function filteringTestsFinished (state, action){
 
-  let adapter = new TestInstancesGriddleAdapter(action.models);
+  let data = new TestInstancesGriddleAdapter(action.models).getGriddleData();
 
   $(".griddle-page-select").show();
-
   let newState = {
     ...state,
-    data: adapter.getGriddleData()
+    data: data,
+    autoCompleteData: new TestInstancesAutocompleteAdapter(data).getAutocompleteData()
   };
 
   return newState;
@@ -40,9 +39,10 @@ export function dateFilterChanged (state, action){
 export function dateFilterClear (state, action){
   let filteringService = FilteringService.getInstance();
 
-  filteringService.restoreFromInitial(Config.modelInstancesNamespace);
+  filteringService.restoreFromInitial(Config.globalNamespace, 'timestamp_from');
+  filteringService.restoreFromInitial(Config.globalNamespace, 'timestamp_to');
 
-  for (let entry of Object.entries(filteringService.getFilters(Config.testInstancesNamespace))){
+  for (let entry of Object.entries(filteringService.getFilters(Config.globalNamespace))){
     action.filter(entry[1], entry[0], action.dispatch, true);
   }
 
@@ -64,9 +64,7 @@ export function testCreateFinished (state, action){
     ...state.data
   ];
 
-  return {
-    ...state
-  };
+  return { ...state };
 }
 
 export function testCloneFinished (state, action){
@@ -81,9 +79,7 @@ export function testCloneFinished (state, action){
     ...state.data
   ];
 
-  return {
-    ...state
-  };
+  return { ...state };
 }
 
 
@@ -95,13 +91,13 @@ export function testEditFinished (state, action){
   apiService.clearCache(apiService.storage);
 
   var index = undefined;
-  for(let i = 0; i < state.data.length; i++) {
-    if(state.data[i].id === adopted[0].id) {
+  for (let i = 0; i < state.data.length; i++) {
+    if (state.data[i].id === adopted[0].id) {
       index = i;
       break;
     }
   }
-  if(index === undefined) {
+  if (index === undefined) {
     state.data = [
       ...adopted,
       ...state.data
@@ -114,7 +110,5 @@ export function testEditFinished (state, action){
     ];
   }
 
-  return {
-    ...state
-  };
+  return { ...state };
 }

@@ -3,19 +3,17 @@ import Helper from "../../../shared/Helper";
 import TestDetailLinkColumn from "./TestDetailLinkColumn"
 
 const mapStateToProps = (state, ownProps) => {
-    let testInstanceObject = ownProps.value
+  let testInstanceObject = ownProps.value
 
-    return {
-        testInstanceObject: testInstanceObject
-    }
+  return { testInstanceObject: testInstanceObject }
 }
 
 const mapDispatchToProps = dispatch => ({});
 
 
 const TestDetailLinkColumnContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(TestDetailLinkColumn)
 
 export default TestDetailLinkColumnContainer

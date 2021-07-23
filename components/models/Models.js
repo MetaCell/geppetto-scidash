@@ -1,6 +1,6 @@
 import React from "react";
-import IconButton from "material-ui/IconButton";
-import { brown500, brown400 } from "material-ui/styles/colors";
+import IconButton from "@material-ui/core/IconButton";
+import { brown } from "@material-ui/core/colors";
 import Griddle, { ColumnDefinition, RowDefinition, plugins } from "griddle-react";
 import FilterCellContainer from "../filter-cell/FilterCellContainer";
 import DateRangeCellContainer from "../date-range-cell/DateRangeCellContainer";
@@ -9,6 +9,7 @@ import Loader from "../loader/Loader";
 import { CustomMenu, CustomTagComponent } from "./partial";
 import _ from 'lodash';
 import ModelViewDetailsContainer from "../griddle-columns/model-view-details/ModelViewDetailsContainer";
+import FilteringService from "../../services/FilteringService";
 
 
 export default class Models extends React.Component {
@@ -17,27 +18,26 @@ export default class Models extends React.Component {
     super(props, context);
     this.props = props;
 
-    this.username = this.props.user.isLogged ? this.props.user.userObject.username : "";
     this.griddleData = [];
-  }
 
-  componentWillMount () {
-    if (this.props.user.isLogged) {
-      this.props.onFilterUpdate(this.username, "owner");
-    } else {
+    if (!props.user.isLogged) {
       this.props.notLoggedRedirect();
     }
 
-    // This will be removed - this.props.data needs to be refactored rom the
-    // services/state/ScoreInitialEtc, the initial template must return an object for name
-    // plus the backend part that needs to return the test instance object for the name.
-    for ( var i = 0; i < this.props.data.length; i++) {
-      let griddleItem = _.clone(this.props.data[i]);
-      let newItem = _.clone(this.props.data[i]);
-      griddleItem.nameLink = this.props.data[i].name;
-      for ( var j=0; j < this.props.modelClasses.length; j++) {
-        if (this.props.modelClasses[j].class_name === this.props.data[i].class) {
-          griddleItem.modelClass = this.props.modelClasses[j];
+    FilteringService.getInstance().setFromGLobalFilters( props.onFilterUpdate);
+
+    /*
+     * This will be removed - this.props.data needs to be refactored rom the
+     * services/state/ScoreInitialEtc, the initial template must return an object for name
+     * plus the backend part that needs to return the test instance object for the name.
+     */
+    for ( let i = 0; i < props.data.length; i++) {
+      let griddleItem = _.clone(props.data[i]);
+      let newItem = _.clone(props.data[i]);
+      griddleItem.nameLink = props.data[i].name;
+      for ( let j = 0; j < props.modelClasses.length; j++) {
+        if (this.props.modelClasses[j].class_name === props.data[i].class) {
+          griddleItem.modelClass = props.modelClasses[j];
         }
       }
       newItem.name = griddleItem;
@@ -51,7 +51,7 @@ export default class Models extends React.Component {
       let griddleItem = _.clone(nextProps.data[i]);
       let newItem = _.clone(nextProps.data[i]);
       griddleItem.nameLink = nextProps.data[i].name;
-      for ( var j=0; j < this.props.modelClasses.length; j++) {
+      for ( var j = 0; j < this.props.modelClasses.length; j++) {
         if (this.props.modelClasses[j].class_name === nextProps.data[i].class) {
           griddleItem.modelClass = nextProps.modelClasses[j];
         }
@@ -66,12 +66,10 @@ export default class Models extends React.Component {
 
     return (
       <div>
-        <IconButton
-          onClick={() => toggleCreateModel()}
-          iconClassName="fa fa-plus"
-          iconStyle={{ color: "white" }}
-          hoveredStyle={{ backgroundColor: brown400 }}
-          style={{ float: "right", borderRadius: "40px", backgroundColor: brown500 }}
+        <i
+          onClick={() => this.props.toggleCreateModel()}
+          className="plus-icon fa fa-plus"
+          title="New Model"
         />
         <Griddle
           data={this.griddleData}
@@ -147,10 +145,9 @@ export default class Models extends React.Component {
               title="Owner"
               customHeadingComponent={props => (<FilterCellContainer
                 autoCompleteData={this.props.autoCompleteData}
-                namespace={Config.modelInstancesNamespace}
+                namespace={Config.globalNamespace}
                 onFilterUpdate={this.props.onFilterUpdate}
                 filterName="owner"
-                value={this.username}
                 {...props}
               />)}
               order={5}
@@ -162,7 +159,7 @@ export default class Models extends React.Component {
               cssClassName="timeStampCss"
               customHeadingComponent={props => (<DateRangeCellContainer
                 onFilterUpdate={this.props.onFilterUpdate}
-                namespace={Config.modelInstancesNamespace}
+                namespace={Config.globalNamespace}
                 dateFilterChanged={this.props.dateFilterChanged}
                 onDateFilterClear={this.props.onDateFilterClear}
                 {...props}
@@ -170,9 +167,9 @@ export default class Models extends React.Component {
               order={6}
             />
             <ColumnDefinition
-              isMetadata="true"
               id="_timestamp"
               title="_timestamp"
+              visible={false}
             />
             <ColumnDefinition
               title=""

@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "underscore";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import ParamsForm from "./ParamsForm";
 
 export default class ParamsFormset extends React.Component {
@@ -13,78 +13,85 @@ export default class ParamsFormset extends React.Component {
     this.state = {
       schemaList: [{}],
       unitsMap: this.props.unitsMap,
-      choosedForm: 0
+      choosedForm: 0,
+      model2: this.props.model,
+      observationFormOpen : false
     };
-
   }
 
   componentDidMount (){
     if (!Array.isArray(this.props.schema)){
-      this.setState({
-        schemaList: [this.props.schema]
-      });
+      this.setState({ schemaList: [this.props.schema] });
     } else {
-      this.setState({
-        schemaList: this.props.schema
-      });
+      this.setState({ schemaList: this.props.schema });
     }
+    this.setState({ choosedForm: 0 })
+  }
+
+
+  updateStateModel (){
+    let schemaList = {};
+    if (!Array.isArray (this.props.schema)) {
+      schemaList = [this.props.schema]
+    } else {
+      schemaList = this.props.schema
+    }
+    const newModel = Object.assign({},
+      ...Object.keys(schemaList.length > 1 ? schemaList[this.state.choosedForm][1] : Array.isArray(schemaList[0]) ? schemaList[0][1] : schemaList[0]).
+        map(key => (
+          { [key]: (this.props.model && key in this.props.model ? this.props.model[key] : ""), }
+        ))
+    );
+    this.setState({
+      schemaList: schemaList,
+      model2: newModel ? newModel : {}
+    });
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
     if (!_.isEqual(this.props.schema, prevProps.schema)) {
-      if (!Array.isArray(this.props.schema)){
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          schemaList: [this.props.schema],
-        });
-      } else {
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          schemaList: this.props.schema
-        });
-      }
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        unitsMap: this.props.unitsMap
-      });
+      this.updateStateModel();
+    }
+    if (!_.isEqual(this.props.unitsMap, prevProps.unitsMap)) {
+      this.setState({ unitsMap: this.props.unitsMap });
+    }
+    if (this.props.test_class.class_name !== prevProps.test_class.class_name && this.state.choosedForm !== 0){
+      this.setState( { choosedForm: 0 })
+    }
+    if (this.state.choosedForm !== prevState.choosedForm){
+      this.updateStateModel();
     }
   }
 
   render () {
     return (
       <span>
-        {this.state.schemaList.length > 1 &&
-          <SelectField
-            id="testFormSelectClass"
-            labelStyle={{
-              position: "relative",
-              top: "-10px"
-            }}
+        {this.state.schemaList.length > 1
+          && <Select
+            id="testFormSelectObservationSchema"
             style={styles.firstLine.two}
-            iconStyle={styles.firstLine.icon}
             value={this.state.choosedForm}
-            onChange={(e, key, value) => {
-              this.setState({
-                choosedForm: value
-              });
+            open={this.state.observationFormOpen}
+            onClose={() => this.setState({ observationFormOpen : false })}
+            onOpen={() => this.setState({ observationFormOpen : true })}
+            onClick={() => this.setState({ observationFormOpen : !this.state.observationFormOpen })}
+            onChange={e => {
+              this.setState({ choosedForm: e.target.value });
             }}
-            floatingLabelText="Select observation schema"
-            floatingLabelFixed={false}
-            underlineStyle={{ borderBottom: "1px solid grey" }}
+            label="Select observation schema"
             disabled={this.props.disabled}
           >
             {this.state.schemaList.map((value, index) =>
-              // eslint-disable-next-line react/no-array-index-key
-              <MenuItem label={`${value[0]}`} primaryText={`${value[0]}`} value={index} key={index} />
+              <MenuItem id={`${value[0]}`} label={`${value[0]}`} value={index} key={index}>{`${value[0]}`}</MenuItem>
             )}
-          </SelectField>
+          </Select>
         }
 
         <ParamsForm
           unitsMap={this.state.unitsMap}
-          schema={this.state.schemaList[this.state.choosedForm]}
+          schema={Array.isArray(this.state.schemaList[this.state.choosedForm]) ? this.state.schemaList[this.state.choosedForm][1] : this.state.schemaList[this.state.choosedForm]}
           onChange={this.props.onChange}
-          model={this.props.model}
+          model={this.state.model2}
           default_params={this.props.default_params}
           disabled={this.props.disabled}
         />

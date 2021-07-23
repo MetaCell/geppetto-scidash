@@ -1,7 +1,7 @@
 import React from "react";
-import Chip from "material-ui/Chip";
-import { red400, brown500 } from "material-ui/styles/colors";
-import { Card, CardHeader, CardText } from "material-ui/Card";
+import Chip from "@material-ui/core/Chip";
+import { red, brown } from "@material-ui/core/colors";
+import { Card, CardHeader, CardContent } from "@material-ui/core";
 import ModelDetailsContainer from "../model-details/ModelDetailsContainer";
 
 import { Observation, BuildInfoLine } from "./partials";
@@ -39,8 +39,8 @@ const ScoreDetails = ({
   testTags,
   instanceTestName
 }) => (
-  <Card>
-    <CardText
+  <Card style={{ overflow: "scroll" }}>
+    <CardContent
       style={{
         wordWrap: "break-word",
         display: "flex",
@@ -49,22 +49,21 @@ const ScoreDetails = ({
         alignItems: "flex-start"
       }}
     >
-      <div style={{ minWidth: "100px", margin: "15px" }}>
+      <div id="test-details-dialog" style={{ minWidth: "100px", margin: "15px" }}>
         <h4
-          style={{
-            maxWidth: "360px"
-          }}
+          style={{ maxWidth: "360px" }}
         >
-          Test details
+          <strong className="cardTitle">Test details</strong>
         </h4>
-        <Card>
-          <CardText>
-            <div>
-              <strong>Test name: </strong>
+        <Card raised={true}>
+          <CardContent id="test-score">
+            <strong className="dialogTitle">Test name: </strong>
+            <div className="dialogText">
               {instanceTestName}
             </div>
-            <div>
-              <strong>Score: </strong>
+            <p />
+            <strong className="dialogTitle">Score: </strong>
+            <div className="dialogText">
               <span
                 style={{
                   background: background,
@@ -75,8 +74,9 @@ const ScoreDetails = ({
                 {score.toFixed(2)}
               </span>
             </div>
-            <div>
-              <strong>Normalized score: </strong>
+            <p />
+            <strong id="normalized-score" className="dialogTitle">Normalized score: </strong>
+            <div className="dialogText">
               <span
                 style={{
                   background: background,
@@ -87,80 +87,86 @@ const ScoreDetails = ({
                 {sortKey.toFixed(2)}
               </span>
             </div>
-            <div>
-              <strong>Test class: </strong>
+            <p />
+            <strong id="test-class" className="dialogTitle">Test class: </strong>
+            <div className="dialogText">
               {testClassName}
             </div>
-            <div>
-              <strong>Score type: </strong>
+            <p />
+            <strong className="dialogTitle">Score type: </strong>
+            <div className="dialogText">
               {scoreType}
             </div>
-            <div>
-              <strong>Test suite: </strong>
+            <p />
+            <strong id="test-suite" className="dialogTitle">Test suite: </strong>
+            <div className="dialogText">
               N/A
             </div>
-            <div>
-              <strong>Build info: </strong>
+            <p />
+            <strong className="dialogTitle">Build info: </strong>
+            <div className="dialogText">
               <BuildInfoLine
                 buildInfo={buildInfo.text}
                 iconClass={buildInfo.icon}
               />
             </div>
-            <div>
-              <strong>Hostname: </strong>
+            <p />
+            <strong id="hostname" className="dialogTitle">Hostname: </strong>
+            <div className="dialogText">
               {hostname}
             </div>
-            <div style={{
+            <p />
+            <strong className="dialogTitle">Errors: </strong>
+            <div className="dialogText" style={{
               wordWrap: "break-word",
               width: "230px"
             }}
             >
-              <strong>Errors: </strong>
               {unpackError(error)}
             </div>
-            <div>
-              <strong>Timestamp: </strong>
+            <p />
+            <strong className="dialogTitle">Timestamp: </strong>
+            <div className="dialogText">
               {timestamp}
             </div>
-            <div>
-              <strong>Tags: </strong>
+            <p />
+            <strong id="timestamp" className="dialogTitle">Tags: </strong>
+            <div className="dialogText">
               {testTags.map((tag, i) => (
                 <Chip
-                  containerElement="span"
-                  backgroundColor={
-                    tag.toLowerCase() === "deprecated" ? red400 : brown500
+                  color={
+                    tag.toLowerCase() === "deprecated" ? "secondary" : "primary"
                   }
                   style={{
                     marginTop: 6,
                     marginBottom: 0,
-                    whiteSpace: "nowrap",
-                    display: "inline-block"
+                    whiteSpace: "nowrap"
                   }}
                   key={`${tag}-${i}`}
-                >
-                  {tag}
-                </Chip>
+                  label={tag}
+                />
               ))}
             </div>
             <hr />
-            <div>
-              <strong>Observation: </strong>
+            <strong className="dialogTitle">Observation: </strong>
+            <div className="dialogText">
               <Observation observation={observation} />
             </div>
-            <div>
-              <strong>Simulator: </strong>
+            <p />
+            <strong id="observation" className="dialogTitle">Simulator: </strong>
+            <div className="dialogText">
               {modelBackend}
             </div>
-          </CardText>
+          </CardContent>
         </Card>
       </div>
       <div
         style={{ wordWrap: "break-word", minWidth: "100px", margin: "15px" }}
       >
-        <h4>Model details</h4>
+        <h4><strong className="cardTitle">Model details</strong></h4>
         <ModelDetailsContainer model={modelInstance} />
       </div>
-    </CardText>
+    </CardContent>
   </Card>
 );
 

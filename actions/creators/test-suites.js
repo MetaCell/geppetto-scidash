@@ -1,6 +1,7 @@
 import ScoresApiService from "../../services/api/ScoresApiService";
 import FilteringService from "../../services/FilteringService";
 import Config from "../../shared/Config";
+import Helper from "../../shared/Helper";
 
 export const FILTERING_SUITES_STARTED = "FILTERING_SUITES_STARTED";
 export const FILTERING_SUITES_FINISHED = "FILTERING_SUITES_FINISHED";
@@ -10,9 +11,7 @@ export const DATE_FILTER_CHANGED = "SUITES_DATE_FILTER_CHANGED";
 export const DATE_FILTER_CLEAR = "SUITES_DATE_FILTER_CLEAR";
 
 export function dateFilterChanged (){
-  return {
-    type: DATE_FILTER_CHANGED
-  };
+  return { type: DATE_FILTER_CHANGED };
 }
 
 export function clearDateFilter (filter, dispatch){
@@ -33,28 +32,22 @@ export function filteringSuitesFinished (scores){
 export function filteringSuitesStarted (searchText, filterName, dispatch){
   let apiService = new ScoresApiService();
   let filteringService = FilteringService.getInstance();
+  const namespace = Config.suitesNamespace;
 
-  filteringService.setupFilter("with_suites", true, Config.suiteNamespace);
+  filteringService.setupFilter("with_suites", true, namespace);
 
-  if (searchText.length > 0) {
-    filteringService.setupFilter(filterName, searchText, Config.suiteNamespace);
+  if (searchText && searchText.length > 0) {
+    filteringService.setupFilter(filterName, searchText, namespace);
   } else {
-    filteringService.deleteFilter(filterName, Config.suiteNamespace);
+    filteringService.deleteFilter(filterName, namespace);
   }
 
-  apiService.getList(false, Config.suiteNamespace).then(result => {
-
-    let filters = filteringService.getFilters(Config.suiteNamespace);
-    let filterString = Object.keys(filters).length ? "?" + filteringService.stringifyFilters(filters) : "";
-
-    window.history.pushState("", "", `${location.pathname}` + filterString);
+  apiService.getList(false, namespace).then(result => {
+    window.history.pushState("", "", `${location.pathname}` + filteringService.getQueryString (namespace));
     dispatch(filteringSuitesFinished(result));
-
   });
 
-  return {
-    type: FILTERING_SUITES_STARTED
-  };
+  return { type: FILTERING_SUITES_STARTED };
 }
 
 export function hideModel (modelKey) {
@@ -65,7 +58,5 @@ export function hideModel (modelKey) {
 }
 
 export function showAllModels (){
-  return {
-    type: SHOW_ALL_MODELS
-  };
+  return { type: SHOW_ALL_MODELS };
 }

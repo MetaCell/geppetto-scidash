@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
     colorBlind: ownProps.colorBlind,
     hiddenModels: ownProps.hiddenModels,
     scoreMatrix: ownProps.scoreMatrixList[suiteHash],
-    scoreMatrixTableData: ownProps.scoreMatrixTableDataList[suiteHash],
+    scoreMatrixTableData: state.testSuites.scoreMatrixTableDataList[suiteHash],
     hideRow: ownProps.hideRow,
     showAllModels: ownProps.showAllModels
   };

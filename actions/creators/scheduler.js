@@ -33,7 +33,5 @@ export function removeModelFromScheduler (modelID){
 }
 
 export function clearScheduler (){
-  return {
-    type: CLEAR_SCHEDULER
-  };
+  return { type: CLEAR_SCHEDULER };
 }
